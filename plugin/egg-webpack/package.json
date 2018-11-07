@@ -1,0 +1,15 @@
+{
+  "name": "egg-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "eggPlugin": {
+    "name": "webpack"
+  },
+  "files": [
+    "app.js",
+    "agent.js",
+    "config",
+    "app",
+    "lib"
+  ]
+}

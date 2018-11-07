@@ -1,0 +1,25 @@
+const webpack = require('atool-build/lib/webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+module.exports = function (webpackConfig) {
+  webpackConfig.entry = {{ entry }}
+  webpackConfig.devtool = '#cheap-module-source-map'
+  webpackConfig.externals = {
+    appData: 'window.appData',
+  }
+  webpackConfig.output = {
+    path: '{{ outputPath }}',
+    filename: '[name].js',
+    chunkFilename: '[name].js',
+  }
+  webpackConfig.plugins = webpackConfig.plugins.concat([
+    new webpack.DefinePlugin({
+      'process.env.BROWSER_MODE': 'true',
+    }),
+    new ExtractTextPlugin('[name].css', {
+      disable: false,
+      allChunks: true,
+    }),
+  ])
+  return webpackConfig
+}

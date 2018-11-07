@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+const bin = require.resolve('atool-build/bin/atool-build')
+const spawn = require('child_process').spawn
+const { getWebpackProductConfigPath } = require('../lib/build/buildUtil')
+
+const cwd = process.cwd()
+
+function build() {
+  const configPath = getWebpackProductConfigPath(cwd)
+  const args = [
+    '--config',
+    configPath,
+  ]
+  spawn(bin, args, {
+    stdio: 'inherit',
+  }).on('exit', () => {
+    process.exit()
+  })
+}
+
+build()
+
