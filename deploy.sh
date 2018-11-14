@@ -18,7 +18,8 @@ REMOTE_ACCOUNT="root"
 DEV_REMOTE_ACCOUNT="root"
 REMOTE_PATH="/home/bookStore"
 DEV_REMOTE_PATH="/home/bookStore"
-HTTP_SERVER_ACCOUNT="www"
+# HTTP_SERVER_ACCOUNT="www"
+HTTP_SERVER_ACCOUNT="root"
 
 prefix="============";
 aftfix="============>>>";
@@ -77,9 +78,9 @@ do_deploy()
   mkdir -p $tmpPath;
   cd $tmpPath;
   git init;
-  git remote add orgin $TAGS_PATH;
-  git pull orign &
-  # loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
+  git remote add origin $TAGS_PATH;
+  git pull origin master &
+  loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
   git checkout $TAG;
   rm .git -rf;
 	cd $NOW_PATH
@@ -91,7 +92,7 @@ do_deploy()
 	cd $NOW_PATH;
 	PACKAGE="${TAG}"_"${DATE}.tgz";
 	tar czvf $PACKAGE $tmpPath > /dev/null &
-	# loop_process "compressed file"
+	loop_process "compressed file"
 
 	#确认发布
 	last_check
@@ -129,6 +130,8 @@ post_depoly()
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; tar zxvf $PACKAGE --strip-components 1 >> /dev/null "
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; rm $REMOTE_PATH/$PACKAGE;chown -R $HTTP_SERVER_ACCOUNT:$HTTP_SERVER_ACCOUNT ./"
 
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run start-egg"
+	
 	#[修改]log、runtime之类的目录权限
 	#ssh $REMOTE_ACCOUNT@$REMOTE_IP "chmod -R 777 $REMOTE_PATH/"
 	return 0;
@@ -138,7 +141,9 @@ modify_deploy()
 {       
 	#[修改]根据不同框架进行修改
 	echo;
-	# echo $prefix"User-defined changes:"$aftfix;
+	echo $prefix"User-defined changes:"$aftfix;
+	# check node env
+	# npm run egg-start
 	# mkdir -p $tmpPath/app/Common/Conf/
 	# rm $tmpPath/deploy.sh
 	# cp app/Common/Conf/config.php $tmpPath/app/Common/Conf/config.php
