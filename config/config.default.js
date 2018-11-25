@@ -5,7 +5,10 @@ module.exports = appInfo => {
   config.keys = `${appInfo.name}_${process.env.COOKIE_KEYS}`
 
   // add your config here
-  config.middleware = []
+  config.middleware = [
+    'errorHandler',
+    'saveSession',
+  ]
 
   // 模版
   config.view = {
@@ -44,7 +47,7 @@ module.exports = appInfo => {
 
   config.security = {
     xframe: {
-      value: 'XFRAME_KEY',
+      value: `XFRAME_${process.env.XFRAME_VALUE}`,
     },
   }
   return config

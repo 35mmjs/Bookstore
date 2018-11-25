@@ -9,6 +9,7 @@
 export MYSQL_PASSWORD="xxx"
 export COOKIE_KEYS="xxxx"
 export REDIS_PASSWORD="xxxxx"
+export XFRAME_VALUE="xxx"
 ```
 
 启动本地服务器:
