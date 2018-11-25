@@ -3,6 +3,16 @@
 
 ### 本地开发
 
+启动mysql/redis, 配置环境变量:
+
+```bash
+export MYSQL_PASSWORD="xxx"
+export COOKIE_KEYS="xxxx"
+export REDIS_PASSWORD="xxxxx"
+```
+
+启动本地服务器:
+
 ```bash
 $ npm i
 $ npm start

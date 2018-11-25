@@ -2,7 +2,7 @@ module.exports = appInfo => {
   const config = {}
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = `${appInfo.name}_1541304366148_5290`
+  config.keys = `${appInfo.name}_${process.env.COOKIE_KEYS}`
 
   // add your config here
   config.middleware = []
@@ -17,18 +17,18 @@ module.exports = appInfo => {
     client: {
       port: 6379, // Redis port
       host: '127.0.0.1', // Redis host
-      password: '',
+      password: process.env.REDIS_PASSWORD,
       db: '0',
     },
     app: true,
   }
 
   // mysql
-  exports.mysql = {
+  config.mysql = {
     // 单数据库信息配置
     client: {
       // host
-      host: 'localhost',
+      host: '127.0.0.1',
       // 端口号
       port: '3306',
       // 用户名
@@ -39,11 +39,12 @@ module.exports = appInfo => {
       database: 'BOOKSTORE',
     },
     app: true,
+    agent: false,
   }
 
   config.security = {
     xframe: {
-      value: 'SAMEORIGIN',
+      value: 'XFRAME_KEY',
     },
   }
   return config
