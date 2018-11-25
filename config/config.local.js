@@ -4,6 +4,9 @@ module.exports = () => {
     xframe: {
       enable: false,
     },
+    csrf: {
+      enable: false,
+    },
   }
   return config
 }

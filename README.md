@@ -7,6 +7,7 @@
 
 ```bash
 export MYSQL_PASSWORD="xxx" ## mysql密码
+export ROOT_ADMIN_PASSWORD="" ## 超级管理员密码, 用于创建/删除管理员
 export COOKIE_KEYS="xxxx" ## 本地随便填
 export REDIS_PASSWORD="" ## 本地为空
 export XFRAME_VALUE="xxx" ## 本地随便填
