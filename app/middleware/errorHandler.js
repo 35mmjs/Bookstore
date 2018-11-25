@@ -1,7 +1,7 @@
 module.exports = () => {
-  return function* (next) {
+  return async function (ctx, next) {
     try {
-      yield next
+      await next()
     } catch (err) {
       // 所有的异常都在 app 上触发一个 error 事件，框架会记录一条错误日志
       this.app.emit('error', err, this)
