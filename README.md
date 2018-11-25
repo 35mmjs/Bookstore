@@ -6,10 +6,10 @@
 启动mysql/redis, 配置环境变量:
 
 ```bash
-export MYSQL_PASSWORD="xxx"
-export COOKIE_KEYS="xxxx"
-export REDIS_PASSWORD="xxxxx"
-export XFRAME_VALUE="xxx"
+export MYSQL_PASSWORD="xxx" ## mysql密码
+export COOKIE_KEYS="xxxx" ## 本地随便填
+export REDIS_PASSWORD="" ## 本地为空
+export XFRAME_VALUE="xxx" ## 本地随便填
 ```
 
 启动本地服务器:
@@ -17,7 +17,7 @@ export XFRAME_VALUE="xxx"
 ```bash
 $ npm i
 $ npm start
-$ open http://localhost:7002/
+$ open http://localhost:7001/
 ```
 
 ### 生产部署
