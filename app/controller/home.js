@@ -1,8 +1,9 @@
-const Controller = require('egg').Controller
+const { Controller } = require('egg')
 
 class HomeController extends Controller {
   async index() {
-    await this.ctx.render('layout/layout.html', { entry: 'home' })
+    const { ctx } = this
+    await ctx.render('layout/layout.html', { entry: 'home' })
   }
 }
 

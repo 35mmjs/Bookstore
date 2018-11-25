@@ -10,3 +10,18 @@ exports.webpack = {
   enable: true,
   path: path.join(__dirname, '../plugin/egg-webpack'),
 }
+
+exports.sessionRedis = {
+  enable: true,
+  package: 'egg-session-redis',
+}
+
+exports.redis = {
+  enable: true,
+  package: 'egg-redis',
+}
+
+exports.mysql = {
+  enable: true,
+  package: 'egg-mysql',
+}
