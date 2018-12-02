@@ -1,7 +1,12 @@
 const { Service } = require('egg')
 
 const ENTERPRISES = 'enterprises'
-class AdminService extends Service {
+class EnterpriseService extends Service {
+  async findAll() {
+    const items = await this.app.mysql.select(ENTERPRISES)
+    return { items }
+  }
+
   async find(uid) {
     const item = await this.app.mysql.get(ENTERPRISES, { id: uid })
     return { item }
@@ -31,4 +36,4 @@ class AdminService extends Service {
   }
 }
 
-module.exports = AdminService
+module.exports = EnterpriseService

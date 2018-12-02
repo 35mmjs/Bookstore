@@ -1,12 +1,12 @@
-import { Button } from 'antd'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
+import AppRouter from '../router/admin'
 
 function App() {
   return (
     <div className="app">
-      Welcome home <Button type="primary">开始</Button>
+      <AppRouter />
     </div>
   )
 }
