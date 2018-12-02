@@ -4,7 +4,7 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = `${appInfo.name}_${process.env.COOKIE_KEYS}`
   config.root = {
-    password: '',
+    password: process.env.ROOT_ADMIN_PASSWORD,
   }
 
   // add your config here
