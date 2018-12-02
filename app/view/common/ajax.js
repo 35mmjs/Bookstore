@@ -3,6 +3,10 @@ import debug from 'debug'
 import xhr from './xhr'
 
 const ajaxDebug = debug('ajax')
+// const isMock = process.env.MOCK
+const isMock = false
+
+
 /**
  * @param opts
  * @returns {Promise<any>}
@@ -14,7 +18,8 @@ export default function ajax({ url, type = 'json', data = {}, method = 'get' }) 
       data.data._t = Date.now()
     }
     return xhr({
-      url,
+      url: isMock ? `http://localhost:8989/mock${url}` : url,
+      // url,
       type,
       method,
       data,

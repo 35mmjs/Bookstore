@@ -2,7 +2,7 @@ import ajax from '../../common/ajax'
 
 export function create(data) {
   return ajax({
-    url: 'http://localhost:7001/enterprise/create.json',
+    url: '/enterprise/create.json',
     data,
     method: 'post',
   })
@@ -10,7 +10,7 @@ export function create(data) {
 
 export function findAll() {
   return ajax({
-    url: 'http://localhost:7001/enterprise/findAll.json',
+    url: '/enterprise/findAll.json',
     method: 'get',
   })
 }

@@ -74,10 +74,6 @@ class TableList extends PureComponent {
       title: '企业名称',
       dataIndex: 'name',
     },
-    // {
-    //   title: '描述',
-    //   dataIndex: 'desc',
-    // },
     {
       title: '创建时间',
       dataIndex: 'created_at',
