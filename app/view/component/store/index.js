@@ -1,6 +1,7 @@
 import React from 'react'
 import './index.less'
-import Table from './table'
+// import Table from './table'
+import Form from './form'
 
 
 export default class Index extends React.Component {
@@ -8,11 +9,11 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
-
   render() {
     return (
       <div>
-        <Table />
+        <div>Store</div>
+        <Form />
       </div>
     )
   }

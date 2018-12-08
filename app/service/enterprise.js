@@ -3,12 +3,14 @@ const { Service } = require('egg')
 const ENTERPRISES = 'enterprises'
 class EnterpriseService extends Service {
   async findAll() {
-    const items = await this.app.mysql.select(ENTERPRISES)
+    const items = await this.app.mysql.select(ENTERPRISES, {
+      where: { deleted: 0 },
+    })
     return { items }
   }
 
   async find(uid) {
-    const item = await this.app.mysql.get(ENTERPRISES, { id: uid })
+    const item = await this.app.mysql.get(ENTERPRISES, { id: uid, deleted: 0 })
     return { item }
   }
 
@@ -26,7 +28,7 @@ class EnterpriseService extends Service {
     return result.affectedRows === 1
   }
 
-  async delete(uid) {
+  async remove(uid) {
     const row = {
       id: uid,
       deleted: 1,

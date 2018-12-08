@@ -19,8 +19,13 @@ const data = {
 }
 const genSingleItem = () => {
   return {
-    id: Random.increment(),
-    name: Random.cword(5),
+    id: Random.id(),
+    type: Random.pick(['轮播', '排行']),
+    name: Random.string(),
+    store: Random.id(),
+    last_modifier: Random.date(),
+    config_id: Random.id(),
+    status: Random.pick(['off', 'on']),
     deleted: 0,
     created_at: Random.date(),
     updated_at: Random.date(),
