@@ -1,4 +1,13 @@
 ## changelog
+1209
+  - [ ] all models done
+  - [ ] add config crud 瀑布
+  - [ ] add CDN for all developer
+  - [ ] deploy to dev server, run 1st open api
+1208
+  - [ ] add mock for all models
+  - [ ] all views done
+  - [ ] add dva/redux
 1206
   - [ ] add mock for all models
 1205
@@ -18,26 +27,31 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-1205 view struture
-- temrinal/manage
-  - TableView
-  - CardView
-  - Common
-    - DetailView
-    - FormView
-      - create/update
-
-
-Notes
+## Notes
 - 暂时不提炼公共方法, 把需求确定了, 再收回来
+- 1205 view struture
+  - temrinal/manage
+    - TableView
+    - CardView
+    - Common
+      - DetailView
+      - FormView
+        - create/update
+
+## How to
+### run mock
+open terminal1: npm run mock
+open termianl2: npm run dora-proxy // no hmr, livehood
+edit /mock/* files // you can add mock data
+## Repo 
+
+
+
+## 瀑布屏/展台/导视
+
+## 瀑布屏
+首页banner
+bannerImg
+category
+  - items
+    -  
