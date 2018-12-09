@@ -68,12 +68,15 @@ class UserController extends Controller {
       }
     }
   }
-  createUser() {
-    const request = this.ctx.request.body
-    // const result = await this.ctx.service.admins.create(request.username, request.password)
+  async createUser() {
+    const ctx = this.ctx
+    const { username, password } = ctx.request.body
+    ctx.validate('user', { username, password })
+    const result = await ctx.service.users.create(username, password, false)
     this.ctx.body = {
       success: true,
-      data: request,
+      data: result,
+      message: '创建成功',
     }
   }
 }

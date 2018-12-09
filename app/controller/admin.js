@@ -4,10 +4,6 @@ class AdminController extends Controller {
   index() {
     const { ctx } = this
     const loginUser = ctx.getLoginUser()
-    if (!loginUser) {
-      ctx.redirect('/user/login.html')
-      return
-    }
     ctx.render('layout/layout.html', {
       entry: 'admin',
       appData: {

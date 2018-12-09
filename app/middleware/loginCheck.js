@@ -1,5 +1,5 @@
 
-// 权限及登陆校验等
+// 登陆检测
 module.exports = () => {
   return async function (ctx, next) {
     const loginUser = ctx.getLoginUser()
