@@ -1,10 +1,16 @@
 import React from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import Layout from '../component/layout'
+import constant from '../common/constant'
 import Enterprise from '../component/enterprise/index'
 import Terminal from '../component/terminal/index'
 import Store from '../component/store/index'
 import TerminalDetail from '../component/terminalDetail'
+import ViewConfig from '../component/viewConfig'
+import ViewConfigDetail from '../component/viewConfigDetail'
+
+
+const { viewConfigRoutes } = constant
 
 const Index = () => <h2>Home</h2>
 const About = () => <h2>About</h2>
@@ -32,13 +38,13 @@ const Users = () => <h2>Users</h2>
 
 const menu = [
   {
-    label: '配置中心',
-    value: 'config',
+    label: '视图配置中心',
+    value: 'view-config/manage',
     icon: 'file',
     children: [
       {
-        label: '终端大盘',
-        value: 'terminal-static',
+        label: '视图总览',
+        value: 'view-config/manage',
         children: null,
       },
       {
@@ -105,6 +111,10 @@ export default class AppRouter extends React.Component {
             <Route path="/terminal/manage" exact component={Terminal} />
             <Route path="/terminal/manage/detail/:id" exact component={TerminalDetail} />
             <Route path="/terminal/manage/detail/:id/:operation(edit)" exact component={TerminalDetail} />
+            <Route path={viewConfigRoutes.findAll} exact component={ViewConfig} />
+            <Route path={viewConfigRoutes.findOne} exact component={ViewConfigDetail} />
+            <Route path={viewConfigRoutes.editOne} exact component={ViewConfigDetail} />
+            <Route path={viewConfigRoutes.create} exact component={ViewConfigDetail} />
           </div>
         </Router>
       </Layout>

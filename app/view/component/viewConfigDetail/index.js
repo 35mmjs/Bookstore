@@ -89,11 +89,15 @@ const CreateForm = Form.create()(props => {
 const EditView = () => {
   return <CreateForm />
 }
+const CreateView = () => {
+  return <CreateForm />
+}
 
 export default class Index extends React.Component {
   constructor(props) {
     super(props)
     const { match } = props
+    console.log('bbbbbb', match)
     this.state = {
       data: {},
       id: match.params.id,
@@ -112,6 +116,12 @@ export default class Index extends React.Component {
 
   render() {
     const { operation } = this.state
-    return <div>{operation === 'edit' ? <EditView /> : <DetailView data={this.state.data} />}</div>
+    return (
+      <div>
+        {operation === 'edit' ? <EditView /> : null}
+        {operation === 'new' ? <CreateView /> : null}
+        {operation === 'view' ? <DetailView /> : null}
+      </div>
+    )
   }
 }
