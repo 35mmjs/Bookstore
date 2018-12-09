@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Card } from 'antd';
+import GlobalHeader from '../common/GlobalHeader'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -19,6 +20,7 @@ class SiderDemo extends React.Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
+  
 
   render() {
     const { menu } = this.props
@@ -29,7 +31,14 @@ class SiderDemo extends React.Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          {/* <div className="logo" /> */}
+          <div 
+            className="logo"
+            style={{
+              height: 32,
+              backgroundColor: 'grey',
+              margin: 16,
+            }}
+          >LOGO</div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             {
               menu.map(item => {
@@ -44,7 +53,10 @@ class SiderDemo extends React.Component {
                   return (
                     <SubMenu
                       key={item.value}
-                      title={<span><Icon type="user" /><span>{item.label}</span></span>}
+                      title={
+                      <span><Icon type="user" />
+                        <Nav path={item.value}>{item.label}</Nav>
+                      </span>}
                     >
                       {
                         item.children.map(subItem => {
@@ -64,13 +76,32 @@ class SiderDemo extends React.Component {
         </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          {/* <Header style={{ background: '#fff', padding: 0 }}>
+          登录状态
+          </Header> */}
+          <GlobalHeader
+            style={{ background: '#fff', padding: 0 }}
+            logo={'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4w…gIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=='}
+            currentUser={{
+              "name": "Serati Ma",
+              "avatar": "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
+              "userid": "00000001",
+              "notifyCount": 12
+            }}
+            collapsed={false}
+            // isMobile={this.state.isMobile}
+            // onCollapse={this.handleMenuCollapse}
+            // onMenuClick={this.handleMenuClick}
+          />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>根据path定义</Breadcrumb.Item>
+              <Breadcrumb.Item>path1</Breadcrumb.Item>
+              <Breadcrumb.Item>path2</Breadcrumb.Item>
             </Breadcrumb>
+            <Card>
             {this.props.children}
+            </Card>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED

@@ -8,10 +8,10 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
+
   render() {
     return (
       <div>
-        <div>Enterprise</div>
         <Table />
       </div>
     )

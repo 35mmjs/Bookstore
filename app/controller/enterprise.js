@@ -4,7 +4,7 @@ class EnterpriseController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.enterprise.create(request.name, request.password)
+    const result = await this.ctx.service.enterprise.create(request.name)
     this.ctx.body = {
       success: true,
       data: result,
@@ -22,9 +22,12 @@ class EnterpriseController extends Controller {
   }
 
   async remove() {
-    this.body = {
+    const request = this.ctx.request.body
+    const result = await this.ctx.service.enterprise.remove(request.id)
+    console.log('aaaaaaaa', request)
+    this.ctx.body = {
       success: true,
-      data: 'ok',
+      data: result,
     }
   }
   async update() {
