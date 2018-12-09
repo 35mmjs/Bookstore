@@ -9,6 +9,7 @@ module.exports = appInfo => {
 
   // add your config here
   config.middleware = [
+    'permission',
     'errorHandler',
     'saveSession',
   ]
