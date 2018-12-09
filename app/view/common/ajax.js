@@ -51,14 +51,16 @@ export default function ajax({ url, type = 'json', data = {}, method = 'get' }) 
           resolve(json.data)
         } else {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, json.data)
-          message.error(json.error)
-          reject(new Error(json.error))
+          message.error(json.message || json.error)
+          reject(new Error(json.message || json.error))
         }
       },
-      error() {
-        message.error('系统异常, 操作失败')
-        ajaxDebug('%c%s%c req:%o', 'color:red', url, 'color: black', data)
-        reject(new Error('系统异常, 操作失败'))
+      error(error) {
+        const response = JSON.parse(error.io.responseText || '{}')
+        const errorMsg = response.error || '系统异常, 操作失败'
+        message.error(errorMsg)
+        ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, response)
+        reject(new Error(errorMsg))
       },
     })
   })
