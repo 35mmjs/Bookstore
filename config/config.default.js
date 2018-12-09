@@ -53,5 +53,9 @@ module.exports = appInfo => {
       value: `XFRAME_${process.env.XFRAME_VALUE}`,
     },
   }
+
+  config.bookAPI = {
+    url: 'http://xhapi.zxhsd.com/services/xinhuawebservice?wsdl',
+  }
   return config
 }

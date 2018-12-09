@@ -1,7 +1,8 @@
 module.exports = () => {
+  // 延长用户登陆session的有效时间
   return async function (ctx, next) {
     await next()
-    if (!this.session || !this.session.userId) return
-    this.session.save()
+    if (!ctx.session || !ctx.session.userId) return
+    ctx.session.save()
   }
 }

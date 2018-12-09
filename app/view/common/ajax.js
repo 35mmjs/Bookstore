@@ -25,6 +25,7 @@ export default function ajax({ url, type = 'json', data = {}, method = 'get' }) 
           resolve(json.data)
         } else {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, json.data)
+          message.error(json.error)
           reject(new Error(json.error))
         }
       },
