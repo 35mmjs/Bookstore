@@ -1,9 +1,9 @@
 import ajax from '../../common/ajax'
-import { terminal } from '../../../api'
+import { viewConfig } from '../../../api'
 
 export function create(data) {
   return ajax({
-    url: terminal.create,
+    url: viewConfig.create,
     data,
     method: 'post',
   })
@@ -11,14 +11,14 @@ export function create(data) {
 
 export function findAll() {
   return ajax({
-    url: terminal.findAll,
+    url: viewConfig.findAll,
     method: 'get',
   })
 }
 
 export function remove(data) {
   return ajax({
-    url: terminal.remove,
+    url: viewConfig.remove,
     data,
     method: 'post',
   })
@@ -26,7 +26,7 @@ export function remove(data) {
 
 export function update(data) {
   return ajax({
-    url: terminal.update,
+    url: viewConfig.update,
     data,
     method: 'post',
   })
@@ -34,7 +34,7 @@ export function update(data) {
 
 export function findOne() {
   return ajax({
-    url: terminal.findOne,
+    url: viewConfig.findOne,
     method: 'get',
   })
 }

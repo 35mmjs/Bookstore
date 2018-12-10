@@ -99,8 +99,8 @@ class TableForm extends PureComponent {
         return
       }
       const target = this.getRowByKey(key) || {}
-      if (!target.workId || !target.name || !target.department) {
-        message.error('请填写完整成员信息。')
+      if (!target.id || !target.note) {
+        message.error('请填写完整信息。')
         e.target.focus()
         this.setState({
           loading: false,
@@ -136,9 +136,9 @@ class TableForm extends PureComponent {
   render() {
     const columns = [
       {
-        title: '成员姓名',
-        dataIndex: 'name',
-        key: 'name',
+        title: '数目ID',
+        dataIndex: 'id',
+        key: 'id',
         width: '20%',
         render: (text, record) => {
           if (record.editable) {
@@ -146,9 +146,9 @@ class TableForm extends PureComponent {
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'name', record.key)}
+                onChange={e => this.handleFieldChange(e, 'id', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="成员姓名"
+                placeholder="数目ID"
               />
             )
           }
@@ -156,39 +156,18 @@ class TableForm extends PureComponent {
         },
       },
       {
-        title: '工号',
-        dataIndex: 'workId',
-        key: 'workId',
+        title: '备注',
+        dataIndex: 'note',
+        key: 'note',
         width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'workId', record.key)}
+                onChange={e => this.handleFieldChange(e, 'note', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="工号"
-              />
-            )
-          }
-          return text
-        },
-      },
-      {
-        title: '所属部门',
-        dataIndex: 'department',
-        key: 'department',
-        width: '40%',
-        render: (text, record) => {
-          if (record.editable) {
-            return (
-              <Input
-                value={text}
-                onChange={e =>
-                  this.handleFieldChange(e, 'department', record.key)
-                }
-                onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="所属部门"
+                placeholder="备注"
               />
             )
           }
@@ -259,7 +238,7 @@ class TableForm extends PureComponent {
           onClick={this.newMember}
           icon="plus"
         >
-          新增成员
+          新增数目
         </Button>
       </Fragment>
     )

@@ -16,6 +16,7 @@ const terminal = {
 }
 
 const viewConfig = {
+  create: '/view-config/create.json',
   findAll: '/view-config/findAll.json',
   remove: '/view-config/remove.json',
   update: '/view-config/update.json',

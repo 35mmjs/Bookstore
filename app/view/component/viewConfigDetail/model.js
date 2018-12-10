@@ -1,7 +1,7 @@
 import * as service from './service'
 
 export default {
-  namespace: 'viewConfig',
+  namespace: 'viewConfigDetail',
   state: {
     list: [],
     total: null,
@@ -18,7 +18,7 @@ export default {
     createReducer(state, { payload }) {
       return {
         ...state,
-        list: payload,
+        list: payload.items,
       }
     },
   },
@@ -29,8 +29,8 @@ export default {
       },
       { call, put },
     ) {
+      console.log('aaaaaaaa', payload)
       const data = yield call(service.create, payload)
-      console.log('aaaaaaaa', data)
       yield put({
         type: 'createReducer',
         payload: data,

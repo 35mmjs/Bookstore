@@ -1,5 +1,8 @@
 import React from 'react'
 import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
+import dva, { connect } from 'dva'
+import model from './model'
+
 import DescriptionList from '../common/DescriptionList'
 import TableForm from './tableForm'
 import ImageUploader from '../common/ImageUploader'
@@ -12,21 +15,13 @@ const { Option } = Select
 const tableData = [
   {
     key: '1',
-    workId: '00001',
-    name: 'John Brown',
-    department: 'New York No. 1 Lake Park',
+    id: '00001',
+    note: 'John Brown',
   },
   {
     key: '2',
-    workId: '00002',
-    name: 'Jim Green',
-    department: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    workId: '00003',
-    name: 'Joe Black',
-    department: 'Sidney No. 1 Lake Park',
+    id: '00002',
+    note: 'Jim Green',
   },
 ]
 
@@ -64,20 +59,29 @@ const DetailView = ({ data = {} }) => {
 }
 
 const CreateForm = Form.create()(props => {
-  const { form, handleSearch, handleFormReset } = props
+  const { form, handleSubmit } = props
   const { getFieldDecorator } = form
-  // const okHandle = () => {
-  //   form.validateFields((err, fieldsValue) => {
-  //     if (err) return
-  //     form.resetFields()
-  //     const { des } = fieldsValue
-  //     handleAdd({
-  //       name: des,
-  //     })
-  //   })
-  // }
+  const handleFormReset = () => {
+    form.resetFields()
+  }
+  const submitBeforeValidation = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return
+      form.resetFields()
+      const { banner = {}, books, type, note } = fieldsValue 
+      const content = {
+        banner: banner.url,
+        books,  
+      }
+      handleSubmit({
+        note,
+        type,
+        content: JSON.stringify(content), 
+      })
+    })
+  }
   return (
-    <Form onSubmit={handleSearch} layout="inline">
+    <Form onSubmit={submitBeforeValidation} layout="inline">
       <Row>
         <Col>瀑布流配置</Col>
       </Row>
@@ -97,32 +101,26 @@ const CreateForm = Form.create()(props => {
             )}
           </FormItem>
         </Col>
-        <Col md={24} sm={24}>
-          <FormItem label="配置备注">
-            {getFieldDecorator('note')(<Input placeholder="请输入" />)}
-          </FormItem>
-        </Col>
       </Row>
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col>配置内容</Col>
         <Col md={24} sm={24}>
           <FormItem label="顶部图片">
-            {getFieldDecorator('banner')(<Input placeholder="请输入" />)}
+            {getFieldDecorator('banner', {
+              trigger: 'onUploadDone'
+            })(<ImageUploader />)}
           </FormItem>
-          <Col>
-            <ImageUploader />
-          </Col>
         </Col>
         <Col>数目录入</Col>
         <Col md={24} sm={24}>
-          {getFieldDecorator('members', {
+          {getFieldDecorator('books', {
             initialValue: tableData,
           })(<TableForm />)}
         </Col>
         <Col md={24} sm={24}>
           <span className={''}>
             <Button type="primary" htmlType="submit">
-              查询
+              新建
             </Button>
             <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
               重置
@@ -134,18 +132,19 @@ const CreateForm = Form.create()(props => {
   )
 })
 
-const EditView = () => {
-  return <CreateForm />
+const EditView = props => {
+  return <CreateForm {...props} />
 }
-const CreateView = () => {
-  return <CreateForm />
+const CreateView = props => {
+  return <CreateForm {...props} />
 }
-
+@connect(state => ({
+  ...state,
+}))
 export default class Index extends React.Component {
   constructor(props) {
     super(props)
     const { match } = props
-    console.log('bbbbbb', match)
     this.state = {
       data: {},
       id: match.params.id,
@@ -153,21 +152,24 @@ export default class Index extends React.Component {
     }
   }
 
-  componentDidMount() {
-    findOne({ id: this.state.id }).then(res => {
-      console.log('aaaaaaaa', res)
-      this.setState({
-        data: res,
-      })
+  handleSubmit = (param) => {
+    console.log('handleSubmit', param)
+    const { dispatch } = this.props 
+    dispatch({
+      type: 'viewConfigDetail/create',
+      payload: param,
     })
   }
 
   render() {
     const { operation } = this.state
+    const formProps = {
+      handleSubmit: this.handleSubmit,
+    }
     return (
       <div>
-        {operation === 'edit' ? <EditView /> : null}
-        {operation === 'new' ? <CreateView /> : null}
+        {operation === 'edit' ? <EditView {...formProps} /> : null}
+        {operation === 'new' ? <CreateView {...formProps} /> : null}
         {operation === 'view' ? <DetailView /> : null}
       </div>
     )

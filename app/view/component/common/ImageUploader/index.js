@@ -1,16 +1,17 @@
 import { Upload, Icon, message } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
+import { getUploadToken } from '../../../common/native'
 
 const QINIU_SERVER = 'http://up.qiniu.com'
 // token 服务端下发, 每一个小时刷新失效一次
-const TOKEN = '42mbs9tidqGtmAuTpQjXtQ9khTF9Xil0b314riZP:Y8JhZWKEWhDM5TDNaJ1zJq_EZ88=:eyJzY29wZSI6ImJvb2tzdG9yZS10ZW1wIiwiZGVhZGxpbmUiOjE1NDQzNjczNjF9'
+const TOKEN = getUploadToken()
 
-
-function getBase64(img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
-}
+// function getBase64(img, callback) {
+//   const reader = new FileReader()
+//   reader.addEventListener('load', () => callback(reader.result))
+//   reader.readAsDataURL(img)
+// }
 
 function beforeUpload(file) {
   // const isJPG = file.type === 'image/jpeg'
@@ -31,18 +32,25 @@ export default class Index extends React.Component {
   }
 
   handleChange = info => {
-    console.log('aaaaaaaa', info)
     if (info.file.status === 'uploading') {
       this.setState({ loading: true })
       return
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => {
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
+      // getBase64(info.file.originFileObj, imageUrl => {
+      //   this.setState({
+      //     imageUrl,
+      //     loading: false,
+      //   })
+      // })
+      const response = info.file.response
+      const { hash = '' } = response
+      const url = 'http://pjirfnf0s.bkt.clouddn.com/' + hash
+      this.props.onUploadDone({ url })
+      this.setState({
+        imageUrl: url,
+        loading: false,
       })
     }
   }
@@ -70,4 +78,12 @@ export default class Index extends React.Component {
       </Upload>
     )
   }
+}
+
+Index.defaultProps = {
+  onUploadDone: () => {},
+}
+
+Index.propTypes = {
+  onUploadDone: PropTypes.func,
 }

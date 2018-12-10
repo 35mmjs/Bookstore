@@ -1,6 +1,5 @@
 import React from 'react'
 import dva, { connect } from 'dva'
-import dynamic from 'dva/dynamic'
 import './index.less'
 import TableList from './tableList'
 import Filter from './filter'

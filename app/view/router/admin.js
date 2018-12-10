@@ -1,5 +1,8 @@
 import React from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
+// import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'dva/router'
+import dva from 'dva'
+import dynamic from 'dva/dynamic'
 import Layout from '../component/layout'
 import constant from '../common/constant'
 import Enterprise from '../component/enterprise/index'
@@ -9,13 +12,11 @@ import TerminalDetail from '../component/terminalDetail'
 import ViewConfig from '../component/viewConfig'
 import ViewConfigDetail from '../component/viewConfigDetail'
 
-
 const { viewConfigRoutes } = constant
 
 const Index = () => <h2>Home</h2>
 const About = () => <h2>About</h2>
 const Users = () => <h2>Users</h2>
-
 
 // export default class AppRouter extends React.Component {
 //   constructor() {
@@ -70,7 +71,6 @@ const menu = [
     value: 'store',
     icon: 'user',
     children: [
-
       {
         label: 'option2-2',
         value: 'option2-2',
@@ -92,7 +92,8 @@ const menu = [
   },
 ]
 
-export default class AppRouter extends React.Component {
+const app = dva()
+class AppRouter extends React.Component {
   constructor() {
     super()
     this.state = {}
@@ -109,12 +110,49 @@ export default class AppRouter extends React.Component {
             <Route path="/enterprise" component={Enterprise} />
             <Route path="/store" component={Store} />
             <Route path="/terminal/manage" exact component={Terminal} />
-            <Route path="/terminal/manage/detail/:id" exact component={TerminalDetail} />
-            <Route path="/terminal/manage/detail/:id/:operation(edit)" exact component={TerminalDetail} />
-            <Route path={viewConfigRoutes.findAll} exact component={ViewConfig} />
-            <Route path={viewConfigRoutes.findOne} exact component={ViewConfigDetail} />
-            <Route path={viewConfigRoutes.editOne} exact component={ViewConfigDetail} />
-            <Route path={viewConfigRoutes.create} exact component={ViewConfigDetail} />
+            <Route
+              path="/terminal/manage/detail/:id"
+              exact
+              component={TerminalDetail}
+            />
+            <Route
+              path="/terminal/manage/detail/:id/:operation(edit)"
+              exact
+              component={dynamic({
+                app,
+                models: () => [require('../component/viewConfigDetail/model')],
+                component: () => <ViewConfigDetail />,
+              })}
+            />
+            <Route
+              path={viewConfigRoutes.findAll}
+              exact
+              component={ViewConfig}
+            />
+            <Route
+              path={viewConfigRoutes.findOne}
+              exact
+              component={ViewConfigDetail}
+            />
+            <Route
+              path={viewConfigRoutes.editOne}
+              exact
+              component={ViewConfigDetail}
+            />
+            {/* <Route
+              path={viewConfigRoutes.create}
+              exact
+              component={ViewConfigDetail}
+            /> */}
+            <Route
+              path={viewConfigRoutes.create}
+              exact
+              component={dynamic({
+                app,
+                models: () => [require('../component/viewConfigDetail/model')],
+                component: () => ViewConfigDetail,
+              })}
+            />
           </div>
         </Router>
       </Layout>
@@ -122,3 +160,15 @@ export default class AppRouter extends React.Component {
   }
 }
 
+// https://blog.csdn.net/Meditate_MasterYi/article/details/79730214
+// const RouteMap = (app) => {
+//   return [
+//     {
+//       path: '/'
+//     }
+//   ]
+// }
+
+app.router(() => <AppRouter />)
+const Demo = app.start()
+export default Demo
