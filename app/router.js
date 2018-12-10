@@ -21,4 +21,5 @@ module.exports = app => {
   router.get(enterprise.findAll, controller.enterprise.findAll)
   router.post(enterprise.remove, controller.enterprise.remove)
   router.post(enterprise.update, controller.enterprise.update)
+  // router.get('common/generateToken.json', controller)
 }
