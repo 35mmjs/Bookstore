@@ -4,11 +4,12 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = `${appInfo.name}_${process.env.COOKIE_KEYS}`
   config.root = {
-    password: '',
+    password: process.env.ROOT_ADMIN_PASSWORD,
   }
 
   // add your config here
   config.middleware = [
+    'loginCheck',
     'errorHandler',
     'saveSession',
   ]
@@ -52,6 +53,10 @@ module.exports = appInfo => {
     xframe: {
       value: `XFRAME_${process.env.XFRAME_VALUE}`,
     },
+  }
+
+  config.bookAPI = {
+    url: 'http://xhapi.zxhsd.com/services/xinhuawebservice?wsdl',
   }
   return config
 }

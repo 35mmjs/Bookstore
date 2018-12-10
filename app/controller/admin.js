@@ -1,10 +1,15 @@
 const { Controller } = require('egg')
 
 class AdminController extends Controller {
-  async index() {
+  index() {
     const { ctx } = this
-    // const data = await ctx.service.admins.find(33)
-    await ctx.render('layout/layout.html', { entry: 'admin' })
+    const loginUser = ctx.getLoginUser()
+    ctx.render('layout/layout.html', {
+      entry: 'admin',
+      appData: {
+        loginUser,
+      },
+    })
   }
   async create() {
     const request = this.ctx.request.body

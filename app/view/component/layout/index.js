@@ -2,6 +2,7 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb, Icon, Card } from 'antd';
 import GlobalHeader from '../common/GlobalHeader'
+import ajax from '../../common/ajax'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -20,7 +21,15 @@ class SiderDemo extends React.Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
-  
+
+  handleMenuClick= ({ key }) => {
+    if (key === 'logout') {
+      ajax({
+        url: '/user/logout.json',
+        method: 'post',
+      }).then(() => location.href = '/user/login.html')
+    }
+  }
 
   render() {
     const { menu } = this.props
@@ -31,7 +40,7 @@ class SiderDemo extends React.Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          <div 
+          <div
             className="logo"
             style={{
               height: 32,
@@ -83,7 +92,7 @@ class SiderDemo extends React.Component {
             style={{ background: '#fff', padding: 0 }}
             logo={'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4w…gIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=='}
             currentUser={{
-              "name": "Serati Ma",
+              "name": window.appData.loginUser.username,
               "avatar": "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
               "userid": "00000001",
               "notifyCount": 12
@@ -91,7 +100,7 @@ class SiderDemo extends React.Component {
             collapsed={false}
             // isMobile={this.state.isMobile}
             // onCollapse={this.handleMenuCollapse}
-            // onMenuClick={this.handleMenuClick}
+            onMenuClick={this.handleMenuClick}
           />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
@@ -104,7 +113,7 @@ class SiderDemo extends React.Component {
             </Card>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
+            BookStore ©{(new Date()).getFullYear()}
           </Footer>
         </Layout>
       </Layout>
@@ -127,7 +136,7 @@ class SiderDemo extends React.Component {
 //             <Component {...matchProps} />
 //           </SiderDemo>
 //         </div>
-//       )} 
+//       )}
 //       />
 //     )
 //   }
