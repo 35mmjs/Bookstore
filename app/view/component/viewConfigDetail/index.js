@@ -1,11 +1,34 @@
 import React from 'react'
 import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
 import DescriptionList from '../common/DescriptionList'
+import TableForm from './tableForm'
+import ImageUploader from '../common/ImageUploader'
 import { findOne } from './service'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
 const { Option } = Select
+
+const tableData = [
+  {
+    key: '1',
+    workId: '00001',
+    name: 'John Brown',
+    department: 'New York No. 1 Lake Park',
+  },
+  {
+    key: '2',
+    workId: '00002',
+    name: 'Jim Green',
+    department: 'London No. 1 Lake Park',
+  },
+  {
+    key: '3',
+    workId: '00003',
+    name: 'Joe Black',
+    department: 'Sidney No. 1 Lake Park',
+  },
+]
 
 const DetailView = ({ data = {} }) => {
   const { type, name, store, config_id, status, created_at, update_at } = data
@@ -55,21 +78,46 @@ const CreateForm = Form.create()(props => {
   // }
   return (
     <Form onSubmit={handleSearch} layout="inline">
+      <Row>
+        <Col>瀑布流配置</Col>
+      </Row>
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={24} sm={24}>
-          <FormItem label="规则名称">
-            {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+          <FormItem label="配置备注">
+            {getFieldDecorator('note')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={24} sm={24}>
-          <FormItem label="使用状态">
-            {getFieldDecorator('status')(
+          <FormItem label="类型">
+            {getFieldDecorator('type')(
               <Select placeholder="请选择" style={{ width: '100%' }}>
-                <Option value="0">关闭</Option>
-                <Option value="1">运行中</Option>
+                <Option value="0">瀑布</Option>
+                <Option value="1">展台</Option>
               </Select>,
             )}
           </FormItem>
+        </Col>
+        <Col md={24} sm={24}>
+          <FormItem label="配置备注">
+            {getFieldDecorator('note')(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col>配置内容</Col>
+        <Col md={24} sm={24}>
+          <FormItem label="顶部图片">
+            {getFieldDecorator('banner')(<Input placeholder="请输入" />)}
+          </FormItem>
+          <Col>
+            <ImageUploader />
+          </Col>
+        </Col>
+        <Col>数目录入</Col>
+        <Col md={24} sm={24}>
+          {getFieldDecorator('members', {
+            initialValue: tableData,
+          })(<TableForm />)}
         </Col>
         <Col md={24} sm={24}>
           <span className={''}>
