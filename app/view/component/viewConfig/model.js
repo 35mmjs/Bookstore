@@ -1,12 +1,10 @@
-// import * as usersService from '../services/users';
-const usersService = {}
+import * as service from './service'
 
 export default {
-  namespace: 'users',
+  namespace: 'viewConfig',
   state: {
     list: [],
     total: null,
-    page: null,
   },
   reducers: {
     save(
@@ -17,53 +15,34 @@ export default {
     ) {
       return { ...state, list, total, page }
     },
+    findAllReducer(state, { payload }) {
+      return {
+        ...state,
+        list: payload.items,
+      }
+    },
   },
   effects: {
-    * fetch(
+    *findAll(
       {
-        payload: { page = 1 },
+        payload: {},
       },
       { call, put },
     ) {
-      const { data, headers } = yield call(usersService.fetch, { page })
+      const data = yield call(service.findAll, {})
       yield put({
-        type: 'save',
-        payload: {
-          data,
-          total: parseInt(headers['x-total-count'], 10),
-          page: parseInt(page, 10),
-        },
-      })
-    },
-    * remove({ payload: id }, { call, put }) {
-      yield call(usersService.remove, id)
-      yield put({ type: 'reload' })
-    },
-    * patch(
-      {
-        payload: { id, values },
-      },
-      { call, put },
-    ) {
-      yield call(usersService.patch, id, values)
-      yield put({ type: 'reload' })
-    },
-    * create({ payload: values }, { call, put }) {
-      yield call(usersService.create, values)
-      yield put({ type: 'reload' })
-    },
-    * reload(action, { put, select }) {
-      const page = yield select(state => state.users.page)
-      yield put({ type: 'fetch', payload: { page } })
-    },
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/users') {
-          dispatch({ type: 'fetch', payload: query })
-        }
+        type: 'findAllReducer',
+        payload: data,
       })
     },
   },
+  // subscriptions: {
+  //   setup({ dispatch, history }) {
+  //     return history.listen(({ pathname, query }) => {
+  //       if (pathname === '/users') {
+  //         dispatch({ type: 'fetch', payload: query })
+  //       }
+  //     })
+  //   },
+  // },
 }

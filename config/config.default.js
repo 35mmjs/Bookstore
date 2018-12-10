@@ -1,10 +1,11 @@
 module.exports = appInfo => {
   const config = {}
 
+  const DEFAULT_ROOT_ADMIN_PASSWORD = 'admin'
   // use for cookie sign key, should change to your own and keep security
   config.keys = `${appInfo.name}_${process.env.COOKIE_KEYS}`
   config.root = {
-    password: process.env.ROOT_ADMIN_PASSWORD,
+    password: process.env.ROOT_ADMIN_PASSWORD || DEFAULT_ROOT_ADMIN_PASSWORD,
   }
 
   // add your config here

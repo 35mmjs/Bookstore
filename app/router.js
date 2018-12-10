@@ -8,7 +8,7 @@ const { enterprise } = require('./api/index')
 module.exports = app => {
   const { router, controller } = app
   // html pages
-  router.get('/', controller.admin.index)
+  router.get('/admin.html', controller.admin.index)
   router.get('/user/login.html', controller.user.loginPage)
   router.get('/user/createAdmin.html', controller.user.createAdminPage)
   // user
