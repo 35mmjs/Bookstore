@@ -3,7 +3,7 @@ const staticServer = require('./lib/staticServer')
 
 module.exports = agent => {
   const agentConfig = agent.config
-  const startWebpackServer = agentConfig.webpack.startWebpackServer
+  const { startWebpackServer } = agentConfig.webpack
   if (!startWebpackServer) return
   let origin
   let domain = address.ip()

@@ -14,8 +14,9 @@ module.exports = function (webpackConfig) {
   }
   webpackConfig.plugins = webpackConfig.plugins.concat([
     new webpack.DefinePlugin({
-      'process.env.BROWSER_MODE': 'true',
-      'MOCK':  process.env.NODE_ENV === 'mock',
+      'process.env': {
+        NODE_ENV: process.env.NODE_ENV,
+      },
     }),
     new ExtractTextPlugin('[name].css', {
       disable: false,

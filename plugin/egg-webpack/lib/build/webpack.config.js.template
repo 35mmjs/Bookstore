@@ -35,6 +35,11 @@ module.exports = (webpackConfig) => {
         console.log('\nwebpack: bundle build is now finished.')
       }
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: process.env.NODE_ENV,
+      },
+    }),
     new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
     new ExtractTextPlugin('[name].css', {
       disable: false,

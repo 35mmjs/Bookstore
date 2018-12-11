@@ -4,8 +4,7 @@ import xhr from './xhr'
 
 
 const ajaxDebug = debug('ajax')
-/* eslint-disable no-undef */
-const isMock = MOCK === true
+const isMock = process.env.NODE_ENV === 'mock'
 
 // function mockAjax({ url }) {
 //   const sampleError = {
