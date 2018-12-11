@@ -1,6 +1,7 @@
 // 开发模式关闭安全校验
 module.exports = () => {
   const config = {}
+  // TODO 记得删除掉
   config.security = {
     xframe: {
       enable: false,
@@ -9,6 +10,5 @@ module.exports = () => {
       enable: false,
     },
   }
-  config.middleware = []
   return config
 }

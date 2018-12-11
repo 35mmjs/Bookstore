@@ -14,7 +14,7 @@ function onSubmit(data) {
     url: '/user/login.json',
     method: 'post',
     data,
-  }).then(() => { location.href = '/' })
+  }).then(() => { window.location.href = '/admin.html' })
 }
 
 function App() {
