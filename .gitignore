@@ -11,5 +11,5 @@ run/
 *.sw*
 *.un~
 dist/
-
 temp
+*.tgz

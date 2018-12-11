@@ -98,7 +98,7 @@
     "ci": "npm run lint && npm run cov",
     "build": "./plugin/egg-webpack/bin/egg-webpack-build",
     "autod": "autod",
-    "deploy": "./deploy.sh -e dev -b default -v v0.02"
+    "deploy": "./deploy.sh -e dev -b default -v v0.03"
   },
   "pre-commit": [],
   "ci": {

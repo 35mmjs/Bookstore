@@ -15,18 +15,16 @@ class OpenApiController extends Controller {
    */
   async getPubu() {
     // const request = this.ctx.params
-    const items = await this.ctx.service.openApi.getPubu()
-    const result = items.map(item => {
-      const payloadStr = item.content || '{}'
-      const payloadObj = JSON.parse(payloadStr)
-      return {
-        id: item.id,
-        type: item.type,
-        note: item.note,
-        books: payloadObj.books || {},
-        banner: payloadObj.banner || '',
-      }
-    })
+    const item = await this.ctx.service.openApi.getPubu(3)
+    const payloadStr = item.content || '{}'
+    const payloadObj = JSON.parse(payloadStr)
+    const result = {
+      id: item.id,
+      type: item.type,
+      note: item.note,
+      books: payloadObj.books || {},
+      banner: payloadObj.banner || '',
+    }
 
     this.ctx.body = {
       success: true,
@@ -46,7 +44,10 @@ class OpenApiController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.enterprise.create(request.name, request.password)
+    const result = await this.ctx.service.enterprise.create(
+      request.name,
+      request.password,
+    )
     this.ctx.body = {
       success: true,
       data: result,

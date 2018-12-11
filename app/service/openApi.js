@@ -2,9 +2,9 @@ const { Service } = require('egg')
 
 const VIEW_CONFIGS = 'view_configs'
 class OpenApi extends Service {
-  async getPubu() {
-    const items = await this.app.mysql.select(VIEW_CONFIGS, {
-      // where: { deleted: 0 },
+  async getPubu(id) {
+    const items = await this.app.mysql.get(VIEW_CONFIGS, {
+      id,
     })
     return items
   }
