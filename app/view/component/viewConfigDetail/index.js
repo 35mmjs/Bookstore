@@ -1,7 +1,8 @@
 import React from 'react'
-import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
-import dva, { connect } from 'dva'
-import model from './model'
+import {
+  Divider, Form, Row, Col, Button, Select, Input,
+} from 'antd'
+import { connect } from 'dva'
 
 import DescriptionList from '../common/DescriptionList'
 import TableForm from './tableForm'
@@ -87,7 +88,9 @@ const CreateForm = Form.create()(props => {
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={24} sm={24}>
           <FormItem label="配置备注">
-            {getFieldDecorator('note', {})(<Input placeholder="请输入" />)}
+            {getFieldDecorator('note', {
+              rules: [{ required: true, message: '请输入至少3个字符的描述！', min: 3 }],
+            })(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={24} sm={24}>
@@ -106,6 +109,7 @@ const CreateForm = Form.create()(props => {
         <Col md={24} sm={24}>
           <FormItem label="顶部图片">
             {getFieldDecorator('banner', {
+              rules: [{ type: 'object', required: true, message: '请上传一张图' }],
               trigger: 'onUploadDone',
             })(<ImageUploader />)}
           </FormItem>
@@ -145,8 +149,7 @@ export default class Index extends React.Component {
     super(props)
     const { match } = props
     this.state = {
-      data: {},
-      id: match.params.id,
+      // id: match.params.id,
       operation: match.params.operation,
     }
   }

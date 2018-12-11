@@ -1,10 +1,11 @@
 import React from 'react'
-import dva, { connect } from 'dva'
+import { connect } from 'dva'
 import './index.less'
 import TableList from './tableList'
 import Filter from './filter'
 import model from './model'
 
+@connect((state) => ({ ...state }))
 class Index extends React.Component {
   constructor(props) {
     super(props)
@@ -21,7 +22,8 @@ class Index extends React.Component {
   }
 
   render() {
-    const { list } = this.props
+    const { viewConfig } = this.props
+    const { list } = viewConfig
     return (
       <div>
         <div>View Config</div>
@@ -33,13 +35,5 @@ class Index extends React.Component {
     )
   }
 }
-const app = dva()
-const App = connect(({ viewConfig }) => ({
-  ...viewConfig,
-}))(Index)
-app.model(model)
 
-app.router(() => <App />)
-const Demo = app.start()
-
-export default Demo
+export default Index

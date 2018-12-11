@@ -128,7 +128,11 @@ class AppRouter extends React.Component {
             <Route
               path={viewConfigRoutes.findAll}
               exact
-              component={ViewConfig}
+              component={dynamic({
+                app,
+                models: () => [require('../component/viewConfig/model')],
+                component: () => ViewConfig,
+              })}
             />
             <Route
               path={viewConfigRoutes.findOne}

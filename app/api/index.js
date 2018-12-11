@@ -27,9 +27,14 @@ const user = {
   login: '/user/login.json',
 }
 
+const openApi = {
+  pubu: '/open/v1/pubu',
+}
+
 module.exports = {
   enterprise,
   terminal,
   viewConfig,
   user,
+  openApi,
 }

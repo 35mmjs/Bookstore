@@ -17,7 +17,7 @@ export default {
         ...state, list, total, page,
       }
     },
-    createReducer(state, { payload }) {
+    findAllReducer(state, { payload }) {
       return {
         ...state,
         list: payload,
@@ -25,27 +25,26 @@ export default {
     },
   },
   effects: {
-    *create(
+    *findAll(
       {
         payload,
       },
       { call, put },
     ) {
-      const data = yield call(service.create, payload)
-      console.log('aaaaaaaa', data)
+      const data = yield call(service.findAll, payload)
       yield put({
-        type: 'createReducer',
-        payload: data,
+        type: 'findAllReducer',
+        payload: data.items,
       })
     },
   },
-  // subscriptions: {
-  //   setup({ dispatch, history }) {
-  //     return history.listen(({ pathname, query }) => {
-  //       if (pathname === '/users') {
-  //         dispatch({ type: 'fetch', payload: query })
-  //       }
-  //     })
-  //   },
-  // },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen((a) => {
+        // if (pathname === '/users') {
+        //   dispatch({ type: 'fetch', payload: query })
+        // }
+      })
+    },
+  },
 }

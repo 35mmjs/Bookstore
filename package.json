@@ -34,6 +34,7 @@
     "ms": "^2.1.1",
     "parameter": "^3.4.0",
     "prop-types": "^15.6.2",
+    "qiniu": "^7.2.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-router-dom": "^4.3.1",
@@ -90,7 +91,7 @@
     "ci": "npm run lint && npm run cov",
     "build": "./plugin/egg-webpack/bin/egg-webpack-build",
     "autod": "autod",
-    "deploy": "./deploy.sh -e dev -b default -v v0.01"
+    "deploy": "./deploy.sh -e dev -b default -v v0.02"
   },
   "pre-commit": [],
   "ci": {

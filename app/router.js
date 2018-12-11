@@ -1,6 +1,6 @@
 'use strict'
 
-const { enterprise, viewConfig } = require('./api/index')
+const { enterprise, viewConfig, openApi } = require('./api/index')
 
 /**
  * @param {Egg.Application} app - egg application
@@ -17,11 +17,13 @@ module.exports = app => {
   router.post('/user/createAdmin.json', controller.user.createAdmin)
   router.post('/user/createUser.json', controller.user.createUser)
   // enterprise
-  router.post('/enterprise/create.json', controller.enterprise.create)
+  router.post(enterprise.create, controller.enterprise.create)
   router.get(enterprise.findAll, controller.enterprise.findAll)
   router.post(enterprise.remove, controller.enterprise.remove)
   router.post(enterprise.update, controller.enterprise.update)
   // router.get('common/generateToken.json', controller)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
+  // open api
+  router.post(openApi.pubu, controller.openApi.getPubu)
 }
