@@ -23,8 +23,13 @@ const viewConfig = {
   findOne: '/view-config/findOne.json',
 }
 
+const user = {
+  login: '/user/login.json',
+}
+
 module.exports = {
   enterprise,
   terminal,
   viewConfig,
+  user,
 }

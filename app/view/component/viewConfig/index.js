@@ -11,6 +11,7 @@ class Index extends React.Component {
     this.state = {
     }
   }
+
   componentDidMount() {
     const { dispatch } = this.props
     dispatch({
@@ -18,6 +19,7 @@ class Index extends React.Component {
       payload: {},
     })
   }
+
   render() {
     const { list } = this.props
     return (

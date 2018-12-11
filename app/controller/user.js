@@ -6,10 +6,12 @@ class UserController extends Controller {
     const { ctx } = this
     await ctx.render('layout/layout.html', { entry: 'login' })
   }
+
   async createAdminPage() {
     const ctx = this.ctx
     await ctx.render('layout/layout.html', { entry: 'createAdmin' })
   }
+
   logout() {
     const ctx = this.ctx
     ctx.session.user = undefined
@@ -19,6 +21,7 @@ class UserController extends Controller {
       message: '操作成功',
     }
   }
+
   async login() {
     const ctx = this.ctx
     const { username, password, rememberMe } = ctx.request.body
@@ -49,6 +52,7 @@ class UserController extends Controller {
       message: '登陆成功',
     }
   }
+
   async createAdmin() {
     const ctx = this.ctx
     const { username, password, rootPassword } = ctx.request.body
@@ -68,6 +72,7 @@ class UserController extends Controller {
       }
     }
   }
+
   async createUser() {
     const ctx = this.ctx
     const { username, password } = ctx.request.body

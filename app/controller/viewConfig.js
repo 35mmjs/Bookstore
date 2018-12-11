@@ -30,6 +30,7 @@ class ViewConfigController extends Controller {
       data: result,
     }
   }
+
   async update() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.viewConfig.create(request.name, request.password)

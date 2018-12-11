@@ -1,5 +1,7 @@
 import React from 'react'
-import { Row, Col, Radio, Form, Select, Button, Input, Icon } from 'antd'
+import {
+  Row, Col, Radio, Form, Select, Button, Input, Icon,
+} from 'antd'
 
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
@@ -38,7 +40,7 @@ const CreateForm = Form.create()(props => {
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <span className={''}>
+          <span className="">
             <Button type="primary" htmlType="submit">
               查询
             </Button>

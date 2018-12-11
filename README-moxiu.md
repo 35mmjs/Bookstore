@@ -1,17 +1,20 @@
 ## changelog
+1211
+  - [ ] deploy to dev server, run 1st open api
+  - [ ] apply dva to all model 
 1209
   - [ ] all models done
-  - [ ] add config crud 瀑布
-  - [ ] add CDN for all developer
+  - [x] add config crud 瀑布
+  - [x] add CDN for all developer
   - [ ] deploy to dev server, run 1st open api
 1208
   - [ ] add mock for all models
   - [ ] all views done
-  - [ ] add dva/redux
+  - [x] add dva/redux
 1206
   - [ ] add mock for all models
 1205
-  - [ ] add CDN
+  - [x] add CDN
   - [x] terminal view
   - [x] detail view each
 1204
@@ -19,10 +22,10 @@
 1202
   - [x] add router and layout
   - [x] add enterprice crud
-  - [ ] add redux
+  - [x] add redux
   - [x] add mock/add mockjs to simulate data 
   - [x] model 一条龙优化, 比如前后端保持一致, 减少重复代码
-  - [ ] add store crud
+  - [x0.5] add store crud
 
 
 

@@ -67,6 +67,7 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
+
   render() {
     return <Table columns={columns} dataSource={this.props.data} />
   }

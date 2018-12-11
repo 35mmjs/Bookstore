@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Input, Icon, Form } from 'antd'
+import {
+  Button, Input, Icon, Form,
+} from 'antd'
 import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
 import ajax from '../common/ajax'
@@ -16,12 +18,14 @@ function onSubmit(data) {
 }
 
 function App() {
-  const { submit, reset, getValidateStatus, getInputProps, hasError } = useFormState('user', onSubmit, {
+  const {
+    submit, reset, getValidateStatus, getInputProps, hasError,
+  } = useFormState('user', onSubmit, {
     rootPassword: { type: 'string', required: true },
   })
   return (
     <Form style={{ margin: '32px auto', width: 400 }}>
-      <FormItem {...getValidateStatus('username')} >
+      <FormItem {...getValidateStatus('username')}>
         <Input {...getInputProps('username')} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="管理员账号" />
       </FormItem>
       <FormItem {...getValidateStatus('password')}>

@@ -5,6 +5,7 @@ class UserService extends Service {
     const user = await this.app.mysql.get('users', { id: uid })
     return user
   }
+
   async getUserByPassword(username, password) {
     const user = await this.app.mysql.get('users', { username })
     if (!user) return { error: '用户不存在' }
@@ -15,9 +16,12 @@ class UserService extends Service {
     }
     return { error: '密码错误' }
   }
+
   async create(username, password, isAdmin) {
     const { password: encryptedPwd, salt } = this.ctx.helper.encrypt(password)
-    const result = await this.app.mysql.insert('users', { username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt })
+    const result = await this.app.mysql.insert('users', {
+      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt,
+    })
     return result.affectedRows === 1
   }
 }

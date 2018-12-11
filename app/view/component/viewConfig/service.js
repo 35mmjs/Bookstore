@@ -31,4 +31,3 @@ export function update(data) {
     method: 'post',
   })
 }
-

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
-import { Layout, Menu, Icon, Spin, Dropdown, Avatar } from 'antd'
+import {
+  Layout, Menu, Icon, Spin, Dropdown, Avatar,
+} from 'antd'
 import HeaderSearch from '../HeaderSearch'
 
 const { Header } = Layout
@@ -8,6 +10,7 @@ export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel()
   }
+
   toggle = () => {
     const { collapsed, onCollapse } = this.props
     onCollapse(!collapsed)
@@ -65,7 +68,7 @@ export default class GlobalHeader extends PureComponent {
                   size="small"
                   src={currentUser.avatar}
                 />
-                <span >{currentUser.name}</span>
+                <span>{currentUser.name}</span>
               </span>
             </Dropdown>
           ) : (

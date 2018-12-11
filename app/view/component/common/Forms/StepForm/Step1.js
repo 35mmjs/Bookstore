@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
-import { connect } from 'dva';
-import { Form, Input, Button, Select, Divider } from 'antd';
-import router from 'umi/router';
-import styles from './style.less';
+import React, { Fragment } from 'react'
+import { connect } from 'dva'
+import {
+  Form, Input, Button, Select, Divider,
+} from 'antd'
+import router from 'umi/router'
+import styles from './style.less'
 
-const { Option } = Select;
+const { Option } = Select
 
 const formItemLayout = {
   labelCol: {
@@ -13,7 +15,7 @@ const formItemLayout = {
   wrapperCol: {
     span: 19,
   },
-};
+}
 
 @connect(({ form }) => ({
   data: form.step,
@@ -21,19 +23,19 @@ const formItemLayout = {
 @Form.create()
 class Step1 extends React.PureComponent {
   render() {
-    const { form, dispatch, data } = this.props;
-    const { getFieldDecorator, validateFields } = form;
+    const { form, dispatch, data } = this.props
+    const { getFieldDecorator, validateFields } = form
     const onValidateForm = () => {
       validateFields((err, values) => {
         if (!err) {
           dispatch({
             type: 'form/saveStepFormData',
             payload: values,
-          });
-          router.push('/form/step-form/confirm');
+          })
+          router.push('/form/step-form/confirm')
         }
-      });
-    };
+      })
+    }
     return (
       <Fragment>
         <Form layout="horizontal" className={styles.stepForm} hideRequiredMark>
@@ -44,7 +46,7 @@ class Step1 extends React.PureComponent {
             })(
               <Select placeholder="test@example.com">
                 <Option value="ant-design@alipay.com">ant-design@alipay.com</Option>
-              </Select>
+              </Select>,
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="收款账户">
@@ -108,8 +110,8 @@ class Step1 extends React.PureComponent {
           </p>
         </div>
       </Fragment>
-    );
+    )
   }
 }
 
-export default Step1;
+export default Step1

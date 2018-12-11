@@ -6,7 +6,6 @@ import model from './model'
 import DescriptionList from '../common/DescriptionList'
 import TableForm from './tableForm'
 import ImageUploader from '../common/ImageUploader'
-import { findOne } from './service'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
@@ -68,15 +67,15 @@ const CreateForm = Form.create()(props => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      const { banner = {}, books, type, note } = fieldsValue 
+      const { banner = {}, books, type, note } = fieldsValue
       const content = {
         banner: banner.url,
-        books,  
+        books,
       }
       handleSubmit({
         note,
         type,
-        content: JSON.stringify(content), 
+        content: JSON.stringify(content),
       })
     })
   }
@@ -88,7 +87,7 @@ const CreateForm = Form.create()(props => {
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={24} sm={24}>
           <FormItem label="配置备注">
-            {getFieldDecorator('note')(<Input placeholder="请输入" />)}
+            {getFieldDecorator('note', {})(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={24} sm={24}>
@@ -107,7 +106,7 @@ const CreateForm = Form.create()(props => {
         <Col md={24} sm={24}>
           <FormItem label="顶部图片">
             {getFieldDecorator('banner', {
-              trigger: 'onUploadDone'
+              trigger: 'onUploadDone',
             })(<ImageUploader />)}
           </FormItem>
         </Col>
@@ -118,7 +117,7 @@ const CreateForm = Form.create()(props => {
           })(<TableForm />)}
         </Col>
         <Col md={24} sm={24}>
-          <span className={''}>
+          <span className="">
             <Button type="primary" htmlType="submit">
               新建
             </Button>
@@ -152,9 +151,9 @@ export default class Index extends React.Component {
     }
   }
 
-  handleSubmit = (param) => {
+  handleSubmit = param => {
     console.log('handleSubmit', param)
-    const { dispatch } = this.props 
+    const { dispatch } = this.props
     dispatch({
       type: 'viewConfigDetail/create',
       payload: param,

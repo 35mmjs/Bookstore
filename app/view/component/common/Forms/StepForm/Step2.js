@@ -1,9 +1,11 @@
-import React from 'react';
-import { connect } from 'dva';
-import { Form, Input, Button, Alert, Divider } from 'antd';
-import router from 'umi/router';
-import { digitUppercase } from '@/utils/utils';
-import styles from './style.less';
+import React from 'react'
+import { connect } from 'dva'
+import {
+  Form, Input, Button, Alert, Divider,
+} from 'antd'
+import router from 'umi/router'
+import { digitUppercase } from '@/utils/utils'
+import styles from './style.less'
 
 const formItemLayout = {
   labelCol: {
@@ -12,7 +14,7 @@ const formItemLayout = {
   wrapperCol: {
     span: 19,
   },
-};
+}
 
 @connect(({ form, loading }) => ({
   submitting: loading.effects['form/submitStepForm'],
@@ -21,13 +23,15 @@ const formItemLayout = {
 @Form.create()
 class Step2 extends React.PureComponent {
   render() {
-    const { form, data, dispatch, submitting } = this.props;
-    const { getFieldDecorator, validateFields } = form;
+    const {
+      form, data, dispatch, submitting,
+    } = this.props
+    const { getFieldDecorator, validateFields } = form
     const onPrev = () => {
-      router.push('/form/step-form/info');
-    };
+      router.push('/form/step-form/info')
+    }
     const onValidateForm = e => {
-      e.preventDefault();
+      e.preventDefault()
       validateFields((err, values) => {
         if (!err) {
           dispatch({
@@ -36,10 +40,10 @@ class Step2 extends React.PureComponent {
               ...data,
               ...values,
             },
-          });
+          })
         }
-      });
-    };
+      })
+    }
     return (
       <Form layout="horizontal" className={styles.stepForm}>
         <Alert
@@ -59,7 +63,11 @@ class Step2 extends React.PureComponent {
         </Form.Item>
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="转账金额">
           <span className={styles.money}>{data.amount}</span>
-          <span className={styles.uppercase}>（{digitUppercase(data.amount)}）</span>
+          <span className={styles.uppercase}>
+（
+            {digitUppercase(data.amount)}
+）
+          </span>
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
         <Form.Item {...formItemLayout} label="支付密码" required={false}>
@@ -92,8 +100,8 @@ class Step2 extends React.PureComponent {
           </Button>
         </Form.Item>
       </Form>
-    );
+    )
   }
 }
 
-export default Step2;
+export default Step2

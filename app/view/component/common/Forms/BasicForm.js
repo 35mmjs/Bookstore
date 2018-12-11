@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import React, { PureComponent } from 'react'
+import { connect } from 'dva'
+import { formatMessage, FormattedMessage } from 'umi/locale'
 import {
   Form,
   Input,
@@ -12,14 +12,14 @@ import {
   Radio,
   Icon,
   Tooltip,
-} from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './style.less';
+} from 'antd'
+import PageHeaderWrapper from '@/components/PageHeaderWrapper'
+import styles from './style.less'
 
-const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const FormItem = Form.Item
+const { Option } = Select
+const { RangePicker } = DatePicker
+const { TextArea } = Input
 
 @connect(({ loading }) => ({
   submitting: loading.effects['form/submitRegularForm'],
@@ -27,23 +27,23 @@ const { TextArea } = Input;
 @Form.create()
 class BasicForms extends PureComponent {
   handleSubmit = e => {
-    const { dispatch, form } = this.props;
-    e.preventDefault();
+    const { dispatch, form } = this.props
+    e.preventDefault()
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
           type: 'form/submitRegularForm',
           payload: values,
-        });
+        })
       }
-    });
+    })
   };
 
   render() {
-    const { submitting } = this.props;
+    const { submitting } = this.props
     const {
       form: { getFieldDecorator, getFieldValue },
-    } = this.props;
+    } = this.props
 
     const formItemLayout = {
       labelCol: {
@@ -55,14 +55,14 @@ class BasicForms extends PureComponent {
         sm: { span: 12 },
         md: { span: 10 },
       },
-    };
+    }
 
     const submitFormLayout = {
       wrapperCol: {
         xs: { span: 24, offset: 0 },
         sm: { span: 10, offset: 7 },
       },
-    };
+    }
 
     return (
       <PageHeaderWrapper
@@ -96,7 +96,7 @@ class BasicForms extends PureComponent {
                     formatMessage({ id: 'form.date.placeholder.start' }),
                     formatMessage({ id: 'form.date.placeholder.end' }),
                   ]}
-                />
+                />,
               )}
             </FormItem>
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
@@ -112,7 +112,7 @@ class BasicForms extends PureComponent {
                   style={{ minHeight: 32 }}
                   placeholder={formatMessage({ id: 'form.goal.placeholder' })}
                   rows={4}
-                />
+                />,
               )}
             </FormItem>
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.standard.label" />}>
@@ -128,12 +128,12 @@ class BasicForms extends PureComponent {
                   style={{ minHeight: 32 }}
                   placeholder={formatMessage({ id: 'form.standard.placeholder' })}
                   rows={4}
-                />
+                />,
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={
+              label={(
                 <span>
                   <FormattedMessage id="form.client.label" />
                   <em className={styles.optional}>
@@ -143,44 +143,44 @@ class BasicForms extends PureComponent {
                     </Tooltip>
                   </em>
                 </span>
-              }
+)}
             >
               {getFieldDecorator('client')(
-                <Input placeholder={formatMessage({ id: 'form.client.placeholder' })} />
+                <Input placeholder={formatMessage({ id: 'form.client.placeholder' })} />,
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={
+              label={(
                 <span>
                   <FormattedMessage id="form.invites.label" />
                   <em className={styles.optional}>
                     <FormattedMessage id="form.optional" />
                   </em>
                 </span>
-              }
+)}
             >
               {getFieldDecorator('invites')(
-                <Input placeholder={formatMessage({ id: 'form.invites.placeholder' })} />
+                <Input placeholder={formatMessage({ id: 'form.invites.placeholder' })} />,
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={
+              label={(
                 <span>
                   <FormattedMessage id="form.weight.label" />
                   <em className={styles.optional}>
                     <FormattedMessage id="form.optional" />
                   </em>
                 </span>
-              }
+)}
             >
               {getFieldDecorator('weight')(
                 <InputNumber
                   placeholder={formatMessage({ id: 'form.weight.placeholder' })}
                   min={0}
                   max={100}
-                />
+                />,
               )}
               <span className="ant-form-text">%</span>
             </FormItem>
@@ -203,7 +203,7 @@ class BasicForms extends PureComponent {
                     <Radio value="3">
                       <FormattedMessage id="form.public.radio.private" />
                     </Radio>
-                  </Radio.Group>
+                  </Radio.Group>,
                 )}
                 <FormItem style={{ marginBottom: 0 }}>
                   {getFieldDecorator('publicUsers')(
@@ -224,7 +224,7 @@ class BasicForms extends PureComponent {
                       <Option value="3">
                         <FormattedMessage id="form.publicUsers.option.C" />
                       </Option>
-                    </Select>
+                    </Select>,
                   )}
                 </FormItem>
               </div>
@@ -240,8 +240,8 @@ class BasicForms extends PureComponent {
           </Form>
         </Card>
       </PageHeaderWrapper>
-    );
+    )
   }
 }
 
-export default BasicForms;
+export default BasicForms

@@ -98,6 +98,7 @@ class AppRouter extends React.Component {
     super()
     this.state = {}
   }
+
   render() {
     return (
       <Layout menu={menu}>

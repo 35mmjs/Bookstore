@@ -30,6 +30,7 @@ class EnterpriseController extends Controller {
       data: result,
     }
   }
+
   async update() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.store.create(request.name, request.password)

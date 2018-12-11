@@ -13,7 +13,9 @@ export default {
         payload: { data: list, total, page },
       },
     ) {
-      return { ...state, list, total, page }
+      return {
+        ...state, list, total, page,
+      }
     },
     createReducer(state, { payload }) {
       return {
