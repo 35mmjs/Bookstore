@@ -20,10 +20,10 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
+
   render() {
     return (
       <SingleCard />
     )
   }
 }
-

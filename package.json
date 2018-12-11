@@ -34,6 +34,7 @@
     "ms": "^2.1.1",
     "parameter": "^3.4.0",
     "prop-types": "^15.6.2",
+    "qiniu": "^7.2.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-router-dom": "^4.3.1",
@@ -43,7 +44,7 @@
   "devDependencies": {
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",
-    "babel-eslint": "^7.1.0",
+    "babel-eslint": "^8.2.6",
     "babel-plugin-import": "^1.6.4",
     "babel-plugin-transform-builtin-extend": "^1.1.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -60,12 +61,12 @@
     "egg-bin": "^4.9.0",
     "egg-ci": "^1.10.0",
     "egg-mock": "^3.20.1",
-    "eslint": "^5.8.0",
-    "eslint-config-airbnb": "^15.1.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-babel": "^3.x",
-    "eslint-plugin-import": "^2.x",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.x",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "koa-webpack-dev-middleware": "^2.0.2",
     "pre-commit": "^1.2.2",
     "webstorm-disable-index": "^1.2.0"
@@ -90,7 +91,7 @@
     "ci": "npm run lint && npm run cov",
     "build": "./plugin/egg-webpack/bin/egg-webpack-build",
     "autod": "autod",
-    "deploy": "./deploy.sh -e dev -b default -v v0.01"
+    "deploy": "./deploy.sh -e dev -b default -v v0.02"
   },
   "pre-commit": [],
   "ci": {

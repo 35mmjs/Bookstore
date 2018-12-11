@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Table, Button, Input, message, Popconfirm, Divider } from 'antd'
+import {
+  Table, Button, Input, message, Popconfirm, Divider,
+} from 'antd'
 import isEqual from 'lodash/isEqual'
 import styles from './style.less'
 
@@ -184,8 +186,7 @@ class TableForm extends PureComponent {
             return (
               <Input
                 value={text}
-                onChange={e =>
-                  this.handleFieldChange(e, 'department', record.key)
+                onChange={e => this.handleFieldChange(e, 'department', record.key)
                 }
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="所属部门"

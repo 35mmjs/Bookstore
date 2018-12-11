@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Input, Icon, Form } from 'antd'
+import {
+  Button, Input, Icon, Form,
+} from 'antd'
 import ajax from '../common/ajax'
 import useFormState from '../hook/useFormState'
 
@@ -17,10 +19,12 @@ function onSubmit({ username, password }) {
 }
 
 export default function UserLogin() {
-  const { submit, reset, getValidateStatus, getInputProps, hasError } = useFormState('user', onSubmit)
+  const {
+    submit, reset, getValidateStatus, getInputProps, hasError,
+  } = useFormState('user', onSubmit)
   return (
     <Form>
-      <FormItem {...getValidateStatus('username')} >
+      <FormItem {...getValidateStatus('username')}>
         <Input {...getInputProps('username')} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
       </FormItem>
       <FormItem {...getValidateStatus('password')}>

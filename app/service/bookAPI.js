@@ -6,6 +6,7 @@ class BookAPIService extends Service {
     super(...args)
     this.SDK_URL = this.app.config.bookAPI.url
   }
+
   fetch() {
     const params = {
       appMethod: 'sdkcBySpbs',

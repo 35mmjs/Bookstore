@@ -9,6 +9,7 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
+
   render() {
     return (
       <div>
@@ -18,4 +19,3 @@ export default class Index extends React.Component {
     )
   }
 }
-

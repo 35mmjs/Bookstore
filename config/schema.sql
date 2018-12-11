@@ -170,17 +170,24 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`terminals` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-USE `BOOKSTORE` ;
-
 -- -----------------------------------------------------
 -- Placeholder table for view `BOOKSTORE`.`view1`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`view1` (`id` INT);
+CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`view_configs` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` INT UNSIGNED NULL,
+  `note` VARCHAR(45) NULL,
+  `content` JSON,
+  `deleted` TINYINT UNSIGNED NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `note_UNIQUE` (`note` ASC))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- View `BOOKSTORE`.`view1`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `BOOKSTORE`.`view1`;
 USE `BOOKSTORE`;
 
 

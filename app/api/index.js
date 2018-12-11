@@ -16,14 +16,25 @@ const terminal = {
 }
 
 const viewConfig = {
+  create: '/view-config/create.json',
   findAll: '/view-config/findAll.json',
   remove: '/view-config/remove.json',
   update: '/view-config/update.json',
   findOne: '/view-config/findOne.json',
 }
 
+const user = {
+  login: '/user/login.json',
+}
+
+const openApi = {
+  pubu: '/open/v1/pubu',
+}
+
 module.exports = {
   enterprise,
   terminal,
   viewConfig,
+  user,
+  openApi,
 }

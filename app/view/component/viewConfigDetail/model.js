@@ -1,7 +1,7 @@
 import * as service from './service'
 
 export default {
-  namespace: 'viewConfig',
+  namespace: 'viewConfigDetail',
   state: {
     list: [],
     total: null,
@@ -17,30 +17,32 @@ export default {
         ...state, list, total, page,
       }
     },
-    findAllReducer(state, { payload }) {
+    createReducer(state, { payload }) {
       return {
         ...state,
-        list: payload,
+        list: payload.items,
       }
     },
   },
   effects: {
-    *findAll(
+    *create(
       {
         payload,
       },
       { call, put },
     ) {
-      const data = yield call(service.findAll, payload)
+      console.log('aaaaaaaa', payload)
+      const data = yield call(service.create, payload)
       yield put({
-        type: 'findAllReducer',
-        payload: data.items,
+        type: 'createReducer',
+        payload: data,
       })
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen((a) => {
+        console.log('bbbbbbb', a)
         // if (pathname === '/users') {
         //   dispatch({ type: 'fetch', payload: query })
         // }

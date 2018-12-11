@@ -1,5 +1,5 @@
-
-// 登陆检测
+const { genQiniuToken } = require('../common/cdn')
+// 登陆检测 注入 cdn 上传token
 module.exports = () => {
   return async function (ctx, next) {
     const loginUser = ctx.getLoginUser()
@@ -9,6 +9,12 @@ module.exports = () => {
       ctx.redirect('/user/login.html')
       return
     }
+    // TODO
+    const token = genQiniuToken()
+    ctx.cookies.set('upload-token', token, {
+      httpOnly: false,
+      signed: false,
+    })
     await next()
   }
 }

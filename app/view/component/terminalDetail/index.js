@@ -1,5 +1,7 @@
 import React from 'react'
-import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
+import {
+  Divider, Form, Row, Col, Button, Select, Input,
+} from 'antd'
 import DescriptionList from '../common/DescriptionList'
 import { findOne } from './service'
 
@@ -8,7 +10,9 @@ const FormItem = Form.Item
 const { Option } = Select
 
 const DetailView = ({ data = {} }) => {
-  const { type, name, store, config_id, status, created_at, update_at } = data
+  const {
+    type, name, store, config_id, status, created_at, update_at,
+  } = data
   return (
     <div>
       <DescriptionList
@@ -72,7 +76,7 @@ const CreateForm = Form.create()(props => {
           </FormItem>
         </Col>
         <Col md={24} sm={24}>
-          <span className={''}>
+          <span className="">
             <Button type="primary" htmlType="submit">
               查询
             </Button>

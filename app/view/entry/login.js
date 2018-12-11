@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Input, Checkbox, Icon, Form } from 'antd'
+import {
+  Button, Input, Checkbox, Icon, Form,
+} from 'antd'
 import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
 import useFormState from '../hook/useFormState'
@@ -16,10 +18,12 @@ function onSubmit(data) {
 }
 
 function App() {
-  const { submit, reset, getValidateStatus, getInputProps, hasError } = useFormState('user', onSubmit, { rememberMe: { type: 'boolean', required: false } })
+  const {
+    submit, reset, getValidateStatus, getInputProps, hasError,
+  } = useFormState('user', onSubmit, { rememberMe: { type: 'boolean', required: false } })
   return (
     <Form style={{ margin: '32px auto', width: 400 }}>
-      <FormItem {...getValidateStatus('username')} >
+      <FormItem {...getValidateStatus('username')}>
         <Input {...getInputProps('username')} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
       </FormItem>
       <FormItem {...getValidateStatus('password')}>
@@ -39,7 +43,9 @@ function App() {
         >
           重置
         </Button>
-        <Checkbox {...getInputProps('rememberMe')} /> 记住我
+        <Checkbox {...getInputProps('rememberMe')} />
+        {' '}
+记住我
       </FormItem>
       <a href="/user/createAdmin.html">创建管理员账号</a>
     </Form>

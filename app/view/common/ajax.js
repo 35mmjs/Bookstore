@@ -31,7 +31,9 @@ const isMock = MOCK === true
  * @param opts
  * @returns {Promise<any>}
  */
-export default function ajax({ url, type = 'json', data = {}, method = 'get' }) {
+export default function ajax({
+  url, type = 'json', data = {}, method = 'get',
+}) {
   // if (isMock) return mockAjax({ url })
   return new Promise((resolve, reject) => {
     if (data.type === 'jsonp') {
@@ -65,4 +67,3 @@ export default function ajax({ url, type = 'json', data = {}, method = 'get' }) 
     })
   })
 }
-

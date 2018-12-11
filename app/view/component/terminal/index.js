@@ -9,6 +9,7 @@ export default class Index extends React.Component {
     super()
     this.state = {}
   }
+
   componentDidMount() {
     findAll().then(res => {
       console.log('aaaaaaaa', res)
@@ -17,6 +18,7 @@ export default class Index extends React.Component {
       })
     })
   }
+
   render() {
     return (
       <div>

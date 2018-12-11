@@ -11,6 +11,7 @@ class AdminController extends Controller {
       },
     })
   }
+
   async create() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.admins.create(request.name, request.password)
@@ -19,6 +20,7 @@ class AdminController extends Controller {
       data: result,
     }
   }
+
   async remove() {
     this.body = {
       success: true,

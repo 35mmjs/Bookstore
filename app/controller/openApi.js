@@ -1,6 +1,6 @@
 const { Controller } = require('egg')
 
-class EnterpriseController extends Controller {
+class OpenApiController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
@@ -11,10 +11,23 @@ class EnterpriseController extends Controller {
     }
   }
 
-  // get
-  async findAll() {
+  /**
+   */
+  async getPubu() {
     // const request = this.ctx.params
-    const result = await this.ctx.service.enterprise.findAll()
+    const items = await this.ctx.service.openApi.getPubu()
+    const result = items.map(item => {
+      const payloadStr = item.content || '{}'
+      const payloadObj = JSON.parse(payloadStr)
+      return {
+        id: item.id,
+        type: item.type,
+        note: item.note,
+        books: payloadObj.books || {},
+        banner: payloadObj.banner || '',
+      }
+    })
+
     this.ctx.body = {
       success: true,
       data: result,
@@ -41,4 +54,4 @@ class EnterpriseController extends Controller {
   }
 }
 
-module.exports = EnterpriseController
+module.exports = OpenApiController

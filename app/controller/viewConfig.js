@@ -1,10 +1,10 @@
 const { Controller } = require('egg')
 
-class EnterpriseController extends Controller {
+class ViewConfigController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.store.create(request.name)
+    const result = await this.ctx.service.viewConfig.create(request)
     this.ctx.body = {
       success: true,
       data: result,
@@ -14,7 +14,7 @@ class EnterpriseController extends Controller {
   // get
   async findAll() {
     // const request = this.ctx.params
-    const result = await this.ctx.service.store.findAll()
+    const result = await this.ctx.service.viewConfig.findAll()
     this.ctx.body = {
       success: true,
       data: result,
@@ -23,7 +23,7 @@ class EnterpriseController extends Controller {
 
   async remove() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.store.remove(request.id)
+    const result = await this.ctx.service.viewConfig.remove(request.id)
     console.log('aaaaaaaa', request)
     this.ctx.body = {
       success: true,
@@ -33,7 +33,7 @@ class EnterpriseController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.store.create(request.name, request.password)
+    const result = await this.ctx.service.viewConfig.create(request.name, request.password)
     this.ctx.body = {
       success: true,
       data: result,
@@ -41,4 +41,4 @@ class EnterpriseController extends Controller {
   }
 }
 
-module.exports = EnterpriseController
+module.exports = ViewConfigController
