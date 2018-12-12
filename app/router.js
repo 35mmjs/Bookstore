@@ -25,5 +25,5 @@ module.exports = app => {
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
   // open api
-  router.post(openApi.pubu, controller.openApi.getPubu)
+  router.get(openApi.pubu, controller.openApi.getPubu)
 }

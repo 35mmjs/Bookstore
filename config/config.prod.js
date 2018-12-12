@@ -20,6 +20,11 @@ module.exports = () => {
     },
     app: true,
   }
+  
+  // 目前针对open api不做登录校验
+  config.loginCheck = {
+    ignore: '/open',
+  }
 
   // mysql
   config.mysql = {

@@ -14,11 +14,6 @@ module.exports = appInfo => {
     'errorHandler',
     'saveSession',
   ]
-  // 目前针对open api不做登录校验
-  config.loginCheck = {
-    ignore: '/open',
-  }
-
   // qiniu CND keys
   config.cdn = {
     QINIU_ACCESS_KEY: 'rMuPOEhqC8_B3yxqsNfNG1ho75YecTa4MdR3J-nY',

@@ -23,7 +23,9 @@ class OpenApiController extends Controller {
       type: item.type,
       note: item.note,
       books: payloadObj.books || {},
-      banner: payloadObj.banner || '',
+      banner: {
+        src: payloadObj.banner,
+      },
     }
 
     this.ctx.body = {

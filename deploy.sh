@@ -92,7 +92,9 @@ do_deploy()
 	cd $NOW_PATH;
 	PACKAGE="${TAG}"_"${DATE}.tgz";
 	mkdir -p "output"
-	tar czvf "output/"$PACKAGE $tmpPath > /dev/null &
+	cd "temp"
+	tar czvf "../output/"$PACKAGE $TAG"_"$DATE> /dev/null &
+	cd $NOW_PATH
 	loop_process "compressed file"
 
 	#确认发布
