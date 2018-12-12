@@ -98,6 +98,8 @@ do_deploy()
 	last_check
 
   post_depoly
+	# 开启服务器
+	run_server
 	# read -n1 -p $prefix"Please confirm these release documents, deploy now? [Y|N]"$aftfix -s answer
 	# case "$answer" in
 	# 	Y|y)post_depoly; return 0;;
@@ -129,12 +131,29 @@ post_depoly()
 	scp $PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE 
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; tar zxvf $PACKAGE --strip-components 1 >> /dev/null "
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; rm $REMOTE_PATH/$PACKAGE;chown -R $HTTP_SERVER_ACCOUNT:$HTTP_SERVER_ACCOUNT ./"
-
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run egg-start"
+	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH && npm run egg-start"
 	
 	#[修改]log、runtime之类的目录权限
 	#ssh $REMOTE_ACCOUNT@$REMOTE_IP "chmod -R 777 $REMOTE_PATH/"
 	return 0;
+}
+
+run_server()
+{       
+	#[修改]根据不同框架进行修改
+	echo;
+	echo $prefix"run server:"$aftfix;
+	# check node env
+	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; which npm >> temp.txt"
+	# npm run egg-start
+	# mkdir -p $tmpPath/app/Common/Conf/
+	# rm $tmpPath/deploy.sh
+	# cp app/Common/Conf/config.php $tmpPath/app/Common/Conf/config.php
+	# cp ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php $tmpPath/ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php
+	# cp app/Common/Common/function.php.run $tmpPath/app/Common/Common/function.php
+	# mv $tmpPath/index.php.run $tmpPath/index.php
+	# rm $tmpPath/index.php.*
 }
 
 modify_deploy()
