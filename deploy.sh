@@ -74,7 +74,7 @@ do_deploy()
 {
 	#检查文件
 	DATE=$(date '+%Y%m%d%H%M%S')
-	tmpPath=$TAG"_"$DATE
+	tmpPath="temp/"$TAG"_"$DATE
   mkdir -p $tmpPath;
   cd $tmpPath;
   git init;
@@ -91,7 +91,8 @@ do_deploy()
 	#压缩文件
 	cd $NOW_PATH;
 	PACKAGE="${TAG}"_"${DATE}.tgz";
-	tar czvf $PACKAGE $tmpPath > /dev/null &
+	mkdir -p "output"
+	tar czvf "output/"$PACKAGE $tmpPath > /dev/null &
 	loop_process "compressed file"
 
 	#确认发布
@@ -128,7 +129,7 @@ post_depoly()
 	echo;
 	echo $prefix"post to remove service"$aftfix;
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "mkdir -p $REMOTE_PATH"
-	scp $PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE 
+	scp "output/"$PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE 
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; tar zxvf $PACKAGE --strip-components 1 >> /dev/null "
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; rm $REMOTE_PATH/$PACKAGE;chown -R $HTTP_SERVER_ACCOUNT:$HTTP_SERVER_ACCOUNT ./"
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH && npm run egg-start"

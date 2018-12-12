@@ -12,4 +12,5 @@ run/
 *.un~
 dist/
 temp
+output
 *.tgz
