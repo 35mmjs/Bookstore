@@ -21,6 +21,14 @@ class Index extends React.Component {
     })
   }
 
+  handleDelete = (id) => {
+    console.log('aaaaaaaa', id)
+  }
+
+  handleSubmit = () => {
+
+  }
+
   render() {
     const { viewConfig } = this.props
     const { list } = viewConfig
@@ -28,8 +36,8 @@ class Index extends React.Component {
       <div>
         <div>View Config</div>
         <div>
-          <Filter />
-          <TableList data={list} />
+          <Filter onSubmit={this.handleSubmit} />
+          <TableList data={list} onDelete={this.handleDelete} />
         </div>
       </div>
     )

@@ -6,23 +6,26 @@ import {
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const FormItem = Form.Item
-const Option = Select.Option
+const { Option } = Select
 
 const CreateForm = Form.create()(props => {
-  const { form, handleSearch, handleFormReset } = props
+  const { form, onSubmit } = props
   const { getFieldDecorator } = form
-  // const okHandle = () => {
-  //   form.validateFields((err, fieldsValue) => {
-  //     if (err) return
-  //     form.resetFields()
-  //     const { des } = fieldsValue
-  //     handleAdd({
-  //       name: des,
-  //     })
-  //   })
-  // }
+  const handleSubmit = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return
+      form.resetFields()
+      const { des } = fieldsValue
+      onSubmit({
+        name: des,
+      })
+    })
+  }
+  const handleFormReset = () => {
+    form.resetFields()
+  }
   return (
-    <Form onSubmit={handleSearch} layout="inline">
+    <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
           <FormItem label="规则名称">
@@ -54,7 +57,6 @@ const CreateForm = Form.create()(props => {
   )
 })
 
-@Form.create()
 export default class Index extends React.Component {
   constructor() {
     super()
@@ -79,7 +81,7 @@ export default class Index extends React.Component {
         </Row>
         <Row>
           <Col>
-            <CreateForm />
+            <CreateForm onSubmit={this.props.onSubmit} />
           </Col>
         </Row>
       </div>

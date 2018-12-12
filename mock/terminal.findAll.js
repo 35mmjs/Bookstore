@@ -20,6 +20,7 @@ const data = {
 const genSingleItem = () => {
   return {
     id: Random.id(),
+    key: Random.id(),
     type: Random.pick(['轮播', '排行']),
     name: Random.string(),
     store: Random.id(),

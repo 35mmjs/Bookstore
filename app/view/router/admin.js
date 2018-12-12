@@ -1,6 +1,6 @@
 import React from 'react'
 // import { HashRouter as Router, Route } from 'react-router-dom'
-import { HashRouter as Router, Route } from 'dva/router'
+import { HashRouter as Router, Route, Switch } from 'dva/router'
 import dva from 'dva'
 import dynamic from 'dva/dynamic'
 import Layout from '../component/layout'
@@ -12,30 +12,10 @@ import TerminalDetail from '../component/terminalDetail'
 import ViewConfig from '../component/viewConfig'
 import ViewConfigDetail from '../component/viewConfigDetail'
 
-const { viewConfigRoutes } = constant
+const { viewConfigRoutes, terminalRoutes } = constant
 
 const Index = () => <h2>Home</h2>
-const About = () => <h2>About</h2>
-const Users = () => <h2>Users</h2>
-
-// export default class AppRouter extends React.Component {
-//   constructor() {
-//     super()
-//     this.state = {}
-//   }
-//   render() {
-//     return (
-//       <Router>
-//         <div>
-//           <Layout path="/" exact component={Index} />
-//           <Layout path="/home" exact component={Index} />
-//           <Layout path="/about/" component={About} />
-//           <Layout path="/users/" component={Users} />
-//         </div>
-//       </Router>
-//     )
-//   }
-// }
+const Employee = () => <h2>Home</h2>
 
 const menu = [
   {
@@ -93,6 +73,57 @@ const menu = [
 ]
 
 const app = dva()
+
+// https://blog.csdn.net/Meditate_MasterYi/article/details/79730214
+const routeMap = () => {
+  return [
+    {
+      path: '/',
+      component: () => Index,
+    },
+    {
+      path: 'employee',
+      models: () => [require('../component/viewConfig/model')],
+      component: () => Employee,
+    },
+    {
+      path: 'enterprise',
+      models: () => [require('../component/viewConfig/model')],
+      component: () => Enterprise,
+    },
+    {
+      path: 'store',
+      models: () => [require('../component/viewConfig/model')],
+      component: () => Store,
+    },
+    {
+      path: terminalRoutes.findAll,
+      models: () => [require('../component/viewConfig/model')],
+      component: () => Terminal,
+    },
+    {
+      path: viewConfigRoutes.findAll,
+      models: () => [require('../component/viewConfig/model')],
+      component: () => ViewConfig,
+    },
+    {
+      path: viewConfigRoutes.findOne,
+      models: () => [require('../component/viewConfigDetail/model')],
+      component: () => ViewConfigDetail,
+    },
+    {
+      path: viewConfigRoutes.editOne,
+      models: () => [require('../component/viewConfigDetail/model')],
+      component: () => ViewConfigDetail,
+    },
+    {
+      path: viewConfigRoutes.create,
+      models: () => [require('../component/viewConfigDetail/model')],
+      component: () => ViewConfigDetail,
+    },
+  ]
+}
+
 class AppRouter extends React.Component {
   constructor() {
     super()
@@ -103,76 +134,29 @@ class AppRouter extends React.Component {
     return (
       <Layout menu={menu}>
         <Router>
-          <div>
-            <Route path="/" exact component={Index} />
-            <Route path="/home" exact component={Index} />
-            <Route path="/about/" component={About} />
-            <Route path="/users/" component={Users} />
-            <Route path="/enterprise" component={Enterprise} />
-            <Route path="/store" component={Store} />
-            <Route path="/terminal/manage" exact component={Terminal} />
-            <Route
-              path="/terminal/manage/detail/:id"
-              exact
-              component={TerminalDetail}
-            />
-            <Route
-              path="/terminal/manage/detail/:id/:operation(edit)"
-              exact
-              component={dynamic({
-                app,
-                models: () => [require('../component/viewConfigDetail/model')],
-                component: () => <ViewConfigDetail />,
-              })}
-            />
-            <Route
-              path={viewConfigRoutes.findAll}
-              exact
-              component={dynamic({
-                app,
-                models: () => [require('../component/viewConfig/model')],
-                component: () => ViewConfig,
-              })}
-            />
-            <Route
-              path={viewConfigRoutes.findOne}
-              exact
-              component={ViewConfigDetail}
-            />
-            <Route
-              path={viewConfigRoutes.editOne}
-              exact
-              component={ViewConfigDetail}
-            />
-            {/* <Route
-              path={viewConfigRoutes.create}
-              exact
-              component={ViewConfigDetail}
-            /> */}
-            <Route
-              path={viewConfigRoutes.create}
-              exact
-              component={dynamic({
-                app,
-                models: () => [require('../component/viewConfigDetail/model')],
-                component: () => ViewConfigDetail,
-              })}
-            />
-          </div>
+          <Switch>
+            {
+              routeMap().map(({ path, ...dynamics }, key) => {
+                return (
+                  <Route
+                    key={path}
+                    exact
+                    path={path}
+                    component={dynamic({
+                      app,
+                      ...dynamics,
+                    })}
+                  />
+                )
+              })
+            }
+          </Switch>
         </Router>
       </Layout>
     )
   }
 }
 
-// https://blog.csdn.net/Meditate_MasterYi/article/details/79730214
-// const RouteMap = (app) => {
-//   return [
-//     {
-//       path: '/'
-//     }
-//   ]
-// }
 
 app.router(() => <AppRouter />)
 const Demo = app.start()

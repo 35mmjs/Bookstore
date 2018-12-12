@@ -1,6 +1,13 @@
 ## changelog
+1212
+  - [ ] mysql model 统一判空校验
+  - [ ] 统一restful 接口
+  - [ ] 部署脚本优化, 解决npm运行问题
+  - [ ] terminal done, view config done
+  - [ ] 分页 
+  - [ ] 只有 view config 才有单独的crud url, 其他均在单页面完成
 1211
-  - [ ] deploy to dev server, run 1st open api
+  - [x] deploy to dev server, run 1st open api
   - [ ] apply dva to all model 
 1209
   - [ ] all models done
@@ -62,3 +69,5 @@ category
 
 ##
 git push origin <Tag 名字>
+react router zh
+https://react-guide.github.io/react-router-cn/docs/API.html#redirect

@@ -28,7 +28,7 @@ const user = {
 }
 
 const openApi = {
-  pubu: '/open/v1/pubu.json',
+  pubu: '/open/v1/pubu',
 }
 
 module.exports = {
