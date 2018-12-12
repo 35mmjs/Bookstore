@@ -3,11 +3,12 @@
   - [ ] mysql model 统一判空校验
   - [ ] 统一restful 接口
   - [ ] 部署脚本优化, 解决npm运行问题
-  - [ ] terminal done, view config done
+  - [x0.5] terminal done, view config done
   - [ ] 分页 
   - [ ] 只有 view config 才有单独的crud url, 其他均在单页面完成
+  - [ ] mysql 每次部署, 需要重新启动的问题
 1211
-  - [x] deploy to dev server, run 1st open api
+  - [x] deploy to dev server, run 1st open 
   - [ ] apply dva to all model 
 1209
   - [ ] all models done

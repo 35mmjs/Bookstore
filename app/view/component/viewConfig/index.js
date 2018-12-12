@@ -3,7 +3,6 @@ import { connect } from 'dva'
 import './index.less'
 import TableList from './tableList'
 import Filter from './filter'
-import model from './model'
 
 @connect((state) => ({ ...state }))
 class Index extends React.Component {
@@ -22,11 +21,11 @@ class Index extends React.Component {
   }
 
   handleDelete = (id) => {
-    console.log('aaaaaaaa', id)
+    console.log('handleDelete', id)
   }
 
-  handleSubmit = () => {
-
+  handleSubmit = (value) => {
+    console.log('handleSubmit', value)
   }
 
   render() {

@@ -26,7 +26,7 @@ const tableData = [
 ]
 
 const DetailView = ({ data = {} }) => {
-  const { type, name, store, config_id, status, created_at, update_at } = data
+  const { type, note, content, created_at, update_at } = data
   return (
     <div>
       <DescriptionList
@@ -34,26 +34,14 @@ const DetailView = ({ data = {} }) => {
         title="退款申请"
         style={{ marginBottom: 32 }}
         layout="vertical"
-        col={3}
+        col={1}
       >
-        <Description term="终端名">{name}</Description>
+        <Description term="终端名">{note}</Description>
         <Description term="类型">{type}</Description>
-        <Description term="状态">{status}</Description>
-        <Description term="配置">{config_id}</Description>
+        <Description term="配置">{JSON.stringify(content)}</Description>
         <Description term="更新时间">{created_at}</Description>
       </DescriptionList>
       <Divider style={{ marginBottom: 32 }} />
-      {/* <DescriptionList
-        size="large"
-        title="用户信息"
-        style={{ marginBottom: 32 }}
-      >
-        <Description term="用户姓名">付小小</Description>
-        <Description term="联系电话">18100000000</Description>
-        <Description term="常用快递">菜鸟仓储</Description>
-        <Description term="取货地址">浙江省杭州市西湖区万塘路18号</Description>
-        <Description term="备注">无</Description>
-      </DescriptionList> */}
     </div>
   )
 }
@@ -96,7 +84,7 @@ const CreateForm = Form.create()(props => {
         <Col md={24} sm={24}>
           <FormItem label="类型">
             {getFieldDecorator('type')(
-              <Select placeholder="请选择" style={{ width: '100%' }}>
+              <Select placeholder="请选择" style={{ width: '100px' }}>
                 <Option value="0">瀑布</Option>
                 <Option value="1">展台</Option>
               </Select>,
@@ -149,8 +137,18 @@ export default class Index extends React.Component {
     super(props)
     const { match } = props
     this.state = {
-      // id: match.params.id,
+      id: match.params.id,
       operation: match.params.operation,
+    }
+  }
+
+  componentDidMount = () => {
+    if (this.state.operation === 'view') {
+      const { dispatch } = this.props
+      dispatch({
+        type: 'viewConfigDetail/findOne',
+        payload: this.state.id,
+      })
     }
   }
 
@@ -168,11 +166,13 @@ export default class Index extends React.Component {
     const formProps = {
       handleSubmit: this.handleSubmit,
     }
+    const { viewConfigDetail } = this.props
+    const { singleItem } = viewConfigDetail
     return (
       <div>
         {operation === 'edit' ? <EditView {...formProps} /> : null}
         {operation === 'new' ? <CreateView {...formProps} /> : null}
-        {operation === 'view' ? <DetailView /> : null}
+        {operation === 'view' ? <DetailView data={singleItem} /> : null}
       </div>
     )
   }

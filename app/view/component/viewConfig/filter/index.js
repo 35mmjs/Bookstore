@@ -15,9 +15,8 @@ const CreateForm = Form.create()(props => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      const { des } = fieldsValue
       onSubmit({
-        name: des,
+        ...fieldsValue,
       })
     })
   }
@@ -28,14 +27,15 @@ const CreateForm = Form.create()(props => {
     <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="规则名称">
-            {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+          <FormItem label="备注">
+            {getFieldDecorator('note')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="使用状态">
+          <FormItem label="视图类型">
             {getFieldDecorator('status')(
-              <Select placeholder="请选择" style={{ width: '100%' }}>
+              <Select placeholder="请选择" style={{ width: '100px' }}>
+                <Option value="-1">全部</Option>
                 <Option value="0">关闭</Option>
                 <Option value="1">运行中</Option>
               </Select>,
@@ -43,14 +43,14 @@ const CreateForm = Form.create()(props => {
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <span className="">
+          <FormItem className="">
             <Button type="primary" htmlType="submit">
               查询
             </Button>
             <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
               重置
             </Button>
-          </span>
+          </FormItem>
         </Col>
       </Row>
     </Form>

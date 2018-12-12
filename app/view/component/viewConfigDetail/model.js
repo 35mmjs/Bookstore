@@ -5,6 +5,7 @@ export default {
   state: {
     list: [],
     total: null,
+    singleItem: {},
   },
   reducers: {
     save(
@@ -14,7 +15,10 @@ export default {
       },
     ) {
       return {
-        ...state, list, total, page,
+        ...state,
+        list,
+        total,
+        page,
       }
     },
     createReducer(state, { payload }) {
@@ -23,14 +27,16 @@ export default {
         list: payload.items,
       }
     },
+    findOneReducer(state, { payload }) {
+      return {
+        ...state,
+        list: payload.items,
+        singleItem: payload,
+      }
+    },
   },
   effects: {
-    *create(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *create({ payload }, { call, put }) {
       console.log('aaaaaaaa', payload)
       const data = yield call(service.create, payload)
       yield put({
@@ -38,10 +44,18 @@ export default {
         payload: data,
       })
     },
+    *findOne({ payload }, { call, put }) {
+      const data = yield call(service.findOne, payload)
+      console.log('aaaaaaaa', data)
+      yield put({
+        type: 'findOneReducer',
+        payload: data,
+      })
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen((a) => {
+      return history.listen(a => {
         console.log('bbbbbbb', a)
         // if (pathname === '/users') {
         //   dispatch({ type: 'fetch', payload: query })
