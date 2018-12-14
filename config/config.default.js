@@ -63,6 +63,8 @@ module.exports = appInfo => {
 
   config.bookAPI = {
     url: 'http://xhapi.zxhsd.com/services/xinhuawebservice?wsdl',
+    khid: 'zhihuishucheng',
+    keyid: '355DBBC50859340E72B9C8E5AB2DBB74',
   }
   return config
 }
