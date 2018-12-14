@@ -1,9 +1,9 @@
 import { useState } from 'react'
-// import Parameter from 'parameter'
+import Parameter from 'parameter/index.es5'
 import { mapValues, each, pick } from '../common/utils'
 import validates from '../../validates'
 
-// const parameter = new Parameter()
+const parameter = new Parameter()
 const defaultTransform = (value, validator) => validator.type === 'string' && value ? value.trim() : value
 
 // TODO 后边做i18n转换
@@ -34,8 +34,7 @@ export default function useFormState(ruleKey, handleSubmit, extendRules = {}) {
   let hasError = false
   // 表单校验, TODO 支持异步校验
   function check(validator, key, value) {
-    // const errors = parameter.validate({ data: validator }, { data: value })
-    const errors = ''
+    const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
       hasError = true
       return errorTranslate(errors[0].message, { ...validator, required: validator.required || false })
