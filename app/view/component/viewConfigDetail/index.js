@@ -26,7 +26,9 @@ const tableData = [
 ]
 
 const DetailView = ({ data = {} }) => {
-  const { type, note, content, created_at, update_at } = data
+  const {
+    type, note, content, created_at, update_at,
+  } = data
   return (
     <div>
       <DescriptionList
@@ -56,7 +58,9 @@ const CreateForm = Form.create()(props => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      const { banner = {}, books, type, note } = fieldsValue
+      const {
+        banner = {}, books, type, note,
+      } = fieldsValue
       const content = {
         banner: banner.url,
         books,

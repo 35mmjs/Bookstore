@@ -18,7 +18,7 @@ const FormItem = Form.Item
 
 const CreateForm = Form.create()(props => {
   const {
-    modalVisible, form, handleAdd, handleModalVisible,
+    modalVisible = true, form, handleAdd = () => {}, handleModalVisible = () => {},
   } = props
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -53,7 +53,7 @@ const CreateForm = Form.create()(props => {
 //   rule,
 //   loading: loading.models.rule,
 // }))
-@Form.create()
+// @Form.create()
 class TableList extends PureComponent {
   state = {
     modalVisible: false,
@@ -166,7 +166,8 @@ class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm />
+        {/* <CreateForm {...parentMethods} modalVisible={modalVisible} /> */}
         <CreateForm {...parentMethodsWithUpdate} modalVisible={modalVisible} />
       </div>
     )

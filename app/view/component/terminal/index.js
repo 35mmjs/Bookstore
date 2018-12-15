@@ -1,9 +1,10 @@
 import React from 'react'
+import { connect } from 'dva'
 import './index.less'
-import TableList from './tableList'
 import Filter from './filter'
-import { findAll } from './service'
+import Table from './table'
 
+@connect((state) => ({ ...state }))
 export default class Index extends React.Component {
   constructor() {
     super()
@@ -11,21 +12,30 @@ export default class Index extends React.Component {
   }
 
   componentDidMount() {
-    findAll().then(res => {
-      console.log('aaaaaaaa', res)
-      this.setState({
-        list: res.items,
-      })
+    const { dispatch } = this.props
+    dispatch({
+      type: 'terminal/findAll',
+      payload: {},
     })
   }
 
+  onSubmit = () => {
+  }
+
+  onDelete = () => {
+
+  }
+
   render() {
+    console.log('aaaaaaaa', this.props)
+    const { terminal } = this.props
+    const { list } = terminal
     return (
       <div>
         <div>Teminal</div>
         <div>
-          <Filter />
-          <TableList data={this.state.list} />
+          <Filter onSubmit={this.onSubmit} />
+          <Table list={list} />
         </div>
       </div>
     )

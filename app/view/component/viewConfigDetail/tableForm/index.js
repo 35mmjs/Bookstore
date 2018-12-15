@@ -138,10 +138,70 @@ class TableForm extends PureComponent {
   render() {
     const columns = [
       {
-        title: '数目ID',
+        title: '书目ID',
         dataIndex: 'id',
         key: 'id',
-        width: '20%',
+        // width: '20%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                autoFocus
+                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="数目ID"
+              />
+            )
+          }
+          return text
+        },
+      },
+      {
+        title: '图片',
+        dataIndex: 'cover',
+        key: 'cover',
+        // width: '20%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                autoFocus
+                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="数目ID"
+              />
+            )
+          }
+          return text
+        },
+      },
+      {
+        title: '书目名称',
+        dataIndex: 'name',
+        key: 'name',
+        // width: '20%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                autoFocus
+                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="数目ID"
+              />
+            )
+          }
+          return text
+        },
+      },
+      {
+        title: '作者',
+        dataIndex: 'author',
+        key: 'author',
+        // width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -161,7 +221,7 @@ class TableForm extends PureComponent {
         title: '备注',
         dataIndex: 'note',
         key: 'note',
-        width: '20%',
+        // width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (

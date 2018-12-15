@@ -88,8 +88,8 @@ class SiderDemo extends React.Component {
           {/* <Header style={{ background: '#fff', padding: 0 }}>
           登录状态
           </Header> */}
+          <div style={{ width: '100%', textAlign: 'right', padding: '0 16px', background: '#fff'}}>
           <GlobalHeader
-            style={{ background: '#fff', padding: 0 }}
             logo={'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4w…gIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=='}
             currentUser={{
               "name": window.appData.loginUser.username,
@@ -102,6 +102,7 @@ class SiderDemo extends React.Component {
             // onCollapse={this.handleMenuCollapse}
             onMenuClick={this.handleMenuClick}
           />
+          </div>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>根据path定义</Breadcrumb.Item>

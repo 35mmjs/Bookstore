@@ -87,7 +87,7 @@ const routeMap = () => {
       component: () => Employee,
     },
     {
-      path: 'enterprise',
+      path: '/enterprise',
       models: () => [require('../component/viewConfig/model')],
       component: () => Enterprise,
     },
@@ -98,7 +98,7 @@ const routeMap = () => {
     },
     {
       path: terminalRoutes.findAll,
-      models: () => [require('../component/viewConfig/model')],
+      models: () => [require('../component/terminal/model')],
       component: () => Terminal,
     },
     {

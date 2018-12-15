@@ -20,7 +20,7 @@ module.exports = () => {
     },
     app: true,
   }
-  
+
   // 目前针对open api不做登录校验
   config.loginCheck = {
     ignore: '/open',
@@ -44,6 +44,6 @@ module.exports = () => {
     app: true,
     agent: false,
   }
-  
+
   return config
 }
