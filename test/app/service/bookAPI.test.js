@@ -14,8 +14,8 @@ describe('test/app/service/bookAPI.test.js', () => {
     const data = await ctx.service.bookAPI.getRinkingInfo('00000084')
     expect(Array.isArray(data)).toEqual(true)
   })
-  it('searchBookByISBN', async () => {
-    const data = await ctx.service.bookAPI.searchBookByISBN('9787509392652')
+  it('getBookByISBN', async () => {
+    const data = await ctx.service.bookAPI.getBookByISBN('9787509392652')
     expect(data.sm).toMatch(/宪法/)
   })
 })

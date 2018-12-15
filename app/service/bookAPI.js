@@ -83,7 +83,7 @@ class BookAPIService extends Service {
    *  - zyz 作者
    *  - fmtp 封面图片
    */
-  searchBookByISBN(ISBN) {
+  getBookByISBN(ISBN) {
     return this.fetch('itemInfoSearch', { params: { type: 'ISBN', value: ISBN } }).then(d => JSON.parse(d)[0])
   }
 }
