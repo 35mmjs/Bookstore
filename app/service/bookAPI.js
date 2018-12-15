@@ -15,10 +15,16 @@ class BookAPIService extends Service {
   fetch(methodName, data) {
     const { bookConfig } = this
     const d = new Date()
+    const md5key = `${bookConfig.khid}${bookConfig.keyid}${d.getFullYear()}${d.getMonth() + 1}`
+    // md5 cache
+    if (!this.md5key || this.md5key !== md5key) {
+      this.md5key = md5key
+      this.md5value = md5(this.md5key)
+    }
     const params = {
       appMethod: methodName,
       khid: bookConfig.khid,
-      md5_value: md5(`${bookConfig.khid}${bookConfig.keyid}${d.getFullYear()}${d.getMonth() + 1}`),
+      md5_value: this.md5value,
       par_type: 'json',
       par_value: JSON.stringify(data),
     }
