@@ -27,8 +27,14 @@ const user = {
   login: '/user/login.json',
 }
 
+const book = {
+  findOneByISBN: '/book.json', // isbn=xxxx
+  findRankingListBySingleStore: '/ranking.json', // store=xxx
+}
+
 const openApi = {
   pubu: '/open/v1/pubu',
+  findBookByISBN: '/open/v1/book/:isbn',
 }
 
 module.exports = {
@@ -36,5 +42,6 @@ module.exports = {
   terminal,
   viewConfig,
   user,
+  book,
   openApi,
 }

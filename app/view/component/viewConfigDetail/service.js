@@ -1,5 +1,5 @@
 import ajax from '../../common/ajax'
-import { viewConfig } from '../../../api'
+import { viewConfig, book } from '../../../api'
 
 export function create(data) {
   return ajax({
@@ -36,5 +36,13 @@ export function findOne() {
   return ajax({
     url: viewConfig.findOne,
     method: 'get',
+  })
+}
+
+export function findBookByISBN(data) {
+  return ajax({
+    url: book.findOneByISBN,
+    method: 'get',
+    data,
   })
 }

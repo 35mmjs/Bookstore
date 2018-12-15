@@ -34,6 +34,33 @@ class OpenApiController extends Controller {
     }
   }
 
+  async findBookByISBN() {
+    const { params } = this.ctx
+    const { isbn } = params
+    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    const processedResult = {
+      cover: res.fmdt,
+      isbn: res.isbn,
+      name: res.sm,
+      author: res.author,
+      catalog: res.yxxlmc,
+      price: res.edj,
+      pricing: '',
+      recommender: '',
+      intro: res.tjy,
+      pageType: res.kb,
+      pageNum: res.ys,
+      publish: res.bb,
+      version: '',
+      bookshelf: '',
+      qrcode: '',
+    }
+    this.ctx.body = {
+      success: true,
+      data: processedResult,
+    }
+  }
+
   async remove() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.enterprise.remove(request.id)

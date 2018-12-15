@@ -1,10 +1,116 @@
 import React, { PureComponent, Fragment } from 'react'
 import {
-  Table, Button, Input, message, Popconfirm, Divider,
+  Table,
+  Button,
+  Input,
+  message,
+  Popconfirm,
+  Divider,
+  Modal,
+  Form,
+  Row,
+  Col,
 } from 'antd'
 import isEqual from 'lodash/isEqual'
+import DescriptionList from '../../common/DescriptionList'
 import styles from './style.less'
+import { findBookByISBN } from '../service'
 
+const { Description } = DescriptionList
+
+const FormItem = Form.Item
+
+@Form.create()
+class SearchingForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: {},
+      loading: false,
+    }
+  }
+
+  onSearching = () => {
+    const { form, handleModalVisible, onSubmit } = this.props
+    form.validateFields((err, fieldsValue) => {
+      if (err) return
+      form.resetFields()
+      const { isbn } = fieldsValue
+      this.setState({
+        loading: true,
+      })
+      findBookByISBN({ isbn }).then(res => {
+        this.setState({
+          loading: false,
+          data: res,
+        })
+      })
+    })
+  }
+
+  handleSubmit = () => {
+    const { onSubmit, handleModalVisible } = this.props
+    onSubmit(this.state.data)
+    handleModalVisible(false)
+    this.setState({
+      data: {},
+    })
+  }
+
+  render() {
+    const { modalVisible, form, handleModalVisible } = this.props
+    return (
+      <Modal
+        destroyOnClose
+        title="搜索书籍"
+        visible={modalVisible}
+        onOk={this.handleSubmit}
+        onCancel={() => handleModalVisible(false)}
+      >
+        <Row>
+          <Col md={20}>
+            <FormItem
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 16 }}
+              label="描述"
+            >
+              {form.getFieldDecorator('isbn', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入正确的ISBN号',
+                    min: 1,
+                  },
+                ],
+              })(<Input placeholder="请输入ISBN" />)}
+            </FormItem>
+          </Col>
+          <Col md={4}>
+            <FormItem label="">
+              <Button
+                loading={this.state.loading}
+                type="primary"
+                htmlType="submit"
+                onClick={this.onSearching}
+              >
+                查询
+              </Button>
+            </FormItem>
+          </Col>
+        </Row>
+        <div>
+          <DescriptionList col={1} title="返回结果">
+            {this.state.data &&
+              Object.keys(this.state.data).map(key => {
+                const obj = this.state.data
+                return <Description key={key} term={key}>{obj[key]}</Description>
+              })}
+          </DescriptionList>
+        </div>
+      </Modal>
+    )
+  }
+}
 class TableForm extends PureComponent {
   index = 0
 
@@ -18,6 +124,7 @@ class TableForm extends PureComponent {
       loading: false,
       /* eslint-disable-next-line react/no-unused-state */
       value: props.value,
+      modalVisible: false,
     }
   }
 
@@ -51,7 +158,7 @@ class TableForm extends PureComponent {
     }
   }
 
-  newMember = () => {
+  newMemberDefault = () => {
     const { data } = this.state
     const newData = data.map(item => ({ ...item }))
     newData.push({
@@ -59,6 +166,29 @@ class TableForm extends PureComponent {
       workId: '',
       name: '',
       department: '',
+      editable: true,
+      isNew: true,
+    })
+    this.index += 1
+    this.setState({ data: newData })
+  }
+
+  newMember = () => {
+    this.setState({
+      modalVisible: true,
+    })
+  }
+
+  handleDataFromSearchForm = (bookInfo) => {
+    const { data } = this.state
+    const newData = data.map(item => ({ ...item }))
+    newData.push({
+      key: `NEW_TEMP_ID_${this.index}`,
+      isbn: bookInfo.isbn,
+      name: bookInfo.name,
+      cover: bookInfo.cover,
+      author: bookInfo.author,
+      note: JSON.stringify(bookInfo),
       editable: true,
       isNew: true,
     })
@@ -101,14 +231,14 @@ class TableForm extends PureComponent {
         return
       }
       const target = this.getRowByKey(key) || {}
-      if (!target.id || !target.note) {
-        message.error('请填写完整信息。')
-        e.target.focus()
-        this.setState({
-          loading: false,
-        })
-        return
-      }
+      // if (!target.id || !target.note) {
+      //   message.error('请填写完整信息。')
+      //   e.target.focus()
+      //   this.setState({
+      //     loading: false,
+      //   })
+      //   return
+      // }
       delete target.isNew
       this.toggleEditable(e, key)
       const { data } = this.state
@@ -135,12 +265,18 @@ class TableForm extends PureComponent {
     this.clickedCancel = false
   }
 
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: flag,
+    })
+  }
+
   render() {
     const columns = [
       {
-        title: '书目ID',
-        dataIndex: 'id',
-        key: 'id',
+        title: '书目ISBN',
+        dataIndex: 'isbn',
+        key: 'isbn',
         // width: '20%',
         render: (text, record) => {
           if (record.editable) {
@@ -148,7 +284,7 @@ class TableForm extends PureComponent {
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onChange={e => this.handleFieldChange(e, 'isbn', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="数目ID"
               />
@@ -174,7 +310,9 @@ class TableForm extends PureComponent {
               />
             )
           }
-          return text
+          return (
+            <img style={{ width: '100%' }} src={text} alt="presentation" />
+          )
         },
       },
       {
@@ -283,7 +421,7 @@ class TableForm extends PureComponent {
       },
     ]
 
-    const { loading, data } = this.state
+    const { loading, data, modalVisible } = this.state
 
     return (
       <Fragment>
@@ -300,8 +438,13 @@ class TableForm extends PureComponent {
           onClick={this.newMember}
           icon="plus"
         >
-          新增数目
+          新增书目
         </Button>
+        <SearchingForm
+          modalVisible={modalVisible}
+          handleModalVisible={this.handleModalVisible}
+          onSubmit={this.handleDataFromSearchForm}
+        />
       </Fragment>
     )
   }
