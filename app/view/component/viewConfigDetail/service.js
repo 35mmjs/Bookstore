@@ -32,10 +32,11 @@ export function update(data) {
   })
 }
 
-export function findOne() {
+export function findOne(data) {
   return ajax({
     url: viewConfig.findOne,
     method: 'get',
+    data,
   })
 }
 

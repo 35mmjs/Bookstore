@@ -31,6 +31,8 @@ module.exports = app => {
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
+  router.get(viewConfig.remove, controller.viewConfig.remove)
+  router.get(viewConfig.findOne, controller.viewConfig.findOne)
   // book query
   router.get(book.findOneByISBN, controller.book.getBookByISBN)
   // open api

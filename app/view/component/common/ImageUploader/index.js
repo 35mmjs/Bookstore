@@ -1,6 +1,7 @@
 import { Upload, Icon, message } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './index.less'
 import { getUploadToken } from '../../../common/native'
 
 const QINIU_SERVER = 'http://up.qiniu.com'
@@ -62,7 +63,9 @@ export default class Index extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     )
+
     const imageUrl = this.state.imageUrl
+    console.log('aaaaaaaa', styles)
     return (
       <Upload
         name="file"
@@ -73,8 +76,8 @@ export default class Index extends React.Component {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
         data={{ token: TOKEN }}
-      >
-        {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
+    >
+        {imageUrl ? <img src={imageUrl} alt="avatar" className={styles.previewImg} /> : uploadButton}
       </Upload>
     )
   }

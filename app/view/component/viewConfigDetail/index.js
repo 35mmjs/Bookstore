@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import DescriptionList from '../common/DescriptionList'
 import TableForm from './tableForm'
 import ImageUploader from '../common/ImageUploader'
-import { VIEW_CONFIG_TYPES } from '../../common/constant'
+import { VIEW_CONFIG_TYPE_MAP, VIEW_CONFIG_ID } from '../../common/constant'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
@@ -45,15 +45,15 @@ class CreateForm extends React.Component {
   constructor(props) {
     super(props)
     const { data = {} } = props
-    const defaultType = data.type || 'pubu'
+    const defaultType = data.type || VIEW_CONFIG_ID.PUBU_ID
     this.state = {
       type: defaultType,
     }
   }
 
   handleSelectChange = val => {
-    if (val === 'pubu') this.setState({ type: val })
-    if (val === 'zhantai') this.setState({ type: val })
+    if (val === VIEW_CONFIG_ID.PUBU_ID) this.setState({ type: val })
+    if (val === VIEW_CONFIG_ID.ZHANTAI_ID) this.setState({ type: val })
   }
 
   render() {
@@ -126,8 +126,8 @@ class CreateForm extends React.Component {
     )
 
     const detaiform = () => {
-      if (this.state.type === 'pubu') return pubuForm()
-      if (this.state.type === 'zhantai') return zhantaiForm()
+      if (this.state.type === VIEW_CONFIG_ID.PUBU_ID) return pubuForm()
+      if (this.state.type === VIEW_CONFIG_ID.ZHANTAI_ID) return zhantaiForm()
       return null
     }
 
@@ -150,8 +150,8 @@ class CreateForm extends React.Component {
               style={{ width: '100px' }}
               onChange={this.handleSelectChange}
             >
-              {VIEW_CONFIG_TYPES &&
-                VIEW_CONFIG_TYPES.map(item => {
+              {VIEW_CONFIG_TYPE_MAP &&
+                VIEW_CONFIG_TYPE_MAP.map(item => {
                   return (
                     <Option key={item.value} value={item.value}>
                       {item.label}
@@ -210,7 +210,7 @@ export default class Index extends React.Component {
       const { dispatch } = this.props
       dispatch({
         type: 'viewConfigDetail/findOne',
-        payload: this.state.id,
+        payload: { id: this.state.id },
       })
     }
   }

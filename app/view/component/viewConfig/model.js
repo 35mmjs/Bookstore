@@ -37,6 +37,20 @@ export default {
         payload: data.items,
       })
     },
+    *remove(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      yield call(service.remove, payload)
+      const data = yield call(service.findAll, payload)
+      yield put({
+        type: 'findAllReducer',
+        payload: data.items,
+      })
+    },
+
   },
   subscriptions: {
     setup({ dispatch, history }) {

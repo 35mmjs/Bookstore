@@ -9,9 +9,9 @@ class ViewConfig extends Service {
     return { items }
   }
 
-  async find(uid) {
+  async findOne(uid) {
     const item = await this.app.mysql.get(DB, { id: uid, deleted: 0 })
-    return { item }
+    return item
   }
 
   async create(params) {

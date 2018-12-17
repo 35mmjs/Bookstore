@@ -4,12 +4,11 @@ import './index.less'
 import TableList from './tableList'
 import Filter from './filter'
 
-@connect((state) => ({ ...state }))
+@connect(state => ({ ...state }))
 class Index extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -20,11 +19,17 @@ class Index extends React.Component {
     })
   }
 
-  handleDelete = (id) => {
-    console.log('handleDelete', id)
+  handleDelete = val => {
+    console.log('handleDelete', val)
+    const { id } = val
+    const { dispatch } = this.props
+    dispatch({
+      type: 'viewConfig/remove',
+      payload: { id },
+    })
   }
 
-  handleSubmit = (value) => {
+  handleSubmit = value => {
     console.log('handleSubmit', value)
   }
 

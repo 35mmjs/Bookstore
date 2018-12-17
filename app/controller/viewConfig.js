@@ -21,10 +21,22 @@ class ViewConfigController extends Controller {
     }
   }
 
+  // get
+  async findOne() {
+    // const request = this.ctx.params
+    const request = this.ctx.query
+    const { id } = request
+    const result = await this.ctx.service.viewConfig.findOne(id)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
   async remove() {
-    const request = this.ctx.request.body
-    const result = await this.ctx.service.viewConfig.remove(request.id)
+    const request = this.ctx.request.query
     console.log('aaaaaaaa', request)
+    const result = await this.ctx.service.viewConfig.remove(request.id)
     this.ctx.body = {
       success: true,
       data: result,

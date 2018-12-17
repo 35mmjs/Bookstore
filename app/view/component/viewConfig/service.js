@@ -16,11 +16,18 @@ export function findAll() {
   })
 }
 
+export function findOne() {
+  return ajax({
+    url: viewConfig.findOne,
+    method: 'get',
+  })
+}
+
 export function remove(data) {
   return ajax({
     url: viewConfig.remove,
     data,
-    method: 'post',
+    method: 'get',
   })
 }
 

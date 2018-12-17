@@ -11,19 +11,25 @@ const terminalRoutes = {
   findOne: 'terminal/manage/detail/:id/:operation(view)',
 }
 
-const VIEW_CONFIG_TYPES = [
+const VIEW_CONFIG_TYPE_MAP = [
   {
     label: '瀑布',
-    value: 'pubu',
+    value: 0,
   },
   {
     label: '展台',
-    value: 'zhantai',
+    value: 1,
   },
 ]
+
+const VIEW_CONFIG_ID = {
+  PUBU_ID: 0,
+  ZHANTAI_ID: 1,
+}
 
 export default {
   viewConfigRoutes,
   terminalRoutes,
-  VIEW_CONFIG_TYPES,
+  VIEW_CONFIG_TYPE_MAP,
+  VIEW_CONFIG_ID,
 }
