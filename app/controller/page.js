@@ -8,6 +8,22 @@ class PageController extends Controller {
       appData: {},
     })
   }
+
+  async zhantaiPage() {
+    const { ctx } = this
+    await ctx.render('layout/pwa.html', {
+      entry: 'pubu',
+      appData: {},
+    })
+  }
+
+  async daoshiPage() {
+    const { ctx } = this
+    await ctx.render('layout/pwa.html', {
+      entry: 'pubu',
+      appData: {},
+    })
+  }
 }
 
 module.exports = PageController

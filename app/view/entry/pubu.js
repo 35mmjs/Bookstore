@@ -1,12 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Pubu from '../page/pubu/App'
 
 function App() {
-  return (
-    <div className="app">
-      <span>Pubu</span>
-    </div>
-  )
+  return <Pubu />
 }
 
 ReactDOM.render(<App />, document.getElementById('__content'))
