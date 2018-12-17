@@ -33,7 +33,6 @@ class Index extends React.Component {
     const { list } = viewConfig
     return (
       <div>
-        <div>View Config</div>
         <div>
           <Filter onSubmit={this.handleSubmit} />
           <TableList data={list} onDelete={this.handleDelete} />

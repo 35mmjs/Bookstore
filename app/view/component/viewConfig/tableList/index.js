@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Table, Divider } from 'antd'
+import { Table, Divider, Button } from 'antd'
 import { Link } from 'dva/router'
 
 export default class Index extends React.Component {
@@ -57,17 +57,19 @@ export default class Index extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Fragment>
-            <Link to={`/view-config/manage/detail/${record.id}/edit`}>
+            {/* <Link to={`/view-config/manage/detail/${record.id}/edit`}>
               编辑
-            </Link>
+            </Link> */}
             <Divider type="vertical" />
-            <a
-              onClick={() => {
+            <Link
+              to=""
+              onClick={(e) => {
+                e.preventDefault()
                 this.props.onDelete(record)
               }}
             >
               删除
-            </a>
+            </Link>
           </Fragment>
         ),
       },

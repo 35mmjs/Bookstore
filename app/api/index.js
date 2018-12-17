@@ -34,6 +34,7 @@ const book = {
 
 const openApi = {
   pubu: '/open/v1/pubu',
+  zhantai: '/open/v1/zhantai',
   findBookByISBN: '/open/v1/book/:isbn',
 }
 

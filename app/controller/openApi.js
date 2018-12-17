@@ -61,10 +61,30 @@ class OpenApiController extends Controller {
     }
   }
 
+  async getZhantai() {
+    // const { query } = this.ctx 
+    // const {} = query
+    // const res = a
+    // const request = this.ctx.params
+    const item = await this.ctx.service.openApi.getPubu(3)
+    const payloadStr = item.content || '{}'
+    const payloadObj = JSON.parse(payloadStr)
+    const result = {
+      id: item.id,
+      type: item.type,
+      note: item.note,
+      books: payloadObj.books || {},
+    }
+
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
   async remove() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.enterprise.remove(request.id)
-    console.log('aaaaaaaa', request)
     this.ctx.body = {
       success: true,
       data: result,

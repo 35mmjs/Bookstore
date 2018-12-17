@@ -36,4 +36,5 @@ module.exports = app => {
   // open api
   router.get(openApi.pubu, controller.openApi.getPubu)
   router.get(openApi.findBookByISBN, controller.openApi.findBookByISBN)
+  router.get(openApi.zhantai, controller.openApi.getZhantai)
 }

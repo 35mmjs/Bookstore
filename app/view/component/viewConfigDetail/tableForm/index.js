@@ -231,6 +231,7 @@ class TableForm extends PureComponent {
         return
       }
       const target = this.getRowByKey(key) || {}
+      // TOOD 校验关闭
       // if (!target.id || !target.note) {
       //   message.error('请填写完整信息。')
       //   e.target.focus()
@@ -311,7 +312,7 @@ class TableForm extends PureComponent {
             )
           }
           return (
-            <img style={{ width: '100%' }} src={text} alt="presentation" />
+            <img style={{ width: '100%' }} src={text} alt="暂无图片" />
           )
         },
       },
@@ -349,6 +350,26 @@ class TableForm extends PureComponent {
                 onChange={e => this.handleFieldChange(e, 'id', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="数目ID"
+              />
+            )
+          }
+          return text
+        },
+      },
+      {
+        title: '书架位置',
+        dataIndex: 'bookShelf',
+        key: 'bookShelf',
+        // width: '20%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                autoFocus
+                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="书架位置"
               />
             )
           }

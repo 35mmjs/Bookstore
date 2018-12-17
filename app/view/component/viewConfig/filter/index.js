@@ -68,14 +68,6 @@ export default class Index extends React.Component {
       <div>
         <Row>
           <Col>
-            <RadioGroup defaultValue="all">
-              <RadioButton value="all">列表视图</RadioButton>
-              <RadioButton value="progress">卡片式图</RadioButton>
-            </RadioGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <Button type="primary" href="#/view-config/manage/detail/new">新建</Button>
           </Col>
         </Row>

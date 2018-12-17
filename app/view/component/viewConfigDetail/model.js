@@ -22,9 +22,9 @@ export default {
       }
     },
     createReducer(state, { payload }) {
+      console.log('xxxxxxxxx', state, payload)
       return {
         ...state,
-        list: payload.items,
       }
     },
     findOneReducer(state, { payload }) {
@@ -37,7 +37,6 @@ export default {
   },
   effects: {
     *create({ payload }, { call, put }) {
-      console.log('aaaaaaaa', payload)
       const data = yield call(service.create, payload)
       yield put({
         type: 'createReducer',
