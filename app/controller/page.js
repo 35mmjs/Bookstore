@@ -12,7 +12,7 @@ class PageController extends Controller {
   async zhantaiPage() {
     const { ctx } = this
     await ctx.render('layout/pwa.html', {
-      entry: 'pubu',
+      entry: 'zhantai',
       appData: {},
     })
   }
@@ -20,7 +20,7 @@ class PageController extends Controller {
   async daoshiPage() {
     const { ctx } = this
     await ctx.render('layout/pwa.html', {
-      entry: 'pubu',
+      entry: 'daoshi',
       appData: {},
     })
   }
