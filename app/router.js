@@ -9,6 +9,8 @@ const {
  */
 module.exports = app => {
   const { router, controller } = app
+  // client papes
+  router.get('/pubu/index.html', controller.page.pubuPage)
   // html pages
   router.get('/admin.html', controller.admin.index)
   router.get('/user/login.html', controller.user.loginPage)

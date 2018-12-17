@@ -30,7 +30,7 @@ module.exports = appInfo => {
     client: {
       port: 6379, // Redis port
       host: '127.0.0.1', // Redis host
-      password: process.env.REDIS_PASSWORD,
+      password: process.env.REDIS_PASSWORD || '',
       db: '0',
     },
     app: true,
@@ -47,7 +47,7 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      password: process.env.MYSQL_PASSWORD,
+      password: process.env.MYSQL_PASSWORD || '',
       // 数据库名
       database: 'BOOKSTORE',
     },

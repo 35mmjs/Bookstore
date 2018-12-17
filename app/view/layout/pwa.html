@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>BookStore</title>
+		<meta charset="utf-8"/>
+		<meta name="theme-color" content="#1e88e5"/>
+		<meta name="mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, initial-scale=1.0"/>
+    <!-- <link rel="manifest" href="/assets/manifest.json"/> -->
+    <link rel="stylesheet" href="{{ helper.loadStaticUrl('common.css') }}">
+    <link rel="stylesheet" href="{{ helper.loadStaticUrl(entry + '.css') }}">
+    <script>
+      {{ helper.getAppDataScript(appData) | safe }}
+    </script>
+	</head>
+	<body>
+		<div id="__content"></div>
+		<script>
+			function handleBookEvent(){
+				alert('回调成功');
+			}
+    </script>
+    <script src="{{ helper.loadStaticUrl('common.js') }}"></script>
+    <script src="{{ helper.loadStaticUrl(entry + '.js') }}"></script>
+</html>
