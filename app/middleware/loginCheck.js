@@ -2,6 +2,7 @@ const { genQiniuToken } = require('../common/cdn')
 
 const loginIgnoreList = [
   /^\/user\//,
+  /^\/page\//,
 ]
 // 登陆检测 注入 cdn 上传token
 module.exports = () => {

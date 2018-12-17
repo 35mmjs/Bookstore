@@ -1,0 +1,98 @@
+
+.map {
+  position: relative;
+  width: 970px;
+  height: 996px;
+  padding-top: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.floor {
+  position: relative;
+  width: 500px;
+  height: auto;
+  margin-top: -50px;
+  margin-bottom: -40px;
+  margin-left: 200px;
+  margin-right: auto;
+  display: block;
+
+  &:last-child {
+    margin-top: -62px;
+  }
+}
+
+.floor img {
+  width: 100%;
+}
+
+.areas {
+  position: absolute;
+  width: 160px;
+  height: 600px;
+  right: 0;
+  top: 250px;
+}
+
+.area {
+  display: block;
+  width: 160px;
+  height: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.color {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+
+.text {
+  float: left;
+  display: inline-block;
+  width: 120px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: left;
+}
+
+.wc {
+  float: left;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background-image: url('http://pjirfnf0s.bkt.clouddn.com/wc.png');
+  background-repeat: no-repeat;
+  background-position: 5px 0;
+  margin-right: 10px;
+}
+
+.here {
+  margin-right: 10px;
+  float: left;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background-image: url('http://pjirfnf0s.bkt.clouddn.com/here.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 5px 0;
+}
+
+.point {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-image: url('http://pjirfnf0s.bkt.clouddn.com/point.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  visibility: hidden;
+  opacity: 0;
+}
