@@ -79,10 +79,11 @@ do_deploy()
   cd $tmpPath;
   git init;
   git remote add origin $TAGS_PATH;
-  git pull origin master &
+  git pull origin master && git fetch --tags &
   loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
   git checkout $TAG;
-  loop_process $prefix"build dist"$aftfix;
+  # loop_process $prefix"build dist"$aftfix;
+  echo $prefix"build dist"$aftfix;
 	npm run build
   rm .git -rf;
 	cd $NOW_PATH
