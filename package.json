@@ -86,7 +86,7 @@
     "start": "egg-bin dev",
     "mock": "NODE_ENV=mock egg-bin dev",
     "dora-proxy": "dora --plugins \"proxy?port=8989\" --verbose",
-    "egg-start": "rm -rf node_modules && npm i --production && npm run build && npm run _egg-start",
+    "egg-start": "rm -rf node_modules && npm i --production && npm run _egg-start",
     "egg-stop": "egg-scripts stop",
     "_egg-start": "egg-scripts stop && egg-scripts start --daemon --title=egg-server-showcase",
     "debug": "egg-bin debug",
