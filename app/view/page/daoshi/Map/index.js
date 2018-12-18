@@ -1,45 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import data from './data.js';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import data from './data'
 import './index.less'
 
 export default class Map extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       x: 0,
       y: 0,
-    };
+    }
   }
 
   componentDidMound() {
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       data,
-    });
+    })
   }
 
   onChange = (e, coordinate) => {
-    e.preventDefault();
-    const floor = ReactDOM.findDOMNode(this.refs[`floor_${coordinate[2]}`]);
-    const react = floor.getBoundingClientRect();
-    const cx = react.width / 2 +  react.left;
-    const cy = react.height / 2 + react.top + window.scrollY;
+    e.preventDefault()
+    const floor = ReactDOM.findDOMNode(this.refs[`floor_${coordinate[2]}`])
+    const react = floor.getBoundingClientRect()
+    const cx = react.width / 2 + react.left
+    const cy = react.height / 2 + react.top + window.scrollY
+    const fw = data.floor[data.floor.length - coordinate[2]].size[0]
+    const rate = react.width / fw
     this.setState({
-      x: cx + coordinate[0],
-      y: cy + coordinate[1],
+      x: cx + coordinate[0] * rate,
+      y: cy - coordinate[1] * rate - 100,
       showPoint: true,
-    });
+    })
   }
 
   render() {
-    const { x, y, showPoint } = this.state;
+    const { x, y, showPoint } = this.state
     const pointStyle = {
       left: `${x}px`,
       top: `${y}px`,
       visibility: showPoint ? 'visible' : 'hidden',
       opacity: showPoint ? 1 : 0,
-    };
+    }
     return (
       <div className="map">
         {data.floor.map((floor, index) => {
@@ -55,7 +58,7 @@ export default class Map extends React.Component {
             data.areas.map((area, index) => {
               return (
                 <div className="area" key={index} onClick={e => this.onChange(e, area.coordinate)}>
-                  <span className="color" style={{ background: `${area.color}`}} />
+                  <span className="color" style={{ background: `${area.color}` }} />
                   <span className="text">{area.name}</span>
                 </div>
               )
