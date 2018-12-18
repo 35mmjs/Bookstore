@@ -10,38 +10,56 @@ export default class Map extends React.Component {
     this.state = {
       x: 0,
       y: 0,
+      lx: 0,
+      ly: 0,
     }
   }
 
-  componentDidMound() {
+  componentDidMount() {
+    const place = data.floor[data.floor.length - 3].location
+    const location = this.getPosition(3, place[0], place[1])
+
     this.setState({
       // eslint-disable-next-line react/no-unused-state
       data,
+      lx: location.left,
+      ly: location.top,
     })
+  }
+
+  getPosition = (n, x, y) => {
+    const floor = ReactDOM.findDOMNode(this.refs[`floor_${n}`])
+    const react = floor.getBoundingClientRect()
+    const cx = react.width / 2 + react.left
+    const cy = react.height / 2 + react.top + window.scrollY
+    const fw = data.floor[data.floor.length - n].size[0]
+    const rate = react.width / fw
+    const left = cx + x * rate
+    const top = cy - y * rate - 100
+    return { left, top }
   }
 
   onChange = (e, coordinate) => {
     e.preventDefault()
-    const floor = ReactDOM.findDOMNode(this.refs[`floor_${coordinate[2]}`])
-    const react = floor.getBoundingClientRect()
-    const cx = react.width / 2 + react.left
-    const cy = react.height / 2 + react.top + window.scrollY
-    const fw = data.floor[data.floor.length - coordinate[2]].size[0]
-    const rate = react.width / fw
+    const position = this.getPosition(coordinate[2], coordinate[0], coordinate[1])
     this.setState({
-      x: cx + coordinate[0] * rate,
-      y: cy - coordinate[1] * rate - 100,
+      x: position.left,
+      y: position.top,
       showPoint: true,
     })
   }
 
   render() {
-    const { x, y, showPoint } = this.state
+    const { x, y, lx, ly, showPoint } = this.state
     const pointStyle = {
       left: `${x}px`,
       top: `${y}px`,
       visibility: showPoint ? 'visible' : 'hidden',
       opacity: showPoint ? 1 : 0,
+    }
+    const locationStyle = {
+      left: `${lx}px`,
+      top: `${ly}px`,
     }
     return (
       <div className="map">
@@ -53,6 +71,7 @@ export default class Map extends React.Component {
           )
         })}
         <div className="point" style={pointStyle} />
+        <div className="location" style={locationStyle} />
         <div className="areas">
           {
             data.areas.map((area, index) => {
@@ -66,7 +85,7 @@ export default class Map extends React.Component {
           }
           <div className="area">
             <span className="here" />
-            <span className="text">你所在到位置</span>
+            <span className="text">你所在的位置</span>
           </div>
           <div className="area">
             <span className="wc" />

@@ -3,14 +3,17 @@ export default {
     {
       image: 'http://pjirfnf0s.bkt.clouddn.com/map03.png',
       size: [1600, 975],
+      location: [-60, 190],
     },
     {
       image: 'http://pjirfnf0s.bkt.clouddn.com/map02.png',
       size: [1600, 975],
+      location: [-60, 110],
     },
     {
       image: 'http://pjirfnf0s.bkt.clouddn.com/map01.png',
       size: [1600, 975],
+      location: [-185, -105],
     },
   ],
   areas: [
@@ -43,6 +46,36 @@ export default {
       name: '书区 03',
       color: '#3f8d9b',
       coordinate: [-50, 220, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#084f7d',
+      coordinate: [275, 120, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#7c3787',
+      coordinate: [180, 50, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#db185f',
+      coordinate: [250, -100, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#ff3e3e',
+      coordinate: [-400, -120, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#ed603a',
+      coordinate: [-200, -180, 2],
+    },
+    {
+      name: '书区 03',
+      color: '#ef9143',
+      coordinate: [-400, 100, 1],
     },
   ],
 }
