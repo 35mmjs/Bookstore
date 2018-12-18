@@ -57,8 +57,8 @@ class BookAPIService extends Service {
    *  - phid {String} 排行ID
    *  - phmc {phmc} 排行名称
    */
-  getRinkingList(khbh) {
-    return this.fetch('GetRinkingInfo', { khbh: khbh || '3300000000', lx: 'list' })
+  getRinkingList(khbh = '3300000000') {
+    return this.fetch('GetRinkingInfo', { khbh, lx: 'list' })
   }
 
   /**
@@ -74,13 +74,14 @@ class BookAPIService extends Service {
    *  - sm 书名
    *  - dj 定价
    */
-  getRinkingInfo(phid, khbh) {
-    return this.fetch('GetRinkingInfo', { khbh: khbh || '3300000000', phid, lx: 'detailed' })
+  getRinkingInfo(phid, khbh = '3300000000') {
+    return this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
   }
 
   /**
    * 根据书号获取书的详细信息
    * @param ISBN {String} - 书号
+   * @param khbh {String} - 客户编号
    * @return {Object}
    *  - spbs 浙江新华图书商品的唯一标识
    *  - sm 书名
@@ -88,9 +89,54 @@ class BookAPIService extends Service {
    *  - isbn 书号
    *  - zyz 作者
    *  - fmtp 封面图片
+   *  - zbkc 总部库存
+   *  - qrcode 购买链接，用于生成二维码
    */
-  getBookByISBN(ISBN) {
-    return this.fetch('itemInfoSearch', { params: { type: 'ISBN', value: ISBN } }).then(d => JSON.parse(d)[0])
+  getBookByISBN(ISBN, khbh) {
+    return this.getBook('ISBN', ISBN, khbh).then(d => d[0])
+  }
+
+  /**
+   * 根据商品标识
+   * @param SPBS
+   * @param khbh
+   * @return {Promise<T | never | never>}
+   */
+  getBookBySPBS(SPBS, khbh) {
+    return this.getBook('SPBS', SPBS, khbh).then(d => d[0])
+  }
+
+  /**
+   * 根据关键字查询，返回数组
+   * @param keyword
+   * @param khbh
+   * @return {Array}
+   */
+  searchBookByKeyword(keyword, khbh) {
+    return this.getBook('KEYWORD', keyword, khbh)
+  }
+
+  /**
+   * 根据书名查询, 返回数组
+   * @param bookname
+   * @param khbh
+   * @return {Array}
+   */
+  searchBookByName(bookname, khbh) {
+    return this.getBook('SM', bookname, khbh)
+  }
+
+  /**
+   * @param type {String} ISBN | SM | KEYWORD | SPBS
+   * @param value {String} 对应的查询值
+   * @param khbh {String} 客户编号
+   * @return {Promise<T | never>}
+   */
+  getBook(type, value, khbh = '3300000000') {
+    const parse = d => JSON.parse(d).map(item => Object.assign({}, item, {
+      qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+    }))
+    return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
   }
 }
 

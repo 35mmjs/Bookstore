@@ -18,4 +18,16 @@ describe('test/app/service/bookAPI.test.js', () => {
     const data = await ctx.service.bookAPI.getBookByISBN('9787509392652')
     expect(data.sm).toMatch(/宪法/)
   })
+  it('getBookBySPBS', async () => {
+    const data = await ctx.service.bookAPI.getBookBySPBS('4087393')
+    expect(data.sm).toMatch(/宪法/)
+  })
+  it('searchBookByName', async () => {
+    const data = await ctx.service.bookAPI.searchBookByName('中华人民共和国宪法(宣誓本)')
+    expect(data[0].sm).toMatch(/宪法/)
+  })
+  it('searchBookByKeyword', async () => {
+    const data = await ctx.service.bookAPI.searchBookByKeyword('中华人民共和国宪法')
+    expect(data.length > 0).toEqual(true)
+  })
 })

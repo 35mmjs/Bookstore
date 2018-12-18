@@ -42,7 +42,7 @@ class BookController extends Controller {
       author: res.author,
       catalog: res.yxxlmc,
       price: res.edj,
-      pricing: '',
+      pricing: res.dj,
       recommender: '',
       intro: res.tjy,
       pageType: res.kb,
@@ -50,7 +50,7 @@ class BookController extends Controller {
       publish: res.bb,
       version: '',
       bookshelf: '',
-      qrcode: '',
+      qrcode: res.qrcode,
     }
     this.ctx.body = {
       success: true,
