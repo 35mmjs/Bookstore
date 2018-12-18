@@ -20,7 +20,7 @@ module.exports = (options, app) => (
     entryName = entryName[0] === '/' ? entryName.slice(1) : entryName
     if (!mapJson) {
       // eslint-disable-next-line global-require,import/no-unresolved,import/no-dynamic-require
-      mapJson = require(path.join(app.baseDir, './run/webpack-build/map.json'))
+      mapJson = require(path.join(app.baseDir, './dist/map.json'))
     }
     if (mapJson[entryName]) {
       await sendfile(ctx, mapJson[entryName], {

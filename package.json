@@ -97,7 +97,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix --ext .js,.jsx .",
     "ci": "npm run lint && npm run cov",
-    "build": "./plugin/egg-webpack/bin/egg-webpack-build",
+    "build": "rm -rf ./dist && ./plugin/egg-webpack/bin/egg-webpack-build",
     "autod": "autod",
     "deploy": "./deploy.sh -e dev -b default -v $TAG"
   },

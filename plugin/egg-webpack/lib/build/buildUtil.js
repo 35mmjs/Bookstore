@@ -34,7 +34,7 @@ function getWebpackProductConfigPath(cwd) {
   const model = {
     entry: JSON.stringify(entry),
     outputPath: normalize(path.join(cwd, './dist/')),
-    mapJsonPath: normalize(path.join(cwd, './run/webpack-build/map.json')),
+    mapJsonPath: normalize(path.join(cwd, './dist/map.json')),
   }
 
   return generateTempConfig(cwd, 'webpack.config.js', model)

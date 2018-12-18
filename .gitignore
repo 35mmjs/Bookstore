@@ -10,7 +10,6 @@ run/
 .DS_Store
 *.sw*
 *.un~
-dist/
 temp
 output
 *.tgz
