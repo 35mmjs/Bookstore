@@ -1,5 +1,33 @@
 const { Controller } = require('egg')
 
+function bookInfoMap(res) {
+  const processedResult = {
+    cover: res.fmdt,
+    isbn: res.isbn,
+    name: res.sm,
+    author: res.author,
+    catalog: res.yxxlmc,
+    price: res.edj,
+    pricing: res.dj,
+    recommender: '',
+    intro: res.tjy,
+    pageType: res.kb,
+    pageNum: res.ys,
+    publish: res.bb,
+    version: '',
+    bookshelf: '',
+    qrcode: res.qrcode,
+  }
+  return processedResult
+}
+
+function bookInfoListProcess(list) {
+  if (!list || list.length <= 0) return []
+  const res = list.map(item => {
+    return bookInfoMap(item)
+  })
+  return res
+}
 class OpenApiController extends Controller {
   // post
   async create() {
@@ -35,25 +63,37 @@ class OpenApiController extends Controller {
   }
 
   async findBookByISBN() {
-    const { params } = this.ctx
-    const { isbn } = params
+    const { query } = this.ctx
+    const { isbn } = query
     const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
-    const processedResult = {
-      cover: res.fmdt,
-      isbn: res.isbn,
-      name: res.sm,
-      author: res.author,
-      catalog: res.yxxlmc,
-      price: res.edj,
-      pricing: '',
-      recommender: '',
-      intro: res.tjy,
-      pageType: res.kb,
-      pageNum: res.ys,
-      publish: res.bb,
-      version: '',
-      bookshelf: '',
-      qrcode: '',
+    const processedResult = bookInfoMap(res)
+    this.ctx.body = {
+      success: true,
+      data: processedResult,
+    }
+  }
+
+  async findBooksByKeyword() {
+    const { query } = this.ctx
+    const { keyword } = query
+    let processedResult = []
+    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, '')
+    if (res && res.length > 0) {
+      processedResult = bookInfoListProcess(res)
+    }
+    this.ctx.body = {
+      success: true,
+      data: processedResult,
+    }
+  }
+
+  async findBooksByName() {
+    const { query } = this.ctx
+    const { keyword } = query
+    let processedResult = []
+    const res = await this.ctx.service.bookAPI.searchBookByName(keyword, '')
+    if (res && res.length > 0) {
+      processedResult = bookInfoListProcess(res)
     }
     this.ctx.body = {
       success: true,
@@ -62,7 +102,7 @@ class OpenApiController extends Controller {
   }
 
   async getZhantai() {
-    // const { query } = this.ctx 
+    // const { query } = this.ctx
     // const {} = query
     // const res = a
     // const request = this.ctx.params

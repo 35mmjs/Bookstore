@@ -35,7 +35,8 @@ const book = {
 const openApi = {
   pubu: '/open/v1/pubu',
   zhantai: '/open/v1/zhantai',
-  findBookByISBN: '/open/v1/book/:isbn',
+  findBookByISBN: '/open/v1/book', // isbn=xxx
+  findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
 }
 
 module.exports = {

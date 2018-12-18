@@ -27,7 +27,6 @@ module.exports = app => {
   router.get(enterprise.findAll, controller.enterprise.findAll)
   router.post(enterprise.remove, controller.enterprise.remove)
   router.post(enterprise.update, controller.enterprise.update)
-  // router.get('common/generateToken.json', controller)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
@@ -39,4 +38,5 @@ module.exports = app => {
   router.get(openApi.pubu, controller.openApi.getPubu)
   router.get(openApi.findBookByISBN, controller.openApi.findBookByISBN)
   router.get(openApi.zhantai, controller.openApi.getZhantai)
+  router.get(openApi.findBooksByKeyword, controller.openApi.findBooksByKeyword)
 }
