@@ -82,6 +82,8 @@ do_deploy()
   git pull origin master &
   loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
   git checkout $TAG;
+  loop_process $prefix"build dist"$aftfix;
+	npm run build
   rm .git -rf;
 	cd $NOW_PATH
 
@@ -148,7 +150,7 @@ run_server()
 	echo $prefix"run server:"$aftfix;
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; which npm >> temp.txt"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; systemctl start mysqld; npm run egg-start"
 	# npm run egg-start
 	# mkdir -p $tmpPath/app/Common/Conf/
 	# rm $tmpPath/deploy.sh

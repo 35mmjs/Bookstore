@@ -13,3 +13,4 @@ run/
 temp
 output
 *.tgz
+dist
