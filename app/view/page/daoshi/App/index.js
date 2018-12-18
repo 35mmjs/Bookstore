@@ -33,6 +33,13 @@ class App extends React.Component {
   handleClickBack = () => {
     this.setState({
       showBook: false,
+      showPosition: false,
+    })
+  }
+
+  handleShowPosition = () => {
+    this.setState({
+      showPosition: true,
     })
   }
 
@@ -40,18 +47,20 @@ class App extends React.Component {
     const bookCls = classNames({
       book_detail: true,
       book_detail_show: this.state.showBook,
+      book_detail_position: this.state.showPosition,
     })
     return (
       <div className="app">
         <div className="warpper">
           <div className="title" />
           <Map />
+          <Books onClickBook={this.onClickBook} books={this.state.books} />
           <Book
             book={this.state.currentBook}
             handleClickBack={this.handleClickBack}
+            handleShowPosition={this.handleShowPosition}
             className={bookCls}
           />
-          <Books onClickBook={this.onClickBook} books={this.state.books} />
         </div>
       </div>
     )

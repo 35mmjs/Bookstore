@@ -2,8 +2,9 @@ import React from 'react'
 import './index.less'
 
 export default class Book extends React.Component {
-  changeToPosition = () => {
-
+  handleShowPosition = (e) => {
+    e.preventDefault()
+    this.props.handleShowPosition && this.props.handleShowPosition()
   }
 
   handleClickBack = (e) => {
@@ -32,7 +33,7 @@ export default class Book extends React.Component {
             <p className="book_detail_info_intro">
               {book.recommender}
             </p>
-            <div className="book_detail_info_position">
+            <div className="book_detail_info_position" onClick={this.handleShowPosition}>
               地图上显示此书位置
             </div>
           </div>

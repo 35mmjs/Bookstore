@@ -5,7 +5,6 @@
   left: 0;
   width: 970px;
   height: 996px;
-  background: #282622;
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-in-out;
@@ -19,13 +18,17 @@
 
   &_content {
     position: relative;
-    width: auto;
+    width: 830px;
     height: 800px;
     overflow-y: auto;
     border: 1px solid #666;
     margin-left: 80px;
     margin-top: 40px;
     padding: 20px 20px;
+    transition: all .3s ease-in-out;
+    z-index: 100;
+    left: 0;
+    background: #282622;
   }
 }
 
@@ -86,6 +89,7 @@
     font-size: 18px;
     display: inline-block;
     border-radius: 8px 8px;
+    cursor: pointer;
   }
 }
 
@@ -120,4 +124,10 @@
   }
 }
 
+.book_detail_position {
+  .book_detail_content {
+    position: absolute;
+    left: 100%;
+  }
+}
 
