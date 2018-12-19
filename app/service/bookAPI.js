@@ -76,6 +76,8 @@ class BookAPIService extends Service {
    *  - spbs 商品标识
    *  - sm 书名
    *  - dj 定价
+   *  - ml 目录
+   *  - tjy 简介
    */
   getRinkingInfo(phid, khbh = '3300000000') {
     return this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
