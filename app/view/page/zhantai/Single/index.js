@@ -49,20 +49,17 @@ class Single extends React.Component {
             {' '}
 元
                     </p>
-          <p className="info_pricing">
-            定价：
-            {book.pricing}
-            {' '}
-元
-                    </p>
+          {book.pricing &&
+            <p className="info_pricing">定价：{book.pricing} 元</p>
+          }
         </div>
-        <Score value={book.score} mulity />
+        <Score value={book.score} mulity={mulity} />
         <div className={introCls}>
-          {book.recommender.map(u => u)}
+          {book.recommender && book.recommender.map(u => u)}
           {' '}
 等
           {' '}
-          {book.recommender.length}
+          {book.recommender && book.recommender.length}
           {' '}
 位行业大咖诚意推荐
                 </div>

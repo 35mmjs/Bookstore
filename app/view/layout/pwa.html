@@ -8,7 +8,9 @@
 		<meta name="mobile-web-app-capable" content="yes"/>
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, initial-scale=1.0"/>
-    <!-- <link rel="manifest" href="/assets/manifest.json"/> -->
+		<!-- <link rel="manifest" href="/assets/manifest.json"/> -->
+		<link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
     <link rel="stylesheet" href="{{ helper.loadStaticUrl('common.css') }}">
     <link rel="stylesheet" href="{{ helper.loadStaticUrl(entry + '.css') }}">
     <script>
@@ -18,9 +20,9 @@
 	<body>
 		<div id="__content"></div>
 		<script>
-			function handleBookEvent(){
-				alert('回调成功');
-			}
+			// function handleBookEvent(isbns) {
+			// 	alert('hello', isbns);
+			// }
     </script>
     <script src="{{ helper.loadStaticUrl('common.js') }}"></script>
     <script src="{{ helper.loadStaticUrl(entry + '.js') }}"></script>
