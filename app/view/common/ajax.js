@@ -31,7 +31,7 @@ const isMock = process.env.NODE_ENV === 'mock'
  * @returns {Promise<any>}
  */
 export default function ajax({
-  url, type = 'json', data = {}, method = 'get', ...rest
+  url, type = 'json', data = {}, method = 'get',
 }) {
   // if (isMock) return mockAjax({ url })
   return new Promise((resolve, reject) => {
@@ -39,7 +39,6 @@ export default function ajax({
       /* eslint-disable no-underscore-dangle */
       data.data._t = Date.now()
     }
-    console.log('aaaaaaaa', rest)
     return xhr({
       // url,
       url: isMock ? `http://localhost:8989/mock${url}` : url,
@@ -64,7 +63,6 @@ export default function ajax({
         ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, response)
         reject(new Error(errorMsg))
       },
-      ...rest,
     })
   })
 }

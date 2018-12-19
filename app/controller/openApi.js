@@ -41,12 +41,11 @@ class OpenApiController extends Controller {
 
   /**
    */
-  async getPubu() {
-    // const request = this.ctx.params
-    const item = await this.ctx.service.openApi.getPubu(3)
+  async getSingleChannel(id) {
+    const item = await this.ctx.service.openApi.getPubu(id)
     const payloadStr = item.content || '{}'
     const payloadObj = JSON.parse(payloadStr)
-    const result = {
+    const singleChannel = {
       id: item.id,
       type: item.type,
       note: item.note,
@@ -55,7 +54,16 @@ class OpenApiController extends Controller {
         src: payloadObj.banner,
       },
     }
+    return singleChannel
+  }
 
+  async getPubu() {
+    // const request = this.ctx.params
+    const item1 = await this.getSingleChannel(7)
+    const item2 = await this.getSingleChannel(8)
+    const result = []
+    result.push(item1)
+    result.push(item2)
     this.ctx.body = {
       success: true,
       data: result,

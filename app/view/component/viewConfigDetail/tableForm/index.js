@@ -184,11 +184,11 @@ class TableForm extends PureComponent {
     const newData = data.map(item => ({ ...item }))
     newData.push({
       key: `NEW_TEMP_ID_${this.index}`,
+      ...bookInfo,
       isbn: bookInfo.isbn,
       name: bookInfo.name,
       cover: bookInfo.cover,
       author: bookInfo.author,
-      note: JSON.stringify(bookInfo),
       editable: true,
       isNew: true,
     })

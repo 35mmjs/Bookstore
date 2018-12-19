@@ -98,8 +98,7 @@ do_deploy()
 	cd "temp"
 	tar czvf "../output/"$PACKAGE $TAG"_"$DATE> /dev/null &
 	cd $NOW_PATH
-	# loop_process "compressed file"
-	echo "compressed file"
+	loop_process "compressed file"
 
 	#确认发布
 	last_check
