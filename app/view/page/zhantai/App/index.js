@@ -1,4 +1,5 @@
 import React from 'react'
+import { getZhantaiData } from '../../util/services'
 import Single from '../Single'
 import books from '../data'
 import './index.less'
@@ -9,6 +10,20 @@ class App extends React.Component {
 
     this.state = {
     }
+  }
+
+  componentDidMount() {
+    this.getData()
+  }
+
+  getData = () => {
+    getZhantaiData({
+      clientId: '1111',
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
   }
 
   render() {
