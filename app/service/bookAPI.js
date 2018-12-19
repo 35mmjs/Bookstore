@@ -6,6 +6,9 @@ const md5 = text => {
   return crypto.createHash('md5').update(String(text)).digest('hex')
 }
 
+/**
+ * 新华书店的API接口
+ */
 class BookAPIService extends Service {
   constructor(...args) {
     super(...args)
