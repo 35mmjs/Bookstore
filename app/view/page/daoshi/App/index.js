@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import { search } from '../../util/services'
 import Map from '../Map'
 import Book from '../Book'
 import Books from '../Books'
@@ -43,6 +44,18 @@ class App extends React.Component {
     })
   }
 
+  handleSearch = (value) => {
+    if (!value) return
+    console.log(value)
+    search({
+      keyword: value,
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
   render() {
     const bookCls = classNames({
       book_detail: true,
@@ -54,7 +67,7 @@ class App extends React.Component {
         <div className="warpper">
           <div className="title" />
           <Map />
-          <Books onClickBook={this.onClickBook} books={this.state.books} />
+          <Books onClickBook={this.onClickBook} books={this.state.books} handleSearch={this.handleSearch} />
           <Book
             book={this.state.currentBook}
             handleClickBack={this.handleClickBack}
