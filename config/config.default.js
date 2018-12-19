@@ -74,5 +74,11 @@ module.exports = appInfo => {
     khid: 'zhihuishucheng',
     keyid: '355DBBC50859340E72B9C8E5AB2DBB74',
   }
+
+  config.bookAPI2 = {
+    appKey: '25361443',
+    appSecret: '80c4625784e91ff9c9d30d6401e06081',
+    appId: '7653878',
+  }
   return config
 }
