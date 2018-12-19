@@ -39,6 +39,54 @@ export default {
         payload: data.items,
       })
     },
+    *findOne(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.findOne, payload)
+      yield put({
+        type: 'save',
+        payload: data,
+      })
+    },
+    *create(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.create, payload)
+      yield put({
+        type: 'save',
+        payload: data,
+      })
+    },
+    *update(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.update, payload)
+      yield put({
+        type: 'save',
+        payload: data,
+      })
+    },
+    *remove(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.remove, payload)
+      yield put({
+        type: 'save',
+        payload: data,
+      })
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {

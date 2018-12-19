@@ -9,9 +9,24 @@ export function create(data) {
   })
 }
 
+export function update(data) {
+  return ajax({
+    url: terminal.update,
+    data,
+    method: 'post',
+  })
+}
+
 export function findAll() {
   return ajax({
     url: terminal.findAll,
+    method: 'get',
+  })
+}
+
+export function findOne() {
+  return ajax({
+    url: terminal.findOne,
     method: 'get',
   })
 }
@@ -24,10 +39,3 @@ export function remove(data) {
   })
 }
 
-export function update(data) {
-  return ajax({
-    url: terminal.update,
-    data,
-    method: 'post',
-  })
-}

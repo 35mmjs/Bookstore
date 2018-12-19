@@ -1,7 +1,7 @@
 'use strict'
 
 const {
-  enterprise, viewConfig, openApi, book,
+  enterprise, viewConfig, openApi, book, terminal,
 } = require('./api/index')
 
 /**
@@ -32,6 +32,13 @@ module.exports = app => {
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
   router.get(viewConfig.remove, controller.viewConfig.remove)
   router.get(viewConfig.findOne, controller.viewConfig.findOne)
+  // // 终端
+  router.post(terminal.create, controller.terminal.create)
+  router.post(terminal.update, controller.terminal.update)
+  router.get(terminal.findAll, controller.terminal.findAll)
+  router.get(terminal.remove, controller.terminal.remove)
+  router.get(terminal.findOne, controller.terminal.findOne)
+
   // book query
   router.get(book.findOneByISBN, controller.book.getBookByISBN)
   // open api

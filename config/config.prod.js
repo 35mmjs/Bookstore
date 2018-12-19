@@ -26,6 +26,7 @@ module.exports = () => {
     ignore: '/open',
   }
 
+  // 开放接口允许跨域(临时)
   config.setCors = {
     match: '/open',
   }

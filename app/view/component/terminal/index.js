@@ -7,21 +7,26 @@ import CreateButton from './createButton'
 
 @connect(state => ({ ...state }))
 export default class Index extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    const { dispatch } = props
+    this.dispatch = dispatch
     this.state = {}
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch({
+    this.dispatch({
       type: 'terminal/findAll',
       payload: {},
     })
   }
 
-  onSubmit = val => {
-    console.log('onSubmit', val)
+  onSubmit = (data, type) => {
+    console.log('onSubmit', data)
+    this.dispatch({
+      type: 'terminal/findAll',
+      payload: {},
+    })
   }
 
   onDelete = val => {
@@ -40,7 +45,7 @@ export default class Index extends React.Component {
       <div>
         <div>Teminal</div>
         <div>
-          <CreateButton />
+          {/* <CreateButton /> */}
           <Filter onSubmit={this.onSubmit} />
           <Table
             list={list}

@@ -44,7 +44,7 @@ const CreateForm = Form.create()(props => {
   )
 })
 
-const CreateButton = props => {
+export const CreateButton = props => {
   const { onSubmit } = props
   const [modalVisible, handleModalVisible] = useState(false)
   const createFormProps = {

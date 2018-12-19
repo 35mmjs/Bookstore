@@ -11,10 +11,10 @@ import Store from '../component/store/index'
 import TerminalDetail from '../component/terminalDetail'
 import ViewConfig from '../component/viewConfig'
 import ViewConfigDetail from '../component/viewConfigDetail'
+import Home from '../component/home/index'
 
 const { viewConfigRoutes, terminalRoutes } = constant
 
-const Index = () => <h2>Home</h2>
 const Employee = () => <h2>Home</h2>
 
 const menu = [
@@ -79,7 +79,7 @@ const routeMap = () => {
   return [
     {
       path: '/',
-      component: () => Index,
+      component: () => Home,
     },
     {
       path: 'employee',
