@@ -11,6 +11,24 @@ const terminalRoutes = {
   findOne: 'terminal/manage/detail/:id/:operation(view)',
 }
 
+const FORM_ITEM_LAYOUT = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 7 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 },
+    md: { span: 10 },
+  },
+}
+const SUBMIT_FORM_LAYOUT = {
+  wrapperCol: {
+    xs: { span: 24, offset: 0 },
+    sm: { span: 10, offset: 7 },
+  },
+}
+
 const VIEW_CONFIG_TYPE_MAP = [
   {
     label: '瀑布',
@@ -32,4 +50,6 @@ export default {
   terminalRoutes,
   VIEW_CONFIG_TYPE_MAP,
   VIEW_CONFIG_ID,
+  FORM_ITEM_LAYOUT,
+  SUBMIT_FORM_LAYOUT,
 }

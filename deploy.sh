@@ -151,7 +151,7 @@ run_server()
 	echo $prefix"run server:"$aftfix;
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; systemctl start mysqld; npm run egg-start"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run egg-start"
 	# npm run egg-start
 	# mkdir -p $tmpPath/app/Common/Conf/
 	# rm $tmpPath/deploy.sh

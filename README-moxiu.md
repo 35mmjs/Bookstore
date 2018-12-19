@@ -2,6 +2,7 @@
 1218
   - [x] 部署优化
   - [x0.5] 开通展台接口
+  - [ ] 部署优化
   - [ ] 展台接口/模糊搜索接口
   - [ ] 推荐接口
 1217
@@ -79,7 +80,8 @@ edit /mock/* files // you can add mock data
 
 ## 瀑布屏/展台/导视
 
-## 瀑布屏
+## 展台是用户配置的
+## 瀑布屏 所有瀑布屏都一样
 首页banner
 bannerImg
 category
@@ -87,7 +89,11 @@ category
     -  
 
 
-##
-git push origin <Tag 名字>
+## 其他
 react router zh
 https://react-guide.github.io/react-router-cn/docs/API.html#redirect
+
+## 如何部署
+// 提交代码后, 更改版本号
+npm run tag
+npm run deploy

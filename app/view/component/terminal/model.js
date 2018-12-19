@@ -4,7 +4,9 @@ export default {
   namespace: 'terminal',
   state: {
     list: [],
+    singleItem: {},
     total: null,
+    form: {},
   },
   reducers: {
     save(

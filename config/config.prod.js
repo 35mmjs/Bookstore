@@ -26,6 +26,10 @@ module.exports = () => {
     ignore: '/open',
   }
 
+  config.setCors = {
+    match: '/open',
+  }
+
   // mysql
   config.mysql = {
     // 单数据库信息配置

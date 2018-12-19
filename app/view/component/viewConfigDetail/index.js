@@ -98,32 +98,26 @@ class CreateForm extends React.Component {
       },
     }
 
-    const pubuForm = () => (
-      <div>
-        <FormItem {...formItemLayout} label="瀑布图片">
-          {getFieldDecorator('banner', {
-            rules: [
-              { type: 'object', required: true, message: '请上传一张图' },
-            ],
-            trigger: 'onUploadDone',
-          })(<ImageUploader />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="书目录入">
-          {getFieldDecorator('books', {
-            initialValue: tableData,
-          })(<TableForm />)}
-        </FormItem>
-      </div>
-    )
-    const zhantaiForm = () => (
-      <div>
-        <FormItem {...formItemLayout} label="书目录入">
-          {getFieldDecorator('books', {
-            initialValue: tableData,
-          })(<TableForm />)}
-        </FormItem>
-      </div>
-    )
+    const pubuForm = () => [
+      <FormItem {...formItemLayout} label="瀑布图片">
+        {getFieldDecorator('banner', {
+          rules: [{ type: 'object', required: true, message: '请上传一张图' }],
+          trigger: 'onUploadDone',
+        })(<ImageUploader />)}
+      </FormItem>,
+      <FormItem {...formItemLayout} label="书目录入">
+        {getFieldDecorator('books', {
+          initialValue: tableData,
+        })(<TableForm />)}
+      </FormItem>,
+    ]
+    const zhantaiForm = () => [
+      <FormItem {...formItemLayout} label="书目录入">
+        {getFieldDecorator('books', {
+          initialValue: tableData,
+        })(<TableForm />)}
+      </FormItem>,
+    ]
 
     const detaiform = () => {
       if (this.state.type === VIEW_CONFIG_ID.PUBU_ID) return pubuForm()
@@ -162,17 +156,6 @@ class CreateForm extends React.Component {
           )}
         </FormItem>
         {detaiform()}
-        {/* <FormItem {...formItemLayout} label="瀑布图片">
-        {getFieldDecorator('banner', {
-          rules: [{ type: 'object', required: true, message: '请上传一张图' }],
-          trigger: 'onUploadDone',
-        })(<ImageUploader />)}
-      </FormItem>
-      <FormItem {...formItemLayout} label="书目录入">
-        {getFieldDecorator('books', {
-          initialValue: tableData,
-        })(<TableForm />)}
-      </FormItem> */}
         <FormItem {...submitFormLayout}>
           <Button type="primary" htmlType="submit">
             新建

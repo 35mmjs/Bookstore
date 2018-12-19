@@ -3,8 +3,9 @@ import { connect } from 'dva'
 import './index.less'
 import Filter from './filter'
 import Table from './table'
+import CreateButton from './createButton'
 
-@connect((state) => ({ ...state }))
+@connect(state => ({ ...state }))
 export default class Index extends React.Component {
   constructor() {
     super()
@@ -19,23 +20,35 @@ export default class Index extends React.Component {
     })
   }
 
-  onSubmit = () => {
+  onSubmit = val => {
+    console.log('onSubmit', val)
   }
 
-  onDelete = () => {
+  onDelete = val => {
+    console.log('onDelete', val)
+  }
 
+  onChooseItem = val => {
+    console.log('onChoose', val)
   }
 
   render() {
     console.log('aaaaaaaa', this.props)
     const { terminal } = this.props
-    const { list } = terminal
+    const { list, singleItem } = terminal
     return (
       <div>
         <div>Teminal</div>
         <div>
+          <CreateButton />
           <Filter onSubmit={this.onSubmit} />
-          <Table list={list} />
+          <Table
+            list={list}
+            data={singleItem}
+            onChooseItem={this.onChooseItem}
+            onSubmit={this.onSubmit}
+            onDelete={this.onDelete}
+          />
         </div>
       </div>
     )

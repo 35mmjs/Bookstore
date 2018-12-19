@@ -13,7 +13,14 @@ module.exports = appInfo => {
     'loginCheck',
     'errorHandler',
     'saveSession',
+    'setCors',
   ]
+  config.setCors = {
+    match: '/open',
+  }
+  config.loginCheck = {
+    ignore: '/open',
+  }
   // qiniu CND keys
   config.cdn = {
     QINIU_ACCESS_KEY: 'rMuPOEhqC8_B3yxqsNfNG1ho75YecTa4MdR3J-nY',
