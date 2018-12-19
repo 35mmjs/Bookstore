@@ -1,0 +1,133 @@
+
+.book_detail {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 970px;
+  height: 996px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease-in-out;
+  transform: translateX(-100%);
+
+  &_show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0)
+  }
+
+  &_content {
+    position: relative;
+    width: 830px;
+    height: 800px;
+    overflow-y: auto;
+    border: 1px solid #666;
+    margin-left: 80px;
+    margin-top: 40px;
+    padding: 20px 20px;
+    transition: all .3s ease-in-out;
+    z-index: 100;
+    left: 0;
+    background: #282622;
+  }
+}
+
+.book_detail_back {
+  position: relative;
+  width: 100%;
+  height: 44px;
+  background-image: url('http://pjirfnf0s.bkt.clouddn.com/guide_23.png');
+  background-repeat: no-repeat;
+  margin: 20px 0 20px 80px;
+  cursor: pointer;
+}
+
+.book_detail_info {
+  width: 100%;
+  height: 290px;
+  position: relative;
+  padding-left: 240px;
+
+  &_cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210px;
+    height: 290px;
+    margin-right: 20px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &_name {
+    font-size: 32px;
+    color: #fff;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 16px;
+  }
+
+  &_author {
+    line-height: 32px;
+    font-size: 28px;
+    color: #fff;
+  }
+  
+  &_intro {
+    line-height: 28px;
+    color: #c9c9c9;
+    font-size: 20px;
+  }
+
+  &_position {
+    background: #e0ef20;
+    line-height: 54px;
+    padding: 0 20px;
+    font-size: 18px;
+    display: inline-block;
+    border-radius: 8px 8px;
+    cursor: pointer;
+  }
+}
+
+.book_detail_more {
+  position: relative;
+  height: 160px;
+  width: 100%;
+  padding: 20px 20px;
+  margin-bottom: 20px;
+
+  &_price,
+  &_pricing {
+    font-size: 20px;
+    color: #c0c0c0;
+    font-weight: normal;
+
+    span {
+      font-size: 40px;
+    }
+  }
+}
+
+.book_detail_info_meta {
+  position: relative;
+  padding: 20px 20px;
+  line-height: 32px;
+  color: #c9c9c9;
+  font-size: 18px;
+  span {
+    width: 300px;
+    display: inline-block;
+  }
+}
+
+.book_detail_position {
+  .book_detail_content {
+    position: absolute;
+    left: 100%;
+  }
+}
+
