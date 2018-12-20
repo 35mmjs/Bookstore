@@ -1,5 +1,5 @@
 import React from 'react'
-import Slider from 'react-slick'
+import ReactDOM from 'react-dom'
 import Banner from '../Banner'
 import Layer from '../Layer'
 import Book from '../Book'
@@ -19,28 +19,72 @@ class App extends React.Component {
     }
 
     this.timeout = null
+    this.wrapper = React.createRef()
+    this.content = React.createRef()
+    this.content2 = React.createRef()
+    this.content3 = React.createRef()
   }
 
   componentDidMount() {
-    this.getData()
+    // this.getData()
+
+    this.init()
+    this.autoplay()
     document.addEventListener('click', this.handleClick)
+  }
+
+  init = () => {
+    const wrapper = ReactDOM.findDOMNode(this.wrapper.current)
+    const content = ReactDOM.findDOMNode(this.content.current)
+    const height = content.offsetHeight > 3840 ? content.offsetHeight : 3840
+
+    wrapper.style.height = height + 'px'
+    wrapper.scrollTop = height
+  }
+
+  marquee = () => {
+    const wrapper = ReactDOM.findDOMNode(this.wrapper.current)
+    const content = ReactDOM.findDOMNode(this.content.current)
+
+    if (wrapper.scrollTop === 0) {
+      wrapper.scrollTop += content.offsetHeight
+    }
+    wrapper.scrollTop -= 1
   }
 
   getData = () => {
     getPubuData().then(res => {
-      console.log(res)
+      const data = res.data.data.map(channel => {
+        const layers = channel.books.reduce((acc, book, index) => {
+          if (index % 2 === 0) {
+            acc.push({
+              books: [book],
+            })
+          } else {
+            acc[acc.length - 1].books.push(book)
+          }
+          return acc
+        }, [])
+        return {
+          banner: channel.banner,
+          layers,
+        }
+      })
+
       this.setState({
-        channels: res.data.data,
+        channels: data,
+      }, () => {
+        this.autoplay()
       })
     }).catch(err => {
       console.error(err)
     })
   }
 
-  handleClick = () => {
-    if (this.state.activeBook) return
+  handleClick = (e) => {
+    e.preventDefault()
+    if (!this.state.activeBook) return
     this.pause()
-    this.autoplay()
   }
 
   handleClickBook = (id) => {
@@ -110,6 +154,7 @@ class App extends React.Component {
 
   handleCloseBook = (e) => {
     e.preventDefault()
+    e.stopPropagation()
 
     this.setState({
       activeBook: false,
@@ -120,71 +165,69 @@ class App extends React.Component {
 
   autoplay = () => {
     if (this.timeout) {
-      clearTimeout(this.timeout)
+      clearInterval(this.timeout)
     }
-
-    this.timeout = setTimeout(() => {
-      if (this.state.activeBook) {
-        this.autoplay()
-        return
-      }
-      this.play()
-    }, 5000)
-  }
-
-  play = () => {
-    this.slider.slickPlay()
+    this.timeout = setInterval(() => {
+      this.marquee()
+    }, 20)
   }
 
   pause = () => {
-    this.slider.slickPause()
+    clearInterval(this.timeout)
+  }
+
+  renderContent = () => {
+    const { channels } = this.state
+
+    return (
+      <div className="content">
+        { channels.map((channel, ix) => {
+          return (
+            <div key={ix}>
+              { channel.layers.map((layer, index) => {
+                return (
+                <Layer key={index}>
+                  {
+                    layer.books.map((book, i) => {
+                      return (
+                        <Book
+                          cover={book.cover}
+                          name={book.name}
+                          author={book.author}
+                          price={book.price}
+                          score={book.score}
+                          key={i}
+                          index={index}
+                          handleClickBook={this.handleClickBook}
+                        />
+                      )
+                    })
+                  }
+                </Layer>
+                )
+              })}
+              <Banner src={channel.banner.src} />
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 
   render() {
     const { channels } = this.state
-    const settings = {
-      infinite: true,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 3000,
-      vertical: true,
-      verticalSwiping: true,
-    }
     return (
       <div className="app">
-        <div className="wrapper">
-        <Slider ref={slider => (this.slider = slider)} {...settings}>
-          { channels.map((channel, ix) => {
-            return (
-              <div key={ix}>
-                <Banner src={channel.banner.src} />
-                { channel.layers.map((layer, index) => {
-                  return (
-                  <Layer key={index}>
-                    {
-                      layer.books.map((book, i) => {
-                        return (
-                          <Book
-                            cover={book.cover}
-                            name={book.name}
-                            author={book.author}
-                            price={book.price}
-                            score={book.score}
-                            key={i}
-                            index={index}
-                            handleClickBook={this.handleClickBook}
-                          />
-                        )
-                      })
-                    }
-                  </Layer>
-                  )
-                })}
-              </div>
-            )
-          })}
-          </Slider>
+        <div className="wrapper" ref={this.wrapper}>
+          <div ref={this.content}>
+            {this.renderContent()}
+          </div>
+          <div ref={this.content2}>
+            {this.renderContent()}
+          </div>
+          <div ref={this.content3}>
+            {this.renderContent()}
+          </div>
         </div>
         {
           this.state.activeBook

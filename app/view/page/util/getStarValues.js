@@ -1,4 +1,7 @@
 function getStarValue(score) {
+  if (!score) {
+    score = 0
+  }
   const starValues = []
   const full = parseInt(score / 2, 10)
   for (let i = 0; i < full; i++) {
@@ -12,7 +15,6 @@ function getStarValue(score) {
   for (let i = 0; i < zero; i++) {
     starValues.push(0)
   }
-  console.log(starValues)
   return starValues
 }
 

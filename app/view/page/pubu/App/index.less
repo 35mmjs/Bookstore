@@ -2,16 +2,26 @@ body {
   background: #36363c;
 }
 
-
 .app {
   position: relative;
+  width: 1080px;
+  height: 3840px;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
 .wrapper {
   width: 1080px;
   margin: 0 auto;
   position: relative;
-  height:  auto;
 	z-index: 1;
-	background: #36363c;
+  background: #36363c;
+  overflow: hidden;
+  // animation: marquee 20s linear infinite;
+}
+
+/* Make it move! */
+@keyframes marquee {
+  0%   { transform: translate(0, 100%); animation-timing-function: linear;}
+  100% { transform: translate(0, 0); animation-timing-function: linear;}
 }
