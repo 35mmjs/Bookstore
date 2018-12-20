@@ -6,6 +6,7 @@ class PageController extends Controller {
     await ctx.render('layout/pwa.html', {
       entry: 'pubu',
       appData: {},
+      mainfest: '/public/pubu/mainfest.json',
     })
   }
 
@@ -14,6 +15,7 @@ class PageController extends Controller {
     await ctx.render('layout/pwa.html', {
       entry: 'zhantai',
       appData: {},
+      mainfest: '/public/zhantai/mainfest.json',
     })
   }
 
@@ -22,6 +24,7 @@ class PageController extends Controller {
     await ctx.render('layout/pwa.html', {
       entry: 'daoshi',
       appData: {},
+      mainfest: '/public/daoshi/mainfest.json',
     })
   }
 }
