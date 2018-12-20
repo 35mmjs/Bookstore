@@ -5,7 +5,6 @@ import Single from '../Single'
 import data from '../data'
 import './index.less'
 
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -89,7 +88,6 @@ class App extends React.Component {
       variableWidth: true,
     }
 
-    console.log('-->', books)
     return (
       <div className="app">
         <div className="warpper">
