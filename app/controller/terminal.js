@@ -44,7 +44,7 @@ class TerminalController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.terminal.create(request.name, request.password)
+    const result = await this.ctx.service.terminal.update(request)
     this.ctx.body = {
       success: true,
       data: result,

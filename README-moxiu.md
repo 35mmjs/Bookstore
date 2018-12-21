@@ -1,7 +1,15 @@
 ## changelog
+1221
+  - [ ] mysql 类型强校验 
+  - [ ] moment 时间处理
+    
+1220
+  - [x0.9] termianl crud
+  - [x] sql schema update
 1219
   - [ ] 瀑布优化
-  - [ ] dva报错处理
+  - [ ] dva报错-配置备注
+处理
 1218
   - [x] 部署优化
   - [x0.5] 开通展台接口

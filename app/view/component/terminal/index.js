@@ -22,37 +22,25 @@ export default class Index extends React.Component {
   }
 
   onSubmit = (data, type) => {
-    console.log('onSubmit', data)
-    this.dispatch({
-      type: 'terminal/findAll',
-      payload: {},
-    })
-  }
-
-  onDelete = val => {
-    console.log('onDelete', val)
-  }
-
-  onChooseItem = val => {
-    console.log('onChoose', val)
+    console.log('onSubmit', data, type)
+    this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 
   render() {
-    console.log('aaaaaaaa', this.props)
     const { terminal } = this.props
     const { list, singleItem } = terminal
     return (
       <div>
         <div>Teminal</div>
         <div>
-          {/* <CreateButton /> */}
-          <Filter onSubmit={this.onSubmit} />
+          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} />
+          <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
           <Table
             list={list}
             data={singleItem}
-            onChooseItem={this.onChooseItem}
-            onSubmit={this.onSubmit}
-            onDelete={this.onDelete}
+            onChooseItem={data => this.onSubmit(data, 'findOne')}
+            onSubmit={data => this.onSubmit(data, 'update')}
+            onDelete={data => this.onSubmit(data, 'remove')}
           />
         </div>
       </div>

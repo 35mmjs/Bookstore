@@ -19,22 +19,33 @@ class Terminal extends Service {
     return { items }
   }
 
-  async findOne(uid) {
-    const item = await this.app.mysql.get(DB, { id: uid, deleted: 0 })
+  async findOne(id) {
+    const item = await this.app.mysql.get(DB, { id, deleted: 0 })
     return item
   }
 
   async create(params) {
-    const { note, type, content } = params
-    const result = await this.app.mysql.insert(DB, { note, type, content })
+    const { name, note, store, type } = params
+    const result = await this.app.mysql.insert(DB, {
+      name,
+      note,
+      // store,
+      type,
+    })
     return result.affectedRows === 1
   }
 
   async update(params) {
+    const { id, name, note, view_config, type } = params
     const row = {
-      ...params,
+      id,
+      name,
+      note,
+      // view_config,
+      type,
     }
     const result = await this.app.mysql.update(DB, row)
+    console.log('aaaaaaaa', params, result)
     return result.affectedRows === 1
   }
 

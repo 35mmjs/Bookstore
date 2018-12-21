@@ -35,7 +35,6 @@ export function remove(data) {
   return ajax({
     url: terminal.remove,
     data,
-    method: 'post',
+    method: 'get',
   })
 }
-

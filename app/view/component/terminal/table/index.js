@@ -50,7 +50,7 @@ const EditForm = Form.create()(props => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      onSubmit(fieldsValue)
+      onSubmit({ ...data, ...fieldsValue })
       handleModalVisible()
     })
   }
@@ -131,7 +131,6 @@ const ConfigForm = Form.create()(props => {
 })
 
 const Comp = props => {
-  console.log('aaaaaaaa', props)
   const { list, onDelete, onSubmit } = props
   const [editFormVisible, setEditFormVisible] = useState(false)
   const [configFormVisible, setConfigFormVisible] = useState(false)
@@ -251,7 +250,7 @@ const Comp = props => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={list} />
+      <Table columns={columns} dataSource={list} rowKey="id" />
       <EditForm {...editFormProps} />
       <ConfigForm {...configFormProps} />
       <ViewForm {...viewFormProps} />

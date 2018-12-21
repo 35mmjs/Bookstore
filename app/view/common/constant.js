@@ -22,6 +22,15 @@ const FORM_ITEM_LAYOUT = {
     md: { span: 10 },
   },
 }
+
+const FORM_ITEM_LAYOUT_MODAL = {
+  labelCol: {
+    span: 5,
+  },
+  wrapperCol: {
+    span: 15,
+  },
+}
 const SUBMIT_FORM_LAYOUT = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
@@ -32,11 +41,11 @@ const SUBMIT_FORM_LAYOUT = {
 const VIEW_CONFIG_TYPE_MAP = [
   {
     label: '瀑布',
-    value: 0,
+    value: 1,
   },
   {
     label: '展台',
-    value: 1,
+    value: 2,
   },
 ]
 
@@ -52,4 +61,5 @@ export default {
   VIEW_CONFIG_ID,
   FORM_ITEM_LAYOUT,
   SUBMIT_FORM_LAYOUT,
+  FORM_ITEM_LAYOUT_MODAL,
 }
