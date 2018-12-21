@@ -22,6 +22,9 @@ describe('test/app/service/bookAPI.test.js', () => {
     const data = await ctx.service.bookAPI.getBookBySPBS('4087393')
     expect(data.sm).toMatch(/宪法/)
   })
+  it('getRecommendBooks', async () => {
+    ctx.service.bookAPI.getRecommendBooks('4087393')
+  })
   it('searchBookByName', async () => {
     const data = await ctx.service.bookAPI.searchBookByName('中华人民共和国宪法(宣誓本)')
     console.log('aaaaaaaa', data)

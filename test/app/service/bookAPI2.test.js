@@ -6,7 +6,7 @@ describe('test/app/service/bookAPI2.test.js', () => {
   beforeEach(() => {
     ctx = app.mockContext({})
   })
-  it.only('getRinkingList', async () => {
+  it.skip('getRinkingList', async () => {
     const data = await ctx.service.bookAPI2.fetch()
   })
 })

@@ -143,6 +143,15 @@ class BookAPIService extends Service {
     }))
     return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
   }
+
+  /**
+   * 获取推荐的书籍
+   * @param spbs {String}
+   * @param khbh
+   */
+  getRecommendBooks(spbs, khbh = '3300000000') {
+    return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+  }
 }
 
 module.exports = BookAPIService
