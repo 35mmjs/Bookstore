@@ -37,6 +37,7 @@ const openApi = {
   zhantai: '/open/v1/zhantai',
   findBookByISBN: '/open/v1/book', // isbn=xxx
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
+  findRecommendByISBN: '/open/v1/book/recommend', // isbn=xxx
 }
 
 module.exports = {

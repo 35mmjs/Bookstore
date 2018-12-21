@@ -81,6 +81,56 @@ class OpenApiController extends Controller {
     }
   }
 
+  /**
+   * 推荐相关
+   [ { dj: '10',
+    phid: '00000212',
+    phmc: '12月政治法律TOP10',
+    sm: '2018年党员学习参考',
+    spbs: '4204543',
+    tm: '9787213088032',
+    xh: '1' },
+  { dj: '29',
+    phid: '00000212',
+    phmc: '12月政治法律TOP10',
+    sm: '习近平新时代中国特色社会主义思想三十讲',
+    spbs: '4164039',
+    tm: '9787514708547',
+    xh: '2' }]
+    return [{
+      price // 定价
+      name // 书名
+      isbn // 书号
+    }]
+   */
+  async findRecommendByISBN() {
+    let list = []
+    const param = this.ctx.query
+    const { isbn } = param
+    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    const { spbs } = res
+    console.log('aaaaaaaa', spbs)
+    if (spbs) {
+      const rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
+      console.log('aaaaaaaa', rawList)
+      if (rawList && rawList.length > 0) {
+        list = rawList.map(item => {
+          return {
+            price: item.dj,
+            name: item.sm,
+            isbn: item.tm,
+          }
+        })
+      }
+      this.ctx.body = {
+        success: true,
+        data: list,
+      }
+    } else {
+      this.ctx.body = { success: true, data: '' }
+    }
+  }
+
   async findBooksByKeyword() {
     const { query } = this.ctx
     const { keyword } = query
