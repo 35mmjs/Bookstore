@@ -270,6 +270,8 @@
   padding: 30px 30px;
   top: 20px;
   left: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .book_detail_container_meta {
@@ -308,15 +310,68 @@
 
 .book_detail_recommand {
   width: 1015px;
-  height: 350px;
+  height: 400px;
   background: #3e3e3e;
   border-radius: 10px;
-  margin: 30px auto 0 auto;
+  margin: 20px auto 0 auto;
 }
 
 .book_detail_recommand h4 {
   line-height: 48px;
   font-size: 28px;
   border-bottom: 1px solid #666;
-  padding: 20px 50px;
+  padding: 10px 50px;
+  color: #9f9f9f;
+}
+
+.book_detail_recommand_content {
+  width: 920px;
+  height: 230px;
+  margin: 30px auto 0 auto;
+  overflow: hidden;
+}
+
+.book_mini {
+  position: relative;
+  display: inline-block;
+  width: 460px;
+  height: 230px;
+  float: left;
+  padding-left: 175px;
+  cursor: pointer;
+
+  &_cover {
+    position: absolute;
+    width: 154px;
+    height: 230px;
+    display: block;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    img {
+      width: 100%;
+    }
+  }
+
+  &_info_name {
+    padding: 20px 0;
+    line-height: 32px;
+    color: #fff;
+    font-size: 25px;
+  }
+
+  p {
+    line-height: 32px;
+    color: #fff;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+
+  .pricing {
+    text-decoration: line-through;
+  }
 }
