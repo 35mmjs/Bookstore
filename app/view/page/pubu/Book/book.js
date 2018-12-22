@@ -1,7 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import QRCode from 'qrcode.react'
+import Slider from 'react-slick'
 import Star from './Star'
+import MiniBook from './miniBook'
 import getStarValues from '../../util/getStarValues'
 import { getBook, getRecommend } from '../../util/services'
 import data from './data'
@@ -22,11 +24,11 @@ class BookDetail extends React.Component {
     // this.getRecommend()
   }
 
-  reGetData = (e, isbn) => {
+  reGetData = (e, book) => {
     e.preventDefault()
 
-    this.getBook(isbn)
-    this.getRecommend(isbn)
+    this.getBook(book.isbn)
+    this.getRecommend(book.isbn)
   }
 
   getBook = (isbn) => {
@@ -53,6 +55,15 @@ class BookDetail extends React.Component {
   render() {
     const { onClose } = this.props
     const { book, recommend } = this.state
+
+    // Slider Setting
+    const settings = {
+      infinite: true,
+      slidesToShow: 2,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      variableWidth: true,
+    }
 
     return (
       <div className="book_detail">
@@ -131,26 +142,15 @@ class BookDetail extends React.Component {
           <div className="book_detail_recommand">
             <h4>相关书籍</h4>
             <div className="book_detail_recommand_content">
-              {
-                recommend.map((b, i) => {
-                  return (
-                    <div className="book_mini" onClick={e => this.reGetData(e, b.isbn)} key={i}>
-                      <div className="book_mini_cover">
-                        <img src={b.cover} />
-                      </div>
-                      <div className="book_mini_info">
-                        <h5 className="book_mini_info_name">{b.name}</h5>
-                        <div className="book_mini_info_score">
-                          { getStarValues(b.score).map((value, index) => <Star value={value} key={index} />) }
-                        </div>
-                        <p>作者：{b.author}</p>
-                        <p>售价：<span className="price">{b.price}</span></p>
-                        <p className="pricing">定价：{b.pricing}</p>
-                      </div>
-                    </div>
-                  )
-                })
-              }
+              <Slider ref={slider => (this.slider = slider)} {...settings}>
+                {
+                  recommend.map((b, i) => {
+                    return (
+                      <MiniBook book={b} key={`${b.isbn}-${i}`} onClick={e => this.reGetData(e, b)} /> 
+                    )
+                  })
+                }
+              </Slider>
             </div>
           </div>
         </div>
