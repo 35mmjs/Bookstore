@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import QRCode from 'qrcode.react'
 import Score from '../Score'
 import './index.less'
 
@@ -36,33 +37,21 @@ class Single extends React.Component {
           <img src={book.cover} />
         </div>
         <div className={infoCls}>
-          <h2 className="info_title">
-            {book.name}
-          </h2>
-          <p className={authorCls}>
-            作者：
-            {book.author}
-          </p>
-          <p className="info_price">
-            售价：
-            <span>{book.price}</span>
-            {' '}
-元
-                    </p>
+          <h2 className="info_title">{book.name}</h2>
+          <p className={authorCls}>作者：{book.author.replace('作者:', '')}</p>
+          <p className="info_price">售价：<span>{book.price}</span> 元</p>
           {book.pricing &&
             <p className="info_pricing">定价：{book.pricing} 元</p>
           }
         </div>
-        <Score value={book.score} mulity={mulity} />
-        <div className={introCls}>
-          {book.recommender && book.recommender.map(u => u)}
-          {' '}
-等
-          {' '}
-          {book.recommender && book.recommender.length}
-          {' '}
-位行业大咖诚意推荐
-                </div>
+        <Score value={book.score || '10.0'} mulity={mulity} />
+        {
+          book.qrcode && !mulity &&
+          <div className="info_qrcode">
+            <QRCode value={book.qrcode} size={100} />
+          </div>
+        }
+        <div className={introCls}></div>
       </div>
     )
   }
