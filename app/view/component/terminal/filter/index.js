@@ -39,7 +39,7 @@ const FilterForm = Form.create()(props => {
         <Col md={8} sm={24}>
           <FormItem label="设备类型">
             {getFieldDecorator('type', {
-              initialValue: '',
+              // initialValue: '',
             })(
               <Select placeholder="请选择" style={{ width: '100px' }}>
                 {VIEW_CONFIG_TYPE_MAP &&

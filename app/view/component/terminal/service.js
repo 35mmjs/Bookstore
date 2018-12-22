@@ -17,9 +17,10 @@ export function update(data) {
   })
 }
 
-export function findAll() {
+export function findAll(data) {
   return ajax({
     url: terminal.findAll,
+    data,
     method: 'get',
   })
 }

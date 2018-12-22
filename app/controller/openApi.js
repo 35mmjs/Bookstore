@@ -59,11 +59,15 @@ class OpenApiController extends Controller {
 
   async getPubu() {
     // const request = this.ctx.params
-    const item1 = await this.getSingleChannel(7)
-    const item2 = await this.getSingleChannel(8)
+    const item1 = await this.getSingleChannel(1)
+    const item2 = await this.getSingleChannel(2)
+    const item3 = await this.getSingleChannel(3)
+    const item4 = await this.getSingleChannel(4)
     const result = []
     result.push(item1)
     result.push(item2)
+    result.push(item3)
+    result.push(item4)
     this.ctx.body = {
       success: true,
       data: result,

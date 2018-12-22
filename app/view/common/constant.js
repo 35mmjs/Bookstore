@@ -50,8 +50,8 @@ const VIEW_CONFIG_TYPE_MAP = [
 ]
 
 const VIEW_CONFIG_ID = {
-  PUBU_ID: 0,
-  ZHANTAI_ID: 1,
+  PUBU_ID: 1,
+  ZHANTAI_ID: 2,
 }
 
 export default {

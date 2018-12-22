@@ -1,4 +1,5 @@
 const { Controller } = require('egg')
+const { filter } = require('../common/utils')
 
 class TerminalController extends Controller {
   // post
@@ -14,7 +15,9 @@ class TerminalController extends Controller {
   // get
   async findAll() {
     const { query } = this.ctx
-    const result = await this.ctx.service.terminal.findAll(query)
+    // filter undefined value
+    const notEmptyQuery = filter(query, (value, key) => value)
+    const result = await this.ctx.service.terminal.findAll(notEmptyQuery)
     this.ctx.body = {
       success: true,
       data: result,

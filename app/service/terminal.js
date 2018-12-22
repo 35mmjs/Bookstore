@@ -45,7 +45,6 @@ class Terminal extends Service {
       type,
     }
     const result = await this.app.mysql.update(DB, row)
-    console.log('aaaaaaaa', params, result)
     return result.affectedRows === 1
   }
 

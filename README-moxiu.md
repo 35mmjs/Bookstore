@@ -1,4 +1,6 @@
 ## changelog
+1222
+  - [ ] 批量查询isbn
 1221
   - [ ] mysql 类型强校验 
   - [ ] moment 时间处理
@@ -99,10 +101,15 @@ category
   - items
     -  
 
+## 接口约定
+异常统一由 ajax.js 维护
+dva 只处理业务当中报错
 
 ## 其他
 react router zh
 https://react-guide.github.io/react-router-cn/docs/API.html#redirect
+mysql db doc
+https://github.com/ali-sdk/ali-rds
 
 ## 如何部署
 // 提交代码后, 更改版本号

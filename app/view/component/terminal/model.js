@@ -59,8 +59,8 @@ export default {
     ) {
       const data = yield call(service.create, payload)
       yield put({
-        type: 'save',
-        payload: data,
+        type: 'findAll',
+        payload: {},
       })
     },
     *update(
@@ -71,8 +71,8 @@ export default {
     ) {
       const data = yield call(service.update, payload)
       yield put({
-        type: 'save',
-        payload: data,
+        type: 'findAll',
+        payload: {},
       })
     },
     *remove(
@@ -83,8 +83,8 @@ export default {
     ) {
       const data = yield call(service.remove, payload)
       yield put({
-        type: 'save',
-        payload: data,
+        type: 'findAll',
+        payload: {},
       })
     },
   },
