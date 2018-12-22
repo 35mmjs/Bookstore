@@ -14,9 +14,12 @@
   height: 280px;
   cursor: pointer;
   display: block;
+  background: #fff;
 
   img { 
     width: 100%;
+    position: absolute;
+    bottom: 0;
   }
 }
 
@@ -37,6 +40,9 @@
   padding: 0 5px 15px 10px;
   margin: 0 0;
   color: #fff;
+  white-space: nowrap;  
+  text-overflow:ellipsis; 
+  overflow:hidden;
 }
 
 .book_info_author {
@@ -162,6 +168,13 @@
   width: 185px;
   height: 280px;
   z-index: 10;
+  background: #fff;
+
+  img {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
 }
 
 .book_detail_container_score {
@@ -227,9 +240,10 @@
 }
 
 .book_detail_container_title {
-  line-height: 80px;
+  line-height: 48px;
   font-size: 36px;
   color: #fff;
+  padding-bottom: 12px;
 }
 
 .book_detail_container_author {
@@ -276,21 +290,18 @@
 
 .book_detail_container_meta {
   position: relative;
-  padding: 10px 20px 80px 20px;
+  padding: 10px 0px 80px 20px;
   color: #4d4d4d;
 }
 
 .book_detail_container_meta p {
   line-height: 36px;
   font-weight: bold;
+  margin-bottom: 0;
 }
 .book_detail_container_meta p span {
   display: inline-block;
-  width: 140px;
-}
-
-.book_detail_container_meta p span:nth-child(1) {
-  width: 220px;
+  width: 190px;
 }
 
 .book_detail_container_meta_qr {

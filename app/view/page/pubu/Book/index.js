@@ -28,7 +28,7 @@ export default class Book extends React.Component {
         </a>
         <div className='book_info'>
           <h2 className='book_info_name'>《{name}》</h2>
-          <p className='book_info_author'>作者：{author.replace('作者：', '')}</p>
+          <p className='book_info_author'>作者：{author.replace('作者:', '')}</p>
           <p className='book_info_price'>售价：<span className='book_info_price_value'>{price}</span> 元</p>
           <div className='book_info_score'>
             <div className='book_info_stars'>

@@ -17,6 +17,8 @@ class BookDetail extends React.Component {
   }
 
   componentDidMount() {
+    const { book } = this.props
+    // this.getBook(book.isbn)
     // this.getRecommend()
   }
 
@@ -28,6 +30,7 @@ class BookDetail extends React.Component {
   }
 
   getBook = (isbn) => {
+    console.log(isbn)
     getBook({ isbn })
       .then(res => {
         console.log(res)
@@ -76,7 +79,7 @@ class BookDetail extends React.Component {
                   {book.name}
                 </h2>
                 <p className="book_detail_container_author">
-                  作者：{book.author}
+                  作者：{book.author.replace('作者:', '')}
                 </p>
                 <p className="book_detail_container_recommand">
                 </p>
@@ -84,7 +87,7 @@ class BookDetail extends React.Component {
                   售价：<span className="price">{book.price} 元</span>
                 </p>
                 <p className="book_detail_container_pring">
-                  定价：<span className="price">{book.pricing} 元</span>
+                  定价：<span className="price">{book.pricing} </span> 元
                 </p>
               </div>
             </div>
@@ -95,7 +98,7 @@ class BookDetail extends React.Component {
                   <span>出版社：{book.publish}</span>
                 </p>
                 <p>
-                  <span>{book.pageType}</span>
+                  <span>开 本：{book.pageType}</span>
                   <span>书架号：{book.bookshelf}</span>
                 </p>
                 <p>
