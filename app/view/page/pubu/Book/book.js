@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import QRCode from 'qrcode.react'
 import Star from './Star'
 import getStarValues from '../../util/getStarValues'
 import { getBook, getRecommend } from '../../util/services'
@@ -75,66 +76,40 @@ class BookDetail extends React.Component {
                   {book.name}
                 </h2>
                 <p className="book_detail_container_author">
-                  作者：
-                  {book.author}
+                  作者：{book.author}
                 </p>
                 <p className="book_detail_container_recommand">
-                  {book.recommender.map(u => u)}
-                  {' '}
-等
-                  {' '}
-                  {book.recommender.length}
-                  {' '}
-位行业大咖诚意推荐
                 </p>
                 <p className="book_detail_container_price">
-                  售价：
-                  <span className="price">
-                    {book.price}
-                    {' '}
-元
-                                    </span>
+                  售价：<span className="price">{book.price} 元</span>
                 </p>
                 <p className="book_detail_container_pring">
-                  定价：
-                  <span className="price">
-                    {book.pricing}
-                    {' '}
-元
-                                    </span>
+                  定价：<span className="price">{book.pricing} 元</span>
                 </p>
               </div>
             </div>
             <div className="book_detail_container_info">
               <div className="book_detail_container_meta">
                 <p>
-                  <span>
-ISBN：
-                    {book.isbn}
-                  </span>
-                  <span>
-出版社：
-                    {book.publish}
-                  </span>
+                  <span>ISBN：{book.isbn}</span>
+                  <span>出版社：{book.publish}</span>
                 </p>
                 <p>
-                  <span>
-开 本：
-                    {book.pageType}
-                  </span>
-                  <span>
-书架号：
-                    {book.bookshelf}
-                  </span>
+                  <span>{book.pageType}</span>
+                  <span>书架号：{book.bookshelf}</span>
                 </p>
                 <p>
-                  <span>
-页 数：
-  {book.pageNumber}
-</span>
-
+                  <span>页 数：{book.pageNumber}</span> 
                 </p>
                 <p><span>{book.version}</span></p>
+                {
+                  book.qrcode &&
+                  <div className="book_detail_container_meta_qr">
+                    <div className="qrcode">
+                      <QRCode value={book.qrcode} size={100} />
+                    </div>
+                  </div>
+                }
               </div>
               <div className="book_detail_container_det">
                 <h4>内容简介：</h4>

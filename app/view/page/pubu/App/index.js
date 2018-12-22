@@ -51,8 +51,7 @@ class App extends React.Component {
   }
 
   getData = () => {
-    this.autoplay()
-    return
+    // this.autoplay()
 
     getPubuData().then(res => {
       const data = res.data.data.map(channel => {
@@ -72,8 +71,10 @@ class App extends React.Component {
         }
       })
 
+      // console.log(data)
+
       this.setState({
-        channels: data,
+        // channels: data,
       }, () => {
         this.autoplay()
       })
@@ -145,7 +146,7 @@ class App extends React.Component {
       bookshelf: '3043331',
 
       // {String} 二维码
-      qrcode: '',
+      qrcode: 'http://wap.zxhsd.com/index/item.shtml?spbs=4187005&khbh=3300000000',
     }
     this.setState({
       book: mock,

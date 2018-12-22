@@ -44,6 +44,7 @@
     "parameter": "^3.4.0",
     "prop-types": "^15.6.2",
     "qiniu": "^7.2.1",
+    "qrcode.react": "^0.8.0",
     "querystring": "^0.2.0",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",

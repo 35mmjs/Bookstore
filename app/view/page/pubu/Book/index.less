@@ -275,6 +275,7 @@
 }
 
 .book_detail_container_meta {
+  position: relative;
   padding: 10px 20px 80px 20px;
   color: #4d4d4d;
 }
@@ -291,6 +292,27 @@
 .book_detail_container_meta p span:nth-child(1) {
   width: 220px;
 }
+
+.book_detail_container_meta_qr {
+  position: absolute;
+  width: 110px;
+  height: 135px;
+  display: block;
+  right: 50px;
+  top: 120px;
+  background-image: url(http://pjirfnf0s.bkt.clouddn.com/page04_03.png);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  .qrcode {
+    padding: 5px;
+    width: 110px;
+    height: 110px;
+    background: #fff;
+    overflow: hidden;
+  }
+}
+
 
 .book_detail_container_det {
   padding: 0 20px 20px 20px;
