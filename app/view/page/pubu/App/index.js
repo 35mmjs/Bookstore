@@ -26,10 +26,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.getData()
-
+    this.getData()
     this.init()
-    this.autoplay()
     document.addEventListener('click', this.handleClick)
   }
 
@@ -49,10 +47,13 @@ class App extends React.Component {
     if (wrapper.scrollTop === 0) {
       wrapper.scrollTop += content.offsetHeight
     }
-    wrapper.scrollTop -= 1
+    wrapper.scrollTop -= 2 
   }
 
   getData = () => {
+    this.autoplay()
+    return
+
     getPubuData().then(res => {
       const data = res.data.data.map(channel => {
         const layers = channel.books.reduce((acc, book, index) => {
