@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
+import uniqBy from 'lodash.uniqby'
+import { message } from 'antd'
 import { getZhantaiData } from '../../util/services'
 import Single from '../Single'
 import data from '../data'
@@ -12,6 +14,7 @@ class App extends React.Component {
     this.state = {
       handUp: false,
       books: data,
+      handBooks: [],
     }
 
     this.timeout = null
@@ -19,18 +22,24 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getData()
-    const that = this;
+    const that = this
     window.handleBookEvent = function (isbns) {
       that.handleBookEvent(isbns)
     }
   }
 
   handleBookEvent = (isbns) => {
-    this.pause()
+    const { books } = this.state
+    const handBooks = uniqBy(books.filter(book => {
+      return isbns.indexOf(book.isbn) >= 0
+    }), 'isbn')
+
     this.setState({
       handUp: true,
-      books: data.slice(0, isbns.length),
+      handBooks,
     }, () => {
+      message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
+      this.pause()
       this.autoPlay()
     })
   }
@@ -44,9 +53,8 @@ class App extends React.Component {
       this.play()
       this.setState({
         handUp: false,
-        books: data,
       })
-    }, 5000)
+    }, 10000)
   }
 
   getData = () => {
@@ -78,11 +86,19 @@ class App extends React.Component {
   }
 
   render() {
-    const { books, handUp } = this.state
+    const { books, handBooks, handUp } = this.state
+
+    // Change Books
+    let sliderBooks = books
+    if (handUp && handBooks.length > 0) {
+      sliderBooks = handBooks
+    }
+
+    // Slider Setting
     const settings = {
       infinite: true,
-      slidesToShow: handUp && books.length > 1 ? 2 : 1,
-      slidesToScroll: handUp && books.length > 1 ? 2 : 1,
+      slidesToShow: handUp && sliderBooks.length > 1 ? 2 : 1,
+      slidesToScroll: handUp && sliderBooks.length > 1 ? 2 : 1,
       autoplay: true,
       autoplaySpeed: 3000,
       variableWidth: true,
@@ -92,10 +108,10 @@ class App extends React.Component {
       <div className="app">
         <div className="warpper">
           <Slider ref={slider => (this.slider = slider)} {...settings}>
-            {books.map((book, index) => {
+            {sliderBooks.map((book, index) => {
               const theme = index % 2 === 0 ? 'lightBlue' : ''
               return (
-                <Single book={book} theme={theme} mulity={handUp && books.length > 1} key={book.id} />
+                <Single book={book} theme={theme} mulity={handUp && sliderBooks.length > 1} key={book.id} />
               )
             })}
           </Slider>
