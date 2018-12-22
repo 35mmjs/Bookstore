@@ -47,7 +47,7 @@ class App extends React.Component {
     if (wrapper.scrollTop === 0) {
       wrapper.scrollTop += content.offsetHeight
     }
-    wrapper.scrollTop -= 1
+    wrapper.scrollTop -= 2 
   }
 
   getData = () => {
