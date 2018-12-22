@@ -58,7 +58,8 @@ class App extends React.Component {
   }
 
   getData = () => {
-    getZhantaiData({ client: '1' })
+    const { client } = window.appData
+    getZhantaiData({ client })
       .then(res => {
         if (res.data.success) {
           console.log(res.data.data.books)

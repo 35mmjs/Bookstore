@@ -12,9 +12,13 @@ class PageController extends Controller {
 
   async zhantaiPage() {
     const { ctx } = this
+    const { query } = ctx
+
     await ctx.render('layout/pwa.html', {
       entry: 'zhantai',
-      appData: {},
+      appData: {
+        client: query.client,
+      },
       mainfest: '/public/zhantai/mainfest.json',
     })
   }
