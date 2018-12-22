@@ -1,9 +1,54 @@
 import React from 'react'
 import classNames from 'classnames'
+import Star from './Star'
+import getStarValues from '../../util/getStarValues'
+import { getBook, getRecommend } from '../../util/services'
+import data from './data'
 
 class BookDetail extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      book: this.props.book,
+      recommend: data,
+    }
+  }
+
+  componentDidMount() {
+    // this.getRecommend()
+  }
+
+  reGetData = (e, isbn) => {
+    e.preventDefault()
+
+    this.getBook(isbn)
+    this.getRecommend(isbn)
+  }
+
+  getBook = (isbn) => {
+    getBook({ isbn })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  getRecommend = (isbn) => {
+    getRecommend({ isbn })
+      .then(res => {
+        console.log(res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
   render() {
-    const { onClose, book } = this.props
+    const { onClose } = this.props
+    const { book, recommend } = this.state
 
     return (
       <div className="book_detail">
@@ -22,11 +67,7 @@ class BookDetail extends React.Component {
                   </div>
                 </div>
                 <div className="book_detail_container_command">
-                  评论
-                  {' '}
-                  {book.commands}
-                  {' '}
-条
+                  评论 {book.commands} 条
                 </div>
               </div>
               <div className="book_detail_container_bg">
@@ -111,6 +152,28 @@ ISBN：
           </div>
           <div className="book_detail_recommand">
             <h4>相关书籍</h4>
+            <div className="book_detail_recommand_content">
+              {
+                recommend.map((b, i) => {
+                  return (
+                    <div className="book_mini" onClick={e => this.reGetData(e, b.isbn)} key={i}>
+                      <div className="book_mini_cover">
+                        <img src={b.cover} />
+                      </div>
+                      <div className="book_mini_info">
+                        <h5 className="book_mini_info_name">{b.name}</h5>
+                        <div className="book_mini_info_score">
+                          { getStarValues(b.score).map((value, index) => <Star value={value} key={index} />) }
+                        </div>
+                        <p>作者：{b.author}</p>
+                        <p>售价：<span className="price">{b.price}</span></p>
+                        <p className="pricing">定价：{b.pricing}</p>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
           </div>
         </div>
       </div>
