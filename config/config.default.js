@@ -14,6 +14,7 @@ module.exports = appInfo => {
     'errorHandler',
     'saveSession',
     'setCors',
+    'payloadHandler',
   ]
   config.setCors = {
     match: '/open',
@@ -54,8 +55,7 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      // password: process.env.MYSQL_PASSWORD || DEFAULT_ROOT_ADMIN_PASSWORD,
-      password: 'root12345',
+      password: process.env.MYSQL_PASSWORD,
       // 数据库名
       database: 'BOOKSTORE',
     },

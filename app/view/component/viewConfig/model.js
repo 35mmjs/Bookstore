@@ -25,6 +25,17 @@ export default {
     },
   },
   effects: {
+    select(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      put({
+        type: 'chooseItem',
+        payload,
+      })
+    },
     *findAll(
       {
         payload,

@@ -42,6 +42,7 @@ module.exports = app => {
   // book query
   router.get(book.findOneByISBN, controller.book.getBookByISBN)
   // open api
+  router.get(openApi.daoshi, controller.openApi.getDaoshi)
   router.get(openApi.pubu, controller.openApi.getPubu)
   router.get(openApi.findBookByISBN, controller.openApi.findBookByISBN)
   router.get(openApi.zhantai, controller.openApi.getZhantai)

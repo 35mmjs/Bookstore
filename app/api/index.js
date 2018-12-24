@@ -33,6 +33,7 @@ const book = {
 }
 
 const openApi = {
+  daoshi: '/open/v1/daoshi',
   pubu: '/open/v1/pubu',
   zhantai: '/open/v1/zhantai',
   findBookByISBN: '/open/v1/book', // isbn=xxx

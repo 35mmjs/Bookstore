@@ -14,7 +14,8 @@ const FormItem = Form.Item
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleModalVisible, onSubmit } = props
-  const okHandle = () => {
+  const okHandle = (e) => {
+    e.preventDefault()
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()

@@ -1,6 +1,6 @@
 {
   "name": "Bookstore",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "",
   "private": true,
   "dependencies": {
@@ -88,6 +88,7 @@
   },
   "scripts": {
     "start": "egg-bin dev",
+    "moxiu-start": "MYSQL_PASSWORD=root12345 egg-bin dev",
     "mock": "NODE_ENV=mock egg-bin dev",
     "dora-proxy": "dora --plugins \"proxy?port=8989\" --verbose",
     "egg-start": "rm -rf node_modules && npm i --production && npm run _egg-start",

@@ -36,13 +36,11 @@ class Terminal extends Service {
   }
 
   async update(params) {
-    const { id, name, note, view_config, type } = params
+    // const { id, name, note, view_config, type } = params
+    const { id } = params
     const row = {
       id,
-      name,
-      note,
-      // view_config,
-      type,
+      ...params,
     }
     const result = await this.app.mysql.update(DB, row)
     return result.affectedRows === 1

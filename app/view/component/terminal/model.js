@@ -25,8 +25,25 @@ export default {
         list: payload,
       }
     },
+    chooseSingleItem(state, { payload }) {
+      return {
+        ...state,
+        singleItem: payload,
+      }
+    },
   },
   effects: {
+    *chooseSingleItem(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      yield put({
+        type: 'chooseSingleItemReducer',
+        payload,
+      })
+    },
     *findAll(
       {
         payload,
