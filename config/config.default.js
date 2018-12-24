@@ -54,8 +54,7 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      // password: process.env.MYSQL_PASSWORD || DEFAULT_ROOT_ADMIN_PASSWORD,
-      password: 'root12345',
+      password: process.env.MYSQL_PASSWORD || 'root12345',
       // 数据库名
       database: 'BOOKSTORE',
     },
@@ -77,6 +76,7 @@ module.exports = appInfo => {
   }
 
   config.bookAPI2 = {
+    url: 'http://ec1dbcdea7084714a62fc480c469abff-cn-shanghai.alicloudapi.com',
     appKey: '25361443',
     appSecret: '80c4625784e91ff9c9d30d6401e06081',
     appId: '7653878',
