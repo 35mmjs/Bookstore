@@ -98,7 +98,7 @@ const routeMap = () => {
     },
     {
       path: terminalRoutes.findAll,
-      models: () => [require('../component/terminal/model')],
+      models: () => [require('../component/terminal/model'), require('../component/viewConfig/model')],
       component: () => Terminal,
     },
     {

@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import moment from 'moment'
 import { Button, Divider, Table, Form, Input, Modal, Select } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
 import {
@@ -8,6 +9,7 @@ import {
   FORM_ITEM_LAYOUT,
 } from '../../../common/constant'
 
+const Search = Input.Search
 const { Option } = Select
 const FormItem = Form.Item
 const confirm = Modal.confirm
@@ -96,42 +98,88 @@ const EditForm = Form.create()(props => {
 })
 
 const ConfigForm = Form.create()(props => {
-  const { modalVisible, form, handleModalVisible, onSubmit } = props
+  const { modalVisible, form, handleModalVisible, onSubmit, onSearchingConfig, data, tableData } = props
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      const { des } = fieldsValue
-      onSubmit({
-        name: des,
+      onSearchingConfig({
+        ...fieldsValue,
       })
     })
   }
+  const onBindingTerminal = (configItem) => {
+    const { id: configId } = configItem
+    const { id: terminalId } = data
+    console.log('aaaaaaaa', configId, terminalId)
+    if (configId && terminalId) {
+      onSubmit({ id: terminalId, view_config: configId })
+    }
+  }
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: '配置备注',
+      dataIndex: 'note',
+      key: 'note',
+    },
+    {
+      title: '配置类型',
+      dataIndex: 'type',
+      key: 'type',
+      render: (text) => (
+        <span>{ VIEW_CONFIG_TYPE_MAP.find(item => item.value === text).label || '暂无' }</span>
+      ),
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          <Button type="primary" onClick={() => onBindingTerminal(record)}>绑定</Button>
+          <Divider type="vertical" />
+        </span>
+      ),
+    },
+  ]
+
   return (
     <Modal
       destroyOnClose
       title="配置终端内容"
       visible={modalVisible}
-      onOk={okHandle}
+      onOk={() => handleModalVisible()}
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('des', {
+        {form.getFieldDecorator('name', {
           rules: [
             {
-              required: true,
-              message: '请输入至少五个字符的规则描述！',
+              // required: true,
+              // message: '请输入至少五个字符的规则描述！',
               min: 1,
             },
           ],
-        })(<Input placeholder="请输入" />)}
+        })(
+          <Search
+            placeholder="输入配置名"
+            enterButton
+            onSearch={okHandle}
+          />,
+        )}
       </FormItem>
+      <Table columns={columns} dataSource={tableData} rowKey="id" />
     </Modal>
   )
 })
 
 const Comp = props => {
-  const { list, onDelete, onSubmit } = props
+  const { list, onDelete, onSubmit, onSearchingConfig, configData, onChooseItem } = props
   const [editFormVisible, setEditFormVisible] = useState(false)
   const [configFormVisible, setConfigFormVisible] = useState(false)
   const [viewFormVisible, setViewFormVisible] = useState(false)
@@ -142,7 +190,7 @@ const Comp = props => {
     {
       title: '终端ID',
       dataIndex: 'id',
-      key: 'name',
+      key: 'id',
       render: (value, record) => {
         return (
           <a
@@ -157,34 +205,35 @@ const Comp = props => {
       },
     },
     {
+      title: '终端名称',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
       title: '终端类型',
       dataIndex: 'type',
-      key: 'age',
+      key: 'type',
     },
     {
       title: '门店',
       dataIndex: 'store',
-      key: 'address',
+      key: 'store',
     },
     {
       title: '区域备注',
-      key: 'tags1',
-      dataIndex: 'name',
-    },
-    {
-      title: '状态',
-      key: 'tags2',
-      dataIndex: 'status',
+      key: 'note',
+      dataIndex: 'note',
     },
     {
       title: '录入人',
-      key: 'tags3',
-      dataIndex: 'tags',
+      key: 'employee_id',
+      dataIndex: 'employee_id',
     },
     {
       title: '录入时间',
-      key: 'tags4',
+      key: 'created_at',
       dataIndex: 'created_at',
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',
@@ -193,6 +242,7 @@ const Comp = props => {
         <Fragment>
           <Button
             onClick={() => {
+              setEditFormData(record)
               setConfigFormVisible(true)
             }}
           >
@@ -233,13 +283,16 @@ const Comp = props => {
   const editFormProps = {
     modalVisible: editFormVisible,
     handleModalVisible: () => setEditFormVisible(false),
-    onSubmit: val => onSubmit(val, 'edit'),
+    onSubmit: val => onSubmit(val),
     data: editFormData,
   }
   const configFormProps = {
     modalVisible: configFormVisible,
     handleModalVisible: () => setConfigFormVisible(false),
-    onSubmit: val => onSubmit(val, 'config'),
+    onSearchingConfig: val => onSearchingConfig(val),
+    onSubmit: val => onSubmit(val),
+    tableData: configData,
+    data: editFormData,
   }
 
   const viewFormProps = {

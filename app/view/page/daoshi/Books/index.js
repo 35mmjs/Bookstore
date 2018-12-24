@@ -1,13 +1,10 @@
 import React from 'react'
+import classNames from 'classnames'
 import './index.less'
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Books extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      value: '',
-    }
   }
 
   onClick = (e, isbn) => {
@@ -18,31 +15,41 @@ export default class Books extends React.Component {
     }
   }
 
-  onChange = (e) => {
-    this.setState({
-      value: e.target.value,
-    })
-  }
-
   handleSearch = (e) => {
     e.preventDefault()
     this.props.handleSearch && this.props.handleSearch(this.state.value)
   }
 
   render() {
-    const { books } = this.props
+    const { books, isList, hidden } = this.props
+    const cls = classNames({
+      books: true,
+      books_search: isList,
+      books_hide: hidden,
+    })
     return (
-      <div className="books">
-        <div className="books_search">
-          <input type="text" className="books_search_input" placeholder="输入书名、作者名、支持拼音首字母搜索" onChange={this.onChange} />
-          <span className="books_search_btn" onClick={this.handleSearch} />
-        </div>
+      <div className={cls}>
         <div className="books_list">
           <div className="books_list_content">
             { books.map((book, index) => {
               return (
-                <div className="books_list_cover" onClick={e => this.onClick(e, book.isbn)} key={index}>
-                  <img src={book.cover} />
+                <div className="books_list_content_item" key={`${book.isbn}${index}`} onClick={e => this.onClick(e, book.isbn)}>
+                  <div className="books_list_cover" key={index}>
+                    <img src={book.cover} />
+                  </div>
+                  {
+                    isList && (<div className="book_list_info">
+                      <h4 className="name">
+                        {book.name}
+                      </h4>
+                      <p>
+                        <span>作者：{book.author.replace('作者:', '')}</span>
+                      </p>
+                      <p>
+                        <span>出版社：{book.publish}</span>
+                      </p>
+                    </div>)
+                  }
                 </div>
               )
             })}

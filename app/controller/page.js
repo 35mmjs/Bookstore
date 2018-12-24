@@ -6,29 +6,33 @@ class PageController extends Controller {
     await ctx.render('layout/pwa.html', {
       entry: 'pubu',
       appData: {},
-      mainfest: '/public/pubu/mainfest.json',
+      mainfest: '/public/pubu/manifest.json',
     })
   }
 
   async zhantaiPage() {
     const { ctx } = this
-    const { query } = ctx
+    const { client } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'zhantai',
       appData: {
-        client: query.client,
+        client, 
       },
-      mainfest: '/public/zhantai/mainfest.json',
+      mainfest: '/public/zhantai/manifest.json',
     })
   }
 
   async daoshiPage() {
     const { ctx } = this
+    const { location } = ctx.query
+
     await ctx.render('layout/pwa.html', {
       entry: 'daoshi',
-      appData: {},
-      mainfest: '/public/daoshi/mainfest.json',
+      appData: {
+        location,
+      },
+      mainfest: '/public/daoshi/manifest.json',
     })
   }
 }

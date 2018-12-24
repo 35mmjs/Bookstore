@@ -9,6 +9,13 @@ class OpenApi extends Service {
     return items
   }
 
+  async getDaoshi(id) {
+    const items = await this.app.mysql.get(VIEW_CONFIGS, {
+      id,
+    })
+    return items
+  }
+
   async getZhantai(id) {
     const items = await this.app.mysql.get(VIEW_CONFIGS, {
       id,

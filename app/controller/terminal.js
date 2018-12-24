@@ -47,7 +47,10 @@ class TerminalController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.terminal.update(request)
+    console.log('ccccccccccc', request)
+    
+    const notEmptyQuery = filter(request, (value, key) => value)
+    const result = await this.ctx.service.terminal.update(notEmptyQuery)
     this.ctx.body = {
       success: true,
       data: result,

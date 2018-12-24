@@ -26,9 +26,19 @@ export default class Index extends React.Component {
     this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 
+  onSearchingConfig = (data, type) => {
+    console.log('aaaaaaaa', data)
+    this.dispatch({ type: `viewConfig/${type}`, payload: data })
+  }
+
+  onChooseItem = data => {
+    this.dispatch({ type: 'terminal/chooseSingleItem', payload: data })
+  }
+
   render() {
-    const { terminal } = this.props
+    const { terminal, viewConfig } = this.props
     const { list, singleItem } = terminal
+    const { list: configData } = viewConfig
     return (
       <div>
         <div>Teminal</div>
@@ -38,8 +48,9 @@ export default class Index extends React.Component {
           <Table
             list={list}
             data={singleItem}
-            onChooseItem={data => this.onSubmit(data, 'findOne')}
+            configData={configData}
             onSubmit={data => this.onSubmit(data, 'update')}
+            onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
             onDelete={data => this.onSubmit(data, 'remove')}
           />
         </div>

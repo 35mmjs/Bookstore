@@ -4,6 +4,7 @@ const loginIgnoreList = [
   /^\/user\//,
   /^\/page\//,
   /^\/open\//,
+  /^\/public\//,
 ]
 // 登陆检测 注入 cdn 上传token
 module.exports = () => {
