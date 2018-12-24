@@ -1,43 +1,20 @@
 .books {
   position: absolute;
   width: 810px;
-  height: 950px;
+  height: 890px;
   overflow-x: hidden;
   overflow-y: auto;
   display: block;
-  right: 30px;
-  top: 80px;
+  right: 35px;
+  top: 160px;
+  padding-top: 30px;
+  visibility: visible;
+  opacity: 1;
 }
 
-.books_search {
-  width: 100%;
-  height: 70px;
-  padding: 0px 0;
-}
-
-.books_search_input {
-  width: 740px;
-  height: 70px;
-  line-height: 70px;
-  font-size: 32px;
-  border-radius: 5px;
-  border: 1px solid #fff;
-  background: #282828;
-  display: inline-block;
-  padding: 0 20px;
-  color: #fff;
-}
-
-.books_search_btn {
-  position: relative;
-  top: 15px;
-  left: 25px;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: inline-block;
-  background-image: url('http://pjirfnf0s.bkt.clouddn.com/search.png');
-  background-repeat: no-repeat;
+.books_hide {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .books_list {
@@ -45,7 +22,7 @@
   width: 810px;
   height: 780px;
   overflow: hidden;
-  padding: 35px 0;
+  margin-top: 40px;
 
   &_content {
     position: relative;
@@ -60,7 +37,7 @@
   display: inline-block;
   width: 250px;
   height: 356px;
-  margin: 0 16px 32px 0;
+  margin: 0 16px 40px 0;
   float: left;
   overflow: hidden;
   cursor: pointer;
@@ -69,6 +46,47 @@
     width: 250px;
     height: auto;
     display: inline-block;
+  }
+}
+
+.books_search {
+  .books_list_content_item {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    padding-left: 170px;
+    margin-bottom: 30px;
+
+    .books_list_cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0 0;
+      width: 120px;
+      height: 150px;
+      background: #fff;
+      img {
+        width: 100%;
+      }
+    }
+
+    .book_list_info {
+      height: 150px;
+      border-bottom: 1px solid #d8d8d8;
+
+      .name {
+        font-size: 32px;
+        line-height: 46px;
+        color: #fff
+      }
+
+      p {
+        color: #666;
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 0;
+      }
+    }
   }
 }
 

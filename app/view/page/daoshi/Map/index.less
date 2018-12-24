@@ -1,9 +1,12 @@
 
 .map {
-  position: relative;
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 180px;
   width: 970px;
-  height: 996px;
-  padding-top: 150px;
+  height: 890px;
+  padding-top: 50px;
   overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
@@ -18,10 +21,7 @@
   margin-left: 200px;
   margin-right: auto;
   display: block;
-
-  &:last-child {
-    margin-top: -62px;
-  }
+  transition: width .3s linear;
 }
 
 .floor img {
@@ -29,11 +29,12 @@
 }
 
 .areas {
-  position: absolute;
+  position: fixed;
   width: 160px;
   height: 600px;
-  right: 0;
-  top: 250px;
+  right: 950px;
+  top: 320px;
+  opacity: 1;
 }
 
 .area {
@@ -106,4 +107,23 @@
   visibility: hidden;
   opacity: 0;
   transition: all .3s ease-in-out;
+}
+
+.map_zoom {
+  width: 100%;
+
+  .floor {
+    width: 1000px;
+    margin-bottom: -100px;
+    margin-left: 400px;
+  }
+
+  .areas {
+    right: 150px;
+  }
+}
+
+.map_hidden {
+  opacity: 0;
+  visibility: hidden;
 }
