@@ -17,11 +17,12 @@ export default class Book extends React.Component {
 
     return (
       <div className={className}>
-        <div className="book_detail_back" onClick={this.handleClickBack} />
         <div className="book_detail_content">
           <div className="book_detail_info">
             <div className="book_detail_info_cover">
-              <img src={book.cover} />
+              { book.cover && (
+                <img src={book.cover} />
+              )}
             </div>
             <h3 className="book_detail_info_name">
               {book.name}
@@ -75,7 +76,7 @@ isbn：
                 {book.pageNumber}
                             </span>
             </p>
-            <p><span>book.version}</span></p>
+            <p><span>{book.version}</span></p>
           </div>
         </div>
       </div>

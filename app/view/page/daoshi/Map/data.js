@@ -8,12 +8,12 @@ export default {
     {
       image: 'http://pjirfnf0s.bkt.clouddn.com/map02.png',
       size: [1600, 975],
-      location: [-60, 110],
+      location: [-120, 160],
     },
     {
       image: 'http://pjirfnf0s.bkt.clouddn.com/map01.png',
       size: [1600, 975],
-      location: [-185, -105],
+      location: [-400, -130],
     },
   ],
   areas: [
