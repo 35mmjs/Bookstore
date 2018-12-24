@@ -17,7 +17,7 @@ export default class Map extends React.Component {
   }
 
   componentDidMount() {
-    const { location } = window.appData
+    const { location = 1 } = window.appData
     const place = data.floor[data.floor.length - location].location
     const here = this.getPosition(location, place[0], place[1])
 
