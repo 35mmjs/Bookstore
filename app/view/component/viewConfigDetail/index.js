@@ -99,20 +99,20 @@ class CreateForm extends React.Component {
     }
 
     const pubuForm = () => [
-      <FormItem {...formItemLayout} label="瀑布图片">
+      <FormItem {...formItemLayout} key="banner" label="瀑布图片">
         {getFieldDecorator('banner', {
           rules: [{ type: 'object', required: true, message: '请上传一张图' }],
           trigger: 'onUploadDone',
         })(<ImageUploader />)}
       </FormItem>,
-      <FormItem {...formItemLayout} label="书目录入">
+      <FormItem {...formItemLayout} key="books" label="书目录入">
         {getFieldDecorator('books', {
           initialValue: tableData,
         })(<TableForm />)}
       </FormItem>,
     ]
     const zhantaiForm = () => [
-      <FormItem {...formItemLayout} label="书目录入">
+      <FormItem {...formItemLayout} key="books" label="书目录入">
         {getFieldDecorator('books', {
           initialValue: tableData,
         })(<TableForm />)}

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Row } from 'antd'
-import styles from './index.less'
+import styles from './index.module.less'
 
 const DescriptionList = ({
   className,

@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Col } from 'antd'
-import styles from './index.less'
+import styles from './index.module.less'
 import responsive from './responsive'
 
+console.log('aaaaaaaa', styles)
 const Description = ({
   term, column, children, ...restProps
 }) => (

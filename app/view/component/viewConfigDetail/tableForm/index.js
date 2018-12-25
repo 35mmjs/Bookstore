@@ -12,6 +12,7 @@ import {
   Col,
 } from 'antd'
 import isEqual from 'lodash/isEqual'
+import ModalForm from './searchBooksByISBNs'
 import DescriptionList from '../../common/DescriptionList'
 import styles from './style.less'
 import { findBookByISBN } from '../service'
@@ -103,7 +104,11 @@ class SearchingForm extends React.Component {
             {this.state.data &&
               Object.keys(this.state.data).map(key => {
                 const obj = this.state.data
-                return <Description key={key} term={key}>{obj[key]}</Description>
+                return (
+                  <Description key={key} term={key}>
+                    {obj[key]}
+                  </Description>
+                )
               })}
           </DescriptionList>
         </div>
@@ -179,7 +184,7 @@ class TableForm extends PureComponent {
     })
   }
 
-  handleDataFromSearchForm = (bookInfo) => {
+  handleDataFromSearchForm = bookInfo => {
     const { data } = this.state
     const newData = data.map(item => ({ ...item }))
     newData.push({
@@ -311,9 +316,7 @@ class TableForm extends PureComponent {
               />
             )
           }
-          return (
-            <img style={{ width: '100%' }} src={text} alt="暂无图片" />
-          )
+          return <img style={{ width: '100%' }} src={text} alt="暂无图片" />
         },
       },
       {
@@ -453,18 +456,48 @@ class TableForm extends PureComponent {
           pagination={false}
           rowClassName={record => (record.editable ? styles.editable : '')}
         />
-        <Button
-          style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
-          type="dashed"
-          onClick={this.newMember}
-          icon="plus"
-        >
-          新增书目
-        </Button>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Button
+              style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
+              type="dashed"
+              onClick={this.newMember}
+              icon="plus"
+            >
+              单个ISBN新增书目
+            </Button>
+          </Col>
+          <Col span={8}>
+            <Button
+              style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
+              type="dashed"
+              onClick={this.newMember}
+              icon="plus"
+            >
+              多个ISBN新增书目
+            </Button>
+          </Col>
+          <Col span={8}>
+            <Button
+              style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
+              type="dashed"
+              onClick={this.newMember}
+              icon="plus"
+            >
+              通过搜索新增书目
+            </Button>
+          </Col>
+        </Row>
+
         <SearchingForm
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
           onSubmit={this.handleDataFromSearchForm}
+        />
+        <ModalForm
+          title="title"
+          defaultVisible
+          closable={false}
         />
       </Fragment>
     )

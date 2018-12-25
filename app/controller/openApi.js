@@ -9,6 +9,8 @@ function bookInfoMap(res) {
     catalog: res.yxxlmc, // 分类
     toc: res.ml, // 目录,
     price: res.edj,
+    catalog: res.yxxlmc,
+    price: res.dj,
     pricing: res.dj,
     recommender: res.tjy, // 推荐语
     intro: res.tjy, // 介绍

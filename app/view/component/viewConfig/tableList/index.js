@@ -27,11 +27,6 @@ export default class Index extends React.Component {
         dataIndex: 'type',
         key: 'type',
       },
-      {
-        title: '配置内容',
-        key: 'content',
-        dataIndex: 'content',
-      },
       // {
       //   title: '状态',
       //   key: 'status',
@@ -77,7 +72,6 @@ export default class Index extends React.Component {
   }
 
   render() {
-    console.log('aaaaaaaa', this.props)
-    return <Table columns={this.columns} dataSource={this.props.data} />
+    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} />
   }
 }

@@ -30,7 +30,7 @@ const menu = [
       },
       {
         label: '配置录入',
-        value: 'new-config',
+        value: '/view-config/manage/detail/new',
         children: null,
       },
     ],
