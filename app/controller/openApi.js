@@ -21,7 +21,7 @@ function bookInfoMap(res) {
     bookshelf: '',
     qrcode: res.qrcode,
   }
-  return processedResult
+  return Object.assign({}, processedResult)
 }
 
 function bookInfoListProcess(list) {
@@ -102,12 +102,11 @@ class OpenApiController extends Controller {
     const { query } = this.ctx
     const { isbn } = query
     const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
-    // const processedResult = bookInfoMap(res)
-    console.log('aaaaaaaa', res)
+    const processedResult = bookInfoMap(res)
     this.ctx.body = {
       success: true,
       data: res,
-      // data: processedResult,
+      data: processedResult,
     }
   }
 
@@ -139,18 +138,14 @@ class OpenApiController extends Controller {
     const { isbn } = param
     const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
     const { spbs } = res
-    console.log('aaaaaaaa', spbs)
     if (spbs) {
       const rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
-      console.log('aaaaaaaa', rawList)
       if (rawList && rawList.length > 0) {
-        list = rawList.map(item => {
-          return {
-            price: item.dj,
-            name: item.sm,
-            isbn: item.tm,
-          }
-        })
+        list = await Promise.all(rawList.map(async item => {
+          // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
+          const singleBook = await this.ctx.service.bookAPI.getBookByISBN(item.tm)
+          return bookInfoMap(singleBook)
+        }))
       }
       this.ctx.body = {
         success: true,
