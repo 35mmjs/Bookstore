@@ -6,11 +6,12 @@ function bookInfoMap(res) {
     isbn: res.isbn,
     name: res.sm,
     author: res.author,
-    catalog: res.yxxlmc,
+    catalog: res.yxxlmc, // 分类
+    toc: res.ml, // 目录,
     price: res.edj,
     pricing: res.dj,
-    recommender: '',
-    intro: res.tjy,
+    recommender: res.tjy, // 推荐语
+    intro: res.tjy, // 介绍
     pageType: res.kb,
     pageNum: res.ys,
     publish: res.bb,
@@ -99,10 +100,12 @@ class OpenApiController extends Controller {
     const { query } = this.ctx
     const { isbn } = query
     const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
-    const processedResult = bookInfoMap(res)
+    // const processedResult = bookInfoMap(res)
+    console.log('aaaaaaaa', res)
     this.ctx.body = {
       success: true,
-      data: processedResult,
+      data: res,
+      // data: processedResult,
     }
   }
 
