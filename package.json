@@ -1,6 +1,6 @@
 {
   "name": "Bookstore",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "private": true,
   "dependencies": {
@@ -92,7 +92,7 @@
     "moxiu-start": "MYSQL_PASSWORD=root12345 egg-bin dev",
     "mock": "NODE_ENV=mock egg-bin dev",
     "dora-proxy": "dora --plugins \"proxy?port=8989\" --verbose",
-    "egg-start": "rm -rf node_modules && npm i --production && npm run _egg-start",
+    "egg-start": "rm -rf node_modules && cnpm i --production && npm run _egg-start",
     "egg-stop": "egg-scripts stop",
     "_egg-start": "egg-scripts stop && egg-scripts start --env=prod --daemon --title=egg-server-showcase",
     "debug": "egg-bin debug",
@@ -102,7 +102,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix --ext .js,.jsx .",
     "ci": "npm run lint && npm run cov",
-    "build": "rm -rf ./dist ./node_modules && npm i --production && ./plugin/egg-webpack/bin/egg-webpack-build",
+    "build": "rm -rf ./dist ./node_modules && cnpm i --production && ./plugin/egg-webpack/bin/egg-webpack-build",
     "autod": "autod",
     "deploy": "./deploy.sh -e dev -b default -v $npm_package_version",
     "tag": "git tag $npm_package_version && git push origin $npm_package_version",
