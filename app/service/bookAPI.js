@@ -98,7 +98,7 @@ class BookAPIService extends Service {
    *  - qrcode 购买链接，用于生成二维码
    */
   getBookByISBN(ISBN, khbh) {
-    return this.getBook('ISBN', ISBN, khbh).then(d => d[0])
+    return this.getBook('KEYWORD', ISBN, khbh).then(d => d[0])
   }
 
   /**

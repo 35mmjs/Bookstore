@@ -77,6 +77,7 @@ module.exports = appInfo => {
   }
 
   config.bookAPI2 = {
+    url: 'http://ec1dbcdea7084714a62fc480c469abff-cn-shanghai.alicloudapi.com',
     appKey: '25361443',
     appSecret: '80c4625784e91ff9c9d30d6401e06081',
     appId: '7653878',

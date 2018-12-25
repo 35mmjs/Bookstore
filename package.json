@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "address": "^1.0.3",
+    "aliyun-api-gateway": "^1.1.6",
     "antd": "^3.10.9",
     "atool-build": "^1.0.2",
     "axios": "^0.18.0",
