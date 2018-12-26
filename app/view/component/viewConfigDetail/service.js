@@ -47,3 +47,11 @@ export function findBookByISBN(data) {
     data,
   })
 }
+
+export function findBookByISBNs(data) {
+  return ajax({
+    url: book.findOneByISBNs,
+    method: 'get',
+    data,
+  })
+}

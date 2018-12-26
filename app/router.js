@@ -1,7 +1,7 @@
 'use strict'
 
 const {
-  enterprise, viewConfig, openApi, book, terminal,
+  enterprise, viewConfig, openApi, book, terminal, store,
 } = require('./api/index')
 
 /**
@@ -27,6 +27,11 @@ module.exports = app => {
   router.get(enterprise.findAll, controller.enterprise.findAll)
   router.post(enterprise.remove, controller.enterprise.remove)
   router.post(enterprise.update, controller.enterprise.update)
+  // 门店
+  router.post(store.create, controller.store.create)
+  router.get(store.findAll, controller.store.findAll)
+  router.post(store.remove, controller.store.remove)
+  router.post(store.update, controller.store.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
@@ -40,12 +45,15 @@ module.exports = app => {
   router.get(terminal.findOne, controller.terminal.findOne)
 
   // book query
-  router.get(book.findOneByISBN, controller.book.getBookByISBN)
+  router.get(book.findOneByISBN, controller.book.getBook)
+  router.get(book.findOneByISBNs, controller.book.getBookByISBNs)
   // open api
   router.get(openApi.daoshi, controller.openApi.getDaoshi)
   router.get(openApi.pubu, controller.openApi.getPubu)
-  router.get(openApi.findBookByISBN, controller.openApi.findBookByISBN)
+  router.get(openApi.findBookByISBN, controller.openApi.findBook)
+  router.get(openApi.findBookBySPBS, controller.openApi.findBook)
   router.get(openApi.zhantai, controller.openApi.getZhantai)
   router.get(openApi.findBooksByKeyword, controller.openApi.findBooksByKeyword)
-  router.get(openApi.findRecommendByISBN, controller.openApi.findRecommendByISBN)
+  router.get(openApi.findRecommendByISBN, controller.openApi.findRecommend)
+  router.get(openApi.findRecommendBySPBS, controller.openApi.findRecommend)
 }

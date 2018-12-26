@@ -1,28 +1,5 @@
 const { Controller } = require('egg')
-
-function bookInfoMap(res) {
-  const processedResult = {
-    cover: res.fmdt,
-    isbn: res.isbn,
-    name: res.sm,
-    author: res.author,
-    catalog: res.yxxlmc, // 分类
-    toc: res.ml, // 目录,
-    price: res.edj,
-    catalog: res.yxxlmc,
-    price: res.dj,
-    pricing: res.dj,
-    recommender: res.tjy, // 推荐语
-    intro: res.tjy, // 介绍
-    pageType: res.kb,
-    pageNum: res.ys,
-    publish: res.bb,
-    version: '',
-    bookshelf: '',
-    qrcode: res.qrcode,
-  }
-  return Object.assign({}, processedResult)
-}
+const { bookInfoMap } = require('../common/bizHelper')
 
 function bookInfoListProcess(list) {
   if (!list || list.length <= 0) return []
@@ -98,14 +75,19 @@ class OpenApiController extends Controller {
     }
   }
 
-  async findBookByISBN() {
+  async findBook() {
+    let res = ''
     const { query } = this.ctx
-    const { isbn } = query
-    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    const { isbn, spbs } = query
+    if (isbn) {
+      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    }
+    if (spbs) {
+      res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+    }
     const processedResult = bookInfoMap(res)
     this.ctx.body = {
       success: true,
-      data: res,
       data: processedResult,
     }
   }
@@ -132,27 +114,41 @@ class OpenApiController extends Controller {
       isbn // 书号
     }]
    */
-  async findRecommendByISBN() {
+  async findRecommend() {
     let list = []
+    let res = null
+    let rawList = []
     const param = this.ctx.query
-    const { isbn } = param
-    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
-    const { spbs } = res
-    if (spbs) {
-      const rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
-      if (rawList && rawList.length > 0) {
-        list = await Promise.all(rawList.map(async item => {
-          // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
-          const singleBook = await this.ctx.service.bookAPI.getBookByISBN(item.tm)
-          return bookInfoMap(singleBook)
-        }))
+    const { isbn, spbs } = param
+    if (isbn) {
+      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      const { spbs: bookSpbs } = res
+      if (bookSpbs) {
+        rawList = await this.ctx.service.bookAPI.getRecommendBooks(bookSpbs)
       }
+    }
+    if (spbs) {
+      rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
+    }
+    if (rawList && rawList.length > 0) {
+      list = await Promise.all(
+        rawList.map(async item => {
+          // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
+          const singleBook = await this.ctx.service.bookAPI.getBookByISBN(
+            item.tm,
+          )
+          return bookInfoMap(singleBook)
+        }),
+      )
       this.ctx.body = {
         success: true,
         data: list,
       }
     } else {
-      this.ctx.body = { success: true, data: '' }
+      this.ctx.body = {
+        success: true,
+        data: '',
+      }
     }
   }
 

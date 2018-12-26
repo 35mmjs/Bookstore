@@ -15,6 +15,14 @@ const terminal = {
   findOne: '/terminal/findOne.json',
 }
 
+const store = {
+  create: 'store/create.json',
+  findAll: 'store/findAll.json',
+  remove: 'store/remove.json',
+  update: 'store/update.json',
+  findOne: 'store/findOne.json',
+}
+
 const viewConfig = {
   create: '/view-config/create.json',
   findAll: '/view-config/findAll.json',
@@ -29,6 +37,7 @@ const user = {
 
 const book = {
   findOneByISBN: '/book.json', // isbn=xxxx
+  findOneByISBNs: '/books.json', // isbn=xxxx
   findRankingListBySingleStore: '/ranking.json', // store=xxx
 }
 
@@ -37,11 +46,14 @@ const openApi = {
   pubu: '/open/v1/pubu',
   zhantai: '/open/v1/zhantai',
   findBookByISBN: '/open/v1/book', // isbn=xxx
+  findBookBySPBS: '/open/v1/book', // spbs=xxx
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
   findRecommendByISBN: '/open/v1/book/recommend', // isbn=xxx
+  findRecommendBySPBS: '/open/v1/book/recommend', // spbs=xxx
 }
 
 module.exports = {
+  store,
   enterprise,
   terminal,
   viewConfig,

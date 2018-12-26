@@ -1,24 +1,49 @@
 import React, { useState } from 'react'
-import { Modal, Button, Form, Row, Col, Input } from 'antd'
-import { findBookByISBN } from '../service'
+import PorpTypes from 'prop-types'
+import { Modal, Button, Form, Row, Col, Input, Table } from 'antd'
+import { findBookByISBNs } from '../service'
 
 const FormItem = Form.Item
 
-const CustomForm = Form.create()((props) => {
+const BooksTable = ({ data }) => {
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Author',
+      dataIndex: 'author',
+      key: 'author',
+    },
+    {
+      title: 'isbn',
+      dataIndex: 'isbn',
+      key: 'isbn',
+    },
+  ]
+  return <Table columns={columns} dataSource={data} rowKey="isbn" />
+}
+const CustomForm = Form.create()(props => {
   const { form, onSubmit } = props
   const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([])
   const onSearching = () => {
+    setLoading(true)
     form.validateFields((err, fieldsValue) => {
       if (err) return
-      form.resetFields()
       const { isbn } = fieldsValue
-      findBookByISBN({ isbn }).then(res => {
+      const isbnsArray = isbn.trim().replace(/\s/g, '')
+      findBookByISBNs({ isbns: isbnsArray }).then(res => {
+        setLoading(false)
+        setData(res)
+        onSubmit(res)
       })
     })
   }
 
-  const handleSubmit = () => {
-  }
+  const handleSubmit = () => {}
 
   return (
     <div>
@@ -37,7 +62,7 @@ const CustomForm = Form.create()((props) => {
                   min: 1,
                 },
               ],
-            })(<Input placeholder="请输入ISBN" />)}
+            })(<Input.TextArea placeholder="请输入ISBN" />)}
           </FormItem>
         </Col>
         <Col md={4}>
@@ -53,52 +78,61 @@ const CustomForm = Form.create()((props) => {
           </FormItem>
         </Col>
       </Row>
+      <BooksTable data={data}/>
+      <Row />
     </div>
   )
 })
 
 const ModalForm = props => {
-  const { defaultVisible = false, title, ...rest } = props
-  const [visible, setVisible] = useState(defaultVisible)
+  const { defaultVisible = false, title, onSubmit, handleModalVisible, ...rest } = props
+  console.log('aaaaaaaa', defaultVisible)
+  
   const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([])
   let form = null
   const submit = () => {
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      const { isbn } = fieldsValue
-      findBookByISBN({ isbn }).then(res => {
-      })
+      onSubmit(data)
+      handleModalVisible(false)
     })
   }
   const resetForm = () => {
     form.resetFields()
   }
+  const onValueChanged = (data) => {
+    setData(data)
+  }
   return (
     <Modal
-      visible={visible}
+      visible={defaultVisible}
       title={title}
       footer={[
-        <Button key="back" onClick={() => setVisible(false)}>
+        <Button key="back" onClick={() => handleModalVisible(false)}>
           取消
         </Button>,
         <Button key="reset" onClick={resetForm}>
           重置
         </Button>,
-        <Button
-          key="submit"
-          type="primary"
-          loading={loading}
-          onClick={submit}
-        >
+        <Button key="submit" type="primary" loading={loading} onClick={submit}>
           提交
         </Button>,
       ]}
       {...rest}
     >
-      <CustomForm ref={(formRef) => { form = formRef }} />
+      <CustomForm
+        ref={formRef => {
+          form = formRef
+        }}
+        onSubmit={onValueChanged}
+      />
     </Modal>
   )
 }
 
+ModalForm.propTypes = {
+  onSubmit: PorpTypes.func,  
+}
 export default ModalForm

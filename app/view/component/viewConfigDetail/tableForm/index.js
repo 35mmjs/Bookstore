@@ -130,6 +130,7 @@ class TableForm extends PureComponent {
       /* eslint-disable-next-line react/no-unused-state */
       value: props.value,
       modalVisible: false,
+      modalVisible2: false,
     }
   }
 
@@ -184,20 +185,44 @@ class TableForm extends PureComponent {
     })
   }
 
-  handleDataFromSearchForm = bookInfo => {
+  newMember2 = () => {
+    this.setState({
+      modalVisible2: true,
+    })
+  }
+
+  handleDataFromSearchForm = bookInfos => {
     const { data } = this.state
     const newData = data.map(item => ({ ...item }))
-    newData.push({
-      key: `NEW_TEMP_ID_${this.index}`,
-      ...bookInfo,
-      isbn: bookInfo.isbn,
-      name: bookInfo.name,
-      cover: bookInfo.cover,
-      author: bookInfo.author,
-      editable: true,
-      isNew: true,
-    })
-    this.index += 1
+    if (bookInfos && bookInfos.length > 1) {
+      bookInfos.forEach(bookInfo => {
+        newData.push({
+          key: `NEW_TEMP_ID_${this.index}`,
+          ...bookInfo,
+          isbn: bookInfo.isbn,
+          name: bookInfo.name,
+          cover: bookInfo.cover,
+          author: bookInfo.author,
+          editable: true,
+          isNew: true,
+        })
+        this.index += 1
+      })
+    }
+    if (bookInfos && bookInfos.length === 1) {
+      const bookInfo = bookInfos[0]
+      newData.push({
+        key: `NEW_TEMP_ID_${this.index}`,
+        ...bookInfo,
+        isbn: bookInfo.isbn,
+        name: bookInfo.name,
+        cover: bookInfo.cover,
+        author: bookInfo.author,
+        editable: true,
+        isNew: true,
+      })
+      this.index += 1
+    }
     this.setState({ data: newData })
   }
 
@@ -274,6 +299,12 @@ class TableForm extends PureComponent {
   handleModalVisible = flag => {
     this.setState({
       modalVisible: flag,
+    })
+  }
+
+  handleModalVisible2 = flag => {
+    this.setState({
+      modalVisible2: flag,
     })
   }
 
@@ -445,7 +476,7 @@ class TableForm extends PureComponent {
       },
     ]
 
-    const { loading, data, modalVisible } = this.state
+    const { loading, data, modalVisible, modalVisible2 } = this.state
 
     return (
       <Fragment>
@@ -471,13 +502,13 @@ class TableForm extends PureComponent {
             <Button
               style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
               type="dashed"
-              onClick={this.newMember}
+              onClick={this.newMember2}
               icon="plus"
             >
               多个ISBN新增书目
             </Button>
           </Col>
-          <Col span={8}>
+          {/* <Col span={8}>
             <Button
               style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
               type="dashed"
@@ -486,18 +517,20 @@ class TableForm extends PureComponent {
             >
               通过搜索新增书目
             </Button>
-          </Col>
+          </Col> */}
         </Row>
 
         <SearchingForm
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
-          onSubmit={this.handleDataFromSearchForm}
+          onSubmit={value => this.handleDataFromSearchForm([value])}
         />
         <ModalForm
           title="title"
-          defaultVisible
+          defaultVisible={modalVisible2}
+          handleModalVisible={this.handleModalVisible2}
           closable={false}
+          onSubmit={this.handleDataFromSearchForm}
         />
       </Fragment>
     )

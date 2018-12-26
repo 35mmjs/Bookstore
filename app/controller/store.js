@@ -1,10 +1,10 @@
 const { Controller } = require('egg')
 
-class EnterpriseController extends Controller {
+class StoreController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.store.create(request.name)
+    const result = await this.ctx.service.store.create(request)
     this.ctx.body = {
       success: true,
       data: result,
@@ -13,8 +13,19 @@ class EnterpriseController extends Controller {
 
   // get
   async findAll() {
-    // const request = this.ctx.params
-    const result = await this.ctx.service.store.findAll()
+    const { query } = this.ctx
+    const result = await this.ctx.service.store.findAll(query)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  // get
+  async findOne() {
+    const query = this.ctx.query
+    const { id } = query
+    const result = await this.ctx.service.store.findOne(id)
     this.ctx.body = {
       success: true,
       data: result,
@@ -22,9 +33,9 @@ class EnterpriseController extends Controller {
   }
 
   async remove() {
-    const request = this.ctx.request.body
-    const result = await this.ctx.service.store.remove(request.id)
-    console.log('aaaaaaaa', request)
+    const query = this.ctx.query
+    const { id } = query
+    const result = await this.ctx.service.store.remove(id)
     this.ctx.body = {
       success: true,
       data: result,
@@ -33,7 +44,7 @@ class EnterpriseController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.store.create(request.name, request.password)
+    const result = await this.ctx.service.store.update(request)
     this.ctx.body = {
       success: true,
       data: result,
@@ -41,4 +52,4 @@ class EnterpriseController extends Controller {
   }
 }
 
-module.exports = EnterpriseController
+module.exports = StoreController
