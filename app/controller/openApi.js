@@ -200,27 +200,6 @@ class OpenApiController extends Controller {
       data: result,
     }
   }
-
-  async remove() {
-    const request = this.ctx.request.body
-    const result = await this.ctx.service.enterprise.remove(request.id)
-    this.ctx.body = {
-      success: true,
-      data: result,
-    }
-  }
-
-  async update() {
-    const request = this.ctx.request.body
-    const result = await this.ctx.service.enterprise.create(
-      request.name,
-      request.password,
-    )
-    this.ctx.body = {
-      success: true,
-      data: result,
-    }
-  }
 }
 
 module.exports = OpenApiController

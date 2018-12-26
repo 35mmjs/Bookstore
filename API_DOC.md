@@ -150,18 +150,59 @@ Response: {}
 ]
 ```
 
-### 获取图详详情通过ISBN
+### 获取图详详情通过ISBN或者SPBS
 
 GET `/open/v1/book?isbn=xxxx`
 
+GET `/open/v1/book?spbs=xxxx`
+
 // 返回数据
+```
+{
+  success: true,
+  data: {
+    ...bookInfo
+  }  
+}    
+
+```
+// 具体数据格式
+
+
+### 获取推荐书目通过ISBN或者SPBS
+
+GET `/open/v1/book/recommend?isbn=xxx`
+
+GET `/open/v1/book/recommend?spbs=xxx`
+
+
+// 返回数据
+<!-- 
+> 由于排行榜数据未返回更多图书详情, 需要通过图书详情接口, 依次获取每个数的封面和具体信息, 也即是在展示推荐的时候, 一个一个异步loading, 但是在点进去的时候, 详情是秒开的(已经异步获取)
+ -->
 Response: {}
 
 // 具体数据格式
 ```
+[
+  {
+    ...bookInfo
+  },
+]
+```
+
+
+## 其他
+
+### bookInfo 格式如下
+
+```
 {
-  // {String} 图书 ID
-  id: "",
+  // {String} 图书 商品标识 spbs
+  spbs: "",
+
+  // {String} 图书 ISBN
+  isbn: "",
 
   // {String} 图片 CDN 地址
   cover: "", 
@@ -217,26 +258,4 @@ Response: {}
   // {String} 二维码
   qrcode: "",
 }
-```
-
-### 获取推荐书目
-
-GET `/open/v1/book/recommend?isbn=xxx`
-
-
-// 返回数据
-
-> 由于排行榜数据未返回更多图书详情, 需要通过图书详情接口, 依次获取每个数的封面和具体信息, 也即是在展示推荐的时候, 一个一个异步loading, 但是在点进去的时候, 详情是秒开的(已经异步获取)
-
-Response: {}
-
-// 具体数据格式
-```
-[
-  {
-    "price": "16.8",
-    "name": "女生外语宿舍(典藏版)/新惊魂六计",
-    "isbn": "9787531727514"
-  },
-]
 ```

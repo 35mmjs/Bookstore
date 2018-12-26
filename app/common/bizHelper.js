@@ -10,7 +10,7 @@ function bookInfoMap(res) {
     price: res.dj,
     pricing: res.dj,
     recommender: res.tjy, // 推荐语
-    intro: res.tjy, // 介绍
+    intro: res.nrty, // 内容提要
     pageType: res.kb,
     pageNum: res.ys,
     publish: res.bb,
