@@ -5,7 +5,7 @@ export default class Banner extends React.Component {
   render() {
     const { src } = this.props;
     return (
-      <div className='banner' >
+      <div className='banner-det' >
         <img src={src} />
       </div>
     )

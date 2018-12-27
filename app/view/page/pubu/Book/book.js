@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import QRCode from 'qrcode.react'
 import Slider from 'react-slick'
@@ -15,7 +16,10 @@ class BookDetail extends React.Component {
     this.state = {
       book: this.props.book,
       recommend: data,
+      left: 0,
     }
+
+    this.image = React.createRef()
   }
 
   componentDidMount() {
@@ -52,6 +56,17 @@ class BookDetail extends React.Component {
       })
   }
 
+  onLoad = () => {
+    const image = ReactDOM.findDOMNode(this.image.current)
+    if (!image) return
+    const { clientWidth, clientHeight, naturalHeight, naturalWidth } = image
+    const left = naturalWidth / naturalHeight * clientHeight / 2
+
+    this.setState({
+      left,
+    })
+  }
+
   render() {
     const { onClose } = this.props
     const { book, recommend } = this.state
@@ -72,7 +87,7 @@ class BookDetail extends React.Component {
           <div className="book_detail_container">
             <div className="book_detail_container_intro">
               <div className="book_detail_container_cover">
-                <img src={book.cover} />
+                <img ref={this.image} src={book.cover} onLoad={this.onLoad} style={{marginLeft: `-${this.state.left}px`}}/>
               </div>
               <div className="book_detail_container_score">
                 <div className="book_detail_container_value">
@@ -95,11 +110,11 @@ class BookDetail extends React.Component {
                 <p className="book_detail_container_recommand">
                 </p>
                 <p className="book_detail_container_price">
-                  售价：<span className="price">{book.price} 元</span>
+                  定价：<span className="price">{book.pricing} 元</span>
                 </p>
-                <p className="book_detail_container_pring">
+                {/* <p className="book_detail_container_pring">
                   定价：<span className="price">{book.pricing} </span> 元
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="book_detail_container_info">
