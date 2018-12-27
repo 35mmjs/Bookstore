@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { message } from 'antd'
 import Banner from '../Banner'
 import Layer from '../Layer'
 import Book from '../Book'
@@ -16,13 +17,18 @@ class App extends React.Component {
       channels: config,
       book: {},
       activeBook: false,
+      current: 0,
     }
 
     this.timeout = null
     this.wrapper = React.createRef()
+    this.banner = React.createRef()
     this.content = React.createRef()
     this.content2 = React.createRef()
     this.content3 = React.createRef()
+
+    this.scale = []
+    this.current = 0
   }
 
   componentDidMount() {
@@ -34,7 +40,7 @@ class App extends React.Component {
   init = () => {
     const wrapper = ReactDOM.findDOMNode(this.wrapper.current)
     const content = ReactDOM.findDOMNode(this.content.current)
-    const height = content.offsetHeight > 3840 ? content.offsetHeight : 3840
+    const height = content.offsetHeight > 3220 ? content.offsetHeight : 3220
 
     wrapper.style.height = height + 'px'
     wrapper.scrollTop = height
@@ -51,6 +57,7 @@ class App extends React.Component {
   }
 
   getData = () => {
+    const loading = message.loading('正在获取数据...', 0)
     getPubuData().then(res => {
       const data = res.data.data.map(channel => {
         const layers = channel.books.reduce((acc, book, index) => {
@@ -69,14 +76,25 @@ class App extends React.Component {
         }
       })
 
+      loading()
+      message.success('获取数据成功')
+
       console.log(data)
 
       this.setState({
         channels: data,
       }, () => {
+        const scale = []
+        for (let j = 0; j < data.length; j ++) {
+          const item = document.getElementById(`0-${j}`)
+          scale.push(item.offsetTop)
+        }
+
+        this.scale = scale
         this.autoplay()
       })
     }).catch(err => {
+      message.success('获取数据失败')
       console.error(err)
     })
   }
@@ -118,7 +136,30 @@ class App extends React.Component {
     clearInterval(this.timeout)
   }
 
-  renderContent = () => {
+  onScroll = () => {
+    const wrapper = ReactDOM.findDOMNode(this.wrapper.current)
+    const { scrollTop } = wrapper
+
+    let current = 0
+    for (let i = 0; i < this.scale.length; i ++) {
+      if (i === 0 && scrollTop <= this.scale[0]) {
+        current = 0
+        break
+      } else if (i < this.scale.length && this.scale[i] < scrollTop && scrollTop < this.scale[i + 1]) {
+        current = i + 1
+        break
+      }
+    }
+
+    if (current !== this.current) {
+      this.current = current
+      this.setState({
+        current,
+      })
+    }
+  }
+
+  renderContent = (id) => {
     const { channels } = this.state
 
     return (
@@ -136,7 +177,7 @@ class App extends React.Component {
                           cover={book.cover}
                           name={book.name}
                           author={book.author}
-                          price={book.price}
+                          pricing={book.pricing}
                           score={book.score}
                           key={i}
                           index={index}
@@ -148,6 +189,27 @@ class App extends React.Component {
                 </Layer>
                 )
               })}
+              <div id={`${id}-${ix}`}></div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  renderBanner = () => {
+    const { channels, current } = this.state
+    const x = current * 1080
+    const y = 0
+    const wrapperStyle = {
+      width: `${channels.length * 1080}px`,
+      transform: `translate(${-x}px, ${y}px)`
+    }
+    return (
+      <div className="banner-wrapper" style={wrapperStyle}>
+        { channels.map((channel, ix) => {
+          return (
+            <div className="banner-list" key={ix}>
               <Banner src={channel.banner.src} />
             </div>
           )
@@ -160,15 +222,18 @@ class App extends React.Component {
     const { channels } = this.state
     return (
       <div className="app">
-        <div className="wrapper" ref={this.wrapper}>
+        <div className="banner" ref={this.banner}>
+          {this.renderBanner()}
+        </div>
+        <div className="wrapper" ref={this.wrapper} onScroll={this.onScroll}>
           <div ref={this.content}>
-            {this.renderContent()}
+            {this.renderContent(0)}
           </div>
           <div ref={this.content2}>
-            {this.renderContent()}
+            {this.renderContent(1)}
           </div>
           <div ref={this.content3}>
-            {this.renderContent()}
+            {this.renderContent(2)}
           </div>
         </div>
         {
