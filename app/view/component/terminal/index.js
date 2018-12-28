@@ -26,9 +26,9 @@ export default class Index extends React.Component {
     this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 
-  onSearchingConfig = (data, type) => {
+  onSearchingStore = (data, type) => {
     console.log('aaaaaaaa', data)
-    this.dispatch({ type: `viewConfig/${type}`, payload: data })
+    this.dispatch({ type: 'store/findAll', payload: data })
   }
 
   onChooseItem = data => {
@@ -36,19 +36,18 @@ export default class Index extends React.Component {
   }
 
   render() {
-    const { terminal, viewConfig } = this.props
+    const { terminal, store } = this.props
     const { list, singleItem } = terminal
-    const { list: configData } = viewConfig
+    const { list: storeList } = store
     return (
       <div>
         <div>Teminal</div>
         <div>
-          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} />
+          <CreateButton onSearchingStore={this.onSearchingStore} storeList={storeList} onSubmit={data => this.onSubmit(data, 'create')} />
           <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
           <Table
             list={list}
             data={singleItem}
-            configData={configData}
             onSubmit={data => this.onSubmit(data, 'update')}
             onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
             onDelete={data => this.onSubmit(data, 'remove')}

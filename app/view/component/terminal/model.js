@@ -1,4 +1,5 @@
 import * as service from './service'
+import * as storeService from '../store/service'
 
 export default {
   namespace: 'terminal',
@@ -7,6 +8,7 @@ export default {
     singleItem: {},
     total: null,
     form: {},
+    storeList: [],
   },
   reducers: {
     save(
@@ -16,7 +18,10 @@ export default {
       },
     ) {
       return {
-        ...state, list, total, page,
+        ...state,
+        list,
+        total,
+        page,
       }
     },
     findAllReducer(state, { payload }) {
@@ -33,71 +38,41 @@ export default {
     },
   },
   effects: {
-    *chooseSingleItem(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *chooseSingleItem({ payload }, { call, put }) {
       yield put({
         type: 'chooseSingleItemReducer',
         payload,
       })
     },
-    *findAll(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *findAll({ payload }, { call, put }) {
       const data = yield call(service.findAll, payload)
       yield put({
         type: 'findAllReducer',
         payload: data.items,
       })
     },
-    *findOne(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *findOne({ payload }, { call, put }) {
       const data = yield call(service.findOne, payload)
       yield put({
         type: 'save',
         payload: data,
       })
     },
-    *create(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *create({ payload }, { call, put }) {
       const data = yield call(service.create, payload)
       yield put({
         type: 'findAll',
         payload: {},
       })
     },
-    *update(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *update({ payload }, { call, put }) {
       const data = yield call(service.update, payload)
       yield put({
         type: 'findAll',
         payload: {},
       })
     },
-    *remove(
-      {
-        payload,
-      },
-      { call, put },
-    ) {
+    *remove({ payload }, { call, put }) {
       const data = yield call(service.remove, payload)
       yield put({
         type: 'findAll',
@@ -107,7 +82,7 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen((a) => {
+      return history.listen(a => {
         // if (pathname === '/users') {
         //   dispatch({ type: 'fetch', payload: query })
         // }

@@ -29,7 +29,7 @@ class Terminal extends Service {
     const result = await this.app.mysql.insert(DB, {
       name,
       note,
-      // store,
+      store,
       type,
     })
     return result.affectedRows === 1

@@ -1,5 +1,6 @@
 ## changelog
 1227
+  - [x] 主链路串联
   - [x] 排行榜录入
 1226
   - [x0.5] store crud
