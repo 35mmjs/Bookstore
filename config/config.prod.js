@@ -42,7 +42,8 @@ module.exports = () => {
       // 用户名
       user: 'root',
       // 密码
-      password: process.env.MYSQL_PASSWORD || 'BookStore2018@!MYSQL',
+      password: 'root12345',
+      // password: process.env.MYSQL_PASSWORD || 'BookStore2018@!MYSQL',
       // 数据库名
       database: 'BOOKSTORE',
     },

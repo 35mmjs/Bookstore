@@ -48,6 +48,21 @@ export function findBookByISBN(data) {
   })
 }
 
+export function findRankingList(data) {
+  return ajax({
+    url: book.findRankingListBySingleStore,
+    method: 'get',
+    data,
+  })
+}
+export function findRankingBooks(data) {
+  return ajax({
+    url: book.findRankingBooks,
+    method: 'get',
+    data,
+  })
+}
+
 export function findBookByISBNs(data) {
   return ajax({
     url: book.findOneByISBNs,

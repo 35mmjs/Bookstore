@@ -1,6 +1,6 @@
 const { Service } = require('egg')
 
-const DB = 'store'
+const DB = 'stores'
 class Terminal extends Service {
   async findAll(params) {
     const items = await this.app.mysql.select(DB, {

@@ -13,7 +13,7 @@ import ViewConfig from '../component/viewConfig'
 import ViewConfigDetail from '../component/viewConfigDetail'
 import Home from '../component/home/index'
 
-const { viewConfigRoutes, terminalRoutes } = constant
+const { viewConfigRoutes, terminalRoutes, storeRoutes } = constant
 
 const Employee = () => <h2>Home</h2>
 
@@ -48,15 +48,9 @@ const menu = [
   },
   {
     label: '门店管理',
-    value: 'store',
+    value: 'store/manage',
     icon: 'user',
-    children: [
-      {
-        label: 'option2-2',
-        value: 'option2-2',
-        children: null,
-      },
-    ],
+    children: null,
   },
   {
     label: '企业管理',
@@ -92,8 +86,8 @@ const routeMap = () => {
       component: () => Enterprise,
     },
     {
-      path: 'store',
-      models: () => [require('../component/viewConfig/model')],
+      path: storeRoutes.findAll,
+      models: () => [require('../component/store/model')],
       component: () => Store,
     },
     {

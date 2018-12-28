@@ -11,6 +11,13 @@ const terminalRoutes = {
   findOne: 'terminal/manage/detail/:id/:operation(view)',
 }
 
+const storeRoutes = {
+  findAll: '/store/manage',
+  create: 'store/manage/detail/:operation(new)',
+  editOne: 'store/manage/detail/:id/:operation(edit)',
+  findOne: 'store/manage/detail/:id/:operation(view)',
+}
+
 const FORM_ITEM_LAYOUT = {
   labelCol: {
     xs: { span: 24 },
@@ -56,6 +63,7 @@ const VIEW_CONFIG_ID = {
 
 export default {
   viewConfigRoutes,
+  storeRoutes,
   terminalRoutes,
   VIEW_CONFIG_TYPE_MAP,
   VIEW_CONFIG_ID,

@@ -13,6 +13,7 @@ import {
 } from 'antd'
 import isEqual from 'lodash/isEqual'
 import ModalForm from './searchBooksByISBNs'
+import SearchBooksByCategory from './searchBooksByCategory'
 import DescriptionList from '../../common/DescriptionList'
 import styles from './style.less'
 import { findBookByISBN } from '../service'
@@ -131,6 +132,7 @@ class TableForm extends PureComponent {
       value: props.value,
       modalVisible: false,
       modalVisible2: false,
+      modalVisible3: false,
     }
   }
 
@@ -188,6 +190,12 @@ class TableForm extends PureComponent {
   newMember2 = () => {
     this.setState({
       modalVisible2: true,
+    })
+  }
+
+  newMember3 = () => {
+    this.setState({
+      modalVisible3: true,
     })
   }
 
@@ -305,6 +313,12 @@ class TableForm extends PureComponent {
   handleModalVisible2 = flag => {
     this.setState({
       modalVisible2: flag,
+    })
+  }
+
+  handleModalVisible3 = flag => {
+    this.setState({
+      modalVisible3: flag,
     })
   }
 
@@ -476,7 +490,7 @@ class TableForm extends PureComponent {
       },
     ]
 
-    const { loading, data, modalVisible, modalVisible2 } = this.state
+    const { loading, data, modalVisible, modalVisible2, modalVisible3 } = this.state
 
     return (
       <Fragment>
@@ -508,16 +522,16 @@ class TableForm extends PureComponent {
               多个ISBN新增书目
             </Button>
           </Col>
-          {/* <Col span={8}>
+          <Col span={8}>
             <Button
               style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
               type="dashed"
-              onClick={this.newMember}
+              onClick={this.newMember3}
               icon="plus"
             >
-              通过搜索新增书目
+              排行榜新增书目
             </Button>
-          </Col> */}
+          </Col>
         </Row>
 
         <SearchingForm
@@ -532,6 +546,14 @@ class TableForm extends PureComponent {
           closable={false}
           onSubmit={this.handleDataFromSearchForm}
         />
+        <SearchBooksByCategory
+          title="title"
+          defaultVisible={modalVisible3}
+          handleModalVisible={this.handleModalVisible3}
+          closable={false}
+          onSubmit={this.handleDataFromSearchForm}
+        />
+
       </Fragment>
     )
   }

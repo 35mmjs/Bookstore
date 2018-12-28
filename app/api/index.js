@@ -16,11 +16,11 @@ const terminal = {
 }
 
 const store = {
-  create: 'store/create.json',
-  findAll: 'store/findAll.json',
-  remove: 'store/remove.json',
-  update: 'store/update.json',
-  findOne: 'store/findOne.json',
+  create: '/store/create.json',
+  findAll: '/store/findAll.json',
+  remove: '/store/remove.json',
+  update: '/store/update.json',
+  findOne: '/store/findOne.json',
 }
 
 const viewConfig = {
@@ -39,6 +39,7 @@ const book = {
   findOneByISBN: '/book.json', // isbn=xxxx
   findOneByISBNs: '/books.json', // isbn=xxxx
   findRankingListBySingleStore: '/ranking.json', // store=xxx
+  findRankingBooks: '/ranking/books.json', // id=xxxx
 }
 
 const openApi = {

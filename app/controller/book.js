@@ -98,6 +98,33 @@ class BookController extends Controller {
       this.ctx.body = { success: true, data: '' }
     }
   }
+  
+  async findRankingListBySingleStore() {
+    const res = await this.ctx.service.bookAPI.getRinkingList()
+    const processedResult = res.map(item => {
+      return {
+        value: item.phid,
+        label: item.phmc, 
+      }
+    })
+    this.ctx.body = {
+      success: true,
+      data: processedResult,
+    }
+  }
+
+  async findRankingBooks() {
+    const param = this.ctx.query
+    const { id } = param
+    const res = await this.ctx.service.bookAPI.getRinkingInfoDetail(id)
+    const processedResult = res.map(item => {
+      return bookInfoMap(item)
+    })
+    this.ctx.body = {
+      success: true,
+      data: processedResult,
+    }   
+  }
 }
 
 module.exports = BookController

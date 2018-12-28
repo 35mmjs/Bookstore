@@ -83,6 +83,15 @@ class BookAPIService extends Service {
     return this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
   }
 
+  async getRinkingInfoDetail(phid, khbh = '3300000000') {
+    const list = await this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
+    const detailList = await Promise.all(list.map(async item => {
+      const detail = await this.getBookBySPBS(item.spbs)
+      if (detail) return detail
+    }))
+    return detailList
+  }
+
   /**
    * 根据书号获取书的详细信息
    * @param ISBN {String} - 书号

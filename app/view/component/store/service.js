@@ -1,24 +1,9 @@
 import ajax from '../../common/ajax'
-import { enterprise } from '../../../api'
+import { store } from '../../../api'
 
 export function create(data) {
   return ajax({
-    url: enterprise.create,
-    data,
-    method: 'post',
-  })
-}
-
-export function findAll() {
-  return ajax({
-    url: enterprise.findAll,
-    method: 'get',
-  })
-}
-
-export function remove(data) {
-  return ajax({
-    url: enterprise.remove,
+    url: store.create,
     data,
     method: 'post',
   })
@@ -26,8 +11,31 @@ export function remove(data) {
 
 export function update(data) {
   return ajax({
-    url: enterprise.update,
+    url: store.update,
     data,
     method: 'post',
+  })
+}
+
+export function findAll(data) {
+  return ajax({
+    url: store.findAll,
+    data,
+    method: 'get',
+  })
+}
+
+export function findOne() {
+  return ajax({
+    url: store.findOne,
+    method: 'get',
+  })
+}
+
+export function remove(data) {
+  return ajax({
+    url: store.remove,
+    data,
+    method: 'get',
   })
 }

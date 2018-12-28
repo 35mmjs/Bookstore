@@ -1,12 +1,12 @@
-// import * as usersService from '../services/users';
-const usersService = {}
+import * as service from './service'
 
 export default {
-  namespace: 'users',
+  namespace: 'store',
   state: {
     list: [],
+    singleItem: {},
     total: null,
-    page: null,
+    form: {},
   },
   reducers: {
     save(
@@ -19,52 +19,98 @@ export default {
         ...state, list, total, page,
       }
     },
+    findAllReducer(state, { payload }) {
+      return {
+        ...state,
+        list: payload,
+      }
+    },
+    chooseSingleItem(state, { payload }) {
+      return {
+        ...state,
+        singleItem: payload,
+      }
+    },
   },
   effects: {
-    * fetch(
+    *chooseSingleItem(
       {
-        payload: { page = 1 },
+        payload,
       },
       { call, put },
     ) {
-      const { data, headers } = yield call(usersService.fetch, { page })
       yield put({
-        type: 'save',
-        payload: {
-          data,
-          total: parseInt(headers['x-total-count'], 10),
-          page: parseInt(page, 10),
-        },
+        type: 'chooseSingleItemReducer',
+        payload,
       })
     },
-    * remove({ payload: id }, { call, put }) {
-      yield call(usersService.remove, id)
-      yield put({ type: 'reload' })
-    },
-    * patch(
+    *findAll(
       {
-        payload: { id, values },
+        payload,
       },
       { call, put },
     ) {
-      yield call(usersService.patch, id, values)
-      yield put({ type: 'reload' })
+      const data = yield call(service.findAll, payload)
+      yield put({
+        type: 'findAllReducer',
+        payload: data.items,
+      })
     },
-    * create({ payload: values }, { call, put }) {
-      yield call(usersService.create, values)
-      yield put({ type: 'reload' })
+    *findOne(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.findOne, payload)
+      yield put({
+        type: 'save',
+        payload: data,
+      })
     },
-    * reload(action, { put, select }) {
-      const page = yield select(state => state.users.page)
-      yield put({ type: 'fetch', payload: { page } })
+    *create(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.create, payload)
+      yield put({
+        type: 'findAll',
+        payload: {},
+      })
+    },
+    *update(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.update, payload)
+      yield put({
+        type: 'findAll',
+        payload: {},
+      })
+    },
+    *remove(
+      {
+        payload,
+      },
+      { call, put },
+    ) {
+      const data = yield call(service.remove, payload)
+      yield put({
+        type: 'findAll',
+        payload: {},
+      })
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/users') {
-          dispatch({ type: 'fetch', payload: query })
-        }
+      return history.listen((a) => {
+        // if (pathname === '/users') {
+        //   dispatch({ type: 'fetch', payload: query })
+        // }
       })
     },
   },

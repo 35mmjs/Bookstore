@@ -30,7 +30,7 @@ module.exports = app => {
   // 门店
   router.post(store.create, controller.store.create)
   router.get(store.findAll, controller.store.findAll)
-  router.post(store.remove, controller.store.remove)
+  router.get(store.remove, controller.store.remove)
   router.post(store.update, controller.store.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
@@ -47,6 +47,8 @@ module.exports = app => {
   // book query
   router.get(book.findOneByISBN, controller.book.getBook)
   router.get(book.findOneByISBNs, controller.book.getBookByISBNs)
+  router.get(book.findRankingListBySingleStore, controller.book.findRankingListBySingleStore)
+  router.get(book.findRankingBooks, controller.book.findRankingBooks)
   // open api
   router.get(openApi.daoshi, controller.openApi.getDaoshi)
   router.get(openApi.pubu, controller.openApi.getPubu)

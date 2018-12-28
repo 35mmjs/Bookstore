@@ -62,7 +62,7 @@ const CustomForm = Form.create()(props => {
                   min: 1,
                 },
               ],
-            })(<Input.TextArea placeholder="请输入ISBN" />)}
+            })(<Input.TextArea placeholder="请输入ISBN,逗号区分, 比如xxx,yyy" />)}
           </FormItem>
         </Col>
         <Col md={4}>
