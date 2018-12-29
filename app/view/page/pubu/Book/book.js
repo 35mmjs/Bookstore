@@ -26,7 +26,7 @@ class BookDetail extends React.Component {
     const { book } = this.props
     console.log('==>', book)
     this.getBook(book.isbn)
-    // this.getRecommend()
+    this.getRecommend(book.isbn)
   }
 
   reGetData = (e, book) => {
@@ -37,10 +37,19 @@ class BookDetail extends React.Component {
   }
 
   getBook = (isbn) => {
-    console.log(isbn)
     getBook({ isbn })
       .then(res => {
-        console.log(res)
+        const { data } = res
+        console.log(data)
+        if (data.data.isbn === this.state.book.isbn) {
+          this.setState({
+            book: Object.assign({}, this.state.book, data.data)
+          })
+        } else {
+          this.setState({
+            book: data.data
+          })
+        }
       })
       .catch(err => {
         console.log(err)
@@ -51,6 +60,9 @@ class BookDetail extends React.Component {
     getRecommend({ isbn })
       .then(res => {
         console.log(res.data.data)
+        this.setState({
+          recommend: res.data.data,
+        })
       })
       .catch(err => {
         console.error(err)
@@ -97,6 +109,10 @@ class BookDetail extends React.Component {
                     <em className="value">{book.score}</em>
                   </div>
                 </div>
+                <div className="book_detail_container_star">
+                  { getStarValues(book.score).map((value, index) => <Star light={true} value={value} key={index} />) }
+                </div>
+
                 {/* <div className="book_detail_container_command">
                   评论 {book.commands} 条
                 </div> */}
@@ -109,7 +125,7 @@ class BookDetail extends React.Component {
                   作者：{book.author.replace('作者:', '')}
                 </p>
                 <p className="book_detail_container_recommand">
-                  {book.recommend}
+                  {book.recommender}
                 </p>
                 <p className="book_detail_container_price">
                   定价：<span className="price">{book.pricing} 元</span>
