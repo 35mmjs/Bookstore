@@ -92,9 +92,9 @@ prepare_tar()
   git pull origin master && git fetch --tags &
   loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
   git checkout -b $TAG;
-  # loop_process $prefix"build dist"$aftfix;
-  # echo $prefix"build dist"$aftfix;
-	# npm run build
+  loop_process $prefix"build dist"$aftfix;
+  echo $prefix"build dist"$aftfix;
+	npm run build
   rm .git -rf;
 	cd $NOW_PATH
 
@@ -141,7 +141,7 @@ run_server()
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
 	# 环境需要提前放置到 .bashrc 当中
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH;"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server"
 	return 0
 }
 
