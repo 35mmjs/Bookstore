@@ -42,7 +42,7 @@ export default class Book extends React.Component {
       booknth: index % 2 === 0,
     })
 
-    let score = this.props.score || Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
+    let score = this.props.score
      
     return (
       <div className={bookCls}>

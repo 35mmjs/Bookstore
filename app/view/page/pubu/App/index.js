@@ -172,6 +172,9 @@ class App extends React.Component {
                 <Layer key={index}>
                   {
                     layer.books.map((book, i) => {
+                      if (!book.score) {
+                        book.score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
+                      }
                       return (
                         <Book
                           cover={book.cover}

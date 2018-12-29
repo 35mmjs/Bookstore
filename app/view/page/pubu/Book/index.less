@@ -233,6 +233,16 @@
   font-weight: bold;
 }
 
+.book_detail_container_star {
+  width: 220px;
+  text-align: center;
+  position: absolute;
+  top: 180px;
+  .star {
+    margin: 0 3px;
+  }
+}
+
 .book_detail_container_bg {
   position: absolute;
   width: 425px;
@@ -259,8 +269,15 @@
 }
 
 .book_detail_container_recommand {
+  width: 400px;
   line-height: 24px;
   font-size: 18px;
+  height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .book_detail_container_price {
@@ -392,7 +409,7 @@
   }
 
   &_info_name {
-    padding: 20px 0;
+    padding: 20px 20px 20px 0;
     line-height: 32px;
     color: #fff;
     font-size: 25px;
