@@ -4,10 +4,11 @@ import './index.less'
 
 class Star extends React.Component {
   render() {
-    const { value } = this.props
+    const { value, light } = this.props
 
     const starCls = classNames({
       star: true,
+      startlight: light,
       starhalf: value === 1,
       starfull: value === 2,
     })

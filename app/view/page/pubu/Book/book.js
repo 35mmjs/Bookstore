@@ -109,6 +109,10 @@ class BookDetail extends React.Component {
                     <em className="value">{book.score}</em>
                   </div>
                 </div>
+                <div className="book_detail_container_star">
+                  { getStarValues(book.score).map((value, index) => <Star light={true} value={value} key={index} />) }
+                </div>
+
                 {/* <div className="book_detail_container_command">
                   评论 {book.commands} 条
                 </div> */}
