@@ -35,12 +35,14 @@ export default class Book extends React.Component {
   }
 
   render() {
-    const { type, cover, name, author, pricing, score = 10, index } = this.props
+    const { type, cover, name, author, pricing, index } = this.props
 
     const bookCls = classNames({
       book: true,
       booknth: index % 2 === 0,
     })
+
+    let score = this.props.score || Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
      
     return (
       <div className={bookCls}>

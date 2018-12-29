@@ -1,6 +1,6 @@
 function getStarValue(score) {
   if (!score) {
-    score = 0 
+    score = 10
   }
   const starValues = []
   const full = parseInt(score / 2, 10)
