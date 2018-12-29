@@ -40,9 +40,10 @@ module.exports = () => {
       // 端口号
       port: '3306',
       // 用户名
-      user: 'root',
+      user: 'admin',
       // 密码
-      password: 'root12345',
+      // password: 'root12345',
+      password: 'BookStore2018@!MYSQL.PROD.ADMIN',
       // password: process.env.MYSQL_PASSWORD || 'BookStore2018@!MYSQL',
       // 数据库名
       database: 'BOOKSTORE',
