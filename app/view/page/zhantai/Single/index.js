@@ -39,12 +39,9 @@ class Single extends React.Component {
         <div className={infoCls}>
           <h2 className="info_title">{book.name}</h2>
           <p className={authorCls}>作者：{book.author.replace('作者:', '')}</p>
-          <p className="info_price">售价：<span>{book.price}</span> 元</p>
-          {book.pricing &&
-            <p className="info_pricing">定价：{book.pricing} 元</p>
-          }
+          <p className="info_price">定价：<span>{book.pricing}</span> 元</p>
         </div>
-        <Score value={book.score || '10.0'} mulity={mulity} />
+        <Score value={book.score || Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10 } mulity={mulity} />
         {
           book.qrcode && !mulity &&
           <div className="info_qrcode">

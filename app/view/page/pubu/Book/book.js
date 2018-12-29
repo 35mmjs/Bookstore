@@ -26,7 +26,7 @@ class BookDetail extends React.Component {
     const { book } = this.props
     console.log('==>', book)
     this.getBook(book.isbn)
-    // this.getRecommend()
+    this.getRecommend(book.isbn)
   }
 
   reGetData = (e, book) => {
@@ -40,6 +40,10 @@ class BookDetail extends React.Component {
     console.log(isbn)
     getBook({ isbn })
       .then(res => {
+        const { data } = res
+        this.setState({
+          book: data.data
+        })
         console.log(res)
       })
       .catch(err => {
@@ -51,6 +55,9 @@ class BookDetail extends React.Component {
     getRecommend({ isbn })
       .then(res => {
         console.log(res.data.data)
+        this.setState({
+          recommend: res.data.data,
+        })
       })
       .catch(err => {
         console.error(err)
