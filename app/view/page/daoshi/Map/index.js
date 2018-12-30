@@ -36,11 +36,16 @@ export default class Map extends React.Component {
     const react = map.getBoundingClientRect()
     console.log(react)
     const cx = react.left
-    const cy = react.top + window.scrollY + wrapper.scrollTop
+    const cy = window.scrollY + 210 + wrapper.scrollTop
     const fw = data.map.size[0]
-    const rate = react.width / fw
-    const left = x * rate
-    const top = y * rate
+    const fh = data.map.size[1]
+    const rateX = 1
+    const rateY = 1 
+
+    const left = cx + x * rateX
+    const top = cy + y * rateY
+
+    console.log(left, top)
 
     return { left, top }
   }

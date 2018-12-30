@@ -27,7 +27,6 @@ class Cover extends React.Component {
     const style = {
       marginLeft: `-${left}px`,
     }
-    console.log(left)
     return (
       <img src={this.props.src} onLoad={this.onLoad} ref={this.image} style={style} />
     )

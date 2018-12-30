@@ -23,14 +23,10 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getData()
-    // this.setState({
-    //   books: data,
-    // })
   }
 
   getData = () => {
     getDaoshiData().then(res => {
-      console.log(res)
       const { data } = res
       this.setState({
         books: data.data.books,
