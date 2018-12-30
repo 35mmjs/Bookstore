@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import Cover from './cover'
 import './index.less'
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Books extends React.Component {
@@ -35,7 +36,7 @@ export default class Books extends React.Component {
               return (
                 <div className="books_list_content_item" key={`${book.isbn}${index}`} onClick={e => this.onClick(e, book.isbn)}>
                   <div className="books_list_cover" key={index}>
-                    <img src={book.cover} />
+                    <Cover src={book.cover} />
                   </div>
                   {
                     isList && (<div className="book_list_info">

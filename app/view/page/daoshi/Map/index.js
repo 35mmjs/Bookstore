@@ -17,6 +17,7 @@ export default class Map extends React.Component {
   }
 
   componentDidMount() {
+    this.getFloors()
     const { location = 1 } = window.appData
     const place = data.floor[data.floor.length - location].location
     const here = this.getPosition(location, place[0], place[1])
@@ -29,17 +30,23 @@ export default class Map extends React.Component {
     })
   }
 
-  getPosition = (n, x, y) => {
+  getPosition = (x, y) => {
     const wrapper = ReactDOM.findDOMNode(this.refs.wrapper)
-    const floor = ReactDOM.findDOMNode(this.refs[`floor_${n}`])
-    const react = floor.getBoundingClientRect()
-    const cx = react.width / 2 + react.left
-    // 需要减去 point 节点外容器的高度位移
-    const cy = react.height / 2 + react.top + window.scrollY - 210 + wrapper.scrollTop
-    const fw = data.floor[data.floor.length - n].size[0]
-    const rate = react.width / fw
-    const left = cx + x * rate
-    const top = cy - y * rate
+    const map = ReactDOM.findDOMNode(this.refs.map)
+    const react = map.getBoundingClientRect()
+    console.log(react)
+    const cx = react.left
+    const cy = window.scrollY + 210 + wrapper.scrollTop
+    const fw = data.map.size[0]
+    const fh = data.map.size[1]
+    const rateX = 1
+    const rateY = 1 
+
+    const left = cx + x * rateX
+    const top = cy + y * rateY
+
+    console.log(left, top)
+
     return { left, top }
   }
 
@@ -47,12 +54,21 @@ export default class Map extends React.Component {
     e.preventDefault()
     const that = this
     this.props.onClick && this.props.onClick(() => {
-      const position = that.getPosition(coordinate[2], coordinate[0], coordinate[1])
+      const position = that.getPosition(coordinate[0], coordinate[1])
+      
       that.setState({
         x: position.left,
         y: position.top,
         showPoint: true,
       })
+    })
+  }
+
+  getFloors = () => {
+    const { floor } = data
+    if (this.state.mapper) return this.state
+    this.setState({
+      mapper: floor.reverse()
     })
   }
 
@@ -78,33 +94,47 @@ export default class Map extends React.Component {
 
     return (
       <div className={cls} ref={'wrapper'}>
-        {data.floor.map((floor, index) => {
-          return (
-            <div className="floor" key={index} ref={`floor_${data.floor.length - index}`}>
-              <img src={floor.image} />
-            </div>
-          )
-        })}
-        <div className="point" style={pointStyle} />
+        <div className="floor">
+          <img src={data.map.src} ref={'map'}/>
+          <div className="point" style={pointStyle} />
+        </div>
         <div className="location" style={locationStyle} />
         { !hideAreas && (
           <div className="areas">
             {
-              data.areas.map((area, index) => {
+              data.floor.map((floor, index) => {
                 return (
-                  <div className="area" key={index} onClick={e => this.onChange(e, area.coordinate)}>
-                    <span className="color" style={{ background: `${area.color}` }} />
-                    <span className="text">{area.name}</span>
+                  <div className="layer">
+                    <div className="layer-name">
+                      {floor.name}
+                    </div>
+                    <div className="layer-catalog">
+                      {floor.catalog.join(' ')}
+                    </div>
+                    <div className="layer-area">
+                      {
+                        floor.areas.map(area => {
+                          return (
+                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate)}>
+                              <span className="color" style={{ background: `${area.color}` }}>
+                                {area.key}
+                              </span>
+                              <span className="text">{area.name}</span>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
                   </div>
                 )
               })
             }
-            <div className="area">
-              <span className="here" />
+            <div className="info">
+              <span className="icon icon-here" />
               <span className="text">你所在的位置</span>
             </div>
-            <div className="area">
-              <span className="wc" />
+            <div className="info">
+              <span className="icon icon-wc" />
               <span className="text"> 洗手间</span>
             </div>
           </div>

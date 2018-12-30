@@ -19,3 +19,7 @@ export const getZhantaiData = (data) => {
 export const getBook = (data) => {
   return axios.get(`http://47.96.181.54/open/v1/book?isbn=${data.isbn}`)
 }
+
+export const getDaoshiData = (data) => {
+  return axios.get('http://47.96.181.54/open/v1/daoshi')
+}
