@@ -2,6 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
+  terminalType,
 } = require('./api/index')
 
 /**
@@ -43,6 +44,8 @@ module.exports = app => {
   router.get(terminal.findAll, controller.terminal.findAll)
   router.get(terminal.remove, controller.terminal.remove)
   router.get(terminal.findOne, controller.terminal.findOne)
+  // 终端类型
+  router.get(terminalType.findAll, controller.terminalType.findAll)
 
   // book query
   router.get(book.findOneByISBN, controller.book.getBook)

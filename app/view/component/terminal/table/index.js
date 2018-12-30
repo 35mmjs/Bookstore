@@ -2,12 +2,8 @@ import React, { Fragment, useState } from 'react'
 import moment from 'moment'
 import { Button, Divider, Table, Form, Input, Modal, Select } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
-import {
-  VIEW_CONFIG_TYPE_MAP,
-  VIEW_CONFIG_ID,
-  SUBMIT_FORM_LAYOUT,
-  FORM_ITEM_LAYOUT,
-} from '../../../common/constant'
+import { SUBMIT_FORM_LAYOUT, FORM_ITEM_LAYOUT } from '../../../common/constant'
+import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
 
 const Search = Input.Search
 const { Option } = Select
@@ -80,25 +76,22 @@ const EditForm = Form.create()(props => {
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择视图类型！' }],
           initialValue: data.type,
-        })(
-          <Select placeholder="请选择" style={{ width: '100px' }}>
-            {VIEW_CONFIG_TYPE_MAP &&
-              VIEW_CONFIG_TYPE_MAP.map(item => {
-                return (
-                  <Option key={item.value} value={item.value}>
-                    {item.label}
-                  </Option>
-                )
-              })}
-          </Select>,
-        )}
+        })(<TerminalTypeSelect />)}
       </FormItem>
     </Modal>
   )
 })
 
 const ConfigForm = Form.create()(props => {
-  const { modalVisible, form, handleModalVisible, onSubmit, onSearchingConfig, data, tableData } = props
+  const {
+    modalVisible,
+    form,
+    handleModalVisible,
+    onSubmit,
+    onSearchingConfig,
+    data,
+    tableData,
+  } = props
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
@@ -108,7 +101,7 @@ const ConfigForm = Form.create()(props => {
       })
     })
   }
-  const onBindingTerminal = (configItem) => {
+  const onBindingTerminal = configItem => {
     const { id: configId } = configItem
     const { id: terminalId } = data
     console.log('aaaaaaaa', configId, terminalId)
@@ -132,8 +125,12 @@ const ConfigForm = Form.create()(props => {
       title: '配置类型',
       dataIndex: 'type',
       key: 'type',
-      render: (text) => (
-        <span>{ VIEW_CONFIG_TYPE_MAP.find(item => item.value === text).label || '暂无' }</span>
+      render: text => (
+        <span>
+          {text}
+          {/* {VIEW_CONFIG_TYPE_MAP.find(item => item.value === text).label ||
+            '暂无'} */}
+        </span>
       ),
     },
     {
@@ -141,7 +138,9 @@ const ConfigForm = Form.create()(props => {
       key: 'action',
       render: (text, record) => (
         <span>
-          <Button type="primary" onClick={() => onBindingTerminal(record)}>绑定</Button>
+          <Button type="primary" onClick={() => onBindingTerminal(record)}>
+            绑定
+          </Button>
           <Divider type="vertical" />
         </span>
       ),
@@ -165,13 +164,7 @@ const ConfigForm = Form.create()(props => {
               min: 1,
             },
           ],
-        })(
-          <Search
-            placeholder="输入配置名"
-            enterButton
-            onSearch={okHandle}
-          />,
-        )}
+        })(<Search placeholder="输入配置名" enterButton onSearch={okHandle} />)}
       </FormItem>
       <Table columns={columns} dataSource={tableData} rowKey="id" />
     </Modal>
@@ -179,7 +172,14 @@ const ConfigForm = Form.create()(props => {
 })
 
 const Comp = props => {
-  const { list, onDelete, onSubmit, onSearchingConfig, configData, onChooseItem } = props
+  const {
+    list,
+    onDelete,
+    onSubmit,
+    onSearchingConfig,
+    configData,
+    onChooseItem,
+  } = props
   const [editFormVisible, setEditFormVisible] = useState(false)
   const [configFormVisible, setConfigFormVisible] = useState(false)
   const [viewFormVisible, setViewFormVisible] = useState(false)

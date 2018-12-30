@@ -4,7 +4,6 @@ import { Col } from 'antd'
 import styles from './index.module.less'
 import responsive from './responsive'
 
-console.log('aaaaaaaa', styles)
 const Description = ({
   term, column, children, ...restProps
 }) => (

@@ -31,6 +31,10 @@ const viewConfig = {
   findOne: '/view-config/findOne.json',
 }
 
+const terminalType = {
+  findAll: '/terminal-type/findAll.json',
+}
+
 const user = {
   login: '/user/login.json',
 }
@@ -58,6 +62,7 @@ module.exports = {
   enterprise,
   terminal,
   viewConfig,
+  terminalType,
   user,
   book,
   openApi,

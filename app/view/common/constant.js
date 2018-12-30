@@ -54,6 +54,10 @@ const VIEW_CONFIG_TYPE_MAP = [
     label: '展台',
     value: 2,
   },
+  {
+    label: '导视',
+    value: 3,
+  },
 ]
 
 const VIEW_CONFIG_ID = {

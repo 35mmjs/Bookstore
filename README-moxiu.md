@@ -24,7 +24,7 @@
   - [x] moment 时间处理
     
 1220
-  - [x0.9] termianl crud
+  - [x] termianl crud
   - [x] sql schema update
 1219
   - [ ] 瀑布优化

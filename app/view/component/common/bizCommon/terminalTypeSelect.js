@@ -7,7 +7,7 @@ const { Option } = Select
 const findAll = () => {
   return new Promise((resolve, reject) => {
     ajax({
-      url: '/store/findAll.json',
+      url: '/terminal-type/findAll.json',
       data: {},
       method: 'get',
     })

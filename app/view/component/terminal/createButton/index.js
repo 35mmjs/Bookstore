@@ -7,8 +7,8 @@ import {
   FORM_ITEM_LAYOUT,
   FORM_ITEM_LAYOUT_MODAL,
 } from '../../../common/constant'
-
-const { Option } = Select
+import StoreSelect from '../../common/bizCommon/storeSelect'
+import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
 
 const FormItem = Form.Item
 
@@ -58,29 +58,17 @@ const CreateForm = Form.create()(props => {
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="类型">
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择终端类型！' }],
-        })(
-          <Select placeholder="请选择" style={{ width: '100px' }}>
-            {VIEW_CONFIG_TYPE_MAP &&
-              VIEW_CONFIG_TYPE_MAP.map(item => {
-                return (
-                  <Option key={item.value} value={item.value}>
-                    {item.label}
-                  </Option>
-                )
-              })}
-          </Select>,
-        )}
+        })(<TerminalTypeSelect placeholder="请选择" />)}
       </FormItem>
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="所属门店">
         {form.getFieldDecorator('store', {
           rules: [
             {
               required: true,
-              message: '请输入至少3个字符的规则描述！',
-              min: 3,
+              message: '请选择门店',
             },
           ],
-        })(<Input placeholder="请输入" />)}
+        })(<StoreSelect placeholder="请选择" />)}
       </FormItem>
     </Modal>
   )
