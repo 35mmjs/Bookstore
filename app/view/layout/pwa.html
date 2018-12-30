@@ -11,8 +11,8 @@
     <link rel="manifest" href="{{mainfest}}"/>
     <link rel="stylesheet" type="text/css" charset="UTF-8" href="/public/css/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="/public/css/slick-theme.min.css" />
-    <link rel="stylesheet" href="{{ helper.loadStaticUrl('common.css') }}">
-    <link rel="stylesheet" href="{{ helper.loadStaticUrl(entry + '.css') }}">
+    <link rel="stylesheet" href="{{ helper.loadStaticUrl('common.css') }}?t=20181230">
+    <link rel="stylesheet" href="{{ helper.loadStaticUrl(entry + '.css') }}?t=20181230">
     <script>
       {{ helper.getAppDataScript(appData) | safe }}
     </script>
@@ -53,6 +53,6 @@
 
       })(document, window);
     </script>
-    <script src="{{ helper.loadStaticUrl('common.js') }}"></script>
-    <script src="{{ helper.loadStaticUrl(entry + '.js') }}"></script>
+    <script src="{{ helper.loadStaticUrl('common.js') }}?t=20181230"></script>
+    <script src="{{ helper.loadStaticUrl(entry + '.js') }}?t=20181230"></script>
 </html>
