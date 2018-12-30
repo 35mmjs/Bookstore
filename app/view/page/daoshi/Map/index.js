@@ -34,25 +34,28 @@ export default class Map extends React.Component {
     const wrapper = ReactDOM.findDOMNode(this.refs.wrapper)
     const map = ReactDOM.findDOMNode(this.refs.map)
     const react = map.getBoundingClientRect()
-    console.log(react)
-    const cx = react.left
-    const cy = window.scrollY + 210 + wrapper.scrollTop
+    const cx = 0
+    const cy = window.scrollY - 50 + wrapper.scrollTop
     const fw = data.map.size[0]
     const fh = data.map.size[1]
-    const rateX = 1
-    const rateY = 1 
+    const rateX = react.width / fw
+    const rateY = react.height / fh 
 
-    const left = cx + x * rateX
-    const top = cy + y * rateY
-
-    console.log(left, top)
+    const left = x * rateX
+    const top = y * rateY - 50
 
     return { left, top }
   }
 
-  onChange = (e, coordinate) => {
+  onChange = (e, coordinate, floor) => {
     e.preventDefault()
     const that = this
+    const map = ReactDOM.findDOMNode(this.refs.map);
+    const mapParent = ReactDOM.findDOMNode(this.refs.wrapper);
+    const react = map.getBoundingClientRect()
+    const top = react.height / data.map.floorCount * (data.map.floorCount - floor)
+    mapParent.scrollTop = top
+
     this.props.onClick && this.props.onClick(() => {
       const position = that.getPosition(coordinate[0], coordinate[1])
       
@@ -94,7 +97,7 @@ export default class Map extends React.Component {
 
     return (
       <div className={cls} ref={'wrapper'}>
-        <div className="floor">
+        <div className="floor" ref={'floor'}>
           <img src={data.map.src} ref={'map'}/>
           <div className="point" style={pointStyle} />
         </div>
@@ -115,7 +118,7 @@ export default class Map extends React.Component {
                       {
                         floor.areas.map(area => {
                           return (
-                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate)}>
+                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key)}>
                               <span className="color" style={{ background: `${area.color}` }}>
                                 {area.key}
                               </span>

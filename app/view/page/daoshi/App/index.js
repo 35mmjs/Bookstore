@@ -79,7 +79,7 @@ class App extends React.Component {
 
   handleClickMap = (callback) => {
     this.setState({
-      beforeStatus: this.state.status,
+      beforeStatus: [1, 1, 0],
       status: [2, 0, 0],
     }, () => {
       setTimeout(callback, 300)
@@ -96,6 +96,7 @@ class App extends React.Component {
   handleSearch = (e) => {
     e.preventDefault()
     if (!this.state.searchValue) return
+
     const loading = message.loading('搜索中...', 0)
 
     search({
@@ -104,10 +105,20 @@ class App extends React.Component {
       const { data } = res
       loading()
       message.success(`搜索到 ${data.data.length} 本书`)
-      this.setState({
-        isSearch: true,
-        searchBooks: data.data,
-      })
+      // 地图状态需要返回搜索结果
+      if (this.state.status[0] > 1) {
+        this.setState({
+          isSearch: true,
+          searchBooks: data.data,
+          beforeStatus: [1, 1, 0],
+          status: [1, 1, 0],
+        })
+      } else {
+        this.setState({
+          isSearch: true,
+          searchBooks: data.data,
+        })
+      }
     }).catch(err => {
       loading()
       message.error('系统出错，请稍后再试')
