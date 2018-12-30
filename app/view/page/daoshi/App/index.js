@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { message } from 'antd'
-import { search, getBook } from '../../util/services'
+import { search, getBook, getDaoshiData } from '../../util/services'
 import Map from '../Map'
 import Book from '../Book'
 import Books from '../Books'
@@ -22,8 +22,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      books: data,
+    this.getData()
+    // this.setState({
+    //   books: data,
+    // })
+  }
+
+  getData = () => {
+    getDaoshiData().then(res => {
+      console.log(res)
+      const { data } = res
+      this.setState({
+        books: data.data.books,
+      })
+    }).catch(err => {
+      console.error(err)
     })
   }
 
