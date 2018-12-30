@@ -8,7 +8,7 @@ export default {
     {
       key: 1,
       name: '一楼',
-      location: [397, 1638],
+      location: [420, 1750],
       catalog: ['总服务台', '新书', '文具', '生活', '休闲'],
       areas: [
         {
@@ -76,7 +76,7 @@ export default {
     {
       key: 2,
       name: '二楼',
-      location: [626, 889],
+      location: [626, 960],
       catalog: ['文学', '科学', '社科', '数码', '沙龙', '展览'], 
       areas: [
         {
@@ -138,8 +138,8 @@ export default {
     {
       key: 3,
       name: '三楼',
-      location: [626, 290],
-      catalog: ['书咖', '低幼', '文较', '多功能厅'], 
+      location: [626, 330],
+      catalog: ['书咖', '低幼', '文较', '多功能厅'],
       areas: [
         {
           key: 'a',
@@ -186,13 +186,13 @@ export default {
         {
           key: 'h',
           color: '#00b68a',
-          name: '多功能厅',
+          name: '护童学习桌',
           coordinate: [483, 230],
         },
         {
           key: 'i',
           color: '#278d9b',
-          name: '护童学习桌',
+          name: '多功能厅',
           coordinate: [990, 580],
         },
         {

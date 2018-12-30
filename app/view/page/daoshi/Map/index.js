@@ -18,13 +18,30 @@ export default class Map extends React.Component {
 
   componentDidMount() {
     this.getFloors()
+    this.setState({
+      data,
+    }, () => {
+      this.getLocation()
+    })
+  }
+
+  componentDidUpdate(props) {
+    console.log(props.zoom !== this.props.zoom)
+    
+    // if (props.zoom !== this.props.zoom) {
+    //   setTimeout(() => {
+    //     this.getLocation()
+    //   }, 200)
+    // }
+  }
+
+  getLocation = () => {
     const { location = 1 } = window.appData
-    const place = data.floor[data.floor.length - location].location
-    const here = this.getPosition(location, place[0], place[1])
+    const place = data.floor[data.map.floorCount - location].location
+    const here = this.getPosition(place[0], place[1])
 
     this.setState({
       // eslint-disable-next-line react/no-unused-state
-      data,
       lx: here.left,
       ly: here.top,
     })
@@ -100,8 +117,8 @@ export default class Map extends React.Component {
         <div className="floor" ref={'floor'}>
           <img src={data.map.src} ref={'map'}/>
           <div className="point" style={pointStyle} />
+          <div className="location" style={locationStyle} />
         </div>
-        <div className="location" style={locationStyle} />
         { !hideAreas && (
           <div className="areas">
             {
