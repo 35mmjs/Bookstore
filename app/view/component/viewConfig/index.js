@@ -8,12 +8,13 @@ import Filter from './filter'
 class Index extends React.Component {
   constructor(props) {
     super(props)
+    const { dispatch } = props
     this.state = {}
+    this.dispatch = dispatch
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch({
+    this.dispatch({
       type: 'viewConfig/findAll',
       payload: {},
     })
@@ -31,6 +32,10 @@ class Index extends React.Component {
 
   handleSubmit = value => {
     console.log('handleSubmit', value)
+    this.dispatch({
+      type: 'viewConfig/findAll',
+      payload: value,
+    })
   }
 
   render() {

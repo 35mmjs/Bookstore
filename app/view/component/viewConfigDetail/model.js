@@ -42,6 +42,7 @@ export default {
         type: 'createReducer',
         payload: data,
       })
+      window.location.reload()
     },
     *findOne({ payload }, { call, put }) {
       const data = yield call(service.findOne, payload)

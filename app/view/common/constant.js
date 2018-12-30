@@ -18,6 +18,14 @@ const storeRoutes = {
   findOne: 'store/manage/detail/:id/:operation(view)',
 }
 
+const NORMAL_MAP = {
+  name: '名称',
+  content: '内容',
+  created_at: '创建时间',
+  updated_at: '更新时间',
+  type: '类型',
+}
+
 const FORM_ITEM_LAYOUT = {
   labelCol: {
     xs: { span: 24 },
@@ -30,6 +38,19 @@ const FORM_ITEM_LAYOUT = {
   },
 }
 
+const FORM_ITEM_LAYOUT_VERTICAL = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 7 },
+    md: { span: 24 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 },
+    md: { span: 24 },
+  },
+}
+
 const FORM_ITEM_LAYOUT_MODAL = {
   labelCol: {
     span: 5,
@@ -38,6 +59,7 @@ const FORM_ITEM_LAYOUT_MODAL = {
     span: 15,
   },
 }
+
 const SUBMIT_FORM_LAYOUT = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
@@ -63,6 +85,7 @@ const VIEW_CONFIG_TYPE_MAP = [
 const VIEW_CONFIG_ID = {
   PUBU_ID: 1,
   ZHANTAI_ID: 2,
+  DAOSHI_ID: 3,
 }
 
 export default {

@@ -32,29 +32,13 @@ const FilterForm = Form.create()(props => {
     <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="设备名">
+          <FormItem label="门店名">
             {getFieldDecorator('name')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="设备类型">
-            {getFieldDecorator('type', {
-              // initialValue: '',
-            })(
-              <Select placeholder="请选择" style={{ width: '100px' }}>
-                {VIEW_CONFIG_TYPE_MAP &&
-                  VIEW_CONFIG_TYPE_MAP.concat({
-                    value: '',
-                    label: '全部',
-                  }).map(item => {
-                    return (
-                      <Option key={item.value} value={item.value}>
-                        {item.label}
-                      </Option>
-                    )
-                  })}
-              </Select>,
-            )}
+          <FormItem label="门店地址">
+            {getFieldDecorator('addr')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>

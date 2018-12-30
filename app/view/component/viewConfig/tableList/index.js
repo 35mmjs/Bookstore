@@ -18,6 +18,11 @@ export default class Index extends React.Component {
         },
       },
       {
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
         title: '备注',
         dataIndex: 'note',
         key: 'note',
@@ -28,15 +33,10 @@ export default class Index extends React.Component {
         key: 'type',
       },
       // {
-      //   title: '状态',
-      //   key: 'status',
-      //   dataIndex: 'status',
+      //   title: '录入人',
+      //   key: 'recorder',
+      //   dataIndex: 'recorder',
       // },
-      {
-        title: '录入人',
-        key: 'recorder',
-        dataIndex: 'recorder',
-      },
       {
         title: '录入时间',
         key: 'created_at',
@@ -55,7 +55,6 @@ export default class Index extends React.Component {
             {/* <Link to={`/view-config/manage/detail/${record.id}/edit`}>
               编辑
             </Link> */}
-            <Divider type="vertical" />
             <Link
               to=""
               onClick={(e) => {
@@ -72,6 +71,6 @@ export default class Index extends React.Component {
   }
 
   render() {
-    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} />
+    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} rowKey="id"/>
   }
 }

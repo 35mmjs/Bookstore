@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
 import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
+import ReactJson from 'react-json-view'
 import { connect } from 'dva'
 
 import DescriptionList from '../common/DescriptionList'
 import TableForm from './tableForm'
 import ImageUploader from '../common/ImageUploader'
-import { VIEW_CONFIG_TYPE_MAP, VIEW_CONFIG_ID } from '../../common/constant'
+import {
+  VIEW_CONFIG_TYPE_MAP,
+  VIEW_CONFIG_ID,
+  FORM_ITEM_LAYOUT,
+  SUBMIT_FORM_LAYOUT,
+  NORMAL_MAP,
+} from '../../common/constant'
+import TerminalTypeSelect from '../common/bizCommon/terminalTypeSelect'
+import PubuForm from './form/pubuForm'
+import ZhantaiForm from './form/zhantaiForm'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
 const { Option } = Select
 
-const tableData = [
-  // {
-  //   key: '1',
-  //   id: '00001',
-  //   note: 'John Brown',
-  // },
-]
-
 const DetailView = ({ data = {} }) => {
   const { type, note, content, created_at, update_at } = data
+  console.log('content', content) 
   return (
     <div>
       <DescriptionList
@@ -32,8 +35,10 @@ const DetailView = ({ data = {} }) => {
       >
         <Description term="终端名">{note}</Description>
         <Description term="类型">{type}</Description>
-        <Description term="配置">{JSON.stringify(content)}</Description>
-        <Description term="更新时间">{created_at}</Description>
+        <Description term="配置">
+          <ReactJson src={content}/>
+        </Description>
+        <Description term="创建时间">{created_at}</Description>
       </DescriptionList>
       <Divider style={{ marginBottom: 32 }} />
     </div>
@@ -48,30 +53,32 @@ class CreateForm extends React.Component {
     const defaultType = data.type || VIEW_CONFIG_ID.PUBU_ID
     this.state = {
       type: defaultType,
+      content: null,
     }
   }
 
   handleSelectChange = val => {
     if (val === VIEW_CONFIG_ID.PUBU_ID) this.setState({ type: val })
     if (val === VIEW_CONFIG_ID.ZHANTAI_ID) this.setState({ type: val })
+    if (val === VIEW_CONFIG_ID.DAOSHI_ID) this.setState({ type: val })
+  }
+
+  onChildFormSubmit = val => {
+    this.setState({ content: val })
   }
 
   render() {
     const { handleSubmit, form } = this.props
+    const { content } = this.state
     const { getFieldDecorator } = form
     const handleFormReset = () => {
       form.resetFields()
     }
     const submitBeforeValidation = () => {
       form.validateFields((err, fieldsValue) => {
-        console.log('aaaaaaaa', err, fieldsValue)
         if (err) return
         form.resetFields()
-        const { banner = {}, books, type, note } = fieldsValue
-        const content = {
-          banner: banner.url,
-          books,
-        }
+        const { type, note } = fieldsValue
         handleSubmit({
           note,
           type,
@@ -80,83 +87,36 @@ class CreateForm extends React.Component {
       })
     }
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
-      },
-    }
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
-    }
-
-    const pubuForm = () => [
-      <FormItem {...formItemLayout} key="banner" label="瀑布图片">
-        {getFieldDecorator('banner', {
-          rules: [{ type: 'object', required: true, message: '请上传一张图' }],
-          trigger: 'onUploadDone',
-        })(<ImageUploader />)}
-      </FormItem>,
-      <FormItem {...formItemLayout} key="books" label="书目录入">
-        {getFieldDecorator('books', {
-          initialValue: tableData,
-        })(<TableForm />)}
-      </FormItem>,
-    ]
-    const zhantaiForm = () => [
-      <FormItem {...formItemLayout} key="books" label="书目录入">
-        {getFieldDecorator('books', {
-          initialValue: tableData,
-        })(<TableForm />)}
-      </FormItem>,
-    ]
-
     const detaiform = () => {
-      if (this.state.type === VIEW_CONFIG_ID.PUBU_ID) return pubuForm()
-      if (this.state.type === VIEW_CONFIG_ID.ZHANTAI_ID) return zhantaiForm()
+      if (this.state.type === VIEW_CONFIG_ID.PUBU_ID) {
+        return <PubuForm onSubmit={this.onChildFormSubmit} />
+      }
+      if (this.state.type === VIEW_CONFIG_ID.ZHANTAI_ID) {
+        return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
+      }
+      if (this.state.type === VIEW_CONFIG_ID.DAOSHI_ID) {
+        return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
+      }
       return null
     }
 
     return (
       <Form onSubmit={submitBeforeValidation}>
-        <FormItem {...formItemLayout} label="配置备注">
+        <FormItem {...FORM_ITEM_LAYOUT} label="配置备注">
           {getFieldDecorator('note', {
             rules: [
               { required: true, message: '请输入至少3个字符的描述！', min: 3 },
             ],
           })(<Input placeholder="请输入" />)}
         </FormItem>
-        <FormItem {...formItemLayout} label="类型">
+        <FormItem {...FORM_ITEM_LAYOUT} label="类型">
           {getFieldDecorator('type', {
             rules: [{ required: true, message: '请选择视图类型！' }],
             initialValue: this.state.type,
-          })(
-            <Select
-              placeholder="请选择"
-              style={{ width: '100px' }}
-              onChange={this.handleSelectChange}
-            >
-              {VIEW_CONFIG_TYPE_MAP &&
-                VIEW_CONFIG_TYPE_MAP.map(item => {
-                  return (
-                    <Option key={item.value} value={item.value}>
-                      {item.label}
-                    </Option>
-                  )
-                })}
-            </Select>,
-          )}
+          })(<TerminalTypeSelect onChange={this.handleSelectChange} />)}
         </FormItem>
         {detaiform()}
-        <FormItem {...submitFormLayout}>
+        <FormItem {...SUBMIT_FORM_LAYOUT}>
           <Button type="primary" htmlType="submit">
             新建
           </Button>

@@ -18,9 +18,10 @@ class Terminal extends Service {
   }
 
   async create(params) {
-    const { name, note, store, type } = params
+    const { name, addr } = params
     const result = await this.app.mysql.insert(DB, {
       name,
+      addr
     })
     return result.affectedRows === 1
   }

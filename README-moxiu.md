@@ -1,4 +1,55 @@
+## 1230 进度汇总
+### 已经完成
+- view_configs, terminals, stores 的全部crud
+- 视图配置,针对三种瀑布/导视/展台, 做了灵活配置
+- 部分样式优化
+- 主链路已经跑通, 终端通过clientId(设备id)可以获取对应后台配置的视图配置
+- 一键部署到生产服务器
+
+### 待完成
+- emplyoee, user, enterprise 3个的crud
+- 页面权限
+- 构建优化, 打包到cdn
+- 链路优化/打磨(最终达到用户不需要教程直接使用的地步)
+- 代码/组件复用待优化
+
+
+### 备注
+1. 主链路是, 用户新增teminal_types(由于crud没做, 目前是手动插入数据库)新增企业=>新增设备, 新增视图, 绑定设备和视图配置
+
+2. 相关账号密码如下
+
+生产环节阿里云账号
+
+    账号:树联互联(没错是拼音)
+    密码:shulian1225
+
+生产服务器
+
+    ssh账密
+        root@47.96.181.54
+        WAZLfMUtVgTcP6V
+    MYSQL账密
+        root
+        BookStore2018@!MYSQL.PROD
+        admin
+        BookStore2018@!MYSQL.PROD.ADMIN
+
+3. 生产环节部署
+
+// 在升级pkg.json版本后
+```
+npm run tag
+npm run deploy-prod
+```
+
+
+
 ## changelog
+1230
+  - [ ] layout 改造
+  - [ ] Description 组件可以提炼
+  - [ ] json view
 1227
   - [x] 主链路串联
   - [x] 排行榜录入

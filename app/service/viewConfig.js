@@ -2,9 +2,9 @@ const { Service } = require('egg')
 
 const DB = 'view_configs'
 class ViewConfig extends Service {
-  async findAll() {
+  async findAll(params) {
     const items = await this.app.mysql.select(DB, {
-      where: { deleted: 0 },
+      where: { deleted: 0, ...params },
     })
     return { items }
   }

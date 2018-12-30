@@ -13,8 +13,8 @@ class ViewConfigController extends Controller {
 
   // get
   async findAll() {
-    // const request = this.ctx.params
-    const result = await this.ctx.service.viewConfig.findAll()
+    const { query } = this.ctx
+    const result = await this.ctx.service.viewConfig.findAll(query)
     this.ctx.body = {
       success: true,
       data: result,

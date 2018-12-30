@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import moment from 'moment'
+import { Link } from 'dva/router'
 import { Button, Divider, Table, Form, Input, Modal, Select } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
 import { SUBMIT_FORM_LAYOUT, FORM_ITEM_LAYOUT } from '../../../common/constant'
@@ -14,6 +15,7 @@ const { Description } = DescriptionList
 
 const ViewForm = props => {
   const { modalVisible, data, handleModalVisible } = props
+  const { name, type, store, created_at, updated_at, note, view_config } = data
   return (
     <Modal
       destroyOnClose
@@ -29,14 +31,13 @@ const ViewForm = props => {
         layout="vertical"
         col={1}
       >
-        {data &&
-          Object.keys(data).map(key => {
-            return (
-              <Description key={key} term={key}>
-                {data[key]}
-              </Description>
-            )
-          })}
+        <Description term="终端名">{name}</Description>
+        <Description term="类型">{type}</Description>
+        <Description term="配置">{view_config}</Description>
+        <Description term="门店">{store}</Description>
+        <Description term="备注">{note}</Description>
+        <Description term="更新时间">{updated_at}</Description>
+        <Description term="创建时间">{created_at}</Description>
       </DescriptionList>
     </Modal>
   )
@@ -60,9 +61,21 @@ const EditForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem {...FORM_ITEM_LAYOUT} label="描述">
+      <FormItem {...FORM_ITEM_LAYOUT} label="设备名称">
         {form.getFieldDecorator('name', {
           initialValue: data.name,
+          rules: [
+            {
+              required: true,
+              message: '请输入至少3个字符的规则描述！',
+              min: 3,
+            },
+          ],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem {...FORM_ITEM_LAYOUT} label="设备备注">
+        {form.getFieldDecorator('note', {
+          initialValue: data.note,
           rules: [
             {
               required: true,
@@ -92,6 +105,8 @@ const ConfigForm = Form.create()(props => {
     data,
     tableData,
   } = props
+  console.log('xxxxxxx', props)
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
@@ -107,6 +122,7 @@ const ConfigForm = Form.create()(props => {
     console.log('aaaaaaaa', configId, terminalId)
     if (configId && terminalId) {
       onSubmit({ id: terminalId, view_config: configId })
+      handleModalVisible()
     }
   }
 
@@ -136,14 +152,26 @@ const ConfigForm = Form.create()(props => {
     {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
-        <span>
-          <Button type="primary" onClick={() => onBindingTerminal(record)}>
-            绑定
-          </Button>
-          <Divider type="vertical" />
-        </span>
-      ),
+      render: (text, record) => {
+        console.log('aaaaaaaa', data, record)
+        return (
+          <span>
+            {data.view_config && data.view_config === record.id ? (
+              <Button
+                disabled
+                type="primary"
+                onClick={() => onBindingTerminal(record)}
+              >
+                绑定成功
+              </Button>
+            ) : (
+              <Button type="primary" onClick={() => onBindingTerminal(record)}>
+                绑定
+              </Button>
+            )}
+          </span>
+        )
+      },
     },
   ]
 
@@ -215,6 +243,16 @@ const Comp = props => {
       key: 'type',
     },
     {
+      title: '视图配置',
+      dataIndex: 'view_config',
+      key: 'view_config',
+      render: value => {
+        return (
+          <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
+        )
+      },
+    },
+    {
       title: '门店',
       dataIndex: 'store',
       key: 'store',
@@ -223,11 +261,6 @@ const Comp = props => {
       title: '区域备注',
       key: 'note',
       dataIndex: 'note',
-    },
-    {
-      title: '录入人',
-      key: 'employee_id',
-      dataIndex: 'employee_id',
     },
     {
       title: '录入时间',

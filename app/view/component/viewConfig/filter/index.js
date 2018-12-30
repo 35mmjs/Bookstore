@@ -1,20 +1,16 @@
 import React from 'react'
-import {
-  Row, Col, Radio, Form, Select, Button, Input, Icon,
-} from 'antd'
+import { Row, Col, Radio, Form, Select, Button, Input, Icon, Modal } from 'antd'
 
-const RadioButton = Radio.Button
-const RadioGroup = Radio.Group
+import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
 const FormItem = Form.Item
-const { Option } = Select
 
-const CreateForm = Form.create()(props => {
+const FilterForm = Form.create()(props => {
   const { form, onSubmit } = props
   const { getFieldDecorator } = form
   const handleSubmit = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
-      form.resetFields()
+      // form.resetFields()
       onSubmit({
         ...fieldsValue,
       })
@@ -27,19 +23,15 @@ const CreateForm = Form.create()(props => {
     <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="备注">
+          <FormItem label="配置备注">
             {getFieldDecorator('note')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="视图类型">
-            {getFieldDecorator('status')(
-              <Select placeholder="请选择" style={{ width: '100px' }}>
-                <Option value="-1">全部</Option>
-                <Option value="0">关闭</Option>
-                <Option value="1">运行中</Option>
-              </Select>,
-            )}
+          <FormItem label="配置类型">
+            {getFieldDecorator('type', {
+              // initialValue: '',
+            })(<TerminalTypeSelect />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
@@ -57,26 +49,4 @@ const CreateForm = Form.create()(props => {
   )
 })
 
-export default class Index extends React.Component {
-  constructor() {
-    super()
-    this.state = {}
-  }
-
-  render() {
-    return (
-      <div>
-        <Row>
-          <Col>
-            <Button type="primary" href="#/view-config/manage/detail/new">新建</Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <CreateForm onSubmit={this.props.onSubmit} />
-          </Col>
-        </Row>
-      </div>
-    )
-  }
-}
+export default FilterForm

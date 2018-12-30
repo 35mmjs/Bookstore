@@ -9,9 +9,10 @@ export function create(data) {
   })
 }
 
-export function findAll() {
+export function findAll(data) {
   return ajax({
     url: viewConfig.findAll,
+    data,
     method: 'get',
   })
 }

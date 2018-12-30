@@ -86,8 +86,6 @@ const CustomForm = Form.create()(props => {
 
 const ModalForm = props => {
   const { defaultVisible = false, title, onSubmit, handleModalVisible, ...rest } = props
-  console.log('aaaaaaaa', defaultVisible)
-  
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   let form = null

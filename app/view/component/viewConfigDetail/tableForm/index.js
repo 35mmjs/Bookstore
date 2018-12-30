@@ -328,7 +328,7 @@ class TableForm extends PureComponent {
         title: '书目ISBN',
         dataIndex: 'isbn',
         key: 'isbn',
-        // width: '20%',
+        width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -337,7 +337,7 @@ class TableForm extends PureComponent {
                 autoFocus
                 onChange={e => this.handleFieldChange(e, 'isbn', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="数目ID"
+                placeholder="ISBN"
               />
             )
           }
@@ -348,16 +348,16 @@ class TableForm extends PureComponent {
         title: '图片',
         dataIndex: 'cover',
         key: 'cover',
-        // width: '20%',
+        width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onChange={e => this.handleFieldChange(e, 'cover', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="数目ID"
+                placeholder="图片"
               />
             )
           }
@@ -368,16 +368,16 @@ class TableForm extends PureComponent {
         title: '书目名称',
         dataIndex: 'name',
         key: 'name',
-        // width: '20%',
+        width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onChange={e => this.handleFieldChange(e, 'name', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="数目ID"
+                placeholder="名称"
               />
             )
           }
@@ -388,16 +388,16 @@ class TableForm extends PureComponent {
         title: '作者',
         dataIndex: 'author',
         key: 'author',
-        // width: '20%',
+        width: '20%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onChange={e => this.handleFieldChange(e, 'author', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="数目ID"
+                placeholder="作者"
               />
             )
           }
@@ -408,14 +408,14 @@ class TableForm extends PureComponent {
         title: '书架位置',
         dataIndex: 'bookShelf',
         key: 'bookShelf',
-        // width: '20%',
+        width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'id', record.key)}
+                onChange={e => this.handleFieldChange(e, 'bookShelf', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="书架位置"
               />
@@ -425,27 +425,9 @@ class TableForm extends PureComponent {
         },
       },
       {
-        title: '备注',
-        dataIndex: 'note',
-        key: 'note',
-        // width: '20%',
-        render: (text, record) => {
-          if (record.editable) {
-            return (
-              <Input
-                value={text}
-                onChange={e => this.handleFieldChange(e, 'note', record.key)}
-                onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="备注"
-              />
-            )
-          }
-          return text
-        },
-      },
-      {
         title: '操作',
         key: 'action',
+        width: '10%',
         render: (text, record) => {
           const { loading } = this.state
           if (!!record.editable && loading) {
@@ -559,4 +541,7 @@ class TableForm extends PureComponent {
   }
 }
 
+TableForm.defaultProps = {
+  value: [],
+}
 export default TableForm

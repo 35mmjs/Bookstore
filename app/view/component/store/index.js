@@ -34,11 +34,9 @@ export default class Index extends React.Component {
 
   render() {
     const { store } = this.props
-    console.log('aaaaaaa;a store', this.props)
     const { list = [], singleItem } = store
     return (
       <div>
-        <div>Teminal</div>
         <div>
           <CreateButton onSubmit={data => this.onSubmit(data, 'create')} />
           <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
