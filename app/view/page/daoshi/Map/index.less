@@ -14,11 +14,11 @@
 
 .floor {
   position: relative;
-  width: 500px;
+  width: 580px;
   height: auto;
   margin-top: -50px;
   margin-bottom: -40px;
-  margin-left: 200px;
+  margin-left: 100px;
   margin-right: auto;
   display: block;
   transition: width .3s linear;
@@ -29,11 +29,11 @@
 }
 
 .areas {
-  position: fixed;
-  width: 160px;
-  height: 600px;
-  right: 950px;
-  top: 320px;
+  position: absolute;
+  width: 220px;
+  height: auto;
+  right: 0px;
+  top: 60px;
   opacity: 1;
 }
 
@@ -43,47 +43,6 @@
   height: 30px;
   margin-bottom: 15px;
   cursor: pointer;
-}
-
-.color {
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  margin-right: 10px;
-  float: left;
-}
-
-.text {
-  float: left;
-  display: inline-block;
-  width: 120px;
-  color: #fff;
-  font-size: 18px;
-  line-height: 30px;
-  text-align: left;
-}
-
-.wc {
-  float: left;
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  background-image: url('http://pjirfnf0s.bkt.clouddn.com/wc.png');
-  background-repeat: no-repeat;
-  background-position: 5px 0;
-  margin-right: 10px;
-}
-
-.here {
-  margin-right: 10px;
-  float: left;
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  background-image: url('http://pjirfnf0s.bkt.clouddn.com/here.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: 5px 0;
 }
 
 .location {
@@ -110,17 +69,140 @@
   margin: -15px 0 0 -15px;
 }
 
+.info {
+  font-size: 16px;
+  color: #fff;
+  text-align: left;
+  padding-bottom: 10px;
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+
+    &-wc {
+      background-image: url('http://pjirfnf0s.bkt.clouddn.com/wc.png');
+      background-repeat: no-repeat;
+      background-position: 5px 0;
+    }
+    
+    &-here {
+      display: inline-block;
+      background-image: url('http://pjirfnf0s.bkt.clouddn.com/here.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 5px 0;
+    }
+  }
+  .text {
+    font-size: 16px;
+    display: inline-block;
+  }
+}
+
+.layer {
+  text-align: left;
+  color: #fff;
+  margin-bottom: 20px;
+
+  &-name {
+    position: relative;
+    font-size: 16px;
+    border-bottom: 1px solid #e1eb3d;
+    margin-bottom: 10px;
+
+    &:after {
+      position: absolute;
+      bottom: -3px;
+      right: 0;
+      content: ' ';
+      width: 5px;
+      height: 5px;
+      border-radius: 3px 3px;
+      background: #e1eb3d;
+    }
+  }
+
+  &-catalog {
+    font-size: 14px;
+  }
+
+  &-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 10px 0;
+
+    &-item {
+      line-height: 18px;
+      font-size: 12px;
+      padding: 0 10px 10px 0;
+  
+      .color {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        margin-right: 5px;
+        float: left;
+        text-align: center;
+      }
+      
+      .text {
+        float: left;
+        display: inline-block;
+        color: #fff;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: left;
+      }
+    }
+  }
+}
+
 .map_zoom {
   width: 100%;
 
   .floor {
-    width: 1000px;
+    width: 1200px;
     margin-bottom: -100px;
-    margin-left: 400px;
+    margin-left: 100px;
   }
 
   .areas {
+    width: 360px;
     right: 150px;
+
+    .layer {
+      &-name {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+
+      &-catalog {
+        font-size: 16px;
+      }
+
+      &-area {
+        padding: 16px 0;
+
+        &-item {
+          font-size: 16px;
+          padding-right: 20px;
+
+          .color {
+            width: 24px;
+            height: 24px;
+          }
+
+          .text {
+            font-size: 16px;
+            line-height: 24px;
+          }
+        }
+      }
+    }
   }
 
   .point {
@@ -128,6 +210,7 @@
     height: 50px;
     margin: -25px 0 0 -25px;
   }
+
 }
 
 .map_hidden {
