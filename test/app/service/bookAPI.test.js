@@ -8,7 +8,7 @@ describe('test/app/service/bookAPI.test.js', () => {
   })
   it('getRinkingList', async () => {
     const data = await ctx.service.bookAPI.getRinkingList()
-    expect(Object.keys(data[0])).toEqual(['phid', 'phmc'])
+    expect(Array.isArray(data)).toEqual(true)
   })
   it('getRinkingInfo', async () => {
     const data = await ctx.service.bookAPI.getRinkingInfo('00000084')
@@ -22,17 +22,19 @@ describe('test/app/service/bookAPI.test.js', () => {
     const data = await ctx.service.bookAPI.getBookBySPBS('4087393')
     expect(data.sm).toMatch(/宪法/)
   })
+  it.skip('getStockInfo', async () => {
+    const data = await ctx.service.bookAPI.getStockInfo('3308000001', '4087393', '50')
+    console.log(data)
+  })
   it('getRecommendBooks', async () => {
     ctx.service.bookAPI.getRecommendBooks('4087393')
   })
   it('searchBookByName', async () => {
     const data = await ctx.service.bookAPI.searchBookByName('中华人民共和国宪法(宣誓本)')
-    console.log('aaaaaaaa', data)
     expect(data[0].sm).toMatch(/宪法/)
   })
   it('searchBookByKeyword', async () => {
     const data = await ctx.service.bookAPI.searchBookByKeyword('中华人民共和国宪法')
-    console.log('aaaaaaaa', data)
     expect(data.length > 0).toEqual(true)
   })
 })

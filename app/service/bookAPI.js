@@ -161,6 +161,16 @@ class BookAPIService extends Service {
   getRecommendBooks(spbs, khbh = '3300000000') {
     return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
   }
+
+  /**
+   * 获取库存信息
+   * @param kcdh {String} 库存店号
+   * @param spbs {String} 商品标识
+   * @param bmbh {Strig} 部门编号
+   */
+  getStockInfo(kcdh, spbs, bmbh = '') {
+    return this.fetch('stock01', { kcdh, spbs, bmbh })
+  }
 }
 
 module.exports = BookAPIService
