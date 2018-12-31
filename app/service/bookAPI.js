@@ -169,7 +169,7 @@ class BookAPIService extends Service {
    * @param bmbh {Strig} 部门编号
    */
   getStockInfo(kcdh, spbs, bmbh = '') {
-    return this.fetch('stock01', { kcdh, spbs, bmbh })
+    return this.fetch('stock01', { kcdh, spbs, bmbh }).then(d => JSON.parse(d))
   }
 }
 
