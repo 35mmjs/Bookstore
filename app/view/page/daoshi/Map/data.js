@@ -8,7 +8,7 @@ export default {
     {
       key: 1,
       name: '一楼',
-      location: [420, 1750],
+      location: [400, 1700],
       catalog: ['总服务台', '新书', '文具', '生活', '休闲'],
       areas: [
         {
@@ -138,7 +138,7 @@ export default {
     {
       key: 3,
       name: '三楼',
-      location: [626, 330],
+      location: [626, 320],
       catalog: ['书咖', '低幼', '文较', '多功能厅'],
       areas: [
         {

@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import data from './data'
+// import data from './10002'
 import './index.less'
 
 export default class Map extends React.Component {
@@ -28,11 +29,12 @@ export default class Map extends React.Component {
   componentDidUpdate(props) {
     console.log(props.zoom !== this.props.zoom)
     
-    // if (props.zoom !== this.props.zoom) {
-    //   setTimeout(() => {
-    //     this.getLocation()
-    //   }, 200)
-    // }
+    if (props.zoom !== this.props.zoom) {
+      setTimeout(() => {
+        console.log('===> change location')
+        this.getLocation()
+      }, 300)
+    }
   }
 
   getLocation = () => {
