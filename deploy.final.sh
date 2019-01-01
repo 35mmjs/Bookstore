@@ -124,29 +124,29 @@ last_check()
 }
 
 before_depoly()
-{       
+{
 	echo;
 	echo $prefix"post to remote service"$aftfix;
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "mkdir -p $REMOTE_PATH"
-	scp "output/"$PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE 
+	scp "output/"$PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; tar zxvf $PACKAGE --strip-components 1 >> /dev/null "
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; rm $REMOTE_PATH/$PACKAGE;chown -R $HTTP_SERVER_ACCOUNT:$HTTP_SERVER_ACCOUNT ./"
 }
 
 run_server()
-{       
+{
 	#[修改]根据不同框架进行修改
 	echo;
 	echo $prefix"run server:"$aftfix;
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
 	# 环境需要提前放置到 .bashrc 当中
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run build && npm run server"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server"
 	return 0
 }
 
 modify_deploy()
-{       
+{
 	echo;
 	echo $prefix"User-defined changes:"$aftfix;
 }
@@ -181,7 +181,7 @@ while getopts p:e:b:t:v: opt
 do
 	case "$opt" in
 		p)TAGS_PATH=${OPTARG};;
-		e)ENV=${OPTARG};; 
+		e)ENV=${OPTARG};;
 		b)BUSINESS=${OPTARG};;
 		v)TAG=${OPTARG};;
 		t)TOOL=${OPTARG};;
