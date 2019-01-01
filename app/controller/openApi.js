@@ -200,6 +200,15 @@ class OpenApiController extends Controller {
       data: result,
     }
   }
+
+  async getStockInfo() {
+    const { kcdh, spbs, bmbh } = this.ctx.query
+    const data = await this.ctx.service.bookAPI.getStockInfo(kcdh, spbs, bmbh)
+    this.ctx.body = {
+      success: true,
+      data,
+    }
+  }
 }
 
 module.exports = OpenApiController

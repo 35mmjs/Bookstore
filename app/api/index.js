@@ -55,6 +55,7 @@ const openApi = {
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
   findRecommendByISBN: '/open/v1/book/recommend', // isbn=xxx
   findRecommendBySPBS: '/open/v1/book/recommend', // spbs=xxx
+  getStockInfo: '/open/v1/book/stock',
 }
 
 module.exports = {
