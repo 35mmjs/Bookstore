@@ -1,8 +1,7 @@
 const sendfile = require('koa-send')
 const path = require('path')
 
-let mapJson
-
+let entryKeys
 function isPrefixWith(target, prefix) {
   return target.slice(0, prefix.length) === prefix
 }
@@ -18,12 +17,13 @@ module.exports = (options, app) => (
 
     let entryName = ctx.path.slice(staticPath.length)
     entryName = entryName[0] === '/' ? entryName.slice(1) : entryName
-    if (!mapJson) {
+    if (!entryKeys) {
       // eslint-disable-next-line global-require,import/no-unresolved,import/no-dynamic-require
-      mapJson = require(path.join(app.baseDir, './dist/map.json'))
+      const mapJson = require(path.join(app.baseDir, './dist/map.json'))
+      entryKeys = Object.keys(mapJson).map(k => mapJson[k])
     }
-    if (mapJson[entryName]) {
-      await sendfile(ctx, mapJson[entryName], {
+    if (entryKeys.includes(entryName)) {
+      await sendfile(ctx, entryName, {
         root: path.join(app.baseDir, './dist'),
         maxage: 1000 * 60 * 60 * 24 * 30, // 30天
       })

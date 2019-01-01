@@ -40,8 +40,8 @@ module.exports = (webpackConfig) => {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
-    new ExtractTextPlugin('[name].css', {
+    new webpack.optimize.CommonsChunkPlugin('common', 'common-[chunkhash].js'),
+    new ExtractTextPlugin('[name]-[chunkhash].css', {
       disable: false,
       allChunks: true,
     }),
