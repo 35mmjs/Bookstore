@@ -4,7 +4,7 @@
 #脚本参数
 NOW_PATH=$(pwd)
 #本地参数
-TAGS_PATH="git@github.com:35mmjs/Bookstore.git"
+TAGS_PATH="https://github.com/35mmjs/Bookstore"
 ENV=""
 TAG=""
 TOOL="git"

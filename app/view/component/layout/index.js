@@ -8,10 +8,6 @@ const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 
-const Nav = ({ path, children}) => (
-  <span onClick={ () => window.location.hash = path }>{children}</span>
-)
-
 class SiderDemo extends React.Component {
   state = {
     collapsed: false,
@@ -53,9 +49,9 @@ class SiderDemo extends React.Component {
               menu.map(item => {
                 if (!item.children) {
                   return (
-                    <Menu.Item key={item.value}>
-                      <Icon type="pie-chart" />
-                      <Nav path={item.value}>{item.label}</Nav>
+                    <Menu.Item key={item.value} onClick={ () => window.location.hash = item.value }>
+                      <Icon type="setting" />
+                      <span>{item.label}</span>
                     </Menu.Item>
                   )
                 } else {
@@ -63,15 +59,16 @@ class SiderDemo extends React.Component {
                     <SubMenu
                       key={item.value}
                       title={
-                      <span><Icon type="user" />
-                        <Nav path={item.value}>{item.label}</Nav>
+                      <span>
+                        <Icon type="hdd" />
+                        <span>{item.label}</span>
                       </span>}
                     >
                       {
                         item.children.map(subItem => {
                           return (
-                            <Menu.Item key={subItem.value}>
-                              <Nav path={subItem.value}>{subItem.label}</Nav>
+                            <Menu.Item key={subItem.value} onClick={ () => window.location.hash = subItem.value }>
+                              <span>{subItem.label}</span>
                             </Menu.Item>
                           )
                         })
