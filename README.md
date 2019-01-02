@@ -38,9 +38,18 @@ router.get('/yourEntry.html', controller.home.yourEntry)
 
 ### 生产环境部署
 
-- [安装gawk](http://macappstore.org/gawk/)
-- 将代码合并到stable(生产环境分支)并push
-- 运行 npm run deploy-prod
+1. 安装gawk: brew install gawk
+2. 将生产服务器密钥复制到 `~/.ssh/your_key.pem`，配置`~/.ssh/config`文件如下:
+    ```
+    host 47.96.181.54
+        user root
+        hostname 47.96.181.54
+        port 22
+        identityfile ~/.ssh/your_key.pem
+    ```
+
+3. 将代码合并到stable(生产环境分支)并push
+4. 运行 npm run deploy-prod
 
 ### 生产环境重启/停止服务器
 
