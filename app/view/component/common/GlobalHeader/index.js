@@ -35,10 +35,6 @@ export default class GlobalHeader extends PureComponent {
           <Icon type="setting" />
           设置
         </Menu.Item>
-        <Menu.Item key="triggerError">
-          <Icon type="close-circle" />
-          触发报错
-        </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
@@ -51,7 +47,7 @@ export default class GlobalHeader extends PureComponent {
         style={{ background: '#fff', padding: 0 }}
       >
         <div>
-          <HeaderSearch
+{/*          <HeaderSearch
             placeholder="站内搜索"
             dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
             onSearch={value => {
@@ -60,7 +56,7 @@ export default class GlobalHeader extends PureComponent {
             onPressEnter={value => {
               console.log('enter', value) // eslint-disable-line
             }}
-          />
+          />*/ }
           {currentUser.name ? (
             <Dropdown overlay={menu}>
               <span>
@@ -68,7 +64,7 @@ export default class GlobalHeader extends PureComponent {
                   size="small"
                   src={currentUser.avatar}
                 />
-                <span>{currentUser.name}</span>
+                <span style={{ marginLeft: 8 }}>{currentUser.name}</span>
               </span>
             </Dropdown>
           ) : (

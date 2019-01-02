@@ -68,7 +68,7 @@ const CreateButton = props => {
     handleModalVisible,
   }
   return (
-    <div>
+    <div style={{ marginBottom: 16 }}>
       <CreateForm {...createFormProps} />
       <Button type="primary" onClick={() => handleModalVisible(true)}>
         新建

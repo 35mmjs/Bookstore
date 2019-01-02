@@ -29,7 +29,7 @@ const FilterForm = Form.create()(props => {
     form.resetFields()
   }
   return (
-    <Form onSubmit={handleSubmit} layout="inline">
+    <Form style={{ marginBottom: 16 }} onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
           <FormItem label="门店名">
