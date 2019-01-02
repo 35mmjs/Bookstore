@@ -10,6 +10,6 @@ export default class Index extends React.Component {
   componentDidMount() {
   }
   render() {
-    return <div>Home</div>
+    return <div>欢迎回来，{window.appData.loginUser.username} ~ ~</div>
   }
 }

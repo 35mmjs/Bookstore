@@ -43,6 +43,10 @@ router.get('/yourEntry.html', controller.home.yourEntry)
 ```
 
 
+### 地址
+
+- [线上服务器](47.96.181.54)
+
 ### 内置指令
 
 - 使用 `npm run lint` 来做代码风格检查。
@@ -55,7 +59,3 @@ router.get('/yourEntry.html', controller.home.yourEntry)
 - [Redis安全须知](https://ruby-china.org/topics/28094)
 - [Egg-mysql](https://eggjs.org/zh-cn/tutorials/mysql.html)
 - [请求参数校验](https://github.com/node-modules/parameter)
-
-## MOCK
-### 前端mock
-### 后端mock
