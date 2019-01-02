@@ -105,9 +105,9 @@ class SiderDemo extends React.Component {
           </div>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>根据path定义</Breadcrumb.Item>
-              <Breadcrumb.Item>path1</Breadcrumb.Item>
-              <Breadcrumb.Item>path2</Breadcrumb.Item>
+              <Breadcrumb.Item></Breadcrumb.Item>
+              <Breadcrumb.Item></Breadcrumb.Item>
+              <Breadcrumb.Item></Breadcrumb.Item>
             </Breadcrumb>
             <Card>
             {this.props.children}
