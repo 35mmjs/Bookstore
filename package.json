@@ -103,7 +103,7 @@
     "autod": "autod",
     "deploy-prod": "./deploy.final.sh -e prod -v $npm_package_version",
     "deploy-dev": "./deploy.dev.sh -e dev -v $npm_package_version",
-    "version-patch": "npm version patch && git add package.json && git commit -m 'version $npm_package_version'",
+    "version-patch": "npm version patch && git add ./ && git commit -m 'version $npm_package_version' && git push",
     "tag": "git tag $npm_package_version && git push origin $npm_package_version",
     "server": "npm run _egg-start"
   },
