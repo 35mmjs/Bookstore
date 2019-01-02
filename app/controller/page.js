@@ -25,12 +25,13 @@ class PageController extends Controller {
 
   async daoshiPage() {
     const { ctx } = this
-    const { location } = ctx.query
+    const { location, orgId } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'daoshi',
       appData: {
         location,
+        orgId,
       },
       mainfest: '/public/daoshi/manifest.json',
     })

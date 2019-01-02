@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import data from './data'
-// import data from './10002'
+import data10001 from './data'
+import data10002 from './10002'
 import './index.less'
 
 export default class Map extends React.Component {
@@ -14,10 +14,18 @@ export default class Map extends React.Component {
       y: 0,
       lx: 0,
       ly: 0,
+      data: data10001,
     }
   }
 
   componentDidMount() {
+    const { orgId } = window.appData
+    let data = data10001
+
+    if (orgId === '10002') {
+      data = data10002
+    }
+    
     this.getFloors()
     this.setState({
       data,
@@ -39,6 +47,7 @@ export default class Map extends React.Component {
 
   getLocation = () => {
     const { location = 1 } = window.appData
+    const { data } = this.state
     const place = data.floor[data.map.floorCount - location].location
     const here = this.getPosition(place[0], place[1])
 
@@ -50,6 +59,7 @@ export default class Map extends React.Component {
   }
 
   getPosition = (x, y) => {
+    const { data } = this.state
     const wrapper = ReactDOM.findDOMNode(this.refs.wrapper)
     const map = ReactDOM.findDOMNode(this.refs.map)
     const react = map.getBoundingClientRect()
@@ -68,7 +78,8 @@ export default class Map extends React.Component {
 
   onChange = (e, coordinate, floor) => {
     e.preventDefault()
-    const that = this
+    const that = this;
+    const { data } = this.state;
     const map = ReactDOM.findDOMNode(this.refs.map);
     const mapParent = ReactDOM.findDOMNode(this.refs.wrapper);
     const react = map.getBoundingClientRect()
@@ -87,6 +98,7 @@ export default class Map extends React.Component {
   }
 
   getFloors = () => {
+    const { data } = this.state
     const { floor } = data
     if (this.state.mapper) return this.state
     this.setState({
@@ -96,7 +108,7 @@ export default class Map extends React.Component {
 
   render() {
     const { zoom, hidden, hideAreas } = this.props
-    const { x, y, lx, ly, showPoint } = this.state
+    const { x, y, lx, ly, showPoint, data } = this.state
     const pointStyle = {
       left: `${x}px`,
       top: `${y}px`,
