@@ -8,7 +8,7 @@ export default {
     {
       key: 1,
       name: '一楼',
-      location: [1000, 1230],
+      location: [1000, 1410],
       catalog: ['总服务台', '桐乡文化', '之江新华'],
       areas: [
         {
@@ -89,7 +89,7 @@ export default {
           key: 'c',
           color: '#00c0cf',
           name: '古典文学',
-          coordinate: [530, 759],
+          coordinate: [530, 800],
         },
         {
           key: 'd',
@@ -101,7 +101,7 @@ export default {
           key: 'e',
           color: '#acb84a',
           name: '政治法律',
-          coordinate: [300, 825],
+          coordinate: [300, 745],
         },
         {
           key: 'f',
@@ -137,7 +137,7 @@ export default {
           key: 'k',
           color: '#7b3686',
           name: '本土作家',
-          coordinate: [1170, 965],
+          coordinate: [1170, 945],
         },
         {
           key: 'l',
@@ -163,13 +163,13 @@ export default {
           key: 'b',
           color: '#ff3d3c',
           name: '益智教育',
-          coordinate: [340, 360],
+          coordinate: [1024, 620],
         },
         {
           key: 'c',
           color: '#ee6039',
           name: '童心剧场',
-          coordinate: [1012, 613],
+          coordinate: [900, 735],
         },
         {
           key: 'd',
@@ -217,7 +217,7 @@ export default {
           key: 'k',
           color: '#fb9143',
           name: '护童学习桌',
-          coordinate: [1140, 470],
+          coordinate: [1140, 690],
         },
       ],
     },

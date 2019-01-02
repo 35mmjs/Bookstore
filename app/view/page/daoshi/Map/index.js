@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import data10001 from './data'
+import data10001 from './10001'
 import data10002 from './10002'
 import './index.less'
 
@@ -14,7 +14,8 @@ export default class Map extends React.Component {
       y: 0,
       lx: 0,
       ly: 0,
-      data: data10001,
+      mapData: data10001.map,
+      floorData: data10001.floor,
     }
   }
 
@@ -26,20 +27,17 @@ export default class Map extends React.Component {
       data = data10002
     }
     
-    this.getFloors()
     this.setState({
-      data,
+      mapData: data.map,
+      floorData: data.floor.reverse(),
     }, () => {
       this.getLocation()
     })
   }
 
   componentDidUpdate(props) {
-    console.log(props.zoom !== this.props.zoom)
-    
     if (props.zoom !== this.props.zoom) {
       setTimeout(() => {
-        console.log('===> change location')
         this.getLocation()
       }, 300)
     }
@@ -47,8 +45,8 @@ export default class Map extends React.Component {
 
   getLocation = () => {
     const { location = 1 } = window.appData
-    const { data } = this.state
-    const place = data.floor[data.map.floorCount - location].location
+    const { floorData, mapData } = this.state
+    const place = floorData[mapData.floorCount - location].location
     const here = this.getPosition(place[0], place[1])
 
     this.setState({
@@ -59,19 +57,22 @@ export default class Map extends React.Component {
   }
 
   getPosition = (x, y) => {
-    const { data } = this.state
+    const { mapData } = this.state
+    const { zoom } = this.props
+    console.log('???', zoom)
+    const max = zoom ? 50 : 35
     const wrapper = ReactDOM.findDOMNode(this.refs.wrapper)
     const map = ReactDOM.findDOMNode(this.refs.map)
     const react = map.getBoundingClientRect()
     const cx = 0
-    const cy = window.scrollY - 50 + wrapper.scrollTop
-    const fw = data.map.size[0]
-    const fh = data.map.size[1]
+    const cy = window.scrollY - max + wrapper.scrollTop
+    const fw = mapData.size[0]
+    const fh = mapData.size[1]
     const rateX = react.width / fw
     const rateY = react.height / fh 
 
     const left = x * rateX
-    const top = y * rateY - 50
+    const top = y * rateY - max 
 
     return { left, top }
   }
@@ -79,11 +80,11 @@ export default class Map extends React.Component {
   onChange = (e, coordinate, floor) => {
     e.preventDefault()
     const that = this;
-    const { data } = this.state;
+    const { mapData } = this.state;
     const map = ReactDOM.findDOMNode(this.refs.map);
     const mapParent = ReactDOM.findDOMNode(this.refs.wrapper);
     const react = map.getBoundingClientRect()
-    const top = react.height / data.map.floorCount * (data.map.floorCount - floor)
+    const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
     mapParent.scrollTop = top
 
     this.props.onClick && this.props.onClick(() => {
@@ -108,7 +109,7 @@ export default class Map extends React.Component {
 
   render() {
     const { zoom, hidden, hideAreas } = this.props
-    const { x, y, lx, ly, showPoint, data } = this.state
+    const { x, y, lx, ly, showPoint, mapData, floorData } = this.state
     const pointStyle = {
       left: `${x}px`,
       top: `${y}px`,
@@ -129,14 +130,14 @@ export default class Map extends React.Component {
     return (
       <div className={cls} ref={'wrapper'}>
         <div className="floor" ref={'floor'}>
-          <img src={data.map.src} ref={'map'}/>
+          <img src={mapData.src} ref={'map'}/>
           <div className="point" style={pointStyle} />
           <div className="location" style={locationStyle} />
         </div>
         { !hideAreas && (
           <div className="areas">
             {
-              data.floor.map((floor, index) => {
+              floorData.map((floor, index) => {
                 return (
                   <div className="layer">
                     <div className="layer-name">
