@@ -21,12 +21,6 @@ $ npm start
 $ open http://localhost:7001/
 ```
 
-### 生产部署
-
-```bash
-$ npm run egg-start
-$ npm run egg-stop
-```
 ### 创建路由
 
 1. 创建view/entry/yourEntry.js
@@ -42,6 +36,18 @@ ctx.render('layout/layout.html', { entry: 'yourEntry' })
 router.get('/yourEntry.html', controller.home.yourEntry)
 ```
 
+### 生产环境部署
+
+- [安装gawk](http://macappstore.org/gawk/)
+- 将代码合并到stable(生产环境分支)并push
+- 运行 npm run deploy-prod
+
+### 生产环境重启/停止服务器
+
+```bash
+$ npm run egg-start
+$ npm run egg-stop
+```
 
 ### 地址
 
