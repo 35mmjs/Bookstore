@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import * as service from './service'
 
 export default {
@@ -21,12 +22,6 @@ export default {
         page,
       }
     },
-    createReducer(state, { payload }) {
-      console.log('xxxxxxxxx', state, payload)
-      return {
-        ...state,
-      }
-    },
     findOneReducer(state, { payload }) {
       return {
         ...state,
@@ -38,15 +33,13 @@ export default {
   effects: {
     *create({ payload }, { call, put }) {
       const data = yield call(service.create, payload)
-      yield put({
-        type: 'createReducer',
-        payload: data,
+      console.log('aaaaaaaa', data)
+      message.success('新增成功', 2, () => {
+        window.location.reload()
       })
-      window.location.reload()
     },
     *findOne({ payload }, { call, put }) {
       const data = yield call(service.findOne, payload)
-      console.log('aaaaaaaa', data)
       yield put({
         type: 'findOneReducer',
         payload: data,

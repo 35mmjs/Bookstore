@@ -11,6 +11,6 @@ run/
 *.sw*
 *.un~
 temp
-output
+outpu t
 *.tgz
 dist

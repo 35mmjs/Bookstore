@@ -65,7 +65,6 @@ export default class Index extends React.Component {
     )
 
     const imageUrl = this.state.imageUrl
-    console.log('aaaaaaaa', styles)
     return (
       <Upload
         name="file"

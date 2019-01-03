@@ -63,8 +63,8 @@ class CreateForm extends React.Component {
     if (val === VIEW_CONFIG_ID.DAOSHI_ID) this.setState({ type: val })
   }
 
-  onChildFormSubmit = val => {
-    this.setState({ content: val })
+  onChildFormSubmit = (val, cb) => {
+    this.setState({ content: val }, cb)
   }
 
   render() {

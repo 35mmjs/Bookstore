@@ -21,8 +21,9 @@ const SinglePubuForm = props => {
       books: tableForm,
       channel,
     }
-    setButtonStatus(true)
-    onSubmit(form)
+    onSubmit(form, () => {
+      setButtonStatus(true)
+    })
   }
   return (
     <div>
@@ -49,6 +50,7 @@ const PubuForm = props => {
   ]
   const [itemArray, pushItemArray] = useState(defaultArray)
   const [formArray, pushFormArray] = useState([])
+  const [loading, setLoading] = useState(false)
   const increase = () => {
     const item = {
       key: itemArray.length + 1,
@@ -56,12 +58,16 @@ const PubuForm = props => {
     itemArray.push(item)
     pushItemArray(itemArray)
   }
-  const increaseItem = val => {
+  const increaseItem = (val, cb) => {
     formArray.push(val)
     pushFormArray(formArray)
+    cb()
   }
   const saveForms = () => {
-    onSubmit(formArray)
+    setLoading(true)
+    onSubmit(formArray, () => {
+      setLoading(false)
+    })
   }
   return (
     <Card>
@@ -73,7 +79,7 @@ const PubuForm = props => {
           <Button onClick={() => increase()}>新增</Button>
         </Col>
         <Col span={8}>
-          <Button type="primary" onClick={() => saveForms()}>保存全部</Button>
+          <Button loading={loading} type="primary" onClick={() => saveForms()}>保存全部</Button>
         </Col>
       </Row>
     </Card>
@@ -81,7 +87,7 @@ const PubuForm = props => {
 }
 
 PubuForm.defaultProps = {
-  onSubmit: () => {},
+  onSubmit: (val, cb) => {},
 }
 
 export default PubuForm
