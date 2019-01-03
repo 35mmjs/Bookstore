@@ -41,9 +41,15 @@ class App extends React.Component {
     getBook({ isbn })
       .then(res => {
         const { data } = res
+        let { score } = data.data
+        if (!score) {
+          score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
+        }
         console.log(data.data)
         this.setState({
-          currentBook: data.data,
+          currentBook: Object.assign({}, data.data, {
+            score,
+          }),
           status: [0, 1, 1],
           beforeStatus: [1, 1, 0],
         }, () => {

@@ -56,7 +56,7 @@ class App extends React.Component {
       clearTimeout(this.timeout)
     }
 
-    const timeout = force ? 0 : 60000
+    const timeout = force ? 0 : 30000
 
     this.timeout = setTimeout(() => {
       this.play()
