@@ -28,12 +28,7 @@ class Cover extends React.Component {
       marginLeft: `-${left}px`,
     }
     return (
-      <React.Fragment>
-        <img src={this.props.src} onLoad={this.onLoad} ref={this.image} style={style} />
-
-        <span className="qrcode">我就是喜人</span>
-      </React.Fragment>
-
+      <img src={this.props.src} onLoad={this.onLoad} ref={this.image} style={style} />
     )
   }
 }
