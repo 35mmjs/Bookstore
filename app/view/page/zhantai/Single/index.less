@@ -24,11 +24,15 @@
   display: inline-block;
   bottom: 24px;
   left: 55px;
-}
+  overflow: hidden;
 
-.cover img {
-  width: 100%;
-  height: 100%;
+  img {
+    width: auto;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+  }
 }
 
 .info {
@@ -114,13 +118,23 @@
   padding: 140px 10px 10px;
   width: 666px;
   height: 270px;
+  color: #fff;
   top: 0;
   right: 30px;
   background-image: url('http://pjirfnf0s.bkt.clouddn.com/bg3.png');
   background-repeat: no-repeat;
-  font-size: 36px;
-  line-height: 48px;
-  text-align: left;
+
+  .intor_content {
+    height: 96px;
+    font-size: 36px;
+    line-height: 48px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 }
 
 .intro_lightBlue {

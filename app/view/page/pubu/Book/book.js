@@ -8,6 +8,7 @@ import MiniBook from './miniBook'
 import getStarValues from '../../util/getStarValues'
 import { getBook, getRecommend } from '../../util/services'
 import data from './data'
+import { message } from 'antd';
 
 class BookDetail extends React.Component {
   constructor(props) {
@@ -41,13 +42,21 @@ class BookDetail extends React.Component {
       .then(res => {
         const { data } = res
         console.log(data)
+        message.success('获取详情成功')
         if (data.data.isbn === this.state.book.isbn) {
           this.setState({
             book: Object.assign({}, this.state.book, data.data)
           })
         } else {
+          let score = data.data.score
+          if (!score) {
+            score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
+          }
+
           this.setState({
-            book: data.data
+            book: Object.assign({}, data.data, {
+              score,
+            })
           })
         }
       })
@@ -60,6 +69,7 @@ class BookDetail extends React.Component {
     getRecommend({ isbn })
       .then(res => {
         console.log(res.data.data)
+        message.success('获取相关书籍成功')
         this.setState({
           recommend: res.data.data,
         })
@@ -160,7 +170,7 @@ class BookDetail extends React.Component {
               </div>
               <div className="book_detail_container_det">
                 <h4>内容简介：</h4>
-                <p>{book.intro}</p>
+                <p className="intro">{book.intro}</p>
               </div>
               <div className="book_detail_container_det">
                 <h4>作者简介：</h4>
@@ -168,7 +178,7 @@ class BookDetail extends React.Component {
               </div>
               <div className="book_detail_container_det">
                 <h4>目录：</h4>
-                <p>{book.toc}</p>
+                <div className="toc">{book.toc}</div>
               </div>
             </div>
           </div>

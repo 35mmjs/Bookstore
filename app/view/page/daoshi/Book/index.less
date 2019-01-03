@@ -45,7 +45,11 @@
     overflow: hidden;
 
     img {
-      width: 100%;
+      position: absolute;
+      width: auto;
+      height: 100%;
+      left: 50%;
+      bottom: 0;
     }
   }
 
@@ -65,8 +69,15 @@
   
   &_intro {
     line-height: 28px;
-    color: #c9c9c9;
+    color: #e8e8e8;
     font-size: 20px;
+    height: 56px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   &_position {
@@ -82,10 +93,11 @@
 
 .book_detail_more {
   position: relative;
-  height: 160px;
+  height: auto;
   width: 100%;
   padding: 20px 20px;
-  margin-bottom: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 
   &_price,
   &_pricing {
@@ -94,9 +106,68 @@
     font-weight: normal;
 
     span {
+      color: #f0f0f0;
       font-size: 40px;
     }
   }
+
+  .value {
+    width: 96px;
+    height: 96px;
+    display: block;
+    background-image: url('http://pjirfnf0s.bkt.clouddn.com/guide_21.png');
+    background-repeat: no-repeat;
+    text-align: center;
+    background-size: contain;
+    color: #fff;
+    font-size: 24px;
+    line-height: 48px;
+    padding-top: 28px;
+    margin: 0 auto;
+  }
+
+  .score {
+    width: 185px;
+    height: 145px;
+    position: absolute;
+    top: 30px;
+  }
+
+  .sta {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+  }
+}
+.book_detail_more_star {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -95px;
+
+  .sta {
+    width: 185px;
+    height: 40px;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+.book_detail_more_qr {
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+
+  .qrcode {
+    width: 128px;
+    height: 128px;
+    background: #fff;
+    padding: 4px 4px;
+  }
+  
 }
 
 .book_detail_info_meta {
@@ -110,6 +181,27 @@
     display: inline-block;
   }
 }
+
+.book_detail_info_title {
+  position: relative;
+  padding: 0 20px 20px 20px;
+  font-size: 20px;
+  color: #e0e0e0;
+  
+  h3 {
+    color: #e9e9e9;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 16px;
+  }
+
+  p {
+    position: relative;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+}
+
 
 .book_detail_position {
   .book_detail_content {
