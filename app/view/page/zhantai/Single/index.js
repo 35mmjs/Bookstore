@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import QRCode from 'qrcode.react'
 import Score from '../Score'
@@ -6,6 +7,25 @@ import './index.less'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Single extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.image = React.createRef()
+    this.state = {
+      left: 0,
+    }
+  }
+
+  onLoad = () => {
+    const image = ReactDOM.findDOMNode(this.image.current)
+    if (!image) return
+    const { clientWidth, clientHeight, naturalHeight, naturalWidth } = image
+    const left = naturalWidth / naturalHeight * clientHeight / 2
+    this.setState({
+      left,
+    })
+  }
+
   render() {
     const { book, theme, mulity } = this.props
 
@@ -34,7 +54,7 @@ class Single extends React.Component {
     return (
       <div className={wrapperCls}>
         <div className="cover">
-          <img src={book.cover} />
+          <img src={book.cover} onLoad={this.onLoad} ref={this.image} style={{marginLeft: `-${this.state.left}px`}} />
         </div>
         <div className={infoCls}>
           <h2 className="info_title">{book.name}</h2>
@@ -48,7 +68,11 @@ class Single extends React.Component {
             <QRCode value={book.qrcode} size={100} />
           </div>
         }
-        <div className={introCls}></div>
+        <div className={introCls}>
+          <p className="intor_content">
+            {book.recommender}
+          </p>
+        </div>
       </div>
     )
   }

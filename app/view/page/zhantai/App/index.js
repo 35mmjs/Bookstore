@@ -23,8 +23,15 @@ class App extends React.Component {
   componentDidMount() {
     this.getData()
     const that = this
+
+    // 拿起书的事件，触发书的展示逻辑
     window.handleBookEvent = function (isbns) {
       that.handleBookEvent(isbns)
+    }
+
+    // 触发自动轮播
+    window.handleBookAutoPlay = function () {
+      that.autoPlay(true)
     }
   }
 
@@ -44,17 +51,19 @@ class App extends React.Component {
     })
   }
 
-  autoPlay = () => {
+  autoPlay = (force) => {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
+
+    const timeout = force ? 0 : 60000
 
     this.timeout = setTimeout(() => {
       this.play()
       this.setState({
         handUp: false,
       })
-    }, 10000)
+    }, timeout)
   }
 
   getData = () => {
