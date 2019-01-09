@@ -1,6 +1,42 @@
 const { Controller } = require('egg')
 const { bookInfoMap } = require('../common/bizHelper')
 
+function pubuMap(item) {
+  const resArray = []
+  const payloadStr = item.content || '{}'
+  const payloadArray = JSON.parse(payloadStr)
+  if (payloadArray && payloadArray.length > 0) {
+    payloadArray.forEach(data => {
+      const singlePubu = {
+        books: data.books,
+        banner: {
+          src: data.banner ? data.banner.url : '',
+        },
+        channel: data.channel,
+      }
+      resArray.push(singlePubu)
+    })
+  }
+  return resArray
+}
+
+function zhantaiMap(item) {
+  let res = {}
+  const payloadStr = item.content || '{}'
+  const payloadArray = JSON.parse(payloadStr)
+  if (payloadArray && payloadArray.length > 0) {
+    const data = payloadArray[0]
+    res = {
+      id: item.id,
+      type: item.type,
+      name: item.name,
+      note: item.note,
+      books: data.books,
+    }
+  }
+  return res
+}
+
 function bookInfoListProcess(list) {
   if (!list || list.length <= 0) return []
   const res = list.map(item => {
@@ -19,56 +55,28 @@ class OpenApiController extends Controller {
     }
   }
 
-  /**
-   */
-  async getSingleChannel(id) {
-    const item = await this.ctx.service.openApi.getPubu(id)
-    const payloadStr = item.content || '{}'
-    const payloadObj = JSON.parse(payloadStr)
-    const singleChannel = {
-      id: item.id,
-      type: item.type,
-      note: item.note,
-      books: payloadObj.books || {},
-      banner: {
-        src: payloadObj.banner,
-      },
-    }
-    return singleChannel
-  }
-
   async getPubu() {
-    // const request = this.ctx.params
-    const item1 = await this.getSingleChannel(1)
-    const item2 = await this.getSingleChannel(2)
-    const item3 = await this.getSingleChannel(3)
-    const item4 = await this.getSingleChannel(4)
-    const result = []
-    result.push(item1)
-    result.push(item2)
-    result.push(item3)
-    result.push(item4)
+    const query = this.ctx.query
+    const { clientId, orgId } = query
+    const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
+      '',
+      clientId,
+    )
+    const resArray = pubuMap(item)
     this.ctx.body = {
       success: true,
-      data: result,
+      data: resArray,
     }
   }
 
   async getDaoshi() {
-    // const { query } = this.ctx
-    // const {} = query
-    // const res = a
-    // const request = this.ctx.params
-    const item = await this.ctx.service.openApi.getPubu(3)
-    const payloadStr = item.content || '{}'
-    const payloadObj = JSON.parse(payloadStr)
-    const result = {
-      id: item.id,
-      type: item.type,
-      note: item.note,
-      books: payloadObj.books || {},
-    }
-
+    const query = this.ctx.query
+    const { clientId, orgId } = query
+    const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
+      '',
+      clientId,
+    )
+    const result = zhantaiMap(item)
     this.ctx.body = {
       success: true,
       data: result,
@@ -181,20 +189,13 @@ class OpenApiController extends Controller {
   }
 
   async getZhantai() {
-    // const { query } = this.ctx
-    // const {} = query
-    // const res = a
-    // const request = this.ctx.params
-    const item = await this.ctx.service.openApi.getPubu(3)
-    const payloadStr = item.content || '{}'
-    const payloadObj = JSON.parse(payloadStr)
-    const result = {
-      id: item.id,
-      type: item.type,
-      note: item.note,
-      books: payloadObj.books || {},
-    }
-
+    const query = this.ctx.query
+    const { clientId, orgId } = query
+    const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
+      '',
+      clientId,
+    )
+    const result = zhantaiMap(item)
     this.ctx.body = {
       success: true,
       data: result,

@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Form, Row, Col, Button, Select, Input, message } from 'antd'
-
-import DescriptionList from '../../common/DescriptionList'
 import TableForm from '../tableForm'
-import ImageUploader from '../../common/ImageUploader'
-import { addSyntheticLeadingComment } from 'typescript';
 
 const SinglePubuForm = props => {
   const { onSubmit } = props
