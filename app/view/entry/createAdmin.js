@@ -5,11 +5,11 @@ import {
 import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
 import ajax from '../common/ajax'
-import useFormState from '../hook/useFormState'
+import useForm from '../hook/useForm'
 
 const FormItem = Form.Item
 
-function onSubmit(data) {
+function handleSubmit(data) {
   ajax({
     url: '/user/createAdmin.json',
     method: 'post',
@@ -19,20 +19,22 @@ function onSubmit(data) {
 
 function App() {
   const {
-    submit, reset, getValidateStatus, getInputProps, hasError,
-  } = useFormState('user', onSubmit, {
-    rootPassword: { type: 'string', required: true },
+    submit, reset, getStatus, getProps, hasError,
+  } = useForm({
+    name: 'user',
+    schema: { rootPassword: { type: 'string', required: true } },
+    handleSubmit,
   })
   return (
     <Form style={{ margin: '32px auto', width: 400 }}>
-      <FormItem {...getValidateStatus('username')}>
-        <Input {...getInputProps('username')} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="管理员账号" />
+      <FormItem {...getStatus('username')}>
+        <Input {...getProps('username')} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="管理员账号" />
       </FormItem>
-      <FormItem {...getValidateStatus('password')}>
-        <Input {...getInputProps('password')} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="管理员密码" />
+      <FormItem {...getStatus('password')}>
+        <Input {...getProps('password')} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="管理员密码" />
       </FormItem>
-      <FormItem {...getValidateStatus('rootPassword')}>
-        <Input {...getInputProps('rootPassword')} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="超级管理员密码" />
+      <FormItem {...getStatus('rootPassword')}>
+        <Input {...getProps('rootPassword')} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="超级管理员密码" />
       </FormItem>
       <FormItem>
         <Button

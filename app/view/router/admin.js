@@ -41,12 +41,6 @@ const menu = [
     children: null,
   },
   {
-    label: '员工管理',
-    value: 'employee',
-    icon: 'file',
-    children: null,
-  },
-  {
     label: '门店管理',
     value: 'store/manage',
     icon: 'user',
@@ -59,7 +53,7 @@ const menu = [
     children: null,
   },
   {
-    label: '用户管理/管理员',
+    label: '用户管理',
     icon: 'file',
     value: 'user',
     children: null,
@@ -82,7 +76,7 @@ const routeMap = () => {
     },
     {
       path: '/enterprise',
-      models: () => [require('../component/viewConfig/model')],
+      // models: () => [require('../component/viewConfig/model')],
       component: () => Enterprise,
     },
     {

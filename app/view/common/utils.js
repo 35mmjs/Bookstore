@@ -31,6 +31,7 @@ const unique = (arr) => arr.reduce((res, v) => res.includes(v) ? res : res.conca
 const map = (obj, fn) => Object.keys(obj).reduce((output, key, index) => output.concat(fn(obj[key], key, index)), [])
 
 const isEmpty = (obj) => Object.keys(obj).length === 0
+const obj2arr = (obj) => Object.keys(obj).map(k => obj[k])
 
 export {
   reduce,
@@ -49,4 +50,5 @@ export {
   isPrefix,
   promiseMap,
   promiseChain,
+  obj2arr,
 }
