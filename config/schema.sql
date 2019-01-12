@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `enterprise` INT UNSIGNED NULL,
   `deleted` TINYINT UNSIGNED NULL DEFAULT 0,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -47,6 +48,11 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`users` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`username` ASC),
   INDEX `permission_idx` (`permission` ASC),
+  CONSTRAINT `enterprise`
+    FOREIGN KEY (`enterprise`)
+    REFERENCES `BOOKSTORE`.`enterprises` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `permission`
     FOREIGN KEY (`permission`)
     REFERENCES `BOOKSTORE`.`user_permissions` (`id`)
@@ -67,43 +73,6 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`enterprises` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `BOOKSTORE`.`employees`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`employees` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `employee_num` VARCHAR(45) NOT NULL,
-  `enterprise` INT UNSIGNED NOT NULL,
-  `leader` INT UNSIGNED NULL,
-  `deleted` TINYINT UNSIGNED NULL DEFAULT 0,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`, `user_id`),
-  INDEX `enterprise_idx` (`enterprise` ASC),
-  INDEX `leader_idx` (`leader` ASC),
-  UNIQUE INDEX `employee_num_UNIQUE` (`employee_num` ASC),
-  INDEX `user_id_idx` (`user_id` ASC),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
-  CONSTRAINT `enterprise`
-    FOREIGN KEY (`enterprise`)
-    REFERENCES `BOOKSTORE`.`enterprises` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `leader`
-    FOREIGN KEY (`leader`)
-    REFERENCES `BOOKSTORE`.`employees` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `BOOKSTORE`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `BOOKSTORE`.`stores`
