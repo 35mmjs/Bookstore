@@ -13,9 +13,7 @@ import { create, update, remove, findAll } from './service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
 export default function Store() {
-  const [dataSource, reload] = useAsyncState(findAll, [])
-  console.log(dataSource)
-
+  const [dataSource, reload] = useAsyncState(findAll, {})
   const { modal, modalShow } = useFormModal({
     name: 'store',
     schema: {
@@ -66,7 +64,7 @@ export default function Store() {
       <Button.Group style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={() => modalShow('新增门店')}>新增门店</Button>
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource} columns={columns} />
+      <Table rowKey="id" dataSource={dataSource.items} columns={columns} />
       {modal}
     </div>
   )

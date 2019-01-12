@@ -9,7 +9,7 @@ class Terminal extends Service {
         ...params,
       },
     })
-    return items
+    return { items }
   }
 
   async findOne(id) {
