@@ -75,9 +75,9 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx
-    const { username, password } = ctx.request.body
+    const { username, password, enterprise } = ctx.request.body
     ctx.validate('user', { username, password })
-    const result = await ctx.service.users.create(username, password, false)
+    const result = await ctx.service.users.create(username, password, false, enterprise)
     this.ctx.body = {
       success: true,
       data: result,
@@ -106,7 +106,7 @@ class UserController extends Controller {
   async update() {
     const request = this.ctx.request.body
     this.ctx.validate('users', request)
-    const result = await this.ctx.service.users.update(request.id, request.name)
+    const result = await this.ctx.service.users.update(request.id, request.name, request.enterprise)
     this.ctx.body = {
       success: true,
       data: result,

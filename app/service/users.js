@@ -25,18 +25,19 @@ class UserService extends Service {
     return { error: '密码错误' }
   }
 
-  async create(username, password, isAdmin) {
+  async create(username, password, isAdmin, enterprise) {
     const { password: encryptedPwd, salt } = this.ctx.helper.encrypt(password)
     const result = await this.app.mysql.insert('users', {
-      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt,
+      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt, enterprise,
     })
     return result.affectedRows === 1
   }
 
-  async update(uid, name) {
+  async update(uid, name, enterprise) {
     const row = {
       id: uid,
       name,
+      enterprise,
     }
     const result = await this.app.mysql.update('users', row)
     return result.affectedRows === 1

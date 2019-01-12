@@ -18,7 +18,7 @@ export default function User() {
   const { modal, modalShow } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'select', placeholder: '所属企业', options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      enterprise: { type: 'enum', placeholder: '所属企业', options: enterprises.map(item => ({ value: item.id, label: item.name })) },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
@@ -31,7 +31,7 @@ export default function User() {
     {
       title: '所属企业',
       dataIndex: 'enterprise',
-      render: (val) => <span>{val}</span>,
+      render: (val) => <span>{(enterprises.find(item => item.id === val) || {}).name || '无'}</span>,
     },
     {
       title: '是否为管理员',
@@ -48,8 +48,6 @@ export default function User() {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          { record.is_admin ? null : <a onClick={() => modalShow('编辑企业用户', record)}>编辑</a> }
-          { record.is_admin ? null : <Divider type="vertical" /> }
           <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
         </Fragment>
       ),

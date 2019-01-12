@@ -34,15 +34,15 @@ function errorTranslate(msg, validator) {
  * 更多规则参见： https://github.com/node-modules/parameter
  */
 export default function useForm({ name, handleSubmit, schema = {}, values = {} }) {
-  if (!validates[name]) throw new Error(`Unknown validate key ${name}`)
+  if (name && !validates[name]) throw new Error(`Unknown validate key ${name}`)
   const validators = { ...validates[name], ...schema }
   let hasError = false
   // 表单校验, TODO 支持异步校验
   function check(validator, key, value) {
     // 隐藏字段不做校验
     if (validator.type === 'hidden') return ''
-    if (validator.type === 'select') {
-      validator = { ...validator, type: 'enum', values: validator.options.map(opt => opt.value) }
+    if (validator.type === 'enum') {
+      validator = { ...validator, values: validator.options.map(opt => opt.value) }
     }
     const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
@@ -100,7 +100,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
               case 'password':
                 content = <Input type="password" {...api.getProps(key)} />
                 break
-              case 'select':
+              case 'enum':
                 content = (
                   <Select {...api.getProps(key)}>
                     {item.validator.options.map(opt => (
