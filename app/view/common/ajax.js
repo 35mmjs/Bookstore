@@ -48,7 +48,7 @@ export default function ajax({
       success(json = {}) {
         if (json.success) {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:green', url, 'color: black', data, json.data)
-          if (json.message) message.success(json.message)
+          message.success(json.message || '请求成功')
           resolve(json.data)
         } else {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, json.data)

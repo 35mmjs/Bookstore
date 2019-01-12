@@ -3,7 +3,7 @@ import Parameter from 'parameter/index.es5'
 import {
   Button, Input, Icon, Form,
 } from 'antd'
-import { mapValues, each, pick, obj2arr } from '../common/utils'
+import { mapValues, each, pick, filter, obj2arr } from '../common/utils'
 import validates from '../../validates'
 
 const FormItem = Form.Item
@@ -40,6 +40,8 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
   let hasError = false
   // 表单校验, TODO 支持异步校验
   function check(validator, key, value) {
+    // 隐藏字段不做校验
+    if (validator.type === 'hide') return ''
     const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
       hasError = true
@@ -59,6 +61,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     const value = validator.transform ? validator.transform(inputValue, validator) : defaultTransform(inputValue, validator)
     const error = checked ? check(validator, key, value) : ''
     return {
+      hide: validator.type === 'hide',
       placeholder: validator.placeholder,
       validateStatus: error ? 'error' : '',
       help: error || '',
@@ -89,7 +92,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     getForm() {
       return (
         <Form>
-          {obj2arr(mapValues(formItems, (item, key) => (
+          {obj2arr(mapValues(filter(formItems, item => !item.hide), (item, key) => (
             <FormItem key={key} {...api.getStatus(key)}>
               <Input {...api.getProps(key)} />
             </FormItem>

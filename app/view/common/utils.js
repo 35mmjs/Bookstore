@@ -1,3 +1,5 @@
+import { Modal } from 'antd'
+
 const objKeys = Object.keys
 
 const reduce = (obj = {}, fn, origin) => objKeys(obj).reduce((res, key) => fn(res, obj[key], key), origin)
@@ -22,16 +24,21 @@ const isPrefix = (str, prefix) => str.slice(0, prefix.length) === prefix
 
 const compose = (...fns) => (...args) => fns.forEach(fn => fn(...args))
 
-const promiseMap = (keys, fn) => Promise.all(keys.map(k => fn(k)))
+const isPromise = promiseLike => promiseLike && typeof promiseLike.then === 'function' && typeof promiseLike.catch === 'function'
 
-const promiseChain = (...list) => list.length > 0 ? list[0]().then(() => promiseChain(...list.slice(1))) : undefined
+const promiseLike = target => isPromise(target) ? target : ({ then: fn => fn(target) })
+
+const composeAsync = (...list) => (...args) => list.length > 0 ? promiseLike(list[0](...args)).then(() => composeAsync(...list.slice(1))(...args)) : undefined
 
 const unique = (arr) => arr.reduce((res, v) => res.includes(v) ? res : res.concat([v]), [])
 
 const map = (obj, fn) => Object.keys(obj).reduce((output, key, index) => output.concat(fn(obj[key], key, index)), [])
 
 const isEmpty = (obj) => Object.keys(obj).length === 0
+
 const obj2arr = (obj) => Object.keys(obj).map(k => obj[k])
+
+const removeConfirm = () => new Promise((resolve, reject) => Modal.confirm({ title: '确定要删除吗', content: '', onOk: () => { resolve() }, onCancel: () => { reject() } }))
 
 export {
   reduce,
@@ -47,8 +54,8 @@ export {
   unique,
   partialRight,
   compose,
+  composeAsync,
   isPrefix,
-  promiseMap,
-  promiseChain,
+  removeConfirm,
   obj2arr,
 }

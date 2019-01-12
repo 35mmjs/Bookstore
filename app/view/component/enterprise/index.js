@@ -2,28 +2,30 @@ import React, { Fragment } from 'react'
 import './index.less'
 import moment from 'moment'
 import {
-  Card,
-  Form,
-  Input,
-  Modal,
   Button,
   Divider,
   Table,
+  Modal,
 } from 'antd'
 import useFormModal from '../../hook/useFormModal'
-import { create } from './service'
+import useAsyncState from '../../hook/useAsyncState'
+import { create, update, remove, findAll } from './service'
+import { composeAsync, removeConfirm } from '../../common/utils'
 
 export default function Enterprise() {
+  const [dataSource, reload] = useAsyncState(findAll)
   const { modal, modalShow } = useFormModal({
     name: 'enterprise',
-    handleSubmit: () => {
+    schema: {
+      id: { type: 'hide' }, // 编辑模式需要传入的字段
     },
+    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
   })
-  const dataSource = [{
-    name: '企业擦擦擦擦',
-    created_at: Date.now(),
-  }]
   const columns = [
+    {
+      title: '企业ID',
+      dataIndex: 'id',
+    },
     {
       title: '企业名称',
       dataIndex: 'name',
@@ -35,22 +37,29 @@ export default function Enterprise() {
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
+      title: '更新时间',
+      dataIndex: 'updated_at',
+      sorter: true,
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    },
+    {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleModalVisible(true)}>编辑</a>
+          <a onClick={() => modalShow('编辑企业', record)}>编辑</a>
           <Divider type="vertical" />
-          <a onClick={() => this.handleRemove(record)}>删除</a>
+          <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
         </Fragment>
       ),
     },
   ]
   return (
     <div>
-      <div style={{ marginBottom: 16 }}>
+      <Button.Group style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={() => modalShow('新增企业')}>新增</Button>
-      </div>
-      <Table dataSource={dataSource} columns={columns} />
+        <Button type="primary" onClick={() => reload()}>刷新</Button>
+      </Button.Group>
+      <Table dataSource={dataSource.items} columns={columns} />
       {modal}
     </div>
   )
