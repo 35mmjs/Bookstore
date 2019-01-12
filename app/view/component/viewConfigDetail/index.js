@@ -23,7 +23,6 @@ const { Option } = Select
 
 const DetailView = ({ data = {} }) => {
   const { type, note, content, created_at, update_at } = data
-  console.log('content', content) 
   return (
     <div>
       <DescriptionList
@@ -116,13 +115,13 @@ class CreateForm extends React.Component {
           })(<TerminalTypeSelect onChange={this.handleSelectChange} />)}
         </FormItem>
         {detaiform()}
-        <FormItem {...SUBMIT_FORM_LAYOUT}>
+        <FormItem {...SUBMIT_FORM_LAYOUT} style={{ marginTop: 12, textAlign: 'center' }}>
           <Button type="primary" htmlType="submit">
-            新建
+            提交
           </Button>
-          <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
+          {/* <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
             重置
-          </Button>
+          </Button> */}
         </FormItem>
       </Form>
     )

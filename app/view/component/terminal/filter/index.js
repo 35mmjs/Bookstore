@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Radio, Form, Select, Button, Input, Icon, Modal } from 'antd'
-
 import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
+
 const FormItem = Form.Item
 
 const FilterForm = Form.create()(props => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, Form, Row, Col, Button, Select, Input, message } from 'antd'
 import TableForm from '../tableForm'
+import './form.less'
 
 const SinglePubuForm = props => {
   const { onSubmit } = props
@@ -22,9 +23,9 @@ const SinglePubuForm = props => {
   return (
     <div>
       <Card title="视图" style={{ marginBottom: 16 }}>
-        <div>书籍录入</div>
+        <div className="pubu-form-title">书籍录入</div>
         <TableForm onChange={setTableForm} />
-        <Button type="primary" onClick={onSubmitForm} disabled={buttonStatus}>
+        <Button className="pubu-form-button" type="primary" onClick={onSubmitForm} disabled={buttonStatus}>
           保存
         </Button>
       </Card>
@@ -50,6 +51,7 @@ const PubuForm = props => {
   const increaseItem = val => {
     formArray.push(val)
     pushFormArray(formArray)
+    onSubmit(formArray)
   }
   const saveForms = () => {
     onSubmit(formArray)
@@ -59,11 +61,6 @@ const PubuForm = props => {
       {itemArray.map(item => {
         return <SinglePubuForm key={item.key} onSubmit={increaseItem} />
       })}
-      <Row gutter={32} style={{ marginTop: 32 }}>
-        <Col span={8}>
-          <Button type="primary" onClick={() => saveForms()}>保存全部</Button>
-        </Col>
-      </Row>
     </Card>
   )
 }

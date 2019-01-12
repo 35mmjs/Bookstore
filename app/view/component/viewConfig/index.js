@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'dva'
+import { Button } from 'antd'
 import './index.less'
 import TableList from './tableList'
 import Filter from './filter'
+import { openHashLink } from '../../common/native'
 
 @connect(state => ({ ...state }))
 class Index extends React.Component {
@@ -44,6 +46,7 @@ class Index extends React.Component {
     return (
       <div>
         <div>
+          <Button type="primary" onClick={() => openHashLink('/view-config/manage/detail/new')}>新建</Button>
           <Filter onSubmit={this.handleSubmit} />
           <TableList data={list} onDelete={this.handleDelete} />
         </div>

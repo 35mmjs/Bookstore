@@ -64,6 +64,7 @@ const SUBMIT_FORM_LAYOUT = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
     sm: { span: 10, offset: 7 },
+    md: { span: 8, offset: 8 },
   },
 }
 

@@ -12,111 +12,12 @@ import {
   Col,
 } from 'antd'
 import isEqual from 'lodash/isEqual'
-import ModalForm from './searchBooksByISBNs'
+import SearchBooksByISBNs from './searchBooksByISBNs'
+import SearchBooksByISBN from './searchBooksByISBN'
 import SearchBooksByCategory from './searchBooksByCategory'
-import DescriptionList from '../../common/DescriptionList'
 import styles from './style.less'
-import { findBookByISBN } from '../service'
 
-const { Description } = DescriptionList
 
-const FormItem = Form.Item
-
-@Form.create()
-class SearchingForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: {},
-      loading: false,
-    }
-  }
-
-  onSearching = () => {
-    const { form, handleModalVisible, onSubmit } = this.props
-    form.validateFields((err, fieldsValue) => {
-      if (err) return
-      form.resetFields()
-      const { isbn } = fieldsValue
-      this.setState({
-        loading: true,
-      })
-      findBookByISBN({ isbn }).then(res => {
-        this.setState({
-          loading: false,
-          data: res,
-        })
-      })
-    })
-  }
-
-  handleSubmit = () => {
-    const { onSubmit, handleModalVisible } = this.props
-    onSubmit(this.state.data)
-    handleModalVisible(false)
-    this.setState({
-      data: {},
-    })
-  }
-
-  render() {
-    const { modalVisible, form, handleModalVisible } = this.props
-    return (
-      <Modal
-        destroyOnClose
-        title="搜索书籍"
-        visible={modalVisible}
-        onOk={this.handleSubmit}
-        onCancel={() => handleModalVisible(false)}
-      >
-        <Row>
-          <Col md={20}>
-            <FormItem
-              labelCol={{ span: 4 }}
-              wrapperCol={{ span: 16 }}
-              label="描述"
-            >
-              {form.getFieldDecorator('isbn', {
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入正确的ISBN号',
-                    min: 1,
-                  },
-                ],
-              })(<Input placeholder="请输入ISBN" />)}
-            </FormItem>
-          </Col>
-          <Col md={4}>
-            <FormItem label="">
-              <Button
-                loading={this.state.loading}
-                type="primary"
-                htmlType="submit"
-                onClick={this.onSearching}
-              >
-                查询
-              </Button>
-            </FormItem>
-          </Col>
-        </Row>
-        <div>
-          <DescriptionList col={1} title="返回结果">
-            {this.state.data &&
-              Object.keys(this.state.data).map(key => {
-                const obj = this.state.data
-                return (
-                  <Description key={key} term={key}>
-                    {obj[key]}
-                  </Description>
-                )
-              })}
-          </DescriptionList>
-        </div>
-      </Modal>
-    )
-  }
-}
 class TableForm extends PureComponent {
   index = 0
 
@@ -476,13 +377,6 @@ class TableForm extends PureComponent {
 
     return (
       <Fragment>
-        <Table
-          loading={loading}
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          rowClassName={record => (record.editable ? styles.editable : '')}
-        />
         <Row gutter={16}>
           <Col span={8}>
             <Button
@@ -515,13 +409,21 @@ class TableForm extends PureComponent {
             </Button>
           </Col>
         </Row>
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          rowClassName={record => (record.editable ? styles.editable : '')}
+        />
 
-        <SearchingForm
+
+        <SearchBooksByISBN
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
           onSubmit={value => this.handleDataFromSearchForm([value])}
         />
-        <ModalForm
+        <SearchBooksByISBNs
           title="title"
           defaultVisible={modalVisible2}
           handleModalVisible={this.handleModalVisible2}

@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import * as service from './service'
 
 export default {
@@ -22,7 +23,6 @@ export default {
       }
     },
     createReducer(state, { payload }) {
-      console.log('xxxxxxxxx', state, payload)
       return {
         ...state,
       }
@@ -37,16 +37,20 @@ export default {
   },
   effects: {
     *create({ payload }, { call, put }) {
-      const data = yield call(service.create, payload)
-      yield put({
-        type: 'createReducer',
-        payload: data,
-      })
-      window.location.reload()
+      try {
+        const data = yield call(service.create, payload)
+        yield put({
+          type: 'createReducer',
+          payload: data,
+        })
+        message.success('创建成功')
+        window.location.reload()
+      } catch (e) {
+        message.fail('创建失败')
+      }
     },
     *findOne({ payload }, { call, put }) {
       const data = yield call(service.findOne, payload)
-      console.log('aaaaaaaa', data)
       yield put({
         type: 'findOneReducer',
         payload: data,
@@ -56,7 +60,6 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(a => {
-        console.log('bbbbbbb', a)
         // if (pathname === '/users') {
         //   dispatch({ type: 'fetch', payload: query })
         // }

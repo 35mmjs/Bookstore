@@ -20,18 +20,13 @@ const Employee = () => <h2>Home</h2>
 
 let menu = [
   {
-    label: '视图配置中心',
+    label: '配置中心',
     value: 'view-config/manage',
     icon: 'hdd',
     children: [
       {
-        label: '视图总览',
+        label: '配置中心',
         value: 'view-config/manage',
-        children: null,
-      },
-      {
-        label: '配置录入',
-        value: '/view-config/manage/detail/new',
         children: null,
       },
     ],

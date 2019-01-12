@@ -9,12 +9,12 @@ const { Option } = Select
 const BooksTable = ({ data }) => {
   const columns = [
     {
-      title: 'Name',
+      title: '书名',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Author',
+      title: '作者',
       dataIndex: 'author',
       key: 'author',
     },
@@ -41,6 +41,8 @@ const CustomForm = Form.create()(props => {
         setLoading(false)
         setData(res)
         onSubmit(res)
+      }).catch((e) => {
+        setLoading(false)
       })
     })
   }

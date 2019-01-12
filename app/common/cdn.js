@@ -5,7 +5,7 @@ const config = {}
 config.cdn = {
   QINIU_ACCESS_KEY: 'rMuPOEhqC8_B3yxqsNfNG1ho75YecTa4MdR3J-nY',
   QINIU_SECRET_KEY: 'Pz2yOnEO4kofFcjWq8Kx4FoeWh_IpHnidTXaf6pz',
-  BUCKET: 'bookstore-dev',
+  BUCKET: 'bookstore-prod',
 }
 
 function genQiniuToken() {

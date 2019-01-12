@@ -39,6 +39,8 @@ const CustomForm = Form.create()(props => {
         setLoading(false)
         setData(res)
         onSubmit(res)
+      }).catch(() => {
+        setLoading(false)
       })
     })
   }

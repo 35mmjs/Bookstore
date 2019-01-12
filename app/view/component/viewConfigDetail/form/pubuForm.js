@@ -4,15 +4,17 @@ import { Card, Form, Row, Col, Button, Select, Input, message } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
 import TableForm from '../tableForm'
 import ImageUploader from '../../common/ImageUploader'
+import './form.less'
 
 const SinglePubuForm = props => {
+  const { index } = props
   const { onSubmit } = props
   const [image, setImage] = useState(null)
   const [tableForm, setTableForm] = useState(null)
   const [buttonStatus, setButtonStatus] = useState(false)
   const [channel, setChannel] = useState('')
   const onSubmitForm = () => {
-    if (!channel || !image || !tableForm) {
+    if (!image || !tableForm) {
       message.warn('请补全信息')
       return
     }
@@ -26,15 +28,15 @@ const SinglePubuForm = props => {
   }
   return (
     <div>
-      <Card title="视图" style={{ marginBottom: 16 }}>
-        <div>当前瀑布屏幕名称</div>
+      <Card title={`瀑布第${index}屏`} style={{ marginBottom: 16 }}>
+        <div className="pubu-form-title">备注</div>
         <Input placeholder="请输入" onChange={(e) => setChannel(e.target.value)} />
-        <div>banner图片</div>
+        <div className="pubu-form-title">顶部Banner图片</div>
         <ImageUploader onUploadDone={setImage} />
-        <div>书籍录入</div>
+        <div className="pubu-form-title">书籍录入</div>
         <TableForm onChange={setTableForm} />
-        <Button type="primary" onClick={onSubmitForm} disabled={buttonStatus}>
-          保存
+        <Button className="pubu-form-button" type="primary" onClick={onSubmitForm} disabled={buttonStatus}>
+          保存当前瀑布屏
         </Button>
       </Card>
     </div>
@@ -59,21 +61,16 @@ const PubuForm = props => {
   const increaseItem = val => {
     formArray.push(val)
     pushFormArray(formArray)
-  }
-  const saveForms = () => {
     onSubmit(formArray)
   }
   return (
     <Card>
       {itemArray.map(item => {
-        return <SinglePubuForm key={item.key} onSubmit={increaseItem} />
+        return <SinglePubuForm key={item.key} index={item.key} onSubmit={increaseItem} />
       })}
       <Row gutter={32} style={{ marginTop: 32 }}>
         <Col span={8}>
-          <Button onClick={() => increase()}>新增</Button>
-        </Col>
-        <Col span={8}>
-          <Button type="primary" onClick={() => saveForms()}>保存全部</Button>
+          <Button onClick={() => increase()}>新增瀑布屏</Button>
         </Col>
       </Row>
     </Card>
