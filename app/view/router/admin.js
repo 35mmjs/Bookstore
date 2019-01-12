@@ -86,7 +86,7 @@ const routeMap = () => {
     },
     {
       path: storeRoutes.findAll,
-      models: () => [require('../component/store/model')],
+      // models: () => [require('../component/store/model')],
       component: () => Store,
     },
     {

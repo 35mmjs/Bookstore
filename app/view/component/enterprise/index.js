@@ -56,8 +56,7 @@ export default function Enterprise() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => modalShow('新增企业')}>新增</Button>
-{ /*        <Button type="primary" onClick={() => reload()}>刷新</Button> */}
+        <Button type="primary" onClick={() => modalShow('新增企业')}>新增企业</Button>
       </Button.Group>
       <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}

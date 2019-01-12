@@ -1,77 +1,80 @@
 import React, { PureComponent } from 'react'
 import {
   Layout, Menu, Icon, Spin, Dropdown, Avatar,
+  Select,
 } from 'antd'
-import HeaderSearch from '../HeaderSearch'
+// import HeaderSearch from '../HeaderSearch'
+
+import useAsyncState from '../../../hook/useAsyncState'
+import { findAll as findEnterpriseList } from '../../enterprise/service'
+import ajax from '../../../common/ajax'
 
 const { Header } = Layout
+const Option = Select.Option
 
-export default class GlobalHeader extends PureComponent {
-  componentWillUnmount() {
-    this.triggerResizeEvent.cancel()
-  }
+function changeEnterprise(enterprise) {
+  ajax({
+    url: '/user/changeEnterpriseByAdmin.json',
+    method: 'post',
+    data: {
+      enterprise,
+    },
+  }).then(() => window.location.reload())
+}
 
-  toggle = () => {
-    const { collapsed, onCollapse } = this.props
-    onCollapse(!collapsed)
-    this.triggerResizeEvent()
-  }
-
-  render() {
-    const {
-      currentUser,
-      collapsed,
-      isMobile,
-      logo,
-      onMenuClick,
-    } = this.props
-    const menu = (
-      <Menu selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item disabled>
-          <Icon type="user" />
-          个人中心
-        </Menu.Item>
-        <Menu.Item disabled>
-          <Icon type="setting" />
-          设置
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="logout">
-          <Icon type="logout" />
-          退出登录
-        </Menu.Item>
-      </Menu>
-    )
-    return (
-      <Header
-        style={{ background: '#fff', padding: 0 }}
-      >
-        <div>
-{/*          <HeaderSearch
-            placeholder="站内搜索"
-            dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
-            onSearch={value => {
-              console.log('input', value) // eslint-disable-line
-            }}
-            onPressEnter={value => {
-              console.log('enter', value) // eslint-disable-line
-            }}
-          />*/ }
-          {currentUser.name ? (
-            <Dropdown overlay={menu}>
-              <span>
-                <Avatar
-                  size="small"
-                  src={currentUser.avatar}
-                />
-                <span style={{ marginLeft: 8 }}>{currentUser.name}</span>
-              </span>
-            </Dropdown>
-          ) : (
-            <Spin size="small" style={{ marginLeft: 8 }} />
-          )}
-        </div>
-      </Header>
-    )
-  }
+export default function GlobalHeader(props) {
+  const {
+    currentUser,
+    onMenuClick,
+  } = props
+  const [enterprises] = useAsyncState(findEnterpriseList, [])
+  const menu = (
+    <Menu selectedKeys={[]} onClick={onMenuClick}>
+      <Menu.Item disabled>
+        <Icon type="user" />
+        个人中心
+      </Menu.Item>
+      <Menu.Item disabled>
+        <Icon type="setting" />
+        设置
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout">
+        <Icon type="logout" />
+        退出登录
+      </Menu.Item>
+    </Menu>
+  )
+  const enterprise = window.appData.loginUser.enterprise
+  return (
+    <Header
+      style={{ background: '#fff', padding: 0 }}
+    >
+      <div>
+        { window.appData.loginUser.isAdmin ?
+          <span>
+            <span>所在企业：</span>
+            <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={enterprise === null ? undefined : enterprise} onChange={changeEnterprise}>
+              {enterprises.map(item => (
+                <Option key={item.id} value={item.id}>{item.name}</Option>
+              ))}
+            </Select>
+          </span> : null
+        }
+        {currentUser.name ? (
+          <Dropdown overlay={menu}>
+            <span>
+              <Avatar
+                size="small"
+                src={currentUser.avatar}
+              />
+              <span style={{ marginLeft: 8 }}>{currentUser.name}</span>
+            </span>
+          </Dropdown>
+        ) : (
+          <Spin size="small" style={{ marginLeft: 8 }} />
+        )}
+      </div>
+    </Header>
+  )
 }

@@ -9,7 +9,7 @@ class Terminal extends Service {
         ...params,
       },
     })
-    return { items }
+    return items
   }
 
   async findOne(id) {
@@ -18,11 +18,7 @@ class Terminal extends Service {
   }
 
   async create(params) {
-    const { name, addr } = params
-    const result = await this.app.mysql.insert(DB, {
-      name,
-      addr
-    })
+    const result = await this.app.mysql.insert(DB, params)
     return result.affectedRows === 1
   }
 
