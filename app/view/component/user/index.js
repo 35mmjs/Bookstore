@@ -9,15 +9,17 @@ import {
 import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
 import { create, update, remove, findAll } from './service'
+import { findAll as findEnterpriseList } from '../enterprise/service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
 export default function User() {
-  const [dataSource, reload] = useAsyncState(findAll)
+  const [dataSource, reload] = useAsyncState(findAll, [])
+  const [enterprises] = useAsyncState(findEnterpriseList, [])
   const { modal, modalShow } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'select', placeholder: '所属企业' },
-      id: { type: 'hide' }, // 编辑模式需要传入的字段
+      enterprise: { type: 'select', placeholder: '所属企业', options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      id: { type: 'hidden' }, // 编辑模式需要传入的字段
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
   })
@@ -58,7 +60,7 @@ export default function User() {
       <Button.Group style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={() => modalShow('新增企业用户')}>新增企业用户</Button>
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource.items} columns={columns} />
+      <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}
     </div>
   )

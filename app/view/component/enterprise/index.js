@@ -13,11 +13,11 @@ import { create, update, remove, findAll } from './service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
 export default function Enterprise() {
-  const [dataSource, reload] = useAsyncState(findAll)
+  const [dataSource, reload] = useAsyncState(findAll, [])
   const { modal, modalShow } = useFormModal({
     name: 'enterprise',
     schema: {
-      id: { type: 'hide' }, // 更新表单需要传入id, 所以为隐藏类型
+      id: { type: 'hidden' }, // 更新表单需要传入id, 所以为隐藏类型
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
   })
@@ -59,7 +59,7 @@ export default function Enterprise() {
         <Button type="primary" onClick={() => modalShow('新增企业')}>新增</Button>
 { /*        <Button type="primary" onClick={() => reload()}>刷新</Button> */}
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource.items} columns={columns} />
+      <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}
     </div>
   )

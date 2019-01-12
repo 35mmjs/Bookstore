@@ -24,6 +24,8 @@ export default function useModal({ onOk, onCancel, content, disabled }) {
       okButtonProps={{ disabled }}
       onOk={onOk}
       onCancel={onCancel || (() => onModalChange({ modalVisible: false }))}
+      okText="确定"
+      cancelText="取消"
     >
       {content()}
     </Modal>

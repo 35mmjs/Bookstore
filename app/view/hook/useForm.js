@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import Parameter from 'parameter/index.es5'
-import {
-  Button, Input, Icon, Form,
-} from 'antd'
+import { Button, Input, Icon, Form, Select } from 'antd'
 import { mapValues, each, pick, filter, obj2arr } from '../common/utils'
 import validates from '../../validates'
 
+const Option = Select.Option
 const FormItem = Form.Item
 const parameter = new Parameter()
 const defaultTransform = (value, validator) => validator.type === 'string' && value ? value.trim() : value
@@ -41,7 +40,10 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
   // 表单校验, TODO 支持异步校验
   function check(validator, key, value) {
     // 隐藏字段不做校验
-    if (validator.type === 'hide') return ''
+    if (validator.type === 'hidden') return ''
+    if (validator.type === 'select') {
+      validator = { ...validator, type: 'enum', values: validator.options.map(opt => opt.value) }
+    }
     const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
       hasError = true
@@ -92,11 +94,20 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     getForm() {
       return (
         <Form>
-          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hide'), (item, key) => {
+          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hidden'), (item, key) => {
             let content
             switch (item.validator.type) {
               case 'password':
                 content = <Input type="password" {...api.getProps(key)} />
+                break
+              case 'select':
+                content = (
+                  <Select {...api.getProps(key)}>
+                    {item.validator.options.map(opt => (
+                      <Option key={opt.value} value={opt.value}>{ opt.label}</Option>
+                    ))}
+                  </Select>
+                )
                 break
               default:
                 content = <Input {...api.getProps(key)} />

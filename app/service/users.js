@@ -11,7 +11,7 @@ class UserService extends Service {
     const items = await this.app.mysql.select('users', {
       where: { deleted: 0 },
     })
-    return { items: items.map(item => omit(item, ['password', 'salt'])) }
+    return items.map(item => omit(item, ['password', 'salt']))
   }
 
   async getUserByPassword(username, password) {
