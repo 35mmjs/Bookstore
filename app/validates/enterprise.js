@@ -3,6 +3,6 @@ module.exports = {
     type: 'string',
     max: 16,
     required: true,
-    placeholder: '企业名字',
+    label: '企业名字',
   },
 }

@@ -3,21 +3,22 @@ module.exports = {
     type: 'string',
     max: 16,
     required: true,
-    placeholder: '门店名字',
+    label: '门店名字',
   },
   store_code: {
     type: 'string',
     required: true,
-    placeholder: '门店号',
+    label: '门店号',
+    placeholder: '门店号-部门号, 如: 3233137-40',
   },
   addr: {
     type: 'string',
     required: false,
-    placeholder: '门店地址',
+    label: '门店地址',
   },
   config: {
-    type: 'string',
+    type: 'json',
     required: false,
-    placeholder: '门店配置信息',
+    label: '配置信息',
   },
 }

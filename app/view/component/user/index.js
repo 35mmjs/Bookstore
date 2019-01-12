@@ -18,7 +18,7 @@ export default function User() {
   const { modal, modalShow } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'enum', placeholder: '所属企业', options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      enterprise: { type: 'enum', label: '所属企业', required: true, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),

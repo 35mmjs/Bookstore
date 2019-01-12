@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Parameter from 'parameter/index.es5'
 import { Button, Input, Icon, Form, Select } from 'antd'
 import { mapValues, each, pick, filter, obj2arr } from '../common/utils'
+import { FORM_ITEM_LAYOUT_MODAL } from '../common/constant'
 import validates from '../../validates'
 
 const Option = Select.Option
@@ -43,6 +44,9 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     if (validator.type === 'hidden') return ''
     if (validator.type === 'enum') {
       validator = { ...validator, values: validator.options.map(opt => opt.value) }
+    }
+    if (validator.type === 'json') {
+      validator = { ...validator, type: 'string' }
     }
     const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
@@ -109,11 +113,14 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
                   </Select>
                 )
                 break
+              case 'json':
+                content = <Input.TextArea rows={4} {...api.getProps(key)} />
+                break
               default:
                 content = <Input {...api.getProps(key)} />
             }
             return (
-              <FormItem key={key} {...api.getStatus(key)}>
+              <FormItem key={key} {...api.getStatus(key)} {...FORM_ITEM_LAYOUT_MODAL} label={item.validator.label} required={item.validator.required}>
                 {content}
               </FormItem>
             )
