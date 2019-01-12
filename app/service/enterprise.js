@@ -6,7 +6,7 @@ class EnterpriseService extends Service {
     const items = await this.app.mysql.select(ENTERPRISES, {
       where: { deleted: 0 },
     })
-    return { items }
+    return items
   }
 
   async find(uid) {

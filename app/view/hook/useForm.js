@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Parameter from 'parameter/index.es5'
-import { mapValues, each, pick } from '../common/utils'
+import { Button, Input, Icon, Form, Select } from 'antd'
+import { mapValues, each, pick, filter, obj2arr } from '../common/utils'
 import validates from '../../validates'
 
+const Option = Select.Option
+const FormItem = Form.Item
 const parameter = new Parameter()
 const defaultTransform = (value, validator) => validator.type === 'string' && value ? value.trim() : value
 
@@ -15,9 +18,11 @@ function errorTranslate(msg, validator) {
   return msg
 }
 /**
- * @param {String} ruleKey - app/validates文件下边的对应的名字，如 'user', 内部会自动去做索引
+ * @param {String} name - app/validates文件下边的对应的名字，如 'user', 内部会自动去做索引
+ * @param {Object} schema
  * @param {Function} handleSubmit
- * @param {Object} extendRules
+ * @param {Object} extend
+ * @param {Object} 输入的表单值
  * validate目前支持的选项:
  * - type 'string'
  * - max
@@ -28,12 +33,17 @@ function errorTranslate(msg, validator) {
  * - default 初始值
  * 更多规则参见： https://github.com/node-modules/parameter
  */
-export default function useFormState(ruleKey, handleSubmit, extendRules = {}) {
-  if (!validates[ruleKey]) throw new Error(`Unknown validate key ${ruleKey}`)
-  const validators = { ...validates[ruleKey], ...extendRules }
+export default function useForm({ name, handleSubmit, schema = {}, values = {} }) {
+  if (name && !validates[name]) throw new Error(`Unknown validate key ${name}`)
+  const validators = { ...validates[name], ...schema }
   let hasError = false
   // 表单校验, TODO 支持异步校验
   function check(validator, key, value) {
+    // 隐藏字段不做校验
+    if (validator.type === 'hidden') return ''
+    if (validator.type === 'enum') {
+      validator = { ...validator, values: validator.options.map(opt => opt.value) }
+    }
     const errors = parameter.validate({ data: validator }, { data: value })
     if (errors) {
       hasError = true
@@ -44,10 +54,17 @@ export default function useFormState(ruleKey, handleSubmit, extendRules = {}) {
   const formItems = mapValues(validators, (validator, key) => {
     // checked代表是否已经输入过了
     const [stateValue, onStateChange] = useState({ checked: false, inputValue: validator.default })
-    const { checked, inputValue } = stateValue
+    let { checked, inputValue } = stateValue
+    // 输入的表单值
+    if (!checked && values[key] !== undefined) {
+      checked = true
+      inputValue = values[key]
+    }
     const value = validator.transform ? validator.transform(inputValue, validator) : defaultTransform(inputValue, validator)
     const error = checked ? check(validator, key, value) : ''
     return {
+      validator,
+      placeholder: validator.placeholder,
       validateStatus: error ? 'error' : '',
       help: error || '',
       value,
@@ -64,19 +81,56 @@ export default function useFormState(ruleKey, handleSubmit, extendRules = {}) {
       stateValue,
     }
   })
-  return {
+  const api = {
     // 用于formItem上的错误信息提醒描述
-    getValidateStatus(key) {
-      if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${ruleKey}[${Object.keys(validators)}]".`)
+    getStatus(key) {
+      if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${schema}[${Object.keys(validators)}]".`)
       return pick(formItems[key], ['validateStatus', 'help'])
     },
-    getInputProps(key) {
-      if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${ruleKey}[${Object.keys(validators)}]".`)
-      return pick(formItems[key], ['value', 'onChange'])
+    getProps(key) {
+      if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${schema}[${Object.keys(validators)}]".`)
+      return pick(formItems[key], ['value', 'onChange', 'placeholder'])
+    },
+    getForm() {
+      return (
+        <Form>
+          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hidden'), (item, key) => {
+            let content
+            switch (item.validator.type) {
+              case 'password':
+                content = <Input type="password" {...api.getProps(key)} />
+                break
+              case 'enum':
+                content = (
+                  <Select {...api.getProps(key)}>
+                    {item.validator.options.map(opt => (
+                      <Option key={opt.value} value={opt.value}>{ opt.label}</Option>
+                    ))}
+                  </Select>
+                )
+                break
+              default:
+                content = <Input {...api.getProps(key)} />
+            }
+            return (
+              <FormItem key={key} {...api.getStatus(key)}>
+                {content}
+              </FormItem>
+            )
+          }))}
+        </Form>
+      )
     },
     hasError,
     reset() {
       each(formItems, (obj, key) => obj.onStateChange({ inputValue: validators[key].default, checked: false }))
+    },
+    setValues(data) {
+      each(data, (val, key) => {
+        if (formItems[key]) {
+          formItems[key].onStateChange({ inputValue: val, checked: true })
+        }
+      })
     },
     submit() {
       // 强制校验一次并触发表单更新
@@ -88,4 +142,5 @@ export default function useFormState(ruleKey, handleSubmit, extendRules = {}) {
       if (handleSubmit) handleSubmit(mapValues(formItems, obj => obj.value))
     },
   }
+  return api
 }

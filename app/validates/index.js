@@ -2,4 +2,5 @@
 
 module.exports = {
   user: require('./user'),
+  enterprise: require('./enterprise'),
 }

@@ -6,6 +6,7 @@ import dynamic from 'dva/dynamic'
 import Layout from '../component/layout'
 import constant from '../common/constant'
 import Enterprise from '../component/enterprise/index'
+import User from '../component/user/index'
 import Terminal from '../component/terminal/index'
 import Store from '../component/store/index'
 import TerminalDetail from '../component/terminalDetail'
@@ -17,11 +18,11 @@ const { viewConfigRoutes, terminalRoutes, storeRoutes } = constant
 
 const Employee = () => <h2>Home</h2>
 
-const menu = [
+let menu = [
   {
     label: '视图配置中心',
     value: 'view-config/manage',
-    icon: 'file',
+    icon: 'hdd',
     children: [
       {
         label: '视图总览',
@@ -38,33 +39,33 @@ const menu = [
   {
     label: '终端管理',
     value: 'terminal/manage',
-    children: null,
-  },
-  {
-    label: '员工管理',
-    value: 'employee',
-    icon: 'file',
+    icon: 'desktop',
     children: null,
   },
   {
     label: '门店管理',
     value: 'store/manage',
-    icon: 'user',
-    children: null,
-  },
-  {
-    label: '企业管理',
-    icon: 'file',
-    value: 'enterprise',
-    children: null,
-  },
-  {
-    label: '用户管理/管理员',
-    icon: 'file',
-    value: 'user',
+    icon: 'shop',
     children: null,
   },
 ]
+if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
+  menu = menu.concat(
+    {
+      label: '企业管理',
+      icon: 'bank',
+      value: 'enterprise',
+      children: null,
+    },
+    {
+      label: '用户管理',
+      icon: 'team',
+      value: 'user',
+      children: null,
+    },
+  )
+
+}
 
 const app = dva()
 
@@ -82,8 +83,11 @@ const routeMap = () => {
     },
     {
       path: '/enterprise',
-      models: () => [require('../component/viewConfig/model')],
       component: () => Enterprise,
+    },
+    {
+      path: '/user',
+      component: () => User,
     },
     {
       path: storeRoutes.findAll,

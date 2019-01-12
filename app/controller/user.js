@@ -38,8 +38,9 @@ class UserController extends Controller {
     // 保存用户的登陆信息
     ctx.session.user = {
       id: user.id,
-      isAdmin: user.is_admin,
+      isAdmin: !!user.is_admin,
       username: user.username,
+      enterprise: user.enterprise,
     }
     // 如果用户勾选了 `记住我`，设置 7 天的过期时间
     if (rememberMe) ctx.session.maxAge = ms('7d')
@@ -73,15 +74,43 @@ class UserController extends Controller {
     }
   }
 
-  async createUser() {
+  async create() {
     const ctx = this.ctx
-    const { username, password } = ctx.request.body
+    const { username, password, enterprise } = ctx.request.body
     ctx.validate('user', { username, password })
-    const result = await ctx.service.users.create(username, password, false)
+    const result = await ctx.service.users.create(username, password, false, enterprise)
     this.ctx.body = {
       success: true,
       data: result,
       message: '创建成功',
+    }
+  }
+
+  async findAll() {
+    // const request = this.ctx.params
+    const result = await this.ctx.service.users.findAll()
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  async remove() {
+    const request = this.ctx.request.body
+    const result = await this.ctx.service.users.remove(request.id)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  async update() {
+    const request = this.ctx.request.body
+    this.ctx.validate('users', request)
+    const result = await this.ctx.service.users.update(request.id, request.name, request.enterprise)
+    this.ctx.body = {
+      success: true,
+      data: result,
     }
   }
 }
