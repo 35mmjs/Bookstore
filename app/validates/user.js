@@ -7,7 +7,7 @@ module.exports = {
     placeholder: '用户名',
   },
   password: {
-    type: 'string',
+    type: 'password',
     max: 16,
     min: 5,
     format: /^[a-zA-Z0-9_]*$/,

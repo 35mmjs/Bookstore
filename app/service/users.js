@@ -1,4 +1,5 @@
 const { Service } = require('egg')
+const { omit } = require('../common/utils')
 
 class UserService extends Service {
   async find(uid) {
@@ -6,8 +7,15 @@ class UserService extends Service {
     return user
   }
 
+  async findAll() {
+    const items = await this.app.mysql.select('users', {
+      where: { deleted: 0 },
+    })
+    return { items: items.map(item => omit(item, ['password', 'salt'])) }
+  }
+
   async getUserByPassword(username, password) {
-    const user = await this.app.mysql.get('users', { username })
+    const user = await this.app.mysql.get('users', { username, deleted: 0 })
     if (!user) return { error: '用户不存在' }
     const md5 = this.ctx.helper.md5
     const currentPassword = md5(md5(password) + user.salt)
@@ -22,6 +30,24 @@ class UserService extends Service {
     const result = await this.app.mysql.insert('users', {
       username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt,
     })
+    return result.affectedRows === 1
+  }
+
+  async update(uid, name) {
+    const row = {
+      id: uid,
+      name,
+    }
+    const result = await this.app.mysql.update('users', row)
+    return result.affectedRows === 1
+  }
+
+  async remove(uid) {
+    const row = {
+      id: uid,
+      deleted: 1,
+    }
+    const result = await this.app.mysql.update('users', row)
     return result.affectedRows === 1
   }
 }

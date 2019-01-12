@@ -61,7 +61,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     const value = validator.transform ? validator.transform(inputValue, validator) : defaultTransform(inputValue, validator)
     const error = checked ? check(validator, key, value) : ''
     return {
-      hide: validator.type === 'hide',
+      validator,
       placeholder: validator.placeholder,
       validateStatus: error ? 'error' : '',
       help: error || '',
@@ -92,11 +92,21 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     getForm() {
       return (
         <Form>
-          {obj2arr(mapValues(filter(formItems, item => !item.hide), (item, key) => (
-            <FormItem key={key} {...api.getStatus(key)}>
-              <Input {...api.getProps(key)} />
-            </FormItem>
-          )))}
+          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hide'), (item, key) => {
+            let content
+            switch (item.validator.type) {
+              case 'password':
+                content = <Input type="password" {...api.getProps(key)} />
+                break
+              default:
+                content = <Input {...api.getProps(key)} />
+            }
+            return (
+              <FormItem key={key} {...api.getStatus(key)}>
+                {content}
+              </FormItem>
+            )
+          }))}
         </Form>
       )
     },

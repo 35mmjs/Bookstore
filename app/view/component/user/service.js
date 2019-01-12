@@ -1,9 +1,9 @@
 import ajax from '../../common/ajax'
-import { enterprise } from '../../../api'
+import { user } from '../../../api'
 
 export function create(data) {
   return ajax({
-    url: enterprise.create,
+    url: user.create,
     data,
     method: 'post',
   })
@@ -11,14 +11,14 @@ export function create(data) {
 
 export function findAll() {
   return ajax({
-    url: enterprise.findAll,
+    url: user.findAll,
     method: 'get',
   })
 }
 
 export function remove(data) {
   return ajax({
-    url: enterprise.remove,
+    url: user.remove,
     data,
     method: 'post',
   })
@@ -26,7 +26,7 @@ export function remove(data) {
 
 export function update(data) {
   return ajax({
-    url: enterprise.update,
+    url: user.update,
     data,
     method: 'post',
   })

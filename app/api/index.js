@@ -4,7 +4,7 @@ const enterprise = {
   findAll: '/enterprise/findAll.json',
   remove: '/enterprise/remove.json',
   update: '/enterprise/update.json',
-  findOne: '/enterprise/findAll.json',
+  findOne: '/enterprise/findOne.json',
 }
 
 const terminal = {
@@ -37,6 +37,11 @@ const terminalType = {
 
 const user = {
   login: '/user/login.json',
+  create: '/user/create.json',
+  findAll: '/user/findAll.json',
+  remove: '/user/remove.json',
+  update: '/user/update.json',
+  findOne: '/user/findOne.json',
 }
 
 const book = {

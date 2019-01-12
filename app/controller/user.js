@@ -73,7 +73,7 @@ class UserController extends Controller {
     }
   }
 
-  async createUser() {
+  async create() {
     const ctx = this.ctx
     const { username, password } = ctx.request.body
     ctx.validate('user', { username, password })
@@ -82,6 +82,34 @@ class UserController extends Controller {
       success: true,
       data: result,
       message: '创建成功',
+    }
+  }
+
+  async findAll() {
+    // const request = this.ctx.params
+    const result = await this.ctx.service.users.findAll()
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  async remove() {
+    const request = this.ctx.request.body
+    const result = await this.ctx.service.users.remove(request.id)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  async update() {
+    const request = this.ctx.request.body
+    this.ctx.validate('users', request)
+    const result = await this.ctx.service.users.update(request.id, request.name)
+    this.ctx.body = {
+      success: true,
+      data: result,
     }
   }
 }

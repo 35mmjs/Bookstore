@@ -25,7 +25,6 @@ class EnterpriseController extends Controller {
   async remove() {
     const request = this.ctx.request.body
     const result = await this.ctx.service.enterprise.remove(request.id)
-    console.log('aaaaaaaa', request)
     this.ctx.body = {
       success: true,
       data: result,

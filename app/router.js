@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType,
+  terminalType, user
 } = require('./api/index')
 
 /**
@@ -23,7 +23,10 @@ module.exports = app => {
   router.post('/user/login.json', controller.user.login)
   router.post('/user/logout.json', controller.user.logout)
   router.post('/user/createAdmin.json', controller.user.createAdmin)
-  router.post('/user/createUser.json', controller.user.createUser)
+  router.post(user.create, controller.user.create)
+  router.get(user.findAll, controller.user.findAll)
+  router.post(user.remove, controller.user.remove)
+  router.post(user.update, controller.user.update)
   // enterprise
   router.post(enterprise.create, controller.enterprise.create)
   router.get(enterprise.findAll, controller.enterprise.findAll)
