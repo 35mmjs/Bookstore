@@ -12,6 +12,25 @@ class UserController extends Controller {
     await ctx.render('layout/layout.html', { entry: 'createAdmin' })
   }
 
+  // 管理员切换企业
+  changeEnterpriseByAdmin() {
+    const ctx = this.ctx
+    const { enterprise } = ctx.request.body
+    const currentUser = ctx.session.user
+    if (!currentUser || !currentUser.isAdmin) {
+      ctx.body = {
+        success: false,
+        message: '无权限操作',
+      }
+      return
+    }
+    ctx.session.user = Object.assign({}, ctx.session.user, { enterprise: parseInt(enterprise) })
+    ctx.body = {
+      success: true,
+      message: '切换成功',
+    }
+  }
+
   logout() {
     const ctx = this.ctx
     ctx.session.user = undefined
