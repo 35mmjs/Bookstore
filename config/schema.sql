@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`stores` (
   `name` VARCHAR(45) NULL,
   `store_code` VARCHAR(20) NOT NULL,
   `config` JSON,
-  `enterprise` INT UNSIGNED NULL,
+  `enterprise` INT UNSIGNED NOT NULL,
   `addr` VARCHAR(45) NULL,
   `last_modifier` INT UNSIGNED NULL,
   `deleted` TINYINT UNSIGNED NULL DEFAULT 0,

@@ -63,7 +63,7 @@ export default function GlobalHeader(props) {
         }
         {currentUser.name ? (
           <Dropdown overlay={menu}>
-            <span>k
+            <span>
               <Avatar
                 size="small"
                 src={currentUser.avatar}
