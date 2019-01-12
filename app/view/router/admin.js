@@ -18,7 +18,7 @@ const { viewConfigRoutes, terminalRoutes, storeRoutes } = constant
 
 const Employee = () => <h2>Home</h2>
 
-const menu = [
+let menu = [
   {
     label: '视图配置中心',
     value: 'view-config/manage',
@@ -48,19 +48,24 @@ const menu = [
     icon: 'shop',
     children: null,
   },
-  {
-    label: '企业管理',
-    icon: 'bank',
-    value: 'enterprise',
-    children: null,
-  },
-  {
-    label: '用户管理',
-    icon: 'team',
-    value: 'user',
-    children: null,
-  },
 ]
+if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
+  menu = menu.concat(
+    {
+      label: '企业管理',
+      icon: 'bank',
+      value: 'enterprise',
+      children: null,
+    },
+    {
+      label: '用户管理',
+      icon: 'team',
+      value: 'user',
+      children: null,
+    },
+  )
+
+}
 
 const app = dva()
 

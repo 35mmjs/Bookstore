@@ -38,8 +38,9 @@ class UserController extends Controller {
     // 保存用户的登陆信息
     ctx.session.user = {
       id: user.id,
-      isAdmin: user.is_admin,
+      isAdmin: !!user.is_admin,
       username: user.username,
+      enterprise: user.enterprise,
     }
     // 如果用户勾选了 `记住我`，设置 7 天的过期时间
     if (rememberMe) ctx.session.maxAge = ms('7d')
