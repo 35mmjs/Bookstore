@@ -81,4 +81,44 @@
     background-image: url('http://pl7xwypp4.bkt.clouddn.com/search.png');
     background-repeat: no-repeat;
   }
+
+  .search_close {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 80px;
+    top: 10px;
+
+    .close {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      width: 50px;
+      height: 50px;
+      background: #282622; 
+      border-radius: 25px;
+      cursor: pointer;
+    }
+    
+    .close:before {
+      position: absolute;
+      content: '';
+      width: 30px;
+      height: 6px;
+      background: white;
+      transform: rotate(45deg);
+      top: 22px;
+      left: 10px;
+    }
+    .close:after{
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 6px;
+      background: white;
+      transform: rotate(-45deg);
+      top: 22px;
+      left: 10px;
+    }
+  }
 }
