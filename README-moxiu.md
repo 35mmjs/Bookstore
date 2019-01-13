@@ -1,15 +1,15 @@
 ## 1230 进度汇总
 ### 已经完成
-- view_configs, terminals, stores 的全部crud
-- 视图配置,针对三种瀑布/导视/展台, 做了灵活配置
-- 部分样式优化
-- 主链路已经跑通, 终端通过clientId(设备id)可以获取对应后台配置的视图配置
-- 一键部署到生产服务器
+- [x] view_configs, terminals, stores 的全部crud
+- [x] 视图配置,针对三种瀑布/导视/展台, 做了灵活配置
+- [x]部分样式优化
+- [x] 主链路已经跑通, 终端通过clientId(设备id)可以获取对应后台配置的视图配置
+- [x] 一键部署到生产服务器
 
 ### 待完成
-- emplyoee, user, enterprise 3个的crud
-- 页面权限
-- 构建优化, 打包到cdn
+- [x] emplyoee, user, enterprise 3个的crud
+- [x] 页面权限
+- [x] 构建优化, 打包到cdn
 - 链路优化/打磨(最终达到用户不需要教程直接使用的地步)
 - 代码/组件复用待优化
 
@@ -46,6 +46,9 @@ npm run deploy-prod
 
 
 ## changelog
+0113
+  - [ ] sql migration, 新增配置类型
+  - [ ] 数据库关联查询
 1230
   - [ ] layout 改造
   - [ ] Description 组件可以提炼

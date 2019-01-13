@@ -4,7 +4,8 @@ import { Link } from 'dva/router'
 import { Button, Divider, Table, Form, Input, Modal, Select } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
 import { SUBMIT_FORM_LAYOUT, FORM_ITEM_LAYOUT } from '../../../common/constant'
-import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
+import useAsyncState from '../../../hook/useAsyncState'
+import { findTerminalType } from '../../../common/service'
 
 const Search = Input.Search
 const { Option } = Select
@@ -89,7 +90,7 @@ const EditForm = Form.create()(props => {
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择视图类型！' }],
           initialValue: data.type,
-        })(<TerminalTypeSelect />)}
+        })(<terminalTypeListSelect />)}
       </FormItem>
     </Modal>
   )
@@ -105,8 +106,6 @@ const ConfigForm = Form.create()(props => {
     data,
     tableData,
   } = props
-  console.log('xxxxxxx', props)
-
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
@@ -213,6 +212,7 @@ const Comp = props => {
   const [viewFormVisible, setViewFormVisible] = useState(false)
   const [viewFormData, setViewFormData] = useState({})
   const [editFormData, setEditFormData] = useState({})
+  const [terminalTypeList, reload] = useAsyncState(findTerminalType, {})
 
   const columns = [
     {
@@ -241,6 +241,15 @@ const Comp = props => {
       title: '终端类型',
       dataIndex: 'type',
       key: 'type',
+      render: value => {
+        let res = value
+        if (terminalTypeList && terminalTypeList.items) {
+          const items = terminalTypeList.items
+          const item = items.find(i => i.id === value)
+          res = item && item.name
+        }
+        return <div>{res}</div>
+      },
     },
     {
       title: '视图配置',
@@ -252,11 +261,11 @@ const Comp = props => {
         )
       },
     },
-    {
-      title: '门店',
-      dataIndex: 'store',
-      key: 'store',
-    },
+    // {
+    //   title: '门店',
+    //   dataIndex: 'store',
+    //   key: 'store',
+    // },
     {
       title: '区域备注',
       key: 'note',

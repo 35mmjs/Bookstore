@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user
+  terminalType, user,
 } = require('./api/index')
 
 /**
@@ -44,7 +44,7 @@ module.exports = app => {
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
   router.get(viewConfig.remove, controller.viewConfig.remove)
   router.get(viewConfig.findOne, controller.viewConfig.findOne)
-  // // 终端
+  // 终端
   router.post(terminal.create, controller.terminal.create)
   router.post(terminal.update, controller.terminal.update)
   router.get(terminal.findAll, controller.terminal.findAll)
