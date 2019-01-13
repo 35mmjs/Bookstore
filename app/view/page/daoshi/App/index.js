@@ -19,10 +19,31 @@ class App extends React.Component {
       beforeStatus: [1, 1, 0],
       status: [1, 1, 0],
     }
+
+    this.searchRef = React.createRef()
+    this.timer = null
   }
 
   componentDidMount() {
     this.getData()
+  }
+
+  reStart = () => {
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+
+    const input = this.searchRef.current
+    input.value = ''
+
+    this.timer = setTimeout(() => {
+      this.setState({
+        isSearch: false,
+        searchValue: '',
+        beforeStatus: [1, 1, 0],
+        status: [1, 1, 0],
+      })
+    }, 5 * 1000 * 60)
   }
 
   getData = () => {
@@ -55,6 +76,7 @@ class App extends React.Component {
         }, () => {
           loading()
           message.success('查询成功')
+          this.reStart()
         })
       })
       .catch(err => {
@@ -89,6 +111,7 @@ class App extends React.Component {
       status: [2, 0, 0],
     }, () => {
       setTimeout(callback, 300)
+      this.reStart()
     })
   }
 
@@ -96,6 +119,8 @@ class App extends React.Component {
     this.setState({
       status: [1, 0, 1],
       beforeStatus: [0, 1, 1],
+    }, () => {
+      this.reStart()
     })
   }
 
@@ -125,9 +150,22 @@ class App extends React.Component {
           searchBooks: data.data,
         })
       }
+      this.reStart()
     }).catch(err => {
       loading()
       message.error('系统出错，请稍后再试')
+    })
+  }
+
+  handleCleanSearch = (e) => {
+    e.preventDefault()
+    const input = this.searchRef.current
+    input.value = ''
+    this.setState({
+      beforeStatus: [1, 1, 0],
+      status: [1, 1, 0],
+      isSearch: false,
+      searchValue: '',
     })
   }
 
@@ -161,8 +199,13 @@ class App extends React.Component {
             <div className={backCls} onClick={this.handleClickBack}>
             </div>
             <div className="search">
-              <input type="text" className="search_input" placeholder="输入书名、作者名、支持拼音首字母搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} />
+              <input type="text" className="search_input" placeholder="输入书名、作者名、支持拼音首字母搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} ref={this.searchRef}/>
               <span className="search_btn" onClick={this.handleSearch} />
+              { this.state.isSearch &&
+                <span className="search_close" onClick={this.handleCleanSearch}>
+                  <span className="close" />
+                </span>
+              }
             </div>
           </div>
           <Map 
