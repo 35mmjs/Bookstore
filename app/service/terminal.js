@@ -10,6 +10,10 @@ class Terminal extends Service {
     //   limit: 10, // 返回数据量
     //   offset: 0, // 数据偏移量
     // });
+    if ((!params.name || !params.type)) {
+      const items = await this.app.mysql.query('select terminals.*, view_configs.note as view_configs_note from `terminals` left join `view_configs` on terminals.view_config = view_configs.id where terminals.deleted = 0')
+      return { items }
+    }
     const items = await this.app.mysql.select(DB, {
       where: {
         deleted: 0,
