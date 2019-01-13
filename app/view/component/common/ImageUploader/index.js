@@ -47,7 +47,7 @@ export default class Index extends React.Component {
       // })
       const response = info.file.response
       const { hash = '' } = response
-      const url = 'http://pjirfnf0s.bkt.clouddn.com/' + hash
+      const url = 'http://pl7xwypp4.bkt.clouddn.com/' + hash
       this.props.onUploadDone({ url })
       this.setState({
         imageUrl: url,
