@@ -14,6 +14,15 @@ class TerminalController extends Controller {
   // get
   async findAll() {
     const { query } = this.ctx
+    const currentUser = this.ctx.session.user
+    if (!currentUser.store) {
+      this.ctx.body = {
+        success: true,
+        data: { items: [] },
+      }
+      return
+    }
+    query.store = currentUser.store
     const result = await this.ctx.service.terminal.findAll(query)
     this.ctx.body = {
       success: true,
