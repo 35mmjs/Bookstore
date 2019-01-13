@@ -23,13 +23,14 @@ let menu = [
     label: '配置中心',
     value: 'view-config/manage',
     icon: 'hdd',
-    children: [
-      {
-        label: '配置中心',
-        value: 'view-config/manage',
-        children: null,
-      },
-    ],
+    children: null,
+    // children: [
+    //   {
+    //     label: '配置中心',
+    //     value: 'view-config/manage',
+    //     children: null,
+    //   },
+    // ],
   },
   {
     label: '终端管理',

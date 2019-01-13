@@ -57,6 +57,7 @@ class SiderDemo extends React.Component {
                   return (
                     <SubMenu
                       key={item.value}
+                      onClick={() => window.location.hash = item.value}
                       title={
                       <span>
                         <Icon type={item.icon} />
