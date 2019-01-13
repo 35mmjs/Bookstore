@@ -4,7 +4,7 @@
 #脚本参数
 NOW_PATH=$(pwd)
 #本地参数
-TAGS_PATH="https://github.com/35mmjs/Bookstore"
+TAGS_PATH="git@github.com:35mmjs/Bookstore.git"
 ENV=""
 TAG=""
 TOOL="git"
@@ -87,8 +87,6 @@ prepare_tar()
 	tmpPath="temp/"$TAG"_"$DATE
   mkdir -p $tmpPath;
   cd $tmpPath;
-  # git clone $TAGS_PATH ./ --depth 1;
-  # git checkout stable
   git init;
   git remote add origin $TAGS_PATH;
   git pull origin master && git fetch --tags &
@@ -131,8 +129,6 @@ before_depoly()
 	echo $prefix"post to remote service"$aftfix;
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "mkdir -p $REMOTE_PATH"
 	scp "output/"$PACKAGE $REMOTE_ACCOUNT@$REMOTE_IP:$REMOTE_PATH/$PACKAGE
-	rm -rf ./temp
-	rm -rf ./output
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; tar zxvf $PACKAGE --strip-components 1 >> /dev/null "
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; rm $REMOTE_PATH/$PACKAGE;chown -R $HTTP_SERVER_ACCOUNT:$HTTP_SERVER_ACCOUNT ./"
 }
