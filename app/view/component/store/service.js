@@ -39,3 +39,11 @@ export function remove(data) {
     method: 'get',
   })
 }
+
+export function changeStoreById(storeId) {
+  return ajax({
+    url: '/user/changeStore.json',
+    data: { store: storeId },
+    method: 'post',
+  })
+}

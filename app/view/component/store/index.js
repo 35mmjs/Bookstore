@@ -9,8 +9,12 @@ import {
 } from 'antd'
 import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
-import { create, update, remove, findAll } from './service'
+import { create, update, remove, findAll, changeStoreById } from './service'
 import { composeAsync, removeConfirm } from '../../common/utils'
+
+function changeStore(storeId) {
+  changeStoreById(storeId).then(() => location.hash = '#/view-config/manage')
+}
 
 export default function Store() {
   const [dataSource, reload] = useAsyncState(findAll, {})
@@ -55,6 +59,8 @@ export default function Store() {
           <a onClick={() => modalShow('编辑门店', record)}>编辑</a>
           <Divider type="vertical" />
           <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
+          <Divider type="vertical" />
+          <a onClick={() => changeStore(record.id)}>管理</a>
         </Fragment>
       ),
     },

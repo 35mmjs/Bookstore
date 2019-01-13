@@ -23,6 +23,7 @@ module.exports = app => {
   router.post('/user/login.json', controller.user.login)
   router.post('/user/logout.json', controller.user.logout)
   router.post('/user/changeEnterpriseByAdmin.json', controller.user.changeEnterpriseByAdmin)
+  router.post('/user/changeStore.json', controller.user.changeStore)
   router.post('/user/createAdmin.json', controller.user.createAdmin)
   router.post(user.create, controller.user.create)
   router.get(user.findAll, controller.user.findAll)

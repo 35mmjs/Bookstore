@@ -45,6 +45,7 @@ let menu = [
     children: null,
   },
 ]
+
 if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
   menu = menu.concat(
     {

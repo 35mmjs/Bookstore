@@ -31,6 +31,24 @@ class UserController extends Controller {
     }
   }
 
+  changeStore() {
+    const ctx = this.ctx
+    const { store } = ctx.request.body
+    const currentUser = ctx.session.user
+    if (!currentUser) {
+      ctx.body = {
+        success: false,
+        message: '无权限操作',
+      }
+      return
+    }
+    ctx.session.user = Object.assign({}, ctx.session.user, { store: parseInt(store) })
+    ctx.body = {
+      success: true,
+      message: '切换成功',
+    }
+  }
+
   logout() {
     const ctx = this.ctx
     ctx.session.user = undefined
