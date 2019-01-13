@@ -39,10 +39,9 @@ export default function ajax({
       /* eslint-disable no-underscore-dangle */
       data.data._t = Date.now()
     }
-    let silent = !showSuccessMessage
     if (showSuccessMessage === undefined) {
       // 默认只有post请求才提示消息
-      silent = type !== 'post'
+      showSuccessMessage = type === 'post'
     }
     return xhr({
       // url,
@@ -53,7 +52,7 @@ export default function ajax({
       success(json = {}) {
         if (json.success) {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:green', url, 'color: black', data, json.data)
-          if (!silent) message.success(json.message || '请求成功')
+          if (showSuccessMessage) message.success(json.message || '请求成功')
           resolve(json.data)
         } else {
           ajaxDebug('%c%s%c req:%o,res:%o', 'color:red', url, 'color: black', data, json.data)

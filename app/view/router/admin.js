@@ -20,30 +20,25 @@ const Employee = () => <h2>Home</h2>
 
 let menu = [
   {
-    label: '配置中心',
-    value: 'view-config/manage',
-    icon: 'hdd',
-    children: [
-      {
-        label: '配置中心',
-        value: 'view-config/manage',
-        children: null,
-      },
-    ],
-  },
-  {
-    label: '终端管理',
-    value: 'terminal/manage',
-    icon: 'desktop',
-    children: null,
-  },
-  {
     label: '门店管理',
     value: 'store/manage',
     icon: 'shop',
-    children: null,
+    children: window.appData.loginUser.store ? [
+      {
+        label: '配置中心',
+        value: 'view-config/manage',
+        icon: 'hdd',
+        children: null,
+      },
+      {
+        label: '终端管理',
+        value: 'terminal/manage',
+        icon: 'desktop',
+      },
+    ] : null,
   },
 ]
+
 if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
   menu = menu.concat(
     {
