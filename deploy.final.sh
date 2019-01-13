@@ -88,13 +88,13 @@ prepare_tar()
 	tmpPath="temp/"$TAG"_"$DATE
   mkdir -p $tmpPath;
   cd $tmpPath;
-  git clone $TAGS_PATH ./ --depth 1;
-  git checkout stable
-  # git init;
-  # git remote add origin $TAGS_PATH;
-  # git pull origin master && git fetch --tags &
-  # loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
-  # git checkout -b $TAG;
+  # git clone $TAGS_PATH ./ --depth 1;
+  # git checkout stable
+  git init;
+  git remote add origin $TAGS_PATH;
+  git pull origin master && git fetch --tags &
+  loop_process $prefix"git check out from $TAGS_PATH/$TAG"$aftfix;
+  git checkout -b $TAG;
   # loop_process $prefix"build dist"$aftfix;
   # echo $prefix"build dist"$aftfix;
 	# npm run build
