@@ -7,6 +7,7 @@ import {
 
 import useAsyncState from '../../../hook/useAsyncState'
 import { findAll as findEnterpriseList } from '../../enterprise/service'
+import { findAll as findStoreList } from '../../store/service'
 import ajax from '../../../common/ajax'
 
 const { Header } = Layout
@@ -22,12 +23,26 @@ function changeEnterprise(enterprise) {
   }).then(() => window.location.reload())
 }
 
+function changeStore(storeId) {
+  return ajax({
+    url: '/user/changeStore.json',
+    data: { store: storeId },
+    method: 'post',
+  }).then(() => window.location.reload())
+}
+
 export default function GlobalHeader(props) {
   const {
     currentUser,
     onMenuClick,
   } = props
+  const enterprise = window.appData.loginUser.enterprise
+  const currentStore = window.appData.loginUser.store
+  let storeList = []
   const [enterprises] = useAsyncState(findEnterpriseList, [])
+  if (enterprise) {
+    storeList = useAsyncState(findStoreList, {})[0].items || []
+  }
   const menu = (
     <Menu selectedKeys={[]} onClick={onMenuClick}>
       <Menu.Item disabled>
@@ -45,7 +60,6 @@ export default function GlobalHeader(props) {
       </Menu.Item>
     </Menu>
   )
-  const enterprise = window.appData.loginUser.enterprise
   return (
     <Header
       style={{ background: '#fff', padding: 0 }}
@@ -56,6 +70,16 @@ export default function GlobalHeader(props) {
             <span>所在企业：</span>
             <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={enterprise === null ? undefined : enterprise} onChange={changeEnterprise}>
               {enterprises.map(item => (
+                <Option key={item.id} value={item.id}>{item.name}</Option>
+              ))}
+            </Select>
+          </span> : null
+        }
+        { window.appData.loginUser.enterprise ?
+          <span>
+            <span>所在门店：</span>
+            <Select style={{ width: 200, marginRight: 8 }} placeholder="切换门店" value={currentStore === null ? undefined : currentStore} onChange={changeStore}>
+              {storeList.map(item => (
                 <Option key={item.id} value={item.id}>{item.name}</Option>
               ))}
             </Select>

@@ -24,7 +24,7 @@ class UserController extends Controller {
       }
       return
     }
-    ctx.session.user = Object.assign({}, ctx.session.user, { enterprise: parseInt(enterprise) })
+    ctx.session.user = Object.assign({}, ctx.session.user, { enterprise: parseInt(enterprise), store: null })
     ctx.body = {
       success: true,
       message: '切换成功',

@@ -43,7 +43,7 @@ class SiderDemo extends React.Component {
               <h1>后台管理</h1>
             </a>
           </div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={[location.hash.slice(1)]} defaultOpenKeys={['/store/manage']} mode="inline">
             {
               menu.map(item => {
                 if (!item.children) {
@@ -57,7 +57,7 @@ class SiderDemo extends React.Component {
                   return (
                     <SubMenu
                       key={item.value}
-                      onClick={() => window.location.hash = item.value}
+                      onTitleClick={() => window.location.hash = item.value}
                       title={
                       <span>
                         <Icon type={item.icon} />

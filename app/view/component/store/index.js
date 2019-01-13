@@ -13,7 +13,10 @@ import { create, update, remove, findAll, changeStoreById } from './service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
 function changeStore(storeId) {
-  changeStoreById(storeId).then(() => location.hash = '#/view-config/manage')
+  changeStoreById(storeId).then(() => {
+    location.hash = '#/view-config/manage'
+    location.reload()
+  })
 }
 
 export default function Store() {

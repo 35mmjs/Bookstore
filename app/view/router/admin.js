@@ -20,29 +20,22 @@ const Employee = () => <h2>Home</h2>
 
 let menu = [
   {
-    label: '配置中心',
-    value: 'view-config/manage',
-    icon: 'hdd',
-    children: null,
-    // children: [
-    //   {
-    //     label: '配置中心',
-    //     value: 'view-config/manage',
-    //     children: null,
-    //   },
-    // ],
-  },
-  {
-    label: '终端管理',
-    value: 'terminal/manage',
-    icon: 'desktop',
-    children: null,
-  },
-  {
     label: '门店管理',
-    value: 'store/manage',
+    value: '/store/manage',
     icon: 'shop',
-    children: null,
+    children: window.appData.loginUser.store ? [
+      {
+        label: '配置中心',
+        value: '/view-config/manage',
+        icon: 'hdd',
+        children: null,
+      },
+      {
+        label: '终端管理',
+        value: '/terminal/manage',
+        icon: 'desktop',
+      },
+    ] : null,
   },
 ]
 
@@ -51,13 +44,13 @@ if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
     {
       label: '企业管理',
       icon: 'bank',
-      value: 'enterprise',
+      value: '/enterprise',
       children: null,
     },
     {
       label: '用户管理',
       icon: 'team',
-      value: 'user',
+      value: '/user',
       children: null,
     },
   )
