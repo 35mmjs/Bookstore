@@ -70,7 +70,7 @@ class Single extends React.Component {
         }
         <div className={introCls}>
           <p className="intor_content">
-            {book.recommender}
+            {book.recommender || book.intro}
           </p>
         </div>
       </div>
