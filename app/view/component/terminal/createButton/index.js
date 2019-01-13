@@ -60,7 +60,7 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请选择终端类型！' }],
         })(<TerminalTypeSelect placeholder="请选择" />)}
       </FormItem>
-      <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="所属门店">
+      {/* <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="所属门店">
         {form.getFieldDecorator('store', {
           rules: [
             {
@@ -69,7 +69,7 @@ const CreateForm = Form.create()(props => {
             },
           ],
         })(<StoreSelect placeholder="请选择" />)}
-      </FormItem>
+      </FormItem> */}
     </Modal>
   )
 })

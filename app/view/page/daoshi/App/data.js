@@ -4,7 +4,7 @@ export default [
     id: "",
 
     // {String} 图片 CDN 地址
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
 
     // {String} 图书名称
     name: '想象力的科学空间',
@@ -58,7 +58,7 @@ export default [
     qrcode: "",
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '儿童健康全书',
     author: '左拉',
     price: '59.8',
@@ -66,7 +66,7 @@ export default [
     isbn: '111111',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '遇见更好的自己',
     author: '左拉',
     price: '59.8',
@@ -74,7 +74,7 @@ export default [
     isbn: '1231313',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '儿童健康全书',
     author: '左拉',
     price: '59.8',
@@ -82,7 +82,7 @@ export default [
     isbn: '12313a',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '遇见更好的自己',
     author: '左拉',
     price: '59.8',
@@ -90,7 +90,7 @@ export default [
     isbn: '1231313123',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '儿童健康全书',
     author: '左拉',
     price: '59.8',
@@ -98,7 +98,7 @@ export default [
     isbn: '12131313',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '遇见更好的自己',
     author: '左拉',
     price: '59.8',
@@ -106,7 +106,7 @@ export default [
     isbn: '123123131',
   },
   {
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
     name: '儿童健康全书',
     author: '左拉',
     price: '59.8',

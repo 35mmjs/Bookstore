@@ -4,7 +4,7 @@ export default [
     id: '',
 
     // {String} 图片 CDN 地址
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
 
     // {String} 图书名称
     name: '想象力的科学空间',
@@ -62,7 +62,7 @@ export default [
     id: '',
 
     // {String} 图片 CDN 地址
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
 
     // {String} 图书名称
     name: '想象力的科学空间',
@@ -120,7 +120,7 @@ export default [
     id: '',
 
     // {String} 图片 CDN 地址
-    cover: 'http://pjirfnf0s.bkt.clouddn.com/book-cover.gif',
+    cover: 'http://pl7xwypp4.bkt.clouddn.com/book-cover.gif',
 
     // {String} 图书名称
     name: '想象力的科学空间',
