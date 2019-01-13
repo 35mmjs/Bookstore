@@ -1,7 +1,7 @@
 export default {
   map: {
     floorCount: 4,
-    src: 'http://pjirfnf0s.bkt.clouddn.com/map_L2.png',
+    src: 'http://pl7xwypp4.bkt.clouddn.com/map_L2.png',
     size: [1338, 1479],
   },
   floor: [
