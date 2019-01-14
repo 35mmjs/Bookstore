@@ -6,18 +6,33 @@ import Map from '../Map'
 import Book from '../Book'
 import Books from '../Books'
 import data from './data'
+import data10001 from '../Map/10001'
+import data10002 from '../Map/10002'
 import './index.less'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
+
+    const { orgId } = window.appData
+    let storeData = data10001
+
+    if (orgId.toString() === '10002') {
+      storeData = data10002
+    }
+
     this.state = {
       isSearch: false,
       books: [],
+      currentArea: {
+        coordinate: [0, 0],
+        floor: 0,
+      },
       currentBook: data[0],
       searchValue: '',
       beforeStatus: [1, 1, 0],
       status: [1, 1, 0],
+      storeData,
     }
 
     this.searchRef = React.createRef()
@@ -116,10 +131,53 @@ class App extends React.Component {
     })
   }
 
-  handleShowPosition = () => {
+  handleShowPosition = (bookList) => {
+    const { jwh } = bookList[0][0]
+    if (!jwh) return
+    let id = jwh.split('架位号:')[1]
+    id = parseInt(id, 10)
+    console.log(id)
+    const { floor } = this.state.storeData
+    console.log(floor)
+    let currArea
+    let currFloor
+
+    for (let i = 0; i < floor.length; i ++) {
+      const { areas } = floor[i]
+
+      // eslint-disable-next-line no-continue
+      if (!areas) continue
+
+      for (let j = 0; j < areas.length; j ++) {
+        const { stockList } = areas[j]
+
+        // eslint-disable-next-line no-continue
+        if (!stockList) continue
+
+        for (let k = 0; k < stockList.length; k ++) {
+          const stock = stockList[k]
+          if (typeof stock === 'array') {
+            if (id >= stock[0] && id <= stock[1]) {
+              currArea = areas[j]
+              currFloor = floor.length - i
+            }
+            break
+          } else if (id === stock) {
+            currArea = areas[j]
+            currFloor = floor.length - i
+            break
+          }
+        }
+      }
+    }
+
     this.setState({
       status: [1, 0, 1],
       beforeStatus: [0, 1, 1],
+      currentArea: {
+        coordinate: currArea.coordinate,
+        floor: currFloor,
+      },
     }, () => {
       this.reStart()
     })
@@ -171,7 +229,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { status } = this.state
+    const { status, currentArea } = this.state
     // default [1, 1, 0]
     // click position [1, 0, 0]
     // click books [0, 1, 1]
@@ -210,10 +268,12 @@ class App extends React.Component {
             </div>
           </div>
           <Map 
+            data={this.state.storeData}
             zoom={showMapZoom}
             hidden={!showMap}
             hideAreas={showMap && showDetail && !showList}
             onClick={this.handleClickMap}
+            current={currentArea}
           />
           <Books 
             isList={this.state.isSearch}
