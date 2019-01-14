@@ -15,8 +15,8 @@ class ViewConfig extends Service {
   }
 
   async create(params) {
-    const { note, type, content } = params
-    const result = await this.app.mysql.insert(DB, { note, type, content })
+    const { note, type, content, store } = params
+    const result = await this.app.mysql.insert(DB, { note, type, content, store })
     return result.affectedRows === 1
   }
 

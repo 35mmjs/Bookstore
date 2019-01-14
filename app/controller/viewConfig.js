@@ -4,6 +4,7 @@ class ViewConfigController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
+    request.store = this.ctx.getLoginStore()
     const result = await this.ctx.service.viewConfig.create(request)
     this.ctx.body = {
       success: true,
@@ -14,6 +15,7 @@ class ViewConfigController extends Controller {
   // get
   async findAll() {
     const { query } = this.ctx
+    query.store = this.ctx.getLoginStore()
     const result = await this.ctx.service.viewConfig.findAll(query)
     this.ctx.body = {
       success: true,
