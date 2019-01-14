@@ -49,6 +49,7 @@ class App extends React.Component {
   getData = () => {
     getDaoshiData().then(res => {
       const { data } = res
+      console.log(data)
       this.setState({
         books: data.data.books,
       })
@@ -57,9 +58,9 @@ class App extends React.Component {
     })
   }
 
-  onClickBook = (isbn) => {
+  onClickBook = (spbs) => {
     const loading = message.loading('正在查询...', 0)
-    getBook({ isbn })
+    getBook({ spbs })
       .then(res => {
         const { data } = res
         let { score } = data.data
