@@ -169,8 +169,17 @@ class BookAPIService extends Service {
    * @param spbs {String} 商品标识
    * @param bmbh {Strig} 部门编号
    */
-  getStockInfo(kcdh, spbs, bmbh = '') {
-    return this.fetch('stock01', { kcdh, spbs, bmbh }).then(d => JSON.parse(d))
+  async getStockList(kcdh, spbs, bmbh = '') {
+    try {
+      const data = await this.fetch('stock01', { kcdh, spbs, bmbh }).then(d => JSON.parse(d))
+      let stockList = []
+      data.mdkc.forEach((item) => {
+        stockList = stockList.concat(item.jwkcs.map(i => i.jwkc))
+      })
+      return stockList
+    } catch (e) {
+      return []
+    }
   }
 }
 

@@ -16,6 +16,7 @@ function bookInfoMap(res) {
     publish: res.bb,
     version: '',
     bookshelf: '',
+    stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
     qrcode: res.qrcode,
   }
   return Object.assign({}, processedResult)

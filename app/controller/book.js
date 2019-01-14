@@ -34,13 +34,19 @@ class BookController extends Controller {
 
   async getBook() {
     const param = this.ctx.query
-    const { isbn, spbs } = param
+    const { isbn, spbs, orgid } = param
+    if (!orgid) throw new Error('无法获取门店ID!')
     let res
     if (isbn) {
       res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
     }
     if (spbs) {
+      const currentStore = await this.ctx.service.store.findOne(orgid)
+      const [kcdh, bmbh] = currentStore.store_code.split('-')
+      const stockList = await this.ctx.bookAPI(kcdh, spbs, bmbh)
+      // const
       res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      res.stockList = stockList
     }
     const processedResult = bookInfoMap(res)
     this.ctx.body = {
@@ -98,13 +104,13 @@ class BookController extends Controller {
       this.ctx.body = { success: true, data: '' }
     }
   }
-  
+
   async findRankingListBySingleStore() {
     const res = await this.ctx.service.bookAPI.getRinkingList()
     const processedResult = res.map(item => {
       return {
         value: item.phid,
-        label: item.phmc, 
+        label: item.phmc,
       }
     })
     this.ctx.body = {
@@ -123,7 +129,7 @@ class BookController extends Controller {
     this.ctx.body = {
       success: true,
       data: processedResult,
-    }   
+    }
   }
 }
 
