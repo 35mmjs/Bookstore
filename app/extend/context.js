@@ -22,6 +22,20 @@ module.exports = {
   getLoginUser() {
     return this.session.user
   },
+  getLoginStore() {
+    const user = this.session.user
+    if (!user || !user.store) {
+      throw new Error('无法获取登陆的门店')
+    }
+    return user.store
+  },
+  getLoginEnterprise() {
+    const user = this.session.user
+    if (!user || !user.enterprise) {
+      throw new Error('无法获取登陆的企业')
+    }
+    return user.enterprise
+  },
   // 获取登陆的用户id，如果没有则为空
   getLoginUserId() {
     const user = this.session.user

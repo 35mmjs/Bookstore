@@ -4,8 +4,7 @@ class StoreController extends Controller {
   // post
   async create() {
     const request = this.ctx.request.body
-    const currentUser = this.ctx.session.user
-    request.enterprise = currentUser.enterprise
+    request.enterprise = this.ctx.getLoginEnterprise()
     const result = await this.ctx.service.store.create(request)
     this.ctx.body = {
       success: true,
@@ -15,9 +14,9 @@ class StoreController extends Controller {
 
   // get
   async findAll() {
-    const currentUser = this.ctx.session.user
+    const enterprise = this.ctx.getLoginEnterprise()
     const result = await this.ctx.service.store.findAll({
-      enterprise: currentUser.enterprise,
+      enterprise,
     })
     this.ctx.body = {
       success: true,
