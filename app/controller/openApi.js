@@ -86,12 +86,30 @@ class OpenApiController extends Controller {
   async findBook() {
     let res = ''
     const { query } = this.ctx
-    const { isbn, spbs } = query
+    const { isbn, spbs, orgId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
     if (isbn) {
       res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
     }
     if (spbs) {
+      const currentStore = await this.ctx.service.store.findOne(orgId)
+      if (!currentStore) {
+        this.ctx.body = {
+          success: false,
+          error: `无法找到门店id: ${orgId}`,
+        }
+        return
+      }
+      const [kcdh, bmbh] = currentStore.store_code.split('-')
+      const stockList = await this.ctx.service.bookAPI.getStockList(kcdh, spbs, bmbh)
       res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      res.stockList = stockList
     }
     const processedResult = bookInfoMap(res)
     this.ctx.body = {
