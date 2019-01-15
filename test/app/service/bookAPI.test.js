@@ -25,7 +25,8 @@ describe('test/app/service/bookAPI.test.js', () => {
   it.only('getStockList', async () => {
     // 桐乡: 市店3304830001，部门12, 购书中心3304830006，部门12
     // 衢州店号3308000001部门50
-    const data = await ctx.service.bookAPI.getStockList('3308000001', '3233137', '50')
+    const data = await ctx.service.bookAPI.getStockList('3308000001', '4063544', '50')
+    // const data = await ctx.service.bookAPI.getStockList('3304830001', '4063544', '12')
     expect(data.length > 0).toEqual(true)
     /**
      * {"mdkc":[{"bmbh":"50","jwkcs":[{"jwkc":[{"jwh":"架位号:11001","lbmc":"哲学","lc":"三楼右侧(北)社科区","zjs":"4"}]}],"mddh":"057788225231","mddz":"温州公园路158弄8号(宏"mdzkc":"4"},{"bmbh":"36","jwkcs":[{"jwkc":[{"jwh":"架位号:1","lbmc":"哲学","lc":"新书区","zjs":"2"}]}],"mddh":"057763482495","mddz":"洞头县北岙镇中心街76号","mdjc":"]}
