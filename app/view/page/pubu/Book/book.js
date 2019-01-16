@@ -18,6 +18,7 @@ class BookDetail extends React.Component {
       book: this.props.book,
       recommend: data,
       left: 0,
+      loading: false,
     }
 
     this.image = React.createRef()
@@ -66,16 +67,23 @@ class BookDetail extends React.Component {
   }
 
   getRecommend = (spbs) => {
+    this.setState({
+      loading: true,
+    })
     getRecommend({ spbs })
       .then(res => {
         console.log(res.data.data)
         message.success('获取相关书籍成功')
         this.setState({
           recommend: res.data.data,
+          loading: false,
         })
       })
       .catch(err => {
         console.error(err)
+        this.setState({
+          loading: false,
+        })
       })
   }
 
@@ -92,7 +100,7 @@ class BookDetail extends React.Component {
 
   render() {
     const { onClose } = this.props
-    const { book, recommend } = this.state
+    const { book, recommend, loading } = this.state
 
     // Slider Setting
     const settings = {
@@ -131,9 +139,11 @@ class BookDetail extends React.Component {
                 <h2 className="book_detail_container_title">
                   {book.name}
                 </h2>
-                <p className="book_detail_container_author">
-                  作者：{book.author.replace('作者:', '')}
-                </p>
+                { book.author &&
+                  <p className="book_detail_container_author">
+                    作者：{book.author.replace('作者:', '')}
+                  </p>
+                }
                 <p className="book_detail_container_recommand">
                   {book.recommender}
                 </p>
@@ -191,6 +201,7 @@ class BookDetail extends React.Component {
           <div className="book_detail_recommand">
             <h4>相关书籍</h4>
             <div className="book_detail_recommand_content">
+              { !loading &&
               <Slider ref={slider => (this.slider = slider)} {...settings}>
                 {
                   recommend.map((b, i) => {
@@ -200,6 +211,12 @@ class BookDetail extends React.Component {
                   })
                 }
               </Slider>
+              }
+              { loading &&
+                <div className="book_detail_recommand_loading">
+                  <img src="http://pl7xwypp4.bkt.clouddn.com/loading10.gif" />
+                </div>
+              }
             </div>
           </div>
         </div>

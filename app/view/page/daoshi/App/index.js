@@ -56,6 +56,10 @@ class App extends React.Component {
         searchValue: '',
         beforeStatus: [1, 1, 0],
         status: [1, 1, 0],
+        currentArea: {
+          coordinate: [0, 0],
+          floor: 0,
+        },
       })
     }, 5 * 1000 * 60)
   }
@@ -167,6 +171,7 @@ class App extends React.Component {
         }
       }
     }
+    console.log(currArea)
 
     if (!currArea) {
       message.error('找不到对应的位置')
@@ -229,6 +234,10 @@ class App extends React.Component {
       status: [1, 1, 0],
       isSearch: false,
       searchValue: '',
+      currentArea: {
+        coordinate: [0, 0],
+        floor: 0,
+      },
     })
   }
 

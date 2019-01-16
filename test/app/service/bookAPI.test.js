@@ -11,7 +11,7 @@ describe('test/app/service/bookAPI.test.js', () => {
     expect(Array.isArray(data)).toEqual(true)
   })
   it('getRinkingInfo', async () => {
-    const data = await ctx.service.bookAPI.getRinkingInfo('00000084')
+    const data = await ctx.service.bookAPI.getRinkingInfo('00000212')
     expect(Array.isArray(data)).toEqual(true)
   })
   it('getBookByISBN', async () => {
@@ -22,7 +22,7 @@ describe('test/app/service/bookAPI.test.js', () => {
     const data = await ctx.service.bookAPI.getBookBySPBS('4087393')
     expect(data.sm).toMatch(/宪法/)
   })
-  it.only('getStockList', async () => {
+  it('getStockList', async () => {
     // 桐乡: 市店3304830001，部门12, 购书中心3304830006，部门12
     // 衢州店号3308000001部门50
     const data = await ctx.service.bookAPI.getStockList('3308000001', '4063544', '50')
