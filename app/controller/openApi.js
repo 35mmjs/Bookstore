@@ -114,28 +114,13 @@ class OpenApiController extends Controller {
   async findBook() {
     let res = ''
     const { query } = this.ctx
-    const { isbn, spbs, orgId } = query
-    if (!orgId) {
-      this.ctx.body = {
-        success: false,
-        error: `无法找到门店id: ${orgId}`,
-      }
-      return
-    }
+    const { isbn, spbs } = query
+    const { storeCode, storeNum } = await this.ctx.getStoreCodeFromQuery()
     if (isbn) {
       res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
     }
     if (spbs) {
-      const currentStore = await this.ctx.service.store.findOne(orgId)
-      if (!currentStore) {
-        this.ctx.body = {
-          success: false,
-          error: `无法找到门店id: ${orgId}`,
-        }
-        return
-      }
-      const [kcdh, bmbh] = currentStore.store_code.split('-')
-      const stockList = await this.ctx.service.bookAPI.getStockList(kcdh, spbs, bmbh)
+      const stockList = await this.ctx.service.bookAPI.getStockList(storeCode, spbs, storeNum)
       res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
       res.stockList = stockList
     }
@@ -209,8 +194,9 @@ class OpenApiController extends Controller {
   async findBooksByKeyword() {
     const { query } = this.ctx
     const { keyword } = query
+    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, '')
+    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, storeCode)
     if (res && res.length > 0) {
       processedResult = bookInfoListProcess(res)
     }
@@ -223,8 +209,9 @@ class OpenApiController extends Controller {
   async findBooksByName() {
     const { query } = this.ctx
     const { keyword } = query
+    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByName(keyword, '')
+    const res = await this.ctx.service.bookAPI.searchBookByName(keyword, storeCode)
     if (res && res.length > 0) {
       processedResult = bookInfoListProcess(res)
     }
@@ -259,15 +246,6 @@ class OpenApiController extends Controller {
     this.ctx.body = {
       success: true,
       data: result,
-    }
-  }
-
-  async getStockInfo() {
-    const { kcdh, spbs, bmbh } = this.ctx.query
-    const data = await this.ctx.service.bookAPI.getStockInfo(kcdh, spbs, bmbh)
-    this.ctx.body = {
-      success: true,
-      data,
     }
   }
 }
