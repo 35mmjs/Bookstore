@@ -255,9 +255,10 @@ const Comp = props => {
       title: '视图配置',
       dataIndex: 'view_configs_note',
       key: 'view_configs_note',
-      render: value => {
+      render: (value, record) => {
+        const { view_config } = record
         return (
-          <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
+          <Link to={`/view-config/manage/detail/${view_config}/view`}>{value}</Link>
         )
       },
     },

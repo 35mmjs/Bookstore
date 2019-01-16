@@ -58,10 +58,24 @@ class OpenApiController extends Controller {
   async getPubu() {
     const query = this.ctx.query
     const { clientId, orgId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
     const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
-      '',
+      orgId,
       clientId,
     )
+    if (!item) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到对应设备终端`,
+      }
+      return
+    }
     const resArray = pubuMap(item)
     this.ctx.body = {
       success: true,
@@ -72,10 +86,24 @@ class OpenApiController extends Controller {
   async getDaoshi() {
     const query = this.ctx.query
     const { clientId, orgId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
     const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
-      '',
+      orgId,
       clientId,
     )
+    if (!item) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到对应设备终端`,
+      }
+      return
+    }
     const result = zhantaiMap(item)
     this.ctx.body = {
       success: true,
@@ -209,10 +237,24 @@ class OpenApiController extends Controller {
   async getZhantai() {
     const query = this.ctx.query
     const { clientId, orgId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
     const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
-      '',
+      orgId,
       clientId,
     )
+    if (!item) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到对应设备终端`,
+      }
+      return
+    }
     const result = zhantaiMap(item)
     this.ctx.body = {
       success: true,

@@ -25,6 +25,7 @@ class OpenApi extends Service {
   async findViewConfigByStoreAndTerminal(storeId, terminalId) {
     const terminal = await this.app.mysql.get(TERMINALS, {
       id: terminalId,
+      store: storeId,
     })
     const viewConfigId = terminal.view_config
     if (viewConfigId) {
