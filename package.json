@@ -1,10 +1,11 @@
 {
   "name": "Bookstore",
-  "version": "1.0.50",
+  "version": "1.0.52",
   "description": "",
   "private": true,
   "dependencies": {
     "address": "^1.0.3",
+    "ali-oss": "^6.1.0",
     "aliyun-api-gateway": "^1.1.6",
     "antd": "^3.10.9",
     "atool-build": "^1.0.2",
@@ -92,6 +93,7 @@
     "egg-start": "rm -rf node_modules && cnpm i --production && npm run _egg-start",
     "egg-stop": "egg-scripts stop",
     "_egg-start": "egg-scripts stop && egg-scripts start --env=prod --daemon --title=egg-server-showcase",
+    "_egg-start_dev": "egg-scripts stop && egg-scripts start --env=dev --daemon --title=egg-server-showcase",
     "debug": "egg-bin debug",
     "test": "egg-bin test",
     "test-watch": "egg-bin test --watch",
@@ -105,7 +107,8 @@
     "deploy-dev": "./deploy.dev.sh -e dev -v $npm_package_version",
     "version-patch": "npm version patch && git add ./ && git commit -m 'version $npm_package_version' && git push",
     "tag": "git tag $npm_package_version && git push origin $npm_package_version",
-    "server": "npm run _egg-start"
+    "server": "npm run _egg-start",
+    "server-dev": "npm run _egg-start_dev"
   },
   "pre-commit": [],
   "ci": {

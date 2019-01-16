@@ -141,7 +141,7 @@ run_server()
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
 	# 环境需要提前放置到 .bashrc 当中
-	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server"
+	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server-dev"
 	return 0
 }
 
