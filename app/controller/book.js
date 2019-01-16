@@ -127,7 +127,7 @@ class BookController extends Controller {
   }
 
   async findRankingListBySingleStore() {
-    const res = await this.ctx.service.bookAPI.getRinkingList()
+    const res = await this.ctx.service.bookAPI.getRankingList()
     const processedResult = res.map(item => {
       return {
         value: item.phid,
