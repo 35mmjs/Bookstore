@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import data10001 from './10001'
-import data10002 from './10002'
+// import data10001 from './10001'
+// import data10002 from './10002'
 import './index.less'
 
 export default class Map extends React.Component {
@@ -14,31 +14,24 @@ export default class Map extends React.Component {
       y: 0,
       lx: 0,
       ly: 0,
-      mapData: data10001.map,
-      floorData: data10001.floor,
+      mapData: props.data.map,
+      floorData: props.data.floor.reverse(),
     }
   }
 
   componentDidMount() {
-    const { orgId } = window.appData
-    let data = data10001
-
-    if (orgId === '10002') {
-      data = data10002
-    }
-    
-    this.setState({
-      mapData: data.map,
-      floorData: data.floor.reverse(),
-    }, () => {
-      this.getLocation()
-    })
+    this.getLocation()
   }
 
   componentDidUpdate(props) {
     if (props.zoom !== this.props.zoom) {
       setTimeout(() => {
         this.getLocation()
+      }, 300)
+    }
+    if (props.current !== this.props.current) {
+      setTimeout(() => {
+        this.onChange(null, this.props.current.coordinate, this.props.current.floor, false)
       }, 300)
     }
   }
@@ -76,8 +69,10 @@ export default class Map extends React.Component {
     return { left, top }
   }
 
-  onChange = (e, coordinate, floor) => {
-    e.preventDefault()
+  onChange = (e, coordinate, floor, zoom = true) => {
+    if (e) {
+      e.preventDefault()
+    }
     const that = this;
     const { mapData } = this.state;
     const map = ReactDOM.findDOMNode(this.refs.map);
@@ -86,15 +81,23 @@ export default class Map extends React.Component {
     const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
     mapParent.scrollTop = top
 
-    this.props.onClick && this.props.onClick(() => {
-      const position = that.getPosition(coordinate[0], coordinate[1])
-      
+    const position = that.getPosition(coordinate[0], coordinate[1])
+
+    if (zoom) {
+      this.props.onClick && this.props.onClick(() => {
+        that.setState({
+          x: position.left,
+          y: position.top,
+          showPoint: true,
+        })
+      })
+    } else {
       that.setState({
         x: position.left,
         y: position.top,
         showPoint: true,
       })
-    })
+    }
   }
 
   getFloors = () => {

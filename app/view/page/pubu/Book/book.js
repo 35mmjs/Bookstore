@@ -26,24 +26,24 @@ class BookDetail extends React.Component {
   componentDidMount() {
     const { book } = this.props
     console.log('==>', book)
-    this.getBook(book.isbn)
-    this.getRecommend(book.isbn)
+    this.getBook(book.spbs)
+    this.getRecommend(book.spbs)
   }
 
   reGetData = (e, book) => {
     e.preventDefault()
 
-    this.getBook(book.isbn)
-    this.getRecommend(book.isbn)
+    this.getBook(book.spbs)
+    this.getRecommend(book.spbs)
   }
 
-  getBook = (isbn) => {
-    getBook({ isbn })
+  getBook = (spbs) => {
+    getBook({ spbs })
       .then(res => {
         const { data } = res
         console.log(data)
         message.success('获取详情成功')
-        if (data.data.isbn === this.state.book.isbn) {
+        if (data.data.spbs === this.state.book.spbs) {
           this.setState({
             book: Object.assign({}, this.state.book, data.data)
           })
@@ -65,8 +65,8 @@ class BookDetail extends React.Component {
       })
   }
 
-  getRecommend = (isbn) => {
-    getRecommend({ isbn })
+  getRecommend = (spbs) => {
+    getRecommend({ spbs })
       .then(res => {
         console.log(res.data.data)
         message.success('获取相关书籍成功')
@@ -168,18 +168,24 @@ class BookDetail extends React.Component {
                   </div>
                 }
               </div>
-              <div className="book_detail_container_det">
-                <h4>内容简介：</h4>
-                <p className="intro">{book.intro}</p>
-              </div>
-              <div className="book_detail_container_det">
-                <h4>作者简介：</h4>
-                <p>{book.authorInfo}</p>
-              </div>
-              <div className="book_detail_container_det">
-                <h4>目录：</h4>
-                <div className="toc">{book.toc}</div>
-              </div>
+              { book.intro &&
+                <div className="book_detail_container_det">
+                  <h4>内容简介：</h4>
+                  <p className="intro">{book.intro}</p>
+                </div>
+              }
+              { book.authorInfo &&
+                <div className="book_detail_container_det">
+                  <h4>作者简介：</h4>
+                  <p>{book.authorInfo}</p>
+                </div>
+              }
+              { book.toc &&
+                <div className="book_detail_container_det">
+                  <h4>目录：</h4>
+                  <div className="toc">{book.toc}</div>
+                </div>
+              }
             </div>
           </div>
           <div className="book_detail_recommand">
