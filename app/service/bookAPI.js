@@ -174,9 +174,12 @@ class BookAPIService extends Service {
       const data = await this.fetch('stock01', { kcdh, spbs, bmbh }).then(d => JSON.parse(d))
       let stockList = []
       data.mdkc.forEach((item) => {
-        stockList = stockList.concat(item.jwkcs.map(i => i.jwkc))
+        stockList = stockList.concat(...item.jwkcs.map(i => i.jwkc))
       })
-      return stockList
+      return stockList.map(item => {
+        item.jwh = item.jwh.replace('架位号:', '')
+        return item
+      })
     } catch (e) {
       return []
     }
