@@ -1,6 +1,7 @@
 const { Service } = require('egg')
 const crypto = require('crypto')
 const soap = require('soap')
+const { omit, pick } = require('../common/utils')
 
 const md5 = text => {
   return crypto.createHash('md5').update(String(text)).digest('hex')
@@ -148,9 +149,12 @@ class BookAPIService extends Service {
    * @return {Promise<T | never>}
    */
   getBook(type, value, khbh = '3300000000') {
-    const parse = d => JSON.parse(d).map(item => Object.assign({}, item, {
-      qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
-    }))
+    const parse = d => {
+      if (!d) return d
+      return JSON.parse(d).map(item => Object.assign({}, item, {
+        qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+      }))
+    }
     return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
   }
 
@@ -174,7 +178,7 @@ class BookAPIService extends Service {
       const data = await this.fetch('stock01', { kcdh, spbs, bmbh }).then(d => JSON.parse(d))
       let stockList = []
       data.mdkc.forEach((item) => {
-        stockList = stockList.concat(...item.jwkcs.map(i => i.jwkc))
+        stockList = stockList.concat(...item.jwkcs.map(i => i.jwkc.map(j => Object.assign(j, omit(item, ['jwkcs'])))))
       })
       return stockList.map(item => {
         item.jwh = item.jwh.replace('架位号:', '')

@@ -6,8 +6,8 @@ describe('test/app/service/bookAPI.test.js', () => {
   beforeEach(() => {
     ctx = app.mockContext({})
   })
-  it('getRinkingList', async () => {
-    const data = await ctx.service.bookAPI.getRinkingList()
+  it.only('getRinkingList', async () => {
+    const data = await ctx.service.bookAPI.getRinkingList('3304830001')
     expect(Array.isArray(data)).toEqual(true)
   })
   it('getRinkingInfo', async () => {
