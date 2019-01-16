@@ -132,10 +132,9 @@ class App extends React.Component {
   }
 
   handleShowPosition = (bookList) => {
-    const { jwh } = bookList[0][0]
+    const { jwh } = bookList[0]
     if (!jwh) return
-    let id = jwh.split('架位号:')[1]
-    id = parseInt(id, 10)
+    const id = parseInt(jwh, 10)
     console.log(id)
     const { floor } = this.state.storeData
     console.log(floor)
@@ -169,6 +168,11 @@ class App extends React.Component {
           }
         }
       }
+    }
+
+    if (!currArea) {
+      message.error('找不到对应的位置')
+      return
     }
 
     this.setState({
