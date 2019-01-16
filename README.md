@@ -51,7 +51,7 @@ router.get('/yourEntry.html', controller.home.yourEntry)
         identityfile ~/.ssh/your_key.pem
     ```
 
-3. 将代码合并到stable(生产环境分支)并push
+3. 修改version生成新tag后commit后 npm run tag提交
 4. 运行 npm run deploy-prod
 
 ### 生产环境重启/停止服务器
