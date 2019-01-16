@@ -61,7 +61,7 @@ class BookAPIService extends Service {
    *  - phid {String} 排行ID
    *  - phmc {phmc} 排行名称
    */
-  getRinkingList(khbh = '3300000000') {
+  getRankingList(khbh = '3300000000') {
     return this.fetch('GetRinkingInfo', { khbh, lx: 'list' })
   }
 
