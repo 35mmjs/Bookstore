@@ -48,10 +48,9 @@ class App extends React.Component {
       clearTimeout(this.timer)
     }
 
-    const input = this.searchRef.current
-    input.value = ''
-
     this.timer = setTimeout(() => {
+      const input = this.searchRef.current
+      input.value = ''
       this.setState({
         isSearch: false,
         searchValue: '',
@@ -137,7 +136,6 @@ class App extends React.Component {
     const id = parseInt(jwh, 10)
     console.log(id)
     const { floor } = this.state.storeData
-    console.log(floor)
     let currArea
     let currFloor
 
@@ -155,12 +153,12 @@ class App extends React.Component {
 
         for (let k = 0; k < stockList.length; k ++) {
           const stock = stockList[k]
-          if (typeof stock === 'array') {
+          if (typeof stock === 'object') {
             if (id >= stock[0] && id <= stock[1]) {
               currArea = areas[j]
               currFloor = floor.length - i
+              break
             }
-            break
           } else if (id === stock) {
             currArea = areas[j]
             currFloor = floor.length - i
@@ -211,6 +209,8 @@ class App extends React.Component {
         this.setState({
           isSearch: true,
           searchBooks: data.data,
+          beforeStatus: [1, 1, 0],
+          status: [1, 1, 0],
         })
       }
       this.reStart()

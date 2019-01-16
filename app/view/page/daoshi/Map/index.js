@@ -52,7 +52,7 @@ export default class Map extends React.Component {
   getPosition = (x, y) => {
     const { mapData } = this.state
     const { zoom } = this.props
-    const max = zoom ? 50 : 35
+    const max = zoom ? 50 : 65
     const wrapper = ReactDOM.findDOMNode(this.refs.wrapper)
     const map = ReactDOM.findDOMNode(this.refs.map)
     const react = map.getBoundingClientRect()
