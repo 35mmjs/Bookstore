@@ -1,6 +1,8 @@
 const validates = require('../validates')
+const CommonError = require('../common/CommonError')
 
 module.exports = {
+  CommonError,
   /**
    * validate data with rules
    *
@@ -9,7 +11,7 @@ module.exports = {
    */
   validate(validateKey, data) {
     data = data || this.request.body
-    if (!validates[validateKey]) throw new Error(`Unknown validate key ${validateKey}`)
+    if (!validates[validateKey]) throw new CommonError(`Unknown validate key ${validateKey}`)
     const errors = this.app.validator.validate(validates[validateKey], data)
     if (errors) {
       this.throw(422, 'Validation Failed', {
@@ -25,14 +27,14 @@ module.exports = {
   getLoginStore() {
     const user = this.session.user
     if (!user || !user.store) {
-      throw new Error('无法获取登陆的门店')
+      throw new CommonError('无法获取登陆的门店')
     }
     return user.store
   },
   getLoginEnterprise() {
     const user = this.session.user
     if (!user || !user.enterprise) {
-      throw new Error('无法获取登陆的企业')
+      throw new CommonError('无法获取登陆的企业')
     }
     return user.enterprise
   },
@@ -44,11 +46,11 @@ module.exports = {
   },
   async getStoreCodeFromQuery() {
     if (!this.query.orgId) {
-      throw new Error('未传入门店id')
+      throw new CommonError('未传入门店id')
     }
     const currentStore = await this.service.store.findOne(this.query.orgId)
     if (!currentStore) {
-      throw new Error(`未招到到门店id: ${this.query.orgId}`)
+      throw new CommonError(`未招到到门店id: ${this.query.orgId}`)
     }
     const [storeCode, storeNum] = currentStore.store_code.split('-')
     return {

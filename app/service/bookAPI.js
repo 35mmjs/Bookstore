@@ -1,7 +1,8 @@
 const { Service } = require('egg')
 const crypto = require('crypto')
 const soap = require('soap')
-const { omit, pick } = require('../common/utils')
+const { omit } = require('../common/utils')
+const CommonError = require('../common/CommonError')
 
 const md5 = text => {
   return crypto.createHash('md5').update(String(text)).digest('hex')
@@ -36,6 +37,7 @@ class BookAPIService extends Service {
     return new Promise((resolve, reject) => {
       soap.createClient(bookConfig.url, (err, client) => {
         if (err) {
+          console.log('xxxxxxxxxxxxxxxxxxxxxxxx')
           reject(err)
           return
         }
@@ -48,7 +50,7 @@ class BookAPIService extends Service {
           if (ret.code === '200' || ret.code === '000') {
             resolve(ret.data)
           } else {
-            reject(ret)
+            reject(new CommonError(ret.message))
           }
         })
       })
