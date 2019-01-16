@@ -1,8 +1,14 @@
 import axios from 'axios'
 
+const dailyHost = '47.96.75.202'
+const pubHost = '47.96.181.54'
+
+console.log('host: ', window.location.hostname)
+const host = window.location.hostname === pubHost ? pubHost : dailyHost
+
 export const search = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/book/search', {
+  return axios.get(`http://${host}/open/v1/book/search`, {
     params: {
       keyword: data.keyword,
       orgId,
@@ -13,7 +19,7 @@ export const search = (data) => {
 
 export const getPubuData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/pubu', {
+  return axios.get(`http://${host}/open/v1/pubu`, {
     params: {
       orgId,
       clientId,
@@ -23,18 +29,19 @@ export const getPubuData = (data) => {
 
 export const getRecommend = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/book/recommend', {
+  return axios.get(`http://${host}/open/v1/book/recommend`, {
     params: {
       orgId,
       clientId,
       isbn: data.isbn,
+      spbs: data.spbs,
     },
   })
 }
 
 export const getZhantaiData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/zhantai', {
+  return axios.get(`http://${host}/open/v1/zhantai`, {
     params: {
       orgId,
       clientId,
@@ -44,18 +51,19 @@ export const getZhantaiData = (data) => {
 
 export const getBook = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/book', {
+  return axios.get(`http://${host}/open/v1/book`, {
     params: {
       orgId,
       clientId,
       isbn: data.isbn,
+      spbs: data.spbs,
     },
   })
 }
 
 export const getDaoshiData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get('http://47.96.181.54/open/v1/daoshi', {
+  return axios.get(`http://${host}/open/v1/daoshi`, {
     params: {
       orgId,
       clientId,

@@ -26,9 +26,9 @@ export default class Book extends React.Component {
     })
   }
 
-  handleShowPosition = (e) => {
+  handleShowPosition = (e, stockList) => {
     e.preventDefault()
-    this.props.handleShowPosition && this.props.handleShowPosition()
+    this.props.handleShowPosition && this.props.handleShowPosition(stockList)
   }
 
   handleClickBack = (e) => {
@@ -58,9 +58,12 @@ export default class Book extends React.Component {
             <p className="book_detail_info_intro">
               {book.recommender}
             </p>
-            <div className="book_detail_info_position" onClick={this.handleShowPosition}>
-              地图上显示此书位置
-            </div>
+            {
+              book.stockList && book.stockList.length > 0 &&
+              <div className="book_detail_info_position" onClick={e => this.handleShowPosition(e, book.stockList)}>
+                地图上显示此书位置
+              </div>
+            }
           </div>
           <div className="book_detail_more">
             <p className="book_detail_more_pricing">定价： <span>{book.pricing}</span> 元</p>
