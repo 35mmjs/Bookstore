@@ -42,4 +42,18 @@ module.exports = {
     if (user) return user.id
     return null
   },
+  async getStoreCodeFromQuery() {
+    if (!this.query.orgId) {
+      throw new Error('未传入门店id')
+    }
+    const currentStore = await this.service.store.findOne(this.query.orgId)
+    if (!currentStore) {
+      throw new Error(`未招到到门店id: ${this.query.orgId}`)
+    }
+    const [storeCode, storeNum] = currentStore.store_code.split('-')
+    return {
+      storeCode, // 门店编号
+      storeNum, // 部门编号
+    }
+  },
 }
