@@ -210,13 +210,22 @@ class OpenApiController extends Controller {
     const { query } = this.ctx
     const { keyword } = query
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, '')
-    if (res && res.length > 0) {
-      processedResult = bookInfoListProcess(res)
-    }
-    this.ctx.body = {
-      success: true,
-      data: processedResult,
+    let res
+    try {
+      res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, '')
+      if (res && res.length > 0) {
+        processedResult = bookInfoListProcess(res)
+      }
+      this.ctx.body = {
+        success: true,
+        data: processedResult,
+      }
+    } catch (e) {
+      this.ctx.body = {
+        success: false,
+        data: '',
+        msg: '未找到对应图书'
+      }
     }
   }
 
