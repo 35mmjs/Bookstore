@@ -80,7 +80,7 @@ const CustomForm = Form.create()(props => {
           </FormItem>
         </Col>
       </Row>
-      <BooksTable data={data}/>
+      <BooksTable data={data} />
       <Row />
     </div>
   )
@@ -133,6 +133,6 @@ const ModalForm = props => {
 }
 
 ModalForm.propTypes = {
-  onSubmit: PorpTypes.func,  
+  onSubmit: PorpTypes.func,
 }
 export default ModalForm

@@ -51,6 +51,10 @@ const book = {
   findRankingBooks: '/ranking/books.json', // id=xxxx
 }
 
+const common = {
+  getOssToken: '/common/ossToken.json',
+}
+
 const openApi = {
   daoshi: '/open/v1/daoshi',
   pubu: '/open/v1/pubu',
@@ -71,4 +75,5 @@ module.exports = {
   user,
   book,
   openApi,
+  common,
 }

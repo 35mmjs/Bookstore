@@ -65,25 +65,29 @@ export default function GlobalHeader(props) {
       style={{ background: '#fff', padding: 0 }}
     >
       <div>
-        { window.appData.loginUser.isAdmin ?
-          <span>
-            <span>所在企业：</span>
-            <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={enterprise === null ? undefined : enterprise} onChange={changeEnterprise}>
-              {enterprises.map(item => (
-                <Option key={item.id} value={item.id}>{item.name}</Option>
-              ))}
-            </Select>
-          </span> : null
+        { window.appData.loginUser.isAdmin
+          ? (
+            <span>
+              <span>所在企业：</span>
+              <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={enterprise === null ? undefined : enterprise} onChange={changeEnterprise}>
+                {enterprises.map(item => (
+                  <Option key={item.id} value={item.id}>{item.name}</Option>
+                ))}
+              </Select>
+            </span>
+          ) : null
         }
-        { window.appData.loginUser.enterprise ?
-          <span>
-            <span>所在门店：</span>
-            <Select style={{ width: 200, marginRight: 8 }} placeholder="切换门店" value={currentStore === null ? undefined : currentStore} onChange={changeStore}>
-              {storeList.map(item => (
-                <Option key={item.id} value={item.id}>{item.name}</Option>
-              ))}
-            </Select>
-          </span> : null
+        { window.appData.loginUser.enterprise
+          ? (
+            <span>
+              <span>所在门店：</span>
+              <Select style={{ width: 200, marginRight: 8 }} placeholder="切换门店" value={currentStore === null ? undefined : currentStore} onChange={changeStore}>
+                {storeList.map(item => (
+                  <Option key={item.id} value={item.id}>{item.name}</Option>
+                ))}
+              </Select>
+            </span>
+          ) : null
         }
         {currentUser.name ? (
           <Dropdown overlay={menu}>
