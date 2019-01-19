@@ -38,6 +38,11 @@ export default class Book extends React.Component {
 
   render() {
     const { book, className } = this.props
+    let bookShelf = ''
+
+    if (book.stockList && book.stockList.length) {
+      bookShelf = book.stockList[0].jwh
+    }
 
     return (
       <div className={className}>
@@ -84,7 +89,9 @@ export default class Book extends React.Component {
           <div className="book_detail_info_meta">
             <p>
               <span>isbn：{book.isbn}</span>
-              <span>书架号：{book.bookShelf}</span>
+              {bookShelf &&
+                <span>书架号：{bookShelf}</span>
+              }
             </p>
             <p>
               <span>开本：{book.pageType}</span>
