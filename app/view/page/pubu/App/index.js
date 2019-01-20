@@ -59,6 +59,12 @@ class App extends React.Component {
   getData = () => {
     const loading = message.loading('正在获取数据...', 0)
     getPubuData().then(res => {
+      if (!res.data.success) {
+        loading()
+        console.log('==>', res)
+        message.error((res.data && res.data.error) || '获取数据失败')
+        return
+      }
       const data = res.data.data.map(channel => {
         const layers = channel.books.reduce((acc, book, index) => {
           if (index % 2 === 0) {
@@ -94,7 +100,8 @@ class App extends React.Component {
         this.autoplay()
       })
     }).catch(err => {
-      message.success('获取数据失败')
+      loading()
+      message.error('获取数据失败')
       console.error(err)
     })
   }

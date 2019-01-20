@@ -42,6 +42,10 @@ class BookDetail extends React.Component {
     getBook({ spbs })
       .then(res => {
         const { data } = res
+        if (!data.success) {
+          message.error(data.error || '获取详情失败')
+          return
+        }
         console.log(data)
         message.success('获取详情成功')
         if (data.data.spbs === this.state.book.spbs) {
@@ -111,6 +115,13 @@ class BookDetail extends React.Component {
       variableWidth: true,
     }
 
+    let bookShelf = ''
+
+    if (book.stockList && book.stockList.length) {
+      bookShelf = book.stockList[0].jwh
+    }
+
+
     return (
       <div className="book_detail">
         <div className="book_detail_content">
@@ -163,7 +174,9 @@ class BookDetail extends React.Component {
                 </p>
                 <p>
                   <span>开 本：{book.pageType}</span>
-                  <span>书架号：{book.bookshelf}</span>
+                  {bookShelf &&
+                    <span>书架号：{book.bookshelf}</span>
+                  }
                 </p>
                 <p>
                   <span>页 数：{book.pageNum}</span> 
