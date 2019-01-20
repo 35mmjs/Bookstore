@@ -1,5 +1,5 @@
 const { Controller } = require('egg')
-const { ossInit } = require('../common/aliyun-oss')
+const { getOssStsToken } = require('../common/aliyun-oss')
 
 class CommonController extends Controller {
   async index() {
@@ -9,7 +9,7 @@ class CommonController extends Controller {
   }
 
   async getOssToken() {
-    const token = await ossInit()
+    const token = await getOssStsToken()
     this.ctx.body = {
       success: true,
       data: token,
