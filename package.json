@@ -1,6 +1,6 @@
 {
   "name": "Bookstore",
-  "version": "1.0.59",
+  "version": "1.0.60",
   "description": "",
   "private": true,
   "dependencies": {
@@ -101,7 +101,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix --ext .js,.jsx .",
     "ci": "npm run lint && npm run cov",
-    "build": "rm -rf ./dist ./node_modules && npm i --production && ./plugin/egg-webpack/bin/egg-webpack-build",
+    "build": "rm -rf ./dist ./node_modules && npm i --production && ./plugin/egg-webpack/bin/egg-webpack-build && ./bin/uploadAssetsToCDN",
     "autod": "autod",
     "deploy-prod": "./deploy.final.sh -e prod -v $npm_package_version",
     "deploy-dev": "./deploy.dev.sh -e dev -v $npm_package_version",

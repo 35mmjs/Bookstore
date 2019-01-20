@@ -1,3 +1,4 @@
+const path = require('path')
 const OSS = require('ali-oss')
 
 const { STS } = OSS
@@ -66,25 +67,26 @@ function getOssStsToken() {
  * 所以没有RoleAn这个参数
  * 文档上传方式参考 https://help.aliyun.com/document_detail/32072.html?spm=a2c4g.11186623.4.1.4aea10d5H0yBQh
  */
-async function uploadBundle() {
-  const client = new OSS({
-    region: ossConfig.Region,
-    accessKeyId: ossConfig.AccessKeyId,
-    accessKeySecret: ossConfig.AccessKeySecret,
-    bucket: ossConfig.Bucket,
-  })
-  // example object表示上传到OSS的Object名称，localfile表示本地文件或者文件路径
-  client.put('bizHelper', './bizHelper.js').then((r1) => {
-    console.log('put success: %j', r1)
-    return client.get('object')
-  }).then((r2) => {
-    console.log('get success: %j', r2)
-  }).catch((err) => {
-    console.error('error', err)
+function uploadBundle(filePath, filename) {
+  return new Promise((res, rej) => {
+    const client = new OSS({
+      region: ossConfig.Region,
+      accessKeyId: ossConfig.AccessKeyId,
+      accessKeySecret: ossConfig.AccessKeySecret,
+      bucket: ossConfig.Bucket,
+    })
+    // example object表示上传到OSS的Object名称，localfile表示本地文件或者文件路径
+    client.put(filename || path.basename(filePath), filePath).then((r1) => {
+      if (r1.res.status === 200) {
+        res(r1.url)
+      } else {
+        rej(r1.res.statusMessage)
+      }
+    }).catch((err) => {
+      rej(err)
+    })
   })
 }
-
-uploadBundle()
 
 module.exports = {
   getOssStsToken,

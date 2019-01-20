@@ -82,5 +82,10 @@ module.exports = appInfo => {
     appSecret: '80c4625784e91ff9c9d30d6401e06081',
     appId: '7653878',
   }
+
+  config.webpack = {
+    staticUrl: 'http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/assets', // 阿里云CDN服务器
+    startWebpackServer: false, // 是否开启webpack静态服务器
+  }
   return config
 }

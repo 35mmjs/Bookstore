@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const path = require('path')
+const fs = require('fs')
+const tag = require('../package.json').version
+const { uploadBundle } = require('../app/common/aliyun-oss')
+
+const distPath = path.join(process.cwd(), './dist')
+
+function main() {
+  fs.readdir(distPath, (err, files) => {
+    if (err) throw err
+    files.forEach(async file => {
+      const filePath = path.join(distPath, file)
+      const url = await uploadBundle(filePath, file === 'map.json' ? `map-${tag}.json` : `assets/${file}`)
+      console.log(`Upload to aliyun CDN success: ${url}`)
+    })
+  })
+}
+
+main()
