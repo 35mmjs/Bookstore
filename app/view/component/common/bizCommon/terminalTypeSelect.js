@@ -13,10 +13,9 @@ const findAll = () => {
     })
       .then(res => {
         let processedRes = []
-        processedRes =
-          res &&
-          res.items &&
-          res.items.map(item => ({
+        processedRes = res
+          && res.items
+          && res.items.map(item => ({
             label: item.name,
             value: item.id,
           }))
@@ -45,8 +44,8 @@ class TerminalTypeSelect extends React.PureComponent {
     const { list } = this.state
     return (
       <Select style={{ width: '100px' }} {...rest} onChange={onChange}>
-        {list &&
-          list.map(item => {
+        {list
+          && list.map(item => {
             return (
               <Option key={item.value} value={item.value}>
                 {item.label}

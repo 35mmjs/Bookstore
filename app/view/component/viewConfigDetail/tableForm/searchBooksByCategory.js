@@ -53,7 +53,7 @@ const CustomForm = Form.create()(props => {
       setRankingList(res)
     })
   }
-  init() 
+  init()
 
   return (
     <div>
@@ -73,8 +73,8 @@ const CustomForm = Form.create()(props => {
                 style={{ width: '200px' }}
                 // onChange={handleSelectChange}
               >
-                {rankingList &&
-                  rankingList.map(item => {
+                {rankingList
+                  && rankingList.map(item => {
                     return (
                       <Option key={item.value} value={item.value}>
                         {item.label}

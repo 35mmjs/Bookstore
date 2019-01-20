@@ -106,8 +106,8 @@ export default class SearchingForm extends React.Component {
         </Row>
         <div>
           <DescriptionList col={1} title="返回结果">
-            {this.state.data &&
-              Object.keys(this.state.data).map(key => {
+            {this.state.data
+              && Object.keys(this.state.data).map(key => {
                 const obj = this.state.data
                 return (
                   <Description key={key} term={key}>

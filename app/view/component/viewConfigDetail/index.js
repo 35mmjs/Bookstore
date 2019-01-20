@@ -35,7 +35,7 @@ const DetailView = ({ data = {} }) => {
         <Description term="终端名">{note}</Description>
         <Description term="类型">{type}</Description>
         <Description term="配置">
-          <ReactJson src={content}/>
+          <ReactJson src={content} />
         </Description>
         <Description term="创建时间">{created_at}</Description>
       </DescriptionList>

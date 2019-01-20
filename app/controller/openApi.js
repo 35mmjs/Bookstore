@@ -72,7 +72,7 @@ class OpenApiController extends Controller {
     if (!item) {
       this.ctx.body = {
         success: false,
-        error: `无法找到对应设备终端`,
+        error: '无法找到对应设备终端',
       }
       return
     }
@@ -100,7 +100,7 @@ class OpenApiController extends Controller {
     if (!item) {
       this.ctx.body = {
         success: false,
-        error: `无法找到对应设备终端`,
+        error: '无法找到对应设备终端',
       }
       return
     }
@@ -238,7 +238,7 @@ class OpenApiController extends Controller {
     if (!item) {
       this.ctx.body = {
         success: false,
-        error: `无法找到对应设备终端`,
+        error: '无法找到对应设备终端',
       }
       return
     }

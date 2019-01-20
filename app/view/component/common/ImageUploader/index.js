@@ -75,7 +75,7 @@ export default class Index extends React.Component {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
         data={{ token: TOKEN }}
-    >
+      >
         {imageUrl ? <img src={imageUrl} alt="avatar" className={styles.previewImg} /> : uploadButton}
       </Upload>
     )

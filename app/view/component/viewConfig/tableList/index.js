@@ -71,6 +71,6 @@ export default class Index extends React.Component {
   }
 
   render() {
-    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} rowKey="id"/>
+    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} rowKey="id" />
   }
 }

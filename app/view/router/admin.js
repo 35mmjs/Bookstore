@@ -54,7 +54,6 @@ if (window.appData.loginUser && window.appData.loginUser.isAdmin) {
       children: null,
     },
   )
-
 }
 
 const app = dva()

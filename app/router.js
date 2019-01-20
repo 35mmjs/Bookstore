@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user,
+  terminalType, user, common,
 } = require('./api/index')
 
 /**
@@ -58,6 +58,7 @@ module.exports = app => {
   router.get(book.findOneByISBNs, controller.book.getBookByISBNs)
   router.get(book.findRankingListBySingleStore, controller.book.findRankingListBySingleStore)
   router.get(book.findRankingBooks, controller.book.findRankingBooks)
+  router.get(common.getOssToken, controller.common.getOssToken)
   // open api
   router.get(openApi.daoshi, controller.openApi.getDaoshi)
   router.get(openApi.pubu, controller.openApi.getPubu)
