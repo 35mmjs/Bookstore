@@ -174,9 +174,7 @@ class BookDetail extends React.Component {
                 </p>
                 <p>
                   <span>开 本：{book.pageType}</span>
-                  {bookShelf &&
-                    <span>书架号：{book.bookshelf}</span>
-                  }
+                  <span>书架号：{bookShelf || '未上架'}</span>
                 </p>
                 <p>
                   <span>页 数：{book.pageNum}</span> 
