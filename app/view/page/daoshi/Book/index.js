@@ -89,7 +89,7 @@ export default class Book extends React.Component {
           <div className="book_detail_info_meta">
             <p>
               <span>isbn：{book.isbn}</span>
-              <span>书架号：{bookShelf || '未上架'}</span>
+              <span>书架号：{bookShelf || '详询服务台预定'}</span>
             </p>
             <p>
               <span>开本：{book.pageType}</span>
