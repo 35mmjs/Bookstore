@@ -8,12 +8,25 @@ import useAsyncState from '../../../hook/useAsyncState'
 import { findTerminalType } from '../../../common/service'
 
 const Search = Input.Search
-const { Option } = Select
 const FormItem = Form.Item
 const confirm = Modal.confirm
 
 const { Description } = DescriptionList
 
+const TYPE_MAP = [
+  {
+    label: 'pubu',
+    value: 1,
+  },
+  {
+    label: 'zhantai',
+    value: 2,
+  },
+  {
+    label: 'daoshi',
+    value: 3,
+  },
+]
 const ViewForm = props => {
   const { modalVisible, data, handleModalVisible } = props
   const { name, type, store, created_at, updated_at, note, view_config } = data
@@ -152,7 +165,6 @@ const ConfigForm = Form.create()(props => {
       title: '操作',
       key: 'action',
       render: (text, record) => {
-        console.log('aaaaaaaa', data, record)
         return (
           <span>
             {data.view_config && data.view_config === record.id ? (
@@ -271,6 +283,19 @@ const Comp = props => {
       title: '区域备注',
       key: 'note',
       dataIndex: 'note',
+    },
+    {
+      title: '生成地址',
+      key: 'created_url',
+      dataIndex: 'created_url',
+      render: (text, record) => {
+        console.log('aaaaaaaa', record, terminalTypeList)
+        const type = TYPE_MAP.find(item => item.value === record.type).label || ''
+        const url = `http://${window.location.host}/page/${type}?orgId=${record.store}&clientId=${record.id}`
+        return (
+          <div>{record.view_config ? <a href={url} target="_blank" rel="noopener noreferrer">{url}</a> : '未配置视图'}</div>
+        )
+      },
     },
     {
       title: '录入时间',

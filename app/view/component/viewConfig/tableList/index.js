@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import moment from 'moment'
 import { Table, Divider, Button } from 'antd'
 import { Link } from 'dva/router'
 
@@ -41,11 +42,13 @@ export default class Index extends React.Component {
         title: '录入时间',
         key: 'created_at',
         dataIndex: 'created_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '更新时间',
         key: 'updated_at',
         dataIndex: 'updated_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '操作',

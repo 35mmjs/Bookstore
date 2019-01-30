@@ -10,6 +10,10 @@ module.exports = () => {
       enable: false,
     },
   }
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
+  }
   // redis
   config.redis = {
     client: {
