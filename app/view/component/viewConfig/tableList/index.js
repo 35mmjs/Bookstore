@@ -18,11 +18,11 @@ export default class Index extends React.Component {
           )
         },
       },
-      {
-        title: '名称',
-        dataIndex: 'name',
-        key: 'name',
-      },
+      // {
+      //   title: '名称',
+      //   dataIndex: 'name',
+      //   key: 'name',
+      // },
       {
         title: '备注',
         dataIndex: 'note',
@@ -30,14 +30,9 @@ export default class Index extends React.Component {
       },
       {
         title: '视图类型',
-        dataIndex: 'type',
-        key: 'type',
+        dataIndex: 'view_configs_type',
+        key: 'view_configs_type',
       },
-      // {
-      //   title: '录入人',
-      //   key: 'recorder',
-      //   dataIndex: 'recorder',
-      // },
       {
         title: '录入时间',
         key: 'created_at',
