@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import moment from 'moment'
 import { Table, Divider, Button } from 'antd'
 import { Link } from 'dva/router'
 
@@ -17,11 +18,11 @@ export default class Index extends React.Component {
           )
         },
       },
-      {
-        title: '名称',
-        dataIndex: 'name',
-        key: 'name',
-      },
+      // {
+      //   title: '名称',
+      //   dataIndex: 'name',
+      //   key: 'name',
+      // },
       {
         title: '备注',
         dataIndex: 'note',
@@ -29,23 +30,20 @@ export default class Index extends React.Component {
       },
       {
         title: '视图类型',
-        dataIndex: 'type',
-        key: 'type',
+        dataIndex: 'view_configs_type',
+        key: 'view_configs_type',
       },
-      // {
-      //   title: '录入人',
-      //   key: 'recorder',
-      //   dataIndex: 'recorder',
-      // },
       {
         title: '录入时间',
         key: 'created_at',
         dataIndex: 'created_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '更新时间',
         key: 'updated_at',
         dataIndex: 'updated_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '操作',

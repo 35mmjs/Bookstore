@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
+import moment from 'moment'
 import ReactJson from 'react-json-view'
 import { connect } from 'dva'
 
@@ -27,7 +28,7 @@ const DetailView = ({ data = {} }) => {
     <div>
       <DescriptionList
         size="large"
-        title="退款申请"
+        title="内容详情"
         style={{ marginBottom: 32 }}
         layout="vertical"
         col={1}
@@ -37,7 +38,9 @@ const DetailView = ({ data = {} }) => {
         <Description term="配置">
           <ReactJson src={content} />
         </Description>
-        <Description term="创建时间">{created_at}</Description>
+        <Description term="创建时间">
+          {moment(created_at).format('YYYY-MM-DD HH:mm:ss')}
+        </Description>
       </DescriptionList>
       <Divider style={{ marginBottom: 32 }} />
     </div>

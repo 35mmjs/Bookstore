@@ -43,8 +43,9 @@ export default {
           type: 'createReducer',
           payload: data,
         })
-        message.success('创建成功')
-        window.location.reload()
+        message.success('创建成功', 3, () => {
+          window.location.reload()
+        })
       } catch (e) {
         message.fail('创建失败')
       }

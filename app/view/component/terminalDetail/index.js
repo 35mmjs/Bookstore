@@ -17,7 +17,7 @@ const DetailView = ({ data = {} }) => {
     <div>
       <DescriptionList
         size="large"
-        title="退款申请"
+        title="内容详情"
         style={{ marginBottom: 32 }}
         layout="vertical"
         col={3}
@@ -107,7 +107,6 @@ export default class Index extends React.Component {
 
   componentDidMount() {
     findOne({ id: this.state.id }).then(res => {
-      console.log('aaaaaaaa', res)
       this.setState({
         data: res,
       })

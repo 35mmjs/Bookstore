@@ -1,19 +1,33 @@
 import React, { Fragment, useState } from 'react'
 import moment from 'moment'
 import { Link } from 'dva/router'
-import { Button, Divider, Table, Form, Input, Modal, Select } from 'antd'
+import { Button, Divider, Table, Form, Input, Modal, message } from 'antd'
 import DescriptionList from '../../common/DescriptionList'
 import { SUBMIT_FORM_LAYOUT, FORM_ITEM_LAYOUT } from '../../../common/constant'
 import useAsyncState from '../../../hook/useAsyncState'
 import { findTerminalType } from '../../../common/service'
+import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
 
 const Search = Input.Search
-const { Option } = Select
 const FormItem = Form.Item
 const confirm = Modal.confirm
 
 const { Description } = DescriptionList
 
+const TYPE_MAP = [
+  {
+    label: 'pubu',
+    value: 1,
+  },
+  {
+    label: 'zhantai',
+    value: 2,
+  },
+  {
+    label: 'daoshi',
+    value: 3,
+  },
+]
 const ViewForm = props => {
   const { modalVisible, data, handleModalVisible } = props
   const { name, type, store, created_at, updated_at, note, view_config } = data
@@ -50,7 +64,7 @@ const EditForm = Form.create()(props => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
       form.resetFields()
-      onSubmit({ ...data, ...fieldsValue })
+      onSubmit({ id: data.id, ...fieldsValue })
       handleModalVisible()
     })
   }
@@ -90,7 +104,7 @@ const EditForm = Form.create()(props => {
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择视图类型！' }],
           initialValue: data.type,
-        })(<terminalTypeListSelect />)}
+        })(<TerminalTypeSelect />)}
       </FormItem>
     </Modal>
   )
@@ -118,8 +132,8 @@ const ConfigForm = Form.create()(props => {
   const onBindingTerminal = configItem => {
     const { id: configId } = configItem
     const { id: terminalId } = data
-    console.log('aaaaaaaa', configId, terminalId)
     if (configId && terminalId) {
+      message.success('绑定成功', 1)
       onSubmit({ id: terminalId, view_config: configId })
       handleModalVisible()
     }
@@ -138,21 +152,13 @@ const ConfigForm = Form.create()(props => {
     },
     {
       title: '配置类型',
-      dataIndex: 'type',
-      key: 'type',
-      render: text => (
-        <span>
-          {text}
-          {/* {VIEW_CONFIG_TYPE_MAP.find(item => item.value === text).label ||
-            '暂无'} */}
-        </span>
-      ),
+      dataIndex: 'view_configs_type',
+      key: 'view_configs_type',
     },
     {
       title: '操作',
       key: 'action',
       render: (text, record) => {
-        console.log('aaaaaaaa', data, record)
         return (
           <span>
             {data.view_config && data.view_config === record.id ? (
@@ -271,6 +277,18 @@ const Comp = props => {
       title: '区域备注',
       key: 'note',
       dataIndex: 'note',
+    },
+    {
+      title: '生成地址',
+      key: 'created_url',
+      dataIndex: 'created_url',
+      render: (text, record) => {
+        const type = TYPE_MAP.find(item => item.value === record.type).label || ''
+        const url = `http://${window.location.host}/page/${type}?orgId=${record.store}&clientId=${record.id}`
+        return (
+          <div>{record.view_config ? <a href={url} target="_blank" rel="noopener noreferrer">{url}</a> : '未配置视图'}</div>
+        )
+      },
     },
     {
       title: '录入时间',

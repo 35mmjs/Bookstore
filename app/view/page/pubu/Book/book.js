@@ -174,7 +174,7 @@ class BookDetail extends React.Component {
                 </p>
                 <p>
                   <span>开 本：{book.pageType}</span>
-                  <span>书架号：{bookShelf || '未上架'}</span>
+                  <span>书架号：{bookShelf || '详询服务台预定'}</span>
                 </p>
                 <p>
                   <span>页 数：{book.pageNum}</span> 
@@ -225,7 +225,7 @@ class BookDetail extends React.Component {
               }
               { loading &&
                 <div className="book_detail_recommand_loading">
-                  <img src="http://pl7xwypp4.bkt.clouddn.com/loading10.gif" />
+                  <img src="https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/loading10.gif" />
                 </div>
               }
             </div>

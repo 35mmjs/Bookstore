@@ -20,7 +20,10 @@ module.exports = () => {
     },
     app: true,
   }
-
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
+  }
   // 目前针对open api不做登录校验
   config.loginCheck = {
     ignore: '/open',
