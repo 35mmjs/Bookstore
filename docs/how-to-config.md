@@ -8,7 +8,7 @@
 
 2. 选择`类型`, 配置视图
 
-![img](http://pl7xwypp4.bkt.clouddn.com/config-new.png)
+![img](https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/config-new.png)
 
 3. 视图配置完毕后, 进入 http://47.96.181.54/admin.html#/terminal/manage
 
@@ -17,7 +17,7 @@
 
     3.2 绑定终端视图
 
-![img-2](http://pl7xwypp4.bkt.clouddn.com/terminal.png)
+![img-2](https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/terminal.png)
 
 4.  绑定完毕后, 得到对应终端 id, 可以分别获取如下数据
    ```

@@ -225,7 +225,7 @@ class BookDetail extends React.Component {
               }
               { loading &&
                 <div className="book_detail_recommand_loading">
-                  <img src="http://pl7xwypp4.bkt.clouddn.com/loading10.gif" />
+                  <img src="https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/loading10.gif" />
                 </div>
               }
             </div>
