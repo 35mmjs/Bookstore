@@ -78,6 +78,7 @@ class UserController extends Controller {
       isAdmin: !!user.is_admin,
       username: user.username,
       enterprise: user.enterprise,
+      store: user.store,
     }
     // 如果用户勾选了 `记住我`，设置 7 天的过期时间
     if (rememberMe) ctx.session.maxAge = ms('7d')
@@ -113,9 +114,9 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx
-    const { username, password, enterprise } = ctx.request.body
+    const { username, password, enterprise, store } = ctx.request.body
     ctx.validate('user', { username, password })
-    const result = await ctx.service.users.create(username, password, false, enterprise)
+    const result = await ctx.service.users.create(username, password, false, enterprise, store)
     this.ctx.body = {
       success: true,
       data: result,

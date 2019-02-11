@@ -38,6 +38,7 @@ module.exports = app => {
   router.post(store.create, controller.store.create)
   router.get(store.findAll, controller.store.findAll)
   router.get(store.remove, controller.store.remove)
+  router.get(store.findByEnterprise, controller.store.findByEnterprise)
   router.post(store.update, controller.store.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)

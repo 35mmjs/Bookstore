@@ -22,7 +22,7 @@ import useForm from './useForm'
  *    )
  * }
  */
-export default function useFormModal({ name, schema, handleSubmit }) {
+export default function useFormModal({ name, schema, handleSubmit, onChange }) {
   const { submit, getForm, hasError, reset, setValues } = useForm({
     name,
     schema,
@@ -36,6 +36,7 @@ export default function useFormModal({ name, schema, handleSubmit }) {
       reset()
       modalHide()
     },
+    onChange,
   })
   const { modal, modalShow, modalHide, modalLoading, modalLoaded } = useModal({
     disabled: hasError,

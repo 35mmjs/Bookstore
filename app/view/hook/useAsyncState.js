@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 
-export default function useAsyncState(asyncFn, defaultValue = {}) {
+export default function useAsyncState(asyncFn, defaultValue = {}, loadingInit = true, args) {
   const [data, setData] = useState({ loading: false, result: defaultValue })
-  if (!data.loading) {
+  if (loadingInit && !data.loading) {
     data.loading = true
-    asyncFn().then(result => setData({ loading: true, result }))
+    asyncFn(args).then(result => setData({ loading: true, result }))
   }
   return [
     data.result,
-    function reload() {
-      asyncFn().then(result => setData({ loading: true, result }))
+    function reload(newArgs) {
+      data.loading = true
+      asyncFn(newArgs).then(result => setData({ loading: true, result }))
     },
   ]
 }

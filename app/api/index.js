@@ -18,6 +18,7 @@ const terminal = {
 const store = {
   create: '/store/create.json',
   findAll: '/store/findAll.json',
+  findByEnterprise: '/store/findByEnterprise.json',
   remove: '/store/remove.json',
   update: '/store/update.json',
   findOne: '/store/findOne.json',

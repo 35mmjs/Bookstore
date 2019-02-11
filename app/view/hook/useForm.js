@@ -22,8 +22,7 @@ function errorTranslate(msg, validator) {
  * @param {String} name - app/validates文件下边的对应的名字，如 'user', 内部会自动去做索引
  * @param {Object} schema
  * @param {Function} handleSubmit
- * @param {Object} extend
- * @param {Object} 输入的表单值
+ * @param {Function} onChange
  * validate目前支持的选项:
  * - type 'string'
  * - max
@@ -34,7 +33,7 @@ function errorTranslate(msg, validator) {
  * - default 初始值
  * 更多规则参见： https://github.com/node-modules/parameter
  */
-export default function useForm({ name, handleSubmit, schema = {}, values = {} }) {
+export default function useForm({ name, handleSubmit, schema = {}, values = {}, onChange }) {
   if (name && !validates[name]) throw new Error(`Unknown validate key ${name}`)
   const validators = { ...validates[name], ...schema }
   let hasError = false
@@ -73,13 +72,16 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
       help: error || '',
       value,
       onChange(e) {
+        let val = e
         if (e && e.target && typeof e.stopPropagation === 'function') {
           if (e.target.type === 'checkbox') {
-            return onStateChange({ checked: true, inputValue: e.target.checked })
+            val = e.target.checked
+          } else {
+            val = e.target.value
           }
-          return onStateChange({ checked: true, inputValue: e.target.value })
         }
-        return onStateChange({ checked: true, inputValue: e })
+        onStateChange({ checked: true, inputValue: val })
+        if (onChange) onChange({ value: val, key, setValues: api.setValues })
       },
       onStateChange,
       stateValue,

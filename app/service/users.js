@@ -8,9 +8,7 @@ class UserService extends Service {
   }
 
   async findAll() {
-    const items = await this.app.mysql.select('users', {
-      where: { deleted: 0 },
-    })
+    const items = await this.app.mysql.query(`select users.*, stores.name as store_name from \`users\` left join \`stores\` on users.store = stores.id where users.deleted = 0`)
     return items.map(item => omit(item, ['password', 'salt']))
   }
 
@@ -25,10 +23,10 @@ class UserService extends Service {
     return { error: '密码错误' }
   }
 
-  async create(username, password, isAdmin, enterprise) {
+  async create(username, password, isAdmin, enterprise, store) {
     const { password: encryptedPwd, salt } = this.ctx.helper.encrypt(password)
     const result = await this.app.mysql.insert('users', {
-      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt, enterprise,
+      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt, enterprise, store
     })
     return result.affectedRows === 1
   }

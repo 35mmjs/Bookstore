@@ -10,18 +10,27 @@ import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
 import { create, update, remove, findAll } from './service'
 import { findAll as findEnterpriseList } from '../enterprise/service'
+import { findByEnterprise as findStoreList } from '../store/service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
 export default function User() {
   const [dataSource, reload] = useAsyncState(findAll, [])
   const [enterprises] = useAsyncState(findEnterpriseList, [])
+  const [stores, reloadStores] = useAsyncState(findStoreList, [], false)
   const { modal, modalShow } = useFormModal({
     name: 'user',
     schema: {
       enterprise: { type: 'enum', label: '所属企业', required: true, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      store: { type: 'enum', label: '所属门店', required: true, options: stores.map(item => ({ value: item.id, label: item.name })) },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
+    onChange: ({ key, value, setValues }) => {
+      if (key === 'enterprise') {
+        setValues({ store: undefined })
+        reloadStores({ enterprise: value })
+      }
+    },
   })
   const columns = [
     {
@@ -32,6 +41,11 @@ export default function User() {
       title: '所属企业',
       dataIndex: 'enterprise',
       render: (val) => <span>{(enterprises.find(item => item.id === val) || {}).name || '无'}</span>,
+    },
+    {
+      title: '所属门店',
+      dataIndex: 'store_name',
+      render: (val) => <span>{val || '无'}</span>,
     },
     {
       title: '是否为管理员',
@@ -56,7 +70,7 @@ export default function User() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => modalShow('新增企业用户')}>新增企业用户</Button>
+        <Button type="primary" onClick={() => modalShow('新增门店账号')}>新增门店账号</Button>
       </Button.Group>
       <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}
