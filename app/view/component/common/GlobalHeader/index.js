@@ -77,7 +77,7 @@ export default function GlobalHeader(props) {
             </span>
           ) : null
         }
-        { window.appData.loginUser.enterprise
+        { window.appData.loginUser.isAdmin
           ? (
             <span>
               <span>所在门店：</span>
