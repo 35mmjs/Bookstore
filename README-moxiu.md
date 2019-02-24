@@ -187,3 +187,18 @@ https://github.com/ali-sdk/ali-rds
 // 提交代码后, 更改版本号
 npm run tag
 npm run deploy
+
+## 相关链接
+CDN 七牛云存储
+https://www.qiniu.com/
+服务器阿里云 ECS
+
+Node.js 性能平台
+https://node.console.aliyun.com/#!/owned
+
+持续集成
+https://circleci.com/pricing/
+https://travis-ci.org/
+
+
+

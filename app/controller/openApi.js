@@ -248,6 +248,50 @@ class OpenApiController extends Controller {
       data: result,
     }
   }
+
+  /**
+   * 获取排行的类目
+   */
+  async findPaihangCatalog() {
+    this.ctx.body = {
+      success: true,
+      data: [
+        {
+          name: '人文',
+          id: '123',
+        },
+      ],
+    }
+  }
+
+  /**
+   * 更新排行的当前选中分类
+   */
+  async updatePaihang() {
+    const query = this.ctx.query
+    const { orgId, clientId, channelId, catalogId } = query
+    this.ctx.body = {
+      success: true,
+      data: {
+        value: '',
+      },
+    }
+  }
+
+  /**
+   * 获取选中的排行分类的书本详情, 轮询接口
+   */
+  async findPaihangPadDetail() {
+    const query = this.ctx.query
+    const { orgId, clientId, channelId, rankId } = query
+    const res = await this.ctx.service.bookAPI.getRankingList()
+    this.ctx.body = {
+      success: true,
+      data: {
+        value: '',
+      },
+    }
+  }
 }
 
 module.exports = OpenApiController
