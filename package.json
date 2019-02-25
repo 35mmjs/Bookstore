@@ -95,7 +95,7 @@
     "_egg-start": "egg-scripts stop && egg-scripts start --env=prod --daemon --title=egg-server-showcase",
     "_egg-start_dev": "egg-scripts stop && egg-scripts start --env=dev --daemon --title=egg-server-showcase",
     "debug": "egg-bin debug",
-    "test": "egg-bin test",
+    "test": "MYSQL_PASSWORD=root12345 egg-bin test",
     "test-watch": "egg-bin test --watch",
     "cov": "egg-bin cov",
     "lint": "eslint .",

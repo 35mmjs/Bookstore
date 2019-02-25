@@ -1,3 +1,5 @@
+
+## API
 ## 服务器相关
 服务器
 `47.96.75.202`
@@ -132,6 +134,74 @@ Response: []
 
 // mock
 
+```
+
+### 排行榜相关(0224新增)
+#### 设计图
+
+只需要知道row和colum2个参数就可以定位某个具体的pad
+进入页面之前, 会有入口页面提供下拉选择入参,比如orgId, clientId 之类
+前端需要接口的入参写死在本地存储
+![design](https://gw.alipayobjects.com/mdn/iot_box_me/afts/img/A*LHEIR4TRNSIAAAAAAAAAAABjARQnAQ)
+#### 获取排行分类
+
+GET `/open/v1/paihang/catalog`
+
+参数
+  - orgId 门店 id
+  - clientId 客户端 id
+  - channelId 排行榜会有 2 栏，因此需要频道 id
+  
+返回结果
+```
+[
+  {
+    name: "人文科学",
+    id: "1231313",
+  },
+  {
+    ...
+  }
+]
+```
+#### 更新当前频道的分类 id
+GET `/open/v1/paihang/update`
+
+参数
+  - orgId
+  - clientId
+  - channelId 排行榜id
+  - catalogId 对应的分类 id
+
+返回结果
+```
+{
+  success: true,
+  data: '',
+}
+```
+
+#### 获取选中的排行分类的书本详情, 轮询接口
+描述
+  每个pad的位置固定, 即对应了排行的rank, 每次轮询后台接口(暂定轮询每3个一次), 返回什么显示什么
+
+
+GET `/open/v1/paihang/pad/detail`
+
+参数
+  - orgId
+  - clientId
+  - channelId 排行榜id
+  - rankId 排行序列 e.g. 1,2,3,4 目前固定
+
+返回结果
+```
+{
+  success: true,
+  data: {
+    bookInfo..  .
+  }
+}
 ```
 
 ### 搜索图书(关键词)
