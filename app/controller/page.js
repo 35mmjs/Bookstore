@@ -43,6 +43,22 @@ class PageController extends Controller {
       mainfest: '/public/daoshi/manifest.json',
     })
   }
+
+  async paihangPage() {
+    const { ctx } = this
+    const { channelId, orgId, clientId, padId } = ctx.query
+
+    await ctx.render('layout/pwa.html', {
+      entry: 'paihang',
+      appData: {
+        padId,
+        channelId,
+        clientId,
+        orgId,
+      },
+      mainfest: '/public/paihang/manifest.json',
+    })
+  }
 }
 
 module.exports = PageController
