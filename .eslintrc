@@ -8,6 +8,9 @@
     "jest": true,
     "es6": true
   },
+  "globals": {
+    "OSS": true
+  },
   "rules": {
     "semi": [2, "never"],
     "strict": 0,

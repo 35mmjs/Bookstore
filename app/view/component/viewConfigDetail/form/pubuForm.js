@@ -19,7 +19,9 @@ const SinglePubuForm = props => {
       return
     }
     const form = {
-      banner: image,
+      banner: {
+        url: image,
+      },
       books: tableForm,
       channel,
     }

@@ -5,7 +5,7 @@ import { Upload, Modal } from 'antd'
 import { getOssToken } from '../../../common/service'
 import './index.less'
 
-const OSS = require('ali-oss')
+// const OSS = require('ali-oss')
 
 const uploadPath = (path, file) => {
   const resPath = path ? `${path}/${file.name.split(".")[0]}-${file.uid}.${file.type.split("/")[1]}` : `/${file.name.split(".")[0]}-${file.uid}.${file.type.split("/")[1]}`

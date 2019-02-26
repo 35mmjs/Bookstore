@@ -137,8 +137,14 @@ Response: []
 ```
 
 ### 排行榜相关(0224新增)
+#### 设计图
 
+只需要知道row和colum2个参数就可以定位某个具体的pad
+进入页面之前, 会有入口页面提供下拉选择入参,比如orgId, clientId 之类
+前端需要接口的入参写死在本地存储
+![design](https://gw.alipayobjects.com/mdn/iot_box_me/afts/img/A*LHEIR4TRNSIAAAAAAAAAAABjARQnAQ)
 #### 获取排行分类
+
 GET `/open/v1/paihang/catalog`
 
 参数
