@@ -14,6 +14,8 @@ module.exports = app => {
   router.get('/page/pubu', controller.page.pubuPage)
   router.get('/page/zhantai', controller.page.zhantaiPage)
   router.get('/page/daoshi', controller.page.daoshiPage)
+  router.get('/page/paihang', controller.page.paihangPage)
+  router.get('/page/paihangpad', controller.page.paihangpadPage)
   // html pages
   router.get('/', controller.admin.index)
   router.get('/admin.html', controller.admin.index)

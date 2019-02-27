@@ -59,6 +59,22 @@ class PageController extends Controller {
       mainfest: '/public/paihang/manifest.json',
     })
   }
+
+  async paihangpadPage() {
+    const { ctx } = this
+    const { channelId, orgId, clientId, padId } = ctx.query
+
+    await ctx.render('layout/pwa.html', {
+      entry: 'paihangPad',
+      appData: {
+        padId,
+        channelId,
+        clientId,
+        orgId,
+      },
+      mainfest: '/public/paihang/manifest.json',
+    })
+  }
 }
 
 module.exports = PageController
