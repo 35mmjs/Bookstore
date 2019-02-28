@@ -73,36 +73,36 @@ export const getDaoshiData = (data) => {
 
 export const getPaihangCatalog = data => {
   const { orgId, clientId } = window.appData
-  const { channelId } = data
+  const { navId } = data
   return axios.get(`http://${host}/open/v1/paihang/catalog`, {
     params: {
       orgId,
       clientId,
-      channelId,
+      navId,
     },
   })
 }
 
 export const updatePaihangCatalog = data => {
   const { orgId, clientId } = window.appData
-  const { channelId, catalogId } = data
+  const { navId, catalogId } = data
   return axios.get(`http://${host}/open/v1/paihang/update`, {
     params: {
       orgId,
       clientId,
-      channelId,
+      navId,
       catalogId,
     },
   })
 }
 
 export const getPaihangDetail = data => {
-  const { orgId, clientId, channelId, rankId } = window.appData
+  const { orgId, clientId, navId, rankId } = window.appData
   return axios.get(`http://${host}/open/v1/paihang/pad/detail`, {
     params: {
       orgId,
       clientId,
-      channelId,
+      navId,
       rankId,
     },
   })

@@ -46,13 +46,13 @@ class PageController extends Controller {
 
   async paihangPage() {
     const { ctx } = this
-    const { channelId, orgId, clientId, padId } = ctx.query
+    const { navId, orgId, clientId, padId } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'paihang',
       appData: {
         padId,
-        channelId,
+        navId,
         clientId,
         orgId,
       },
@@ -62,13 +62,13 @@ class PageController extends Controller {
 
   async paihangpadPage() {
     const { ctx } = this
-    const { channelId, orgId, clientId, rankId } = ctx.query
+    const { navId, orgId, clientId, rankId } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'paihangPad',
       appData: {
         rankId,
-        channelId,
+        navId,
         clientId,
         orgId,
       },

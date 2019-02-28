@@ -150,7 +150,7 @@ GET `/open/v1/paihang/catalog`
 参数
   - orgId 门店 id
   - clientId 客户端 id
-  - channelId 排行榜会有 2 栏，因此需要频道 id
+  - navId 排行榜会有 2 栏，因此需要频道 id
   
 返回结果
 ```
@@ -170,7 +170,7 @@ GET `/open/v1/paihang/update`
 参数
   - orgId
   - clientId
-  - channelId 排行榜id
+  - navId 排行榜id
   - catalogId 对应的分类 id
 
 返回结果
@@ -191,7 +191,7 @@ GET `/open/v1/paihang/pad/detail`
 参数
   - orgId
   - clientId
-  - channelId 排行榜id
+  - navId 排行榜id
   - rankId 排行序列 e.g. 1,2,3,4 目前固定
 
 返回结果

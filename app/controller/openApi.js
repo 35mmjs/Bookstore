@@ -294,14 +294,14 @@ class OpenApiController extends Controller {
   [
     {
       clientId: '1',
-      channelId: '1',
+      navId: '1',
       current_cat: '2345',
     }
   ]
    */
   async updatePaihang() {
     const query = this.ctx.query
-    const { orgId, clientId, channelId, catalogId } = query
+    const { orgId, clientId, navId, catalogId } = query
     let newPaihangSession
     // 更新session
     if (!this.ctx.session.paihang) {
@@ -310,11 +310,11 @@ class OpenApiController extends Controller {
     const paihangSession = this.ctx.session.paihang
     // 通过设备id确定唯一排行
     const matched = paihangSession.find(item => {
-      return item.clientId === clientId && item.channelId === channelId
+      return item.clientId === clientId && item.navId === navId
     })
     if (matched) {
       newPaihangSession = paihangSession.map(item => {
-        if (item.clientId === clientId && item.channelId === channelId) {
+        if (item.clientId === clientId && item.navId === navId) {
           return {
             ...item,
             catalogId,
@@ -325,7 +325,7 @@ class OpenApiController extends Controller {
     } else {
       paihangSession.push({
         clientId,
-        channelId,
+        navId,
         catalogId,
         orgId,
       })
@@ -352,7 +352,7 @@ class OpenApiController extends Controller {
    */
   async findPaihangPadDetail() {
     const query = this.ctx.query
-    const { orgId, clientId, channelId, rankId } = query
+    const { orgId, clientId, navId, rankId } = query
     const paihangSession = this.ctx.session.paihang
     if (!paihangSession) {
       this.ctx.body = {
@@ -361,10 +361,10 @@ class OpenApiController extends Controller {
       }
       return
     }
-    // 计算 channelId
+    // 计算 navId
     // 通过设备id确定唯一排行
     const matched = paihangSession.find(item => {
-      return item.clientId === clientId && item.channelId === channelId
+      return item.clientId === clientId && item.navId === navId
     })
     if (!matched) {
       this.ctx.body = {

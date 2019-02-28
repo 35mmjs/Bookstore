@@ -18,7 +18,7 @@ class App extends React.Component {
 
   getCatalog = () => {
     getPaihangCatalog({
-      channelId: 1,
+      navId: 1,
     }).then(res => {
       console.log(res)
     }).catch(err => {
@@ -30,7 +30,7 @@ class App extends React.Component {
     const { value } = this.state
     console.log('==> value', value)
     updatePaihangCatalog({
-      channelId: 2,
+      navId: 2,
       catalogId: value,
     }).then(res => {
       console.log('===> res', res)
