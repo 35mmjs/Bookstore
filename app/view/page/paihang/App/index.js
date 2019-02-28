@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangCatalog, updatePaihangCatalog } from '../../util/services'
+import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail } from '../../util/services'
 // import RoundSlider from '../roundSlider'
 import './index.less'
 
@@ -14,6 +14,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCatalog()
+    this.getData()
+  }
+
+  getData = () => {
+    this.timeout = setTimeout(() => {
+      getPaihangDetail().then(res => {
+        console.log('123131', res)
+        this.getData()
+      })
+    }, 3000)
   }
 
   getCatalog = () => {
