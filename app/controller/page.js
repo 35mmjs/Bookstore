@@ -62,12 +62,12 @@ class PageController extends Controller {
 
   async paihangpadPage() {
     const { ctx } = this
-    const { channelId, orgId, clientId, padId } = ctx.query
+    const { channelId, orgId, clientId, rankId } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'paihangPad',
       appData: {
-        padId,
+        rankId,
         channelId,
         clientId,
         orgId,

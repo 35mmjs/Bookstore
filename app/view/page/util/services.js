@@ -85,13 +85,13 @@ export const getPaihangCatalog = data => {
 
 export const updatePaihangCatalog = data => {
   const { orgId, clientId } = window.appData
-  const { channelId, catalog } = data
+  const { channelId, catalogId } = data
   return axios.get(`http://${host}/open/v1/paihang/update`, {
     params: {
       orgId,
       clientId,
       channelId,
-      catalog,
+      catalogId,
     },
   })
 }
