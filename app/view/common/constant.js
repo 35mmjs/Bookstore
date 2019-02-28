@@ -81,12 +81,17 @@ const VIEW_CONFIG_TYPE_MAP = [
     label: '导视',
     value: 3,
   },
+  {
+    label: '排行榜',
+    value: 4,
+  },
 ]
 
 const VIEW_CONFIG_ID = {
   PUBU_ID: 1,
   ZHANTAI_ID: 2,
   DAOSHI_ID: 3,
+  PAIHANG_ID: 4,
 }
 
 export default {
