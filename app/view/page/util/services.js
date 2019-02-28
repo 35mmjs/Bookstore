@@ -4,7 +4,7 @@ const dailyHost = '47.96.75.202'
 const pubHost = '47.96.181.54'
 
 console.log('host: ', window.location.hostname)
-const host = window.location.hostname === pubHost ? pubHost : dailyHost
+const host = window.location.hostname === pubHost ? pubHost : '127.0.0.1:7001'
 
 export const search = (data) => {
   const { orgId, clientId } = window.appData
@@ -67,6 +67,43 @@ export const getDaoshiData = (data) => {
     params: {
       orgId,
       clientId,
+    },
+  })
+}
+
+export const getPaihangCatalog = data => {
+  const { orgId, clientId } = window.appData
+  const { channelId } = data
+  return axios.get(`http://${host}/open/v1/paihang/catalog`, {
+    params: {
+      orgId,
+      clientId,
+      channelId,
+    },
+  })
+}
+
+export const updatePaihangCatalog = data => {
+  const { orgId, clientId } = window.appData
+  const { channelId, catalog } = data
+  return axios.get(`http://${host}/open/v1/paihang/update`, {
+    params: {
+      orgId,
+      clientId,
+      channelId,
+      catalog,
+    },
+  })
+}
+
+export const getPaihangDetail = data => {
+  const { orgId, clientId, channelId, rankId } = window.appData
+  return axios.get(`http://${host}/open/v1/paihang/pad/detail`, {
+    params: {
+      orgId,
+      clientId,
+      channelId,
+      rankId,
     },
   })
 }

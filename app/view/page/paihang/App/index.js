@@ -1,5 +1,6 @@
 import React from 'react'
-import RoundSlider from '../roundSlider'
+import { getPaihangCatalog, updatePaihangCatalog } from '../../util/services'
+// import RoundSlider from '../roundSlider'
 import './index.less'
 
 class App extends React.Component {
@@ -9,17 +10,25 @@ class App extends React.Component {
     this.state = {}
   }
 
+  componentDidMount() {
+    getPaihangCatalog({
+      channelId: 1
+    }).then(res => {
+      console.log(res)
+    })
+  }
+
   render() {
     return (
       <div className="app">
         <div className="wrapper">
           <div className="channel">
-            <RoundSlider
+            {/* <RoundSlider
               value={100}
               rotationOffset={-45}
               arcSize={270}
               allowClick={true}
-            />
+            /> */}
           </div>
         </div>
       </div>
