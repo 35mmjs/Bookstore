@@ -70,6 +70,10 @@ const openApi = {
   findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId
 }
 
+const publicEntry = {
+  entry: '/public/entry.html',
+}
+
 module.exports = {
   store,
   enterprise,
@@ -80,4 +84,5 @@ module.exports = {
   book,
   openApi,
   common,
+  publicEntry,
 }

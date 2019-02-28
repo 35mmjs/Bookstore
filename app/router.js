@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user, common,
+  terminalType, user, common, publicEntry,
 } = require('./api/index')
 
 /**
@@ -75,4 +75,6 @@ module.exports = app => {
   router.get(openApi.findPaihangCatalog, controller.openApi.findPaihangCatalog)
   router.get(openApi.updatePaihang, controller.openApi.updatePaihang)
   router.get(openApi.findPaihangPadDetail, controller.openApi.findPaihangPadDetail)
+  // public entry
+  router.get(publicEntry.entry, controller.publicEntry.index)
 }
