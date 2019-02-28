@@ -27,6 +27,10 @@ const TYPE_MAP = [
     label: 'daoshi',
     value: 3,
   },
+  {
+    label: 'paihang',
+    value: 4,
+  },
 ]
 const ViewForm = props => {
   const { modalVisible, data, handleModalVisible } = props

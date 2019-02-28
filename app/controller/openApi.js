@@ -44,6 +44,8 @@ function bookInfoListProcess(list) {
   })
   return res
 }
+
+
 class OpenApiController extends Controller {
   // post
   async create() {
@@ -253,27 +255,94 @@ class OpenApiController extends Controller {
    * 获取排行的类目
    */
   async findPaihangCatalog() {
+    const res = await this.service.bookAPI.getRankingList()
+    const list = res.map(item => {
+      return {
+        id: item.phid,
+        name: item.phmc,
+      }
+    })
+    if (!list || list.length < 1) {
+      this.ctx.body = {
+        success: true,
+        data: [],
+        msg: '暂无数据',
+      }
+      return
+    }
     this.ctx.body = {
       success: true,
-      data: [
-        {
-          name: '人文',
-          id: '123',
-        },
-      ],
+      data: list,
     }
+  }
+
+  async getPaihangInfo(paihangId) {
+    const oldPaihangInfo = this.ctx.session.paihangSessionInfo || {}
+    if (oldPaihangInfo[paihangId]) {
+      return oldPaihangInfo[paihangId]
+    }
+    const paihangInfo = await this.ctx.service.bookAPI.getRinkingInfoDetail(paihangId)
+    const processedResult = paihangInfo.map(item => bookInfoMap(item))
+    oldPaihangInfo[paihangId] = processedResult
+    this.ctx.session.paihangSessionInfo = oldPaihangInfo
+    return processedResult
   }
 
   /**
    * 更新排行的当前选中分类
+   * 排行帮的数据结构存储在sessio中, 结构如下
+  [
+    {
+      clientId: '1',
+      channelId: '1',
+      current_cat: '2345',
+    }
+  ]
    */
   async updatePaihang() {
     const query = this.ctx.query
     const { orgId, clientId, channelId, catalogId } = query
+    let newPaihangSession
+    // 更新session
+    if (!this.ctx.session.paihang) {
+      this.ctx.session.paihang = []
+    }
+    const paihangSession = this.ctx.session.paihang
+    // 通过设备id确定唯一排行
+    const matched = paihangSession.find(item => {
+      return item.clientId === clientId && item.channelId === channelId
+    })
+    if (matched) {
+      newPaihangSession = paihangSession.map(item => {
+        if (item.clientId === clientId && item.channelId === channelId) {
+          return {
+            ...item,
+            catalogId,
+          }
+        }
+        return item
+      })
+    } else {
+      paihangSession.push({
+        clientId,
+        channelId,
+        catalogId,
+        orgId,
+      })
+      newPaihangSession = paihangSession
+    }
+    this.ctx.session.paihang = newPaihangSession
+    let paihangInfo
+    try {
+      paihangInfo = await this.getPaihangInfo(catalogId)
+    } catch (e) {
+      console.error(e)
+    }
     this.ctx.body = {
       success: true,
       data: {
-        value: '',
+        session: newPaihangSession,
+        value: paihangInfo,
       },
     }
   }
@@ -284,11 +353,38 @@ class OpenApiController extends Controller {
   async findPaihangPadDetail() {
     const query = this.ctx.query
     const { orgId, clientId, channelId, rankId } = query
-    const res = await this.ctx.service.bookAPI.getRankingList()
+    const paihangSession = this.ctx.session.paihang
+    if (!paihangSession) {
+      this.ctx.body = {
+        success: false,
+        msg: '请先选择排行',
+      }
+      return
+    }
+    // 计算 channelId
+    // 通过设备id确定唯一排行
+    const matched = paihangSession.find(item => {
+      return item.clientId === clientId && item.channelId === channelId
+    })
+    if (!matched) {
+      this.ctx.body = {
+        success: false,
+        msg: '请先选择排行',
+      }
+      return
+    }
+    const catalogId = matched.catalogId
+    const paihangSessionInfo = this.ctx.session.paihangSessionInfo
+    const paihangInfo = paihangSessionInfo[catalogId]
+    let payload = {}
+    if (paihangInfo && paihangInfo.length > 0) {
+      payload = paihangInfo[rankId - 1]
+    }
     this.ctx.body = {
       success: true,
       data: {
-        value: '',
+        catalogId,
+        payload,
       },
     }
   }

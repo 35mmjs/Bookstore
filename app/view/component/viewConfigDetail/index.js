@@ -17,6 +17,7 @@ import {
 import TerminalTypeSelect from '../common/bizCommon/terminalTypeSelect'
 import PubuForm from './form/pubuForm'
 import ZhantaiForm from './form/zhantaiForm'
+import PaihangForm from './form/paihangForm'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
@@ -63,6 +64,7 @@ class CreateForm extends React.Component {
     if (val === VIEW_CONFIG_ID.PUBU_ID) this.setState({ type: val })
     if (val === VIEW_CONFIG_ID.ZHANTAI_ID) this.setState({ type: val })
     if (val === VIEW_CONFIG_ID.DAOSHI_ID) this.setState({ type: val })
+    if (val === VIEW_CONFIG_ID.PAIHANG_ID) this.setState({ type: val })
   }
 
   onChildFormSubmit = val => {
@@ -99,6 +101,9 @@ class CreateForm extends React.Component {
       if (this.state.type === VIEW_CONFIG_ID.DAOSHI_ID) {
         return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
       }
+      if (this.state.type === VIEW_CONFIG_ID.PAIHANG_ID) {
+        return <PaihangForm />
+      }
       return null
     }
 
@@ -122,9 +127,6 @@ class CreateForm extends React.Component {
           <Button type="primary" htmlType="submit">
             提交
           </Button>
-          {/* <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
-            重置
-          </Button> */}
         </FormItem>
       </Form>
     )
