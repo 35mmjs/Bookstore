@@ -97,7 +97,7 @@ export const updatePaihangCatalog = data => {
 }
 
 export const getPaihangDetail = data => {
-  const { orgId, clientId, navId, rankId } = window.appData
+  const { orgId, clientId, navId = 2, rankId = 3 } = window.appData
   return axios.get(`http://${host}/open/v1/paihang/pad/detail`, {
     params: {
       orgId,

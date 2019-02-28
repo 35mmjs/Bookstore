@@ -36,6 +36,10 @@ class App extends React.Component {
   }
 
   handleBookEvent = (isbns) => {
+    if (typeof isbns === 'string') {
+      isbns = JSON.parse(isbns)
+    }
+
     const { books } = this.state
     const handBooks = uniqBy(books.filter(book => {
       return isbns.indexOf(book.isbn) >= 0
