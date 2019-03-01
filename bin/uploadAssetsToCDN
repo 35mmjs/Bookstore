@@ -11,8 +11,12 @@ function main() {
     if (err) throw err
     files.forEach(async file => {
       const filePath = path.join(distPath, file)
-      const url = await uploadBundle(filePath, file === 'map.json' ? `map-${tag}.json` : `assets/${file}`)
-      console.log(`Upload to aliyun CDN success: ${url}`)
+      try {
+        const url = await uploadBundle(filePath, file === 'map.json' ? `map-${tag}.json` : `assets/${file}`)
+        console.log(`Upload to aliyun CDN success: ${url}`)
+      } catch (e) {
+        console.error(`Upload to aliyun CDN falied ${e}`)
+      }
     })
   })
 }
