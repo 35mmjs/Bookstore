@@ -14,21 +14,22 @@ class App extends React.Component {
     super(props)
     this.state = {
       book,
-      showDetail: true,
+      showDetail: false,
     }
   }
+
   componentDidMount() {
     this.getData()
   }
 
   getData = () => {
+    const that = this
     this.timeout = setTimeout(() => {
       getPaihangDetail().then(res => {
         console.log(res)
         const { data } = res
         if (data.success) {
-          console.log('setValue')
-          this.setState({
+          that.setState({
             book: data.data,
           })
         }
@@ -39,14 +40,13 @@ class App extends React.Component {
 
   toggleBook = (e) => {
     if (e) e.preventDefault()
-    console.log('click')
     this.setState({
       showDetail: !this.state.showDetail,
     })
   }
 
   render() {
-    console.log(this.state.showDetail)
+    const { book } = this.state
     return (
       <div className="app">
         <div className="wrapper">

@@ -4,6 +4,8 @@ import QRCode from 'qrcode.react'
 import Star from '../Star'
 import getStarValues from '../../util/getStarValues' 
 import { getBook, getRecommend } from '../../util/services'
+import { message } from 'antd'
+import MiniBook from './miniBook'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -171,10 +173,10 @@ class Detail extends React.Component {
               </Slider>
             }
             { loading &&
-                <div className="detail-recommand-loading">
-                  <img src="https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/loading10.gif" />
-                </div>
-              }
+              <div className="detail-recommand-loading">
+                <img src="https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/loading10.gif" />
+              </div>
+            }
           </div>
         </div>
       </div>
