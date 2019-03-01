@@ -1,6 +1,6 @@
 import React from 'react'
 import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail } from '../../util/services'
-// import RoundSlider from '../roundSlider'
+import Roundy from "roundy"
 import './index.less'
 
 class App extends React.Component {
@@ -8,22 +8,12 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      value: 0,
+      value: 50,
     }
   }
 
   componentDidMount() {
     this.getCatalog()
-    this.getData()
-  }
-
-  getData = () => {
-    this.timeout = setTimeout(() => {
-      getPaihangDetail().then(res => {
-        console.log('123131', res)
-        this.getData()
-      })
-    }, 3000)
   }
 
   getCatalog = () => {
@@ -54,19 +44,42 @@ class App extends React.Component {
     })
   }
 
+  updateValue = (value) => {
+    console.log(value)
+    this.setState({
+      value,
+    })
+  }
+
   render() {
+    const { value } = this.state
     return (
       <div className="app">
         <div className="wrapper">
           <div className="channel">
             <input type="text" value={this.state.value} onChange={this.onChange} />
             <a onClick={this.upate}>click</a>
-            {/* <RoundSlider
-              value={100}
-              rotationOffset={-45}
-              arcSize={270}
-              allowClick={true}
-            /> */}
+            <div className="slider">
+              <Roundy
+                value={value}
+                allowClick
+                min={1}
+                radius={50}
+                max={255}
+                render={(state, props) => (
+                  <div
+                    style={{
+                      height: 100,
+                      width: 100,
+                      transform: `rotate(${state.angle}deg)`,
+                      backgroundColor: `hsl(${state.value}, 50%, 50%)`
+                    }}
+                  />
+                )}
+                onChange={this.updateValue}
+              />  
+            </div>
+            
           </div>
         </div>
       </div>

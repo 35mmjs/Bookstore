@@ -1,26 +1,29 @@
-import React from 'react'
+import React, { Component, createRef, Fragment } from 'react'
 import './index.less'
 
-
 const DEGREE_IN_RADIANS = Math.PI / 180
-class RoundSlider extends React.Component {
+const classNamePrefix = 'RoundSlider'
+
+class Roundy extends Component {
   constructor(props) {
     super(props)
-
-    const { value, rotationOffset } = props
+    const { value, arcSize, rotationOffset } = props
     this.state = {
       value,
-      angle: this.valueToAngle(value),
+      angle: this.valueToAngle(value)
     }
-
+    if (arcSize <= 0) {
+      console.warn('arcSize should be between 1 and 360.')
+    }
     if (rotationOffset < -180 || rotationOffset > 180) {
       console.warn('rotationOffset prop should be between -180 and 180.')
     }
-
     this.uniqueId = Math.floor(Math.random() * 100) + Date.now()
+    this.touches = []
     this.allowChange = false
-    this._wrapper = React.createRef()
-    this._handle = React.createRef()
+    this.isDrag = false
+    this._wrapper = createRef()
+    this._handle = createRef()
   }
 
   componentWillReceiveProps(props) {
@@ -203,33 +206,131 @@ class RoundSlider extends React.Component {
     this.props.onChange && this.props.onChange(value, this.props)
   }
 
+  getMaskLine(segments, index) {
+    const { radius, arcSize } = this.props
+    const val = (arcSize / segments) * index + 180
+    const rotateFunction =
+      'rotate(' + val.toString() + ',' + radius + ',' + radius + ')'
+    return (
+      <g key={index} transform={rotateFunction}>
+        <line
+          x1={radius}
+          y1={radius}
+          x2={radius * 2}
+          y2={radius}
+          style={{
+            stroke: 'rgb(0,0,0)',
+            strokeWidth: 2
+          }}
+        />
+      </g>
+    )
+  }
+
   render() {
-    const { rotationOffset } = this.props
-    const steps = 10 
-    const radius = 60
-
+    const {
+      color,
+      bgColor,
+      max,
+      min,
+      steps,
+      stepSize,
+      strokeWidth,
+      thumbSize,
+      radius,
+      sliced,
+      render,
+      style,
+      arcSize,
+      rotationOffset,
+      allowClick,
+      overrideStyle
+    } = this.props
     const { angle } = this.state
-
     const segments =
       steps || (stepSize ? Math.floor((max - min) / stepSize) : 0)
-    const maskName = `round_slider_${this.uniqueId}`
+    const maskName = `${classNamePrefix}_${this.uniqueId}`
     const size = radius * 2
     const styleRotation = {
       transform: `rotate(${rotationOffset}deg)`,
       transformOrigin: '50% 50%'
     }
-
     return (
-      <div
-        className="round-slider"
-        onMouseDown={this.down}
+      <Wrapper
+        strokeWidth={strokeWidth}
+        thumbSize={thumbSize}
+        onMouseMove={e => this.allowChange && this.updateValue(e, false)}
         onMouseUp={this.up}
-        onMoseMove={this.move}
-        ref={this._wrapper}
+        onMouseDown={this.down}
+        onTouchMove={this.getTouchMove}
+        onTouchEnd={this.up}
+        onTouchCancel={this.up}
+        style={style}
+        allowClick={allowClick}
+        overrideStyle={overrideStyle}
       >
-      </div>
+        {render ? (
+          // use render props
+          <div
+            className="customWrapper"
+            ref={this._wrapper}
+            style={{ width: size, height: size, display: 'inline-block' }}
+          >
+            {render(this.state, this.props)}
+          </div>
+        ) : (
+          <Fragment>
+            <svg ref={this._wrapper} width={size} height={size}>
+              {sliced && (
+                <defs>
+                  <mask
+                    id={maskName}
+                    maskUnits="userSpaceOnUse"
+                    style={styleRotation}
+                  >
+                    <rect x={0} y={0} width={size} height={size} fill="white" />
+                    {Array(segments)
+                      .fill()
+                      .map((e, i) => {
+                        return this.getMaskLine(segments, i)
+                      })}
+                  </mask>
+                </defs>
+              )}
+
+              <path
+                fill="transparent"
+                strokeDashoffset="0"
+                strokeWidth={strokeWidth}
+                stroke={bgColor}
+                mask={sliced ? `url(#${maskName})` : null}
+                style={styleRotation}
+                d={this.getArc(Math.min(arcSize, 359.9999), 0)}
+              />
+              <path
+                fill="none"
+                strokeWidth={strokeWidth}
+                stroke={color}
+                mask={sliced ? `url(#${maskName})` : null}
+                style={styleRotation}
+                d={this.getArc(Math.min(angle, 359.9999), 0)}
+              />
+            </svg>
+            <div
+              ref={this._handle}
+              className="sliderHandle"
+              onMouseDown={this.down}
+              onTouchStart={this.down}
+              onMouseUp={this.up}
+              style={{
+                transform: `rotate(${angle + rotationOffset}deg) scaleX(-1)`
+              }}
+            />
+          </Fragment>
+        )}
+      </Wrapper>
     )
   }
 }
 
-export default RoundSlider
+export default Roundy
