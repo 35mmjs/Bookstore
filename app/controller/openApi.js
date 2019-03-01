@@ -349,7 +349,6 @@ class OpenApiController extends Controller {
     this.ctx.body = {
       success: true,
       data: {
-        session: data,
         value: paihangInfo,
       },
     }
@@ -393,8 +392,7 @@ class OpenApiController extends Controller {
     this.ctx.body = {
       success: true,
       data: {
-        catalogId,
-        payload,
+        ...payload,
       },
     }
   }
