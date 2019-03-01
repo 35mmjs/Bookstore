@@ -38,7 +38,7 @@ class Roundy extends Component {
 
   componentDidMount() {
     document.addEventListener('mouseup', this.up)
-    if (!this.props.allowClick && this._wrapper.current) {
+    if (!this.props.allowclick && this._wrapper.current) {
       this._wrapper.current.style.pointerEvents = 'none'
     }
   }
@@ -48,7 +48,7 @@ class Roundy extends Component {
   }
 
   up = e => {
-    if (!this.props.allowClick && this._wrapper.current) {
+    if (!this.props.allowclick && this._wrapper.current) {
       this._wrapper.current.style.pointerEvents = 'none'
     }
     this.allowChange = false
@@ -236,14 +236,14 @@ class Roundy extends Component {
       steps,
       stepSize,
       strokeWidth,
-      thumbSize,
+      thumbsize,
       radius,
       sliced,
       render,
       style,
       arcSize,
       rotationOffset,
-      allowClick,
+      allowclick = true,
       overrideStyle
     } = this.props
     const { angle } = this.state
@@ -256,9 +256,9 @@ class Roundy extends Component {
       transformOrigin: '50% 50%'
     }
     return (
-      <Wrapper
+      <div
         strokeWidth={strokeWidth}
-        thumbSize={thumbSize}
+        thumbsize={thumbsize}
         onMouseMove={e => this.allowChange && this.updateValue(e, false)}
         onMouseUp={this.up}
         onMouseDown={this.down}
@@ -266,13 +266,11 @@ class Roundy extends Component {
         onTouchEnd={this.up}
         onTouchCancel={this.up}
         style={style}
-        allowClick={allowClick}
-        overrideStyle={overrideStyle}
+        allowclick={allowclick}
       >
         {render ? (
           // use render props
           <div
-            className="customWrapper"
             ref={this._wrapper}
             style={{ width: size, height: size, display: 'inline-block' }}
           >
@@ -328,9 +326,25 @@ class Roundy extends Component {
             />
           </Fragment>
         )}
-      </Wrapper>
+      </div>
     )
   }
 }
 
+Roundy.defaultProps = {
+  color: 'purple',
+  bgColor: '#ccc',
+  max: 100,
+  min: 0,
+  stepSize: 0,
+  // by default we want smooth sliding
+  steps: 0,
+  thumbsize: 20,
+  sliced: true,
+  strokeWidth: 1,
+  rotationOffset: 0,
+  arcSize: 360,
+  value: 50, // so we can see some difference
+  radius: 100
+}
 export default Roundy
