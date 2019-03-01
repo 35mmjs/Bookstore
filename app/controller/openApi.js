@@ -277,14 +277,18 @@ class OpenApiController extends Controller {
   }
 
   async getPaihangInfo(paihangId) {
-    const oldPaihangInfo = this.ctx.session.paihangSessionInfo || {}
+    const oldPaihangInfoRaw = await this.app.redis.get('paihang_info')
+    let oldPaihangInfo = {}
+    if (oldPaihangInfoRaw) {
+      oldPaihangInfo = JSON.parse(oldPaihangInfoRaw) || {}
+    }
     if (oldPaihangInfo[paihangId]) {
       return oldPaihangInfo[paihangId]
     }
     const paihangInfo = await this.ctx.service.bookAPI.getRinkingInfoDetail(paihangId)
     const processedResult = paihangInfo.map(item => bookInfoMap(item))
     oldPaihangInfo[paihangId] = processedResult
-    this.ctx.session.paihangSessionInfo = oldPaihangInfo
+    await this.app.redis.set('paihang_info', JSON.stringify(oldPaihangInfo))
     return processedResult
   }
 
@@ -299,15 +303,18 @@ class OpenApiController extends Controller {
     }
   ]
    */
+  // TODO redis 要优化
   async updatePaihang() {
     const query = this.ctx.query
     const { orgId, clientId, navId, catalogId } = query
     let newPaihangSession
+    const paihang = await this.app.redis.get('paihang')
     // 更新session
-    if (!this.ctx.session.paihang) {
-      this.ctx.session.paihang = []
+    if (!paihang) {
+      await this.app.redis.set('paihang', JSON.stringify([]))
     }
-    const paihangSession = this.ctx.session.paihang
+    const paihangSessionRaw = await this.app.redis.get('paihang')
+    const paihangSession = JSON.parse(paihangSessionRaw)
     // 通过设备id确定唯一排行
     const matched = paihangSession.find(item => {
       return item.clientId === clientId && item.navId === navId
@@ -331,7 +338,8 @@ class OpenApiController extends Controller {
       })
       newPaihangSession = paihangSession
     }
-    this.ctx.session.paihang = newPaihangSession
+    await this.app.redis.set('paihang', JSON.stringify(newPaihangSession))
+    const data = await this.app.redis.get('paihang')
     let paihangInfo
     try {
       paihangInfo = await this.getPaihangInfo(catalogId)
@@ -341,7 +349,6 @@ class OpenApiController extends Controller {
     this.ctx.body = {
       success: true,
       data: {
-        session: newPaihangSession,
         value: paihangInfo,
       },
     }
@@ -353,8 +360,8 @@ class OpenApiController extends Controller {
   async findPaihangPadDetail() {
     const query = this.ctx.query
     const { orgId, clientId, navId, rankId } = query
-    const paihangSession = this.ctx.session.paihang
-    if (!paihangSession) {
+    const paihangSessionRaw = await this.app.redis.get('paihang')
+    if (!paihangSessionRaw) {
       this.ctx.body = {
         success: false,
         msg: '请先选择排行',
@@ -363,6 +370,7 @@ class OpenApiController extends Controller {
     }
     // 计算 navId
     // 通过设备id确定唯一排行
+    const paihangSession = JSON.parse(paihangSessionRaw)
     const matched = paihangSession.find(item => {
       return item.clientId === clientId && item.navId === navId
     })
@@ -374,17 +382,17 @@ class OpenApiController extends Controller {
       return
     }
     const catalogId = matched.catalogId
-    const paihangSessionInfo = this.ctx.session.paihangSessionInfo
-    const paihangInfo = paihangSessionInfo[catalogId]
+    const paihangInfoRaw = await this.app.redis.get('paihang_info')
+    const paihangInfo = JSON.parse(paihangInfoRaw)
+    const paihangInfoList = paihangInfo[catalogId]
     let payload = {}
-    if (paihangInfo && paihangInfo.length > 0) {
-      payload = paihangInfo[rankId - 1]
+    if (paihangInfoList && paihangInfoList.length > 0) {
+      payload = paihangInfoList[rankId - 1]
     }
     this.ctx.body = {
       success: true,
       data: {
-        catalogId,
-        payload,
+        ...payload,
       },
     }
   }

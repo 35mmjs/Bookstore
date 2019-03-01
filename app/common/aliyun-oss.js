@@ -74,6 +74,7 @@ function uploadBundle(filePath, filename) {
       accessKeyId: ossConfig.AccessKeyId,
       accessKeySecret: ossConfig.AccessKeySecret,
       bucket: ossConfig.Bucket,
+      timeout: '30m', // 设置成30分钟来解决超时问题
     })
     // example object表示上传到OSS的Object名称，localfile表示本地文件或者文件路径
     client.put(filename || path.basename(filePath), filePath).then((r1) => {
