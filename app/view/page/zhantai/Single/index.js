@@ -31,7 +31,9 @@ class Single extends React.Component {
 
     const wrapperCls = classNames({
       wrapper: true,
-      wrapper_lightBlue: theme === 'lightBlue',
+      wrapper_default: theme !== 'theme1' && theme !== 'theme2',
+      wrapper_theme1: theme === 'theme1',
+      wrapper_theme2: theme === 'theme2',
       wrapper_mulity: mulity,
     })
 
@@ -47,7 +49,8 @@ class Single extends React.Component {
 
     const introCls = classNames({
       intro: true,
-      intro_lightBlue: theme === 'lightBlue',
+      intro_theme2: theme === 'theme2',
+      intro_theme3: theme === 'theme3',
       intro_hidden: mulity,
     })
 
@@ -63,9 +66,9 @@ class Single extends React.Component {
         </div>
         <Score value={book.score || Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10 } mulity={mulity} />
         {
-          book.qrcode && !mulity &&
+          book.qrcode && 
           <div className="info_qrcode">
-            <QRCode value={book.qrcode} size={100} />
+            <QRCode value={book.qrcode} size={72} />
           </div>
         }
         <div className={introCls}>

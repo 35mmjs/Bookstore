@@ -49,7 +49,7 @@ class App extends React.Component {
       handUp: true,
       handBooks,
     }, () => {
-      message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
+      // message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
       this.pause()
       this.autoPlay()
     })
@@ -99,6 +99,11 @@ class App extends React.Component {
     window.location.reload()
   }
 
+  getTheme = (index) => {
+    const themes = ['default', 'theme1', 'theme2']
+    return themes[index % 3]
+  }
+
   render() {
     const { books, handBooks, handUp } = this.state
 
@@ -117,13 +122,12 @@ class App extends React.Component {
       autoplaySpeed: 3000,
       variableWidth: true,
     }
-
     return (
       <div className="app">
         <div className="warpper">
           <Slider ref={slider => (this.slider = slider)} {...settings}>
             {sliderBooks.map((book, index) => {
-              const theme = index % 2 === 0 ? 'lightBlue' : ''
+              const theme = this.getTheme(index)
               return (
                 <Single book={book} theme={theme} mulity={handUp && sliderBooks.length > 1} key={book.id} />
               )

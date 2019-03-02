@@ -26,10 +26,6 @@ class Score extends React.Component {
 
     return (
       <div className={scoleCls}>
-        {
-          v.map((va, i) => <Star value={va} key={i} />)
-        }
-        <span className={cls} />
         <span className="value">
           {this.props.value}
         </span>
