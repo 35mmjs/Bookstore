@@ -25,7 +25,8 @@ class App extends React.Component {
     this.timeout = setTimeout(() => {
       getPaihangDetail().then(res => {
         const { data } = res
-        if (data.success) {
+        if (data.success && this.state.book.isbn !== data.data.isbn) {
+          console.log('change ==>', data.data)
           that.setState({
             book: data.data,
             showDetail: false,

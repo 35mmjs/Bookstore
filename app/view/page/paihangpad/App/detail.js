@@ -128,15 +128,17 @@ class Detail extends React.Component {
               </p>
               <p>
                 <span>{book.version}</span>
-              </p>
-              {
-                book.qrcode &&
-                <div className="detail-info-meta_qr">
-                  <div className="qrcode">
-                    <QRCode value={book.qrcode} size={150} />
+                <span>
+                {
+                  book.qrcode &&
+                  <div className="detail-info-meta_qr">
+                    <div className="qrcode">
+                      <QRCode value={book.qrcode} size={150} />
+                    </div>
                   </div>
-                </div>
-              }
+                }
+                </span>
+              </p>
             </div>
             { book.intro &&
               <div className="detail-info-det">
