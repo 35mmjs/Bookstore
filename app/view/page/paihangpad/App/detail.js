@@ -68,12 +68,13 @@ class Detail extends React.Component {
     })
     getRecommend({ spbs })
       .then(res => {
-        console.log(res.data.data)
-        message.success('获取相关书籍成功')
-        this.setState({
-          recommend: res.data.data,
-          loading: false,
-        })
+        const { data } = res
+        if (res.success) {
+          this.setState({
+            recommend: res.data.data,
+            loading: false,
+          })
+        }
       })
       .catch(err => {
         console.error(err)
@@ -112,7 +113,7 @@ class Detail extends React.Component {
                 <span>《{book.name}》</span>
               </h3>
               <p>
-                <span>作者：{book.author.replace('作者:', '')}</span>
+                <span>作者：{book.author && book.author.replace('作者:', '')}</span>
               </p>
               <p>
                 <span>ISBN：{book.isbn}</span>
@@ -161,7 +162,7 @@ class Detail extends React.Component {
           <span className="detail-recommand-name">相关书籍：</span>
           <div className="detail-recommand-list">
             {
-              !loading &&
+              !loading && recommend &&
               <Slider ref={slider => (this.slider = slider)} {...settings}>
                 {
                   recommend.map((b, i) => {

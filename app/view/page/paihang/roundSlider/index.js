@@ -62,6 +62,7 @@ class Roundy extends Component {
   getTouchMove = e => {
     // e.preventDefault()
     e.stopPropagation()
+    console.log(this.allowChange, this.isDrag)
     if (this.allowChange || this.isDrag) {
       let idx = 0
       for (let index = 0; index < e.changedTouches.length; index++) {
@@ -262,6 +263,7 @@ class Roundy extends Component {
         onMouseMove={e => this.allowChange && this.updateValue(e, false)}
         onMouseUp={this.up}
         onMouseDown={this.down}
+        onTouchStart={this.down}
         onTouchMove={this.getTouchMove}
         onTouchEnd={this.up}
         onTouchCancel={this.up}
