@@ -14,6 +14,7 @@ class App extends React.Component {
       book,
       showDetail: false,
     }
+    this.timeout = null
   }
 
   componentDidMount() {
@@ -39,8 +40,21 @@ class App extends React.Component {
 
   toggleBook = (e) => {
     if (e) e.preventDefault()
+    const that = this
+    const { showDetail } = this.state
+
+    // 清除缓存
+    clearTimeout(this.timeout)
+
     this.setState({
-      showDetail: !this.state.showDetail,
+      showDetail: !showDetail,
+    }, () => {
+      this.timeout = setTimeout(() => {
+        console.log('==> 自动刷新回去')
+        that.setState({
+          showDetail: false,
+        })
+      }, 30 * 1000)
     })
   }
 
