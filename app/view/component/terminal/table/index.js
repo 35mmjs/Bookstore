@@ -294,13 +294,13 @@ const Comp = props => {
         const type = TYPE_MAP.find(item => item.value === record.type).label || ''
         const url = `http://${window.location.host}/page/${type}?orgId=${record.store}&clientId=${record.id}`
         if (type === 'paihang') {
-          const padUrl = `http://${window.location.host}/page/paihangpad?orgId=${record.store}&clientId=${record.id}&navId=1&randId=1`
+          const padUrl = `http://${window.location.host}/page/paihangpad?orgId=${record.store}&clientId=${record.id}&navId=1&rankId=1`
           return (
             <div>
               排行选择页面
               <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
               <br />
-              排行pad页面
+              排行pad页面(rankId为排行序列, navId=1为左栏上部对应的排行, 2为下步对应的排行)
               <a href={padUrl} target="_blank" rel="noopener noreferrer">{padUrl}</a>
             </div>
           )
