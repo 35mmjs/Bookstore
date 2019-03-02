@@ -267,8 +267,12 @@ const Comp = props => {
       key: 'view_configs_note',
       render: (value, record) => {
         const { view_config } = record
+        console.log('aaaaaaaa', record)
+
         return (
-          <Link to={`/view-config/manage/detail/${view_config}/view`}>{value}</Link>
+          <div>
+            <Link to={`/view-config/manage/detail/${view_config}/view`}>{value}</Link>
+          </div>
         )
       },
     },
@@ -289,6 +293,18 @@ const Comp = props => {
       render: (text, record) => {
         const type = TYPE_MAP.find(item => item.value === record.type).label || ''
         const url = `http://${window.location.host}/page/${type}?orgId=${record.store}&clientId=${record.id}`
+        if (type === 'paihang') {
+          const padUrl = `http://${window.location.host}/page/paihangpad?orgId=${record.store}&clientId=${record.id}&navId=1&rankId=1`
+          return (
+            <div>
+              排行选择页面
+              <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+              <br />
+              排行pad页面(rankId为排行序列, navId=1为左栏上部对应的排行, 2为下步对应的排行)
+              <a href={padUrl} target="_blank" rel="noopener noreferrer">{padUrl}</a>
+            </div>
+          )
+        }
         return (
           <div>{record.view_config ? <a href={url} target="_blank" rel="noopener noreferrer">{url}</a> : '未配置视图'}</div>
         )
@@ -305,14 +321,29 @@ const Comp = props => {
       key: 'action',
       render: (text, record) => (
         <Fragment>
-          <Button
-            onClick={() => {
-              setEditFormData(record)
-              setConfigFormVisible(true)
-            }}
-          >
-            配置视图
-          </Button>
+          {
+            record.type === 4 ?
+              (
+                <Button
+                  disabled
+                >
+                  无需配置
+                </Button>
+              )
+              :
+              (
+                <Button
+                  onClick={() => {
+                    setEditFormData(record)
+                    setConfigFormVisible(true)
+                  }}
+                >
+                  配置视图
+                </Button>
+              )
+
+          }
+
           <Divider type="vertical" />
           <Button
             onClick={() => {
