@@ -9,7 +9,7 @@ function month(m) {
 }
 // 转换成新华的接口数据
 function normalize(d) {
-  if (!d) return null
+  if (!d) return {}
   return {
     fmdt: d.CoverImage || '', // 封面
     isbn: d.ISBN, // isb
@@ -131,7 +131,7 @@ class BookAPIByZhongjinService extends Service {
       BeginTime: `${time.getFullYear()}${month(time.getMonth())}01`,
       EndTime: `${time.getFullYear()}${month(time.getMonth() + 1)}01`,
       key: phid, // 1哲学、社会科学,2文化、教育,3文学、艺术,4自然科学、科技,5少儿读物,6大中专教材,7课本,8教辅读物,9其他出版物,10音像制品
-    }).then(arr => Promise.all(arr.map(item => this.getBookBySPBS(item.UpSendUnitID, khbh))))
+    }).then(arr => Promise.all(arr.map(item => this.getBookBySPBS(item.SendUnitID, khbh))))
   }
 
   getRinkingInfoDetail(phid) {
