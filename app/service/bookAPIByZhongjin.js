@@ -7,7 +7,7 @@ const Client = require('aliyun-api-gateway').Client
 class BookAPIByZhongjinService extends Service {
   constructor(...args) {
     super(...args)
-    this.bookConfig = this.app.config.bookAPI2
+    this.bookConfig = this.app.config.bookAPIByZhongjin
     this.client = new Client(this.bookConfig.appKey, this.bookConfig.appSecret)
   }
 

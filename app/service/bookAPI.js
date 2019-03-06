@@ -37,7 +37,6 @@ class BookAPIService extends Service {
     return new Promise((resolve, reject) => {
       soap.createClient(bookConfig.url, (err, client) => {
         if (err) {
-          console.log('xxxxxxxxxxxxxxxxxxxxxxxx')
           reject(err)
           return
         }

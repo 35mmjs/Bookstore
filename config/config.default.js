@@ -76,11 +76,15 @@ module.exports = appInfo => {
     keyid: '355DBBC50859340E72B9C8E5AB2DBB74',
   }
 
-  config.bookAPI2 = {
+  config.bookAPIByZhongjin = {
     url: 'http://apis.centrin-ecloud.com',
     appKey: '25361443',
     appSecret: '80c4625784e91ff9c9d30d6401e06081',
     appId: '7653878',
+  }
+
+  config.bookAPIByLiuzhou = {
+    url: 'http://cw.gxxhsd.com/Commander/api/ExecutiveB',
   }
 
   config.webpack = {
