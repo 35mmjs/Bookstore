@@ -64,6 +64,8 @@ module.exports = {
     if (!this.service[bookAPIName]) {
       throw new CommonError(`未找到到门店API: ${bookAPIName}`)
     }
+    // 保存到context里
+    this.storeCodeFromSession = storeCode
     return {
       storeCode, // 门店编号
       storeNum, // 部门编号

@@ -36,12 +36,15 @@ function normalize(d) {
  * 柳州的API接口, Demo见：http://cw.gxxhsd.com/book/demo.html
  */
 class BookAPIByZhongjinService extends Service {
-  constructor(...args) {
-    super(...args)
+  constructor(ctx) {
+    super(ctx)
+    this.ctx = ctx
     this.bookConfig = this.app.config.bookAPIByLiuzhou
   }
 
   fetch(data) {
+    // 柳州的shopID从session获取
+    data.shopID = data.shopID || this.ctx.storeCodeFromSession
     const postData = querystring.stringify({
       ProjID: 19491949,
       pageNum: 1, // 分页页码
