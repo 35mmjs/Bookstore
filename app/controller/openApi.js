@@ -117,13 +117,13 @@ class OpenApiController extends Controller {
     let res = ''
     const { query } = this.ctx
     const { isbn, spbs } = query
-    const { storeCode, storeNum } = await this.ctx.getStoreCodeFromQuery()
+    const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      res = await bookAPI.getBookByISBN(isbn)
     }
     if (spbs) {
-      const stockList = await this.ctx.service.bookAPI.getStockList(storeCode, spbs, storeNum)
-      res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      const stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
+      res = await bookAPI.getBookBySPBS(spbs)
       res.stockList = stockList
     }
     const processedResult = bookInfoMap(res)
@@ -160,22 +160,23 @@ class OpenApiController extends Controller {
     let res = null
     let rawList = []
     const param = this.ctx.query
+    const { bookAPI } = await this.ctx.getBookAPI()
     const { isbn, spbs } = param
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      res = await bookAPI.getBookByISBN(isbn)
       const { spbs: bookSpbs } = res
       if (bookSpbs) {
-        rawList = await this.ctx.service.bookAPI.getRecommendBooks(bookSpbs)
+        rawList = await bookAPI.getRecommendBooks(bookSpbs)
       }
     }
     if (spbs) {
-      rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
+      rawList = await bookAPI.getRecommendBooks(spbs)
     }
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
         rawList.map(async item => {
           // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
-          const singleBook = await this.ctx.service.bookAPI.getBookByISBN(
+          const singleBook = await bookAPI.getBookByISBN(
             item.tm,
           )
           return bookInfoMap(singleBook)
@@ -196,9 +197,9 @@ class OpenApiController extends Controller {
   async findBooksByKeyword() {
     const { query } = this.ctx
     const { keyword } = query
-    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, storeCode)
+    const res = await bookAPI.searchBookByKeyword(keyword, storeCode)
     if (res && res.length > 0) {
       processedResult = bookInfoListProcess(res)
     }
@@ -211,9 +212,9 @@ class OpenApiController extends Controller {
   async findBooksByName() {
     const { query } = this.ctx
     const { keyword } = query
-    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByName(keyword, storeCode)
+    const res = await bookAPI.searchBookByName(keyword, storeCode)
     if (res && res.length > 0) {
       processedResult = bookInfoListProcess(res)
     }
@@ -255,7 +256,8 @@ class OpenApiController extends Controller {
    * 获取排行的类目
    */
   async findPaihangCatalog() {
-    const res = await this.service.bookAPI.getRankingList()
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getRankingList()
     const list = res.map(item => {
       return {
         id: item.phid,
@@ -277,6 +279,7 @@ class OpenApiController extends Controller {
   }
 
   async getPaihangInfo(paihangId) {
+    const { bookAPI } = await this.ctx.getBookAPI()
     const oldPaihangInfoRaw = await this.app.redis.get('paihang_info')
     let oldPaihangInfo = {}
     if (oldPaihangInfoRaw) {
@@ -285,7 +288,7 @@ class OpenApiController extends Controller {
     if (oldPaihangInfo[paihangId]) {
       return oldPaihangInfo[paihangId]
     }
-    const paihangInfo = await this.ctx.service.bookAPI.getRinkingInfoDetail(paihangId)
+    const paihangInfo = await bookAPI.getRinkingInfoDetail(paihangId)
     const processedResult = paihangInfo.map(item => bookInfoMap(item))
     oldPaihangInfo[paihangId] = processedResult
     await this.app.redis.set('paihang_info', JSON.stringify(oldPaihangInfo))

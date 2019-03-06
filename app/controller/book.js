@@ -11,12 +11,13 @@ class BookController extends Controller {
   async getBookByISBNs() {
     const params = this.ctx.query
     const { isbns } = params
+    const { bookAPI } = await this.ctx.getBookAPI()
     let list = []
     const isbnArray = isbns.split(',')
     if (isbnArray && isbnArray.length > 0) {
       list = await Promise.all(
         isbnArray.map(async item => {
-          const res = await this.ctx.service.bookAPI.getBookByISBN(item)
+          const res = await bookAPI.getBookByISBN(item)
           return bookInfoMap(res)
         }),
       )
@@ -35,16 +36,17 @@ class BookController extends Controller {
   async getBook() {
     const param = this.ctx.query
     const { isbn, spbs } = param
+    const { bookAPI } = await this.ctx.getBookAPI()
     let res
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      res = await bookAPI.getBookByISBN(isbn)
     }
     if (spbs) {
-      res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      res = await bookAPI.getBookBySPBS(spbs)
     }
     // let res
     // if (isbn) {
-    //   res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    //   res = await bookAPI.getBookByISBN(isbn)
     // }
     // // 10001
     // const orgId = this.ctx.getLoginStore()
@@ -65,7 +67,7 @@ class BookController extends Controller {
     //     return
     //   }
     //   const [kcdh, bmbh] = currentStore.store_code.split('-')
-    //   const stockList = await this.ctx.service.bookAPI.getStockList(kcdh, spbs, bmbh)
+    //   const stockList = await bookAPI.getStockList(kcdh, spbs, bmbh)
     //   res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
     //   res.stockList = stockList
     // }
@@ -99,15 +101,15 @@ class BookController extends Controller {
       name // 书名
       isbn // 书号
     }]
-   */
   async getRecommendBooksByISBN() {
     let list = []
     const param = this.ctx.query
     const { isbn } = param
-    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getBookByISBN(isbn)
     const { spbs } = res
     if (spbs) {
-      const rawList = await this.ctx.service.bookAPI.getRecommendBooks
+      const rawList = await bookAPI.getRecommendBooks()
       if (rawList && rawList.length > 0) {
         list = rawList.map(item => {
           return {
@@ -125,9 +127,11 @@ class BookController extends Controller {
       this.ctx.body = { success: true, data: '' }
     }
   }
+  */
 
   async findRankingListBySingleStore() {
-    const res = await this.ctx.service.bookAPI.getRankingList()
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getRankingList()
     const processedResult = res.map(item => {
       return {
         value: item.phid,
@@ -142,8 +146,9 @@ class BookController extends Controller {
 
   async findRankingBooks() {
     const param = this.ctx.query
+    const { bookAPI } = await this.ctx.getBookAPI()
     const { id } = param
-    const res = await this.ctx.service.bookAPI.getRinkingInfoDetail(id)
+    const res = await bookAPI.getRinkingInfoDetail(id)
     const processedResult = res.map(item => {
       return bookInfoMap(item)
     })

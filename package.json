@@ -87,7 +87,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-bin dev",
+    "start": "egg-bin dev --port=9000",
     "moxiu-start": "MYSQL_PASSWORD=root12345 egg-bin dev",
     "mock": "NODE_ENV=mock egg-bin dev",
     "dora-proxy": "dora --plugins \"proxy?port=8989\" --verbose",

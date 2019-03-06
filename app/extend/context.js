@@ -44,18 +44,30 @@ module.exports = {
     if (user) return user.id
     return null
   },
-  async getStoreCodeFromQuery() {
-    if (!this.query.orgId) {
-      throw new CommonError('未传入门店id')
+  async getBookAPI() {
+    let storeId
+    const user = this.session.user
+    if (user && user.store) {
+      storeId = user.store
+    } else {
+      storeId = this.query.orgId
     }
-    const currentStore = await this.service.store.findOne(this.query.orgId)
+    if (!storeId) {
+      throw new CommonError('未找到门店id')
+    }
+    const currentStore = await this.service.store.findOne(storeId)
     if (!currentStore) {
-      throw new CommonError(`未招到到门店id: ${this.query.orgId}`)
+      throw new CommonError(`未找到到门店id: ${storeId}`)
     }
-    const [storeCode, storeNum] = currentStore.store_code.split('-')
+    const [storeCode, storeNum, sourceApiName] = currentStore.store_code.split('-')
+    const bookAPIName = `bookAPI${sourceApiName ? `By${sourceApiName[0].toUpperCase()}${sourceApiName.slice(1)}` : ''}`
+    if (!this.service[bookAPIName]) {
+      throw new CommonError(`未找到到门店API: ${bookAPIName}`)
+    }
     return {
       storeCode, // 门店编号
       storeNum, // 部门编号
+      bookAPI: this.service[bookAPIName], // 真正的调用的bookAPI
     }
   },
 }
