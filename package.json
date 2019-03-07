@@ -89,6 +89,7 @@
   "scripts": {
     "start": "egg-bin dev --port=9000",
     "moxiu-start": "MYSQL_PASSWORD=root12345 egg-bin dev",
+    "moxiu-test": "MYSQL_PASSWORD=root12345 egg-bin test",
     "mock": "NODE_ENV=mock egg-bin dev",
     "dora-proxy": "dora --plugins \"proxy?port=8989\" --verbose",
     "egg-start": "rm -rf node_modules && cnpm i --production && npm run _egg-start",
