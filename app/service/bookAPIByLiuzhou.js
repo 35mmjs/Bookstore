@@ -18,7 +18,7 @@ function normalize(d) {
     spbs: d.SendUnitID, // 书本唯一标识或者是数据库id
     sm: d.Name || '', // 书名
     author: d.Author || '', // 作者
-    // yxxlmc: res.yxxlmc, // 分类
+    yxxlmc: d.Kind1Name1Text ? d.Kind1Name1Text.match(/\d/)[0] : '', // 分类
     ml: d.Catalog || '', // 目录,
     dj: d.PrePrice || d.Price, // 定价
     tjy: (d.Prologue || '').trim(), // 推荐语
@@ -162,7 +162,10 @@ class BookAPIByZhongjinService extends Service {
       ServerID: 2, // 函数ID
       key: ISBN,
       shopID: khbh,
-    }).then(d => normalize(d[0]))
+    }).then(d => {
+      if (d.length === 0) throw new CommonError('未找到对应书本')
+      return normalize(d[0])
+    })
   }
 
   /**
@@ -176,7 +179,10 @@ class BookAPIByZhongjinService extends Service {
       ServerID: 3, // 函数ID
       ID: SPBS,
       shopID: khbh,
-    }).then(d => normalize(d[0]))
+    }).then(d => {
+      if (d.length === 0) throw new CommonError('未找到对应书本')
+      return normalize(d[0])
+    })
   }
 
   /**
@@ -190,7 +196,10 @@ class BookAPIByZhongjinService extends Service {
       ServerID: 2, // 函数ID
       key: keyword,
       shopID: khbh,
-    }).then(d => d.map(i => normalize(i)))
+    }).then(d => {
+      if (d.length === 0) throw new CommonError('未找到对应书本')
+      return d.map(i => normalize(i))
+    })
   }
 
   /**
@@ -208,8 +217,13 @@ class BookAPIByZhongjinService extends Service {
    * @param spbs {String}
    * @param khbh
    */
-  getRecommendBooks(spbs, khbh = '3300000000') {
-    // TODO 暂时没有
+  async getRecommendBooks(spbs, khbh) {
+    // 先查询分类信息
+    const { yxxlmc: kind } = await this.getBookBySPBS(spbs, khbh)
+    if (kind) {
+      // 用排行榜来做推荐书籍
+      return this.getRinkingInfo(kind, khbh)
+    }
     return []
   }
 
@@ -219,12 +233,10 @@ class BookAPIByZhongjinService extends Service {
    * @param spbs {String} 商品标识
    */
   async getStockList(khbh, spbs) {
-    const data = await this.getBookBySPBS(spbs, khbh)
-    if (!data || !data.ls_SendUnitID) return []
     // "[{"SendUnitID":4777330,"Name":"民族大道店","StockNumber":"6本","Tel":"0771-5851848","Address":"民族大道69号","PositionID":"127-1-1-1"},{"SendUnitID":4777330,"Name":"王府井店","StockNumber":"12本","Tel":"0771-5516253","Address":"新民路华星时代广场王府井4楼C20","PositionID":"6-3-1-1"},{"SendUnitID":4777330,"Name":"概念书屋","StockNumber":"3本","Tel":"0771-2883566","Address":"南宁吴圩国际机场T2航站楼三楼23号登机口斜对面","PositionID":"27-7-1-1"},{"SendUnitID":4777330,"Name":"约阅读体验中心","StockNumber":"3本","Tel":"18977113515","Address":"南宁职业技术学院图书馆A区","PositionID":"畅销书-001-001-00"},{"SendUnitID":4777330,"Name":"概念书屋朝阳店","StockNumber":"2本","Tel":"18697980280","Address":"南宁饭店大堂","PositionID":"5-1-1-1"},{"SendUnitID":4777330,"Name":"机场嘉暘碧天酒店概念书屋","StockNumber":"3本","Tel":"0771-2886325","Address":"广西南宁市吴圩国际机场T2航站区机场大道18号嘉暘碧天酒店三","PositionID":null},{"SendUnitID":4777330,"Name":"约阅读体验中心","StockNumber":"5本","Tel":null,"Address":"广西南宁市合兴路3号（南宁师范大学五合校区饭堂二楼）","PositionID":null}]"
     return this.fetch({
-      ServerID: 4,
-      LSID: data.ls_SendUnitID,
+      ServerID: 8,
+      ID: spbs,
       shopID: khbh,
     })
   }
