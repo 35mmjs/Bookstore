@@ -22,7 +22,7 @@ describe('test/app/service/bookAPIByLiuzhou.test.js', () => {
     expect(data.isbn).toEqual(isbn)
   })
   it('getBookBySPBS', async () => {
-    const spbs = '104078207'
+    const spbs = '103688077'
     const data = await ctx.service.bookAPIByLiuzhou.getBookBySPBS(spbs, SHOP_ID)
     expect(String(data.spbs)).toEqual(spbs)
   })
@@ -32,6 +32,9 @@ describe('test/app/service/bookAPIByLiuzhou.test.js', () => {
     expect(Array.isArray(data)).toEqual(true)
   })
   it('getStockList', async () => {
-    const data = await ctx.service.bookAPIByLiuzhou.getStockList(SHOP_ID, '104084301')
+    const data = await ctx.service.bookAPIByLiuzhou.getStockList(SHOP_ID, '103688077')
+  })
+  it('getRecommendBooks', async () => {
+    const data = await ctx.service.bookAPIByLiuzhou.getRecommendBooks('103688077', SHOP_ID)
   })
 })
