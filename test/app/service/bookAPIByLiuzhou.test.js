@@ -12,7 +12,7 @@ describe('test/app/service/bookAPIByLiuzhou.test.js', () => {
     const data = await ctx.service.bookAPIByLiuzhou.getRankingList()
     expect(Array.isArray(data)).toEqual(true)
   })
-  it.only('getRingkingInfo', async () => {
+  it('getRingkingInfo', async () => {
     const data = await ctx.service.bookAPIByLiuzhou.getRinkingInfo(1, SHOP_ID)
     expect(Array.isArray(data)).toEqual(true)
   })
