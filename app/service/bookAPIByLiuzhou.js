@@ -1,4 +1,5 @@
 const { Service } = require('egg')
+const url = require('url')
 const querystring = require('querystring')
 const http = require('http')
 const { omit } = require('../common/utils')
@@ -53,8 +54,11 @@ class BookAPIByZhongjinService extends Service {
       ServerID: data.ServerID,
       DataObject: JSON.stringify(omit(data, ['ServerID'])),
     })
+    const { hostname, pathname } = url.parse(this.bookConfig.url)
     return new Promise((res, rej) => {
-      const req = http.request(this.bookConfig.url, {
+      const req = http.request({
+        hostname,
+        path: pathname,
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
