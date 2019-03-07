@@ -12,7 +12,7 @@ function month(m) {
 function normalize(d) {
   if (!d) return {}
   return {
-    fmdt: d.CoverImage || '', // 封面
+    fmdt: d.coverImage || '', // 封面
     isbn: d.ISBN, // isb
     tm: d.ISBN, // 条码
     spbs: d.SendUnitID, // 书本唯一标识或者是数据库id
@@ -21,10 +21,10 @@ function normalize(d) {
     // yxxlmc: res.yxxlmc, // 分类
     ml: d.Catalog || '', // 目录,
     dj: d.PrePrice || d.Price, // 定价
-    tjy: d.Prologue || '', // 推荐语
-    nrty: d.Contentsummary || '', // 内容提要
+    tjy: (d.Prologue || '').trim(), // 推荐语
+    nrty: (d.Contentsummary || '').trim(), // 内容提要
     // pageType: res.kb,
-    // ys: res.ys, // 页数
+    ys: d.PageNumber, // 页数
     bb: d.EditionNO || '', // 出版社
     // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
     qrcode: '', // 购买链接
