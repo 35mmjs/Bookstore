@@ -18,12 +18,12 @@ function normalize(d) {
     spbs: d.SendUnitID, // 书本唯一标识或者是数据库id
     sm: d.Name || '', // 书名
     author: d.Author || '', // 作者
-    yxxlmc: d.Kind1Name1Text ? d.Kind1Name1Text.match(/\d/)[0] : '', // 分类
+    yxxlmc: d.Kind1Name1,
     ml: d.Catalog || '', // 目录,
     dj: d.PrePrice || d.Price, // 定价
     tjy: (d.Prologue || '').trim(), // 推荐语
     nrty: (d.Contentsummary || '').trim(), // 内容提要
-    // pageType: res.kb,
+    pageType: d.PageNo,
     ys: d.PageNumber, // 页数
     bb: d.EditionNO || '', // 出版社
     // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
