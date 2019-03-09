@@ -76,6 +76,11 @@ class BookDetail extends React.Component {
     })
     getRecommend({ spbs })
       .then(res => {
+        const { data } = res
+        if (!data.success) {
+          message.error(data.error || '获取详情失败')
+          return
+        }
         console.log(res.data.data)
         message.success('获取相关书籍成功')
         this.setState({

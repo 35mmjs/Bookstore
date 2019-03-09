@@ -1,7 +1,6 @@
 import React from 'react'
 import Star from '../Star'
 import getStarValues from '../../util/getStarValues'
-import { getBook, getRecommend } from '../../util/services'
 
 class MiniBook extends React.Component {
   render() {

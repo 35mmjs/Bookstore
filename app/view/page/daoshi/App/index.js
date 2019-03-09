@@ -67,6 +67,7 @@ class App extends React.Component {
   getData = () => {
     getDaoshiData().then(res => {
       const { data } = res
+      if (!data.success) return
       console.log(data)
       this.setState({
         books: data.data.books,
@@ -81,6 +82,13 @@ class App extends React.Component {
     getBook({ spbs })
       .then(res => {
         const { data } = res
+
+        if (!data.success) {
+          loading()
+          message.error('获取书本详情失败，请稍后再试')
+          return
+        } 
+
         let { score } = data.data
         if (!score) {
           score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
@@ -201,6 +209,12 @@ class App extends React.Component {
     }).then(res => {
       const { data } = res
       loading()
+
+      if (!data.success) {
+        message.error('系统出错，请稍后再试')
+        return
+      }
+
       message.success(`搜索到 ${data.data.length} 本书`)
       // 地图状态需要返回搜索结果
       if (this.state.status[0] > 1) {
