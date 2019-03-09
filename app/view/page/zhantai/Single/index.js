@@ -61,7 +61,7 @@ class Single extends React.Component {
         </div>
         <div className={infoCls}>
           <h2 className="info_title">{book.name}</h2>
-          <p className={authorCls}>作者：{book.author.replace('作者:', '')}</p>
+          <p className={authorCls}>作者：{(book.author && book.author.replace('作者:', '')) || book.publish}</p>
           <p className="info_price">定价：<span>{book.pricing}</span> 元</p>
         </div>
         <Score value={book.score || Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10 } mulity={mulity} />

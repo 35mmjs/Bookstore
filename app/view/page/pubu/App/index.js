@@ -186,7 +186,7 @@ class App extends React.Component {
                         <Book
                           cover={book.cover}
                           name={book.name}
-                          author={book.author}
+                          author={book.author || book.publish}
                           pricing={book.pricing}
                           score={book.score}
                           key={i}

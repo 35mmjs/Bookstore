@@ -16,7 +16,7 @@ class MiniBook extends React.Component {
           <div className="book_mini_info_score">
             { getStarValues(book.score).map((value, index) => <Star value={value} key={index} />) }
           </div>
-          <p>作者：{book.author.replace('作者:', '')}</p>
+          <p>作者：{(book.author && book.author.replace('作者:', '')) || book.publish}</p>
           <p>定价：<span className="price">{book.price}</span> 元</p>
         </div>
       </div>

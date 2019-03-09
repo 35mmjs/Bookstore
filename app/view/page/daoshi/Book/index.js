@@ -56,10 +56,11 @@ export default class Book extends React.Component {
             <h3 className="book_detail_info_name">
               {book.name}
             </h3>
-            <p className="book_detail_info_author">
-              作者：
-              {book.author.replace('作者:', '')}
-            </p>
+            { book.author &&
+              <p className="book_detail_info_author">
+                作者：{ book.author.replace('作者:', '')}
+              </p>
+            }
             <p className="book_detail_info_intro">
               {book.recommender}
             </p>

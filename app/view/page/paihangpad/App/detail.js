@@ -113,7 +113,7 @@ class Detail extends React.Component {
                 <span>《{book.name}》</span>
               </h3>
               <p>
-                <span>作者：{book.author && book.author.replace('作者:', '')}</span>
+                <span>作者：{(book.author && book.author.replace('作者:', '')) || book.publish}</span>
               </p>
               <p>
                 <span>ISBN：{book.isbn}</span>
