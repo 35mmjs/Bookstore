@@ -285,7 +285,7 @@ class App extends React.Component {
             <div className={backCls} onClick={this.handleClickBack}>
             </div>
             <div className="search">
-              <input type="text" className="search_input" placeholder="输入书名、作者名、支持拼音首字母搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} ref={this.searchRef}/>
+              <input type="text" className="search_input" placeholder="输入书名、作者名搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} ref={this.searchRef}/>
               <span className="search_btn" onClick={this.handleSearch} />
               { this.state.isSearch &&
                 <span className="search_close" onClick={this.handleCleanSearch}>
