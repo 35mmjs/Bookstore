@@ -148,13 +148,17 @@ class BookController extends Controller {
     const param = this.ctx.query
     const { bookAPI, storeCode } = await this.ctx.getBookAPI()
     const { id } = param
-    const res = await bookAPI.getRinkingInfoDetail(id, storeCode)
-    const processedResult = res.map(item => {
-      return bookInfoMap(item)
-    })
-    this.ctx.body = {
-      success: true,
-      data: processedResult,
+    try {
+      const res = await bookAPI.getRinkingInfoDetail(id, storeCode)
+      const processedResult = res.map(item => {
+        return bookInfoMap(item)
+      })
+      this.ctx.body = {
+        success: true,
+        data: processedResult,
+      }
+    } catch (e) {
+      console.error('aaaaaaaa', e)
     }
   }
 }

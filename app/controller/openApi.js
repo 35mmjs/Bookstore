@@ -37,6 +37,34 @@ function zhantaiMap(item) {
   return res
 }
 
+function paihangMap(item, navId) {
+  let res = []
+  const payloadStr = item.content || '{}'
+  const payloadObj = JSON.parse(payloadStr)
+  let payloadArray
+  if (navId === '1') {
+    payloadArray = payloadObj.nav1
+    if (payloadArray && payloadArray.length > 0) {
+      res = payloadArray.map(i => {
+        return {
+          ...i,
+        }
+      })
+    }
+  }
+  if (navId === '2') {
+    payloadArray = payloadObj.nav2
+    if (payloadArray && payloadArray.length > 0) {
+      res = payloadArray.map(i => {
+        return {
+          ...i,
+        }
+      })
+    }
+  }
+  return res
+}
+
 function bookInfoListProcess(list) {
   if (!list || list.length <= 0) return []
   const res = list.map(item => {
@@ -44,7 +72,6 @@ function bookInfoListProcess(list) {
   })
   return res
 }
-
 
 class OpenApiController extends Controller {
   // post
@@ -107,6 +134,34 @@ class OpenApiController extends Controller {
       return
     }
     const result = zhantaiMap(item)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  async getPaihang() {
+    const query = this.ctx.query
+    const { clientId, orgId, navId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
+    const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
+      orgId,
+      clientId,
+    )
+    if (!item) {
+      this.ctx.body = {
+        success: false,
+        error: '无法找到对应设备终端',
+      }
+      return
+    }
+    const result = paihangMap(item, navId)
     this.ctx.body = {
       success: true,
       data: result,
@@ -176,9 +231,7 @@ class OpenApiController extends Controller {
       list = await Promise.all(
         rawList.map(async item => {
           // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
-          const singleBook = await bookAPI.getBookByISBN(
-            item.tm,
-          )
+          const singleBook = await bookAPI.getBookByISBN(item.tm)
           return bookInfoMap(singleBook)
         }),
       )

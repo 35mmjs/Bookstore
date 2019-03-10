@@ -112,7 +112,7 @@ class TableForm extends PureComponent {
           name: bookInfo.name,
           cover: bookInfo.cover,
           author: bookInfo.author,
-          editable: true,
+          editable: false,
           isNew: true,
         })
         this.index += 1
@@ -127,12 +127,14 @@ class TableForm extends PureComponent {
         name: bookInfo.name,
         cover: bookInfo.cover,
         author: bookInfo.author,
-        editable: true,
+        editable: false,
         isNew: true,
       })
       this.index += 1
     }
-    this.setState({ data: newData })
+    this.setState({ data: newData }, () => {
+      this.props.onChange(this.state.data)
+    })
   }
 
   remove(key) {

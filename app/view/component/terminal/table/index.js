@@ -124,6 +124,8 @@ const ConfigForm = Form.create()(props => {
     data,
     tableData,
   } = props
+  const matchedViewConfigData =
+    tableData && tableData.filter(item => item.type === data.type)
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return
@@ -203,7 +205,7 @@ const ConfigForm = Form.create()(props => {
           ],
         })(<Search placeholder="输入配置名" enterButton onSearch={okHandle} />)}
       </FormItem>
-      <Table columns={columns} dataSource={tableData} rowKey="id" />
+      <Table columns={columns} dataSource={matchedViewConfigData} rowKey="id" />
     </Modal>
   )
 })
@@ -267,11 +269,11 @@ const Comp = props => {
       key: 'view_configs_note',
       render: (value, record) => {
         const { view_config } = record
-        console.log('aaaaaaaa', record)
-
         return (
           <div>
-            <Link to={`/view-config/manage/detail/${view_config}/view`}>{value}</Link>
+            <Link to={`/view-config/manage/detail/${view_config}/view`}>
+              {value}
+            </Link>
           </div>
         )
       },
@@ -291,22 +293,42 @@ const Comp = props => {
       key: 'created_url',
       dataIndex: 'created_url',
       render: (text, record) => {
-        const type = TYPE_MAP.find(item => item.value === record.type).label || ''
-        const url = `http://${window.location.host}/page/${type}?orgId=${record.store}&clientId=${record.id}`
+        const type =
+          TYPE_MAP.find(item => item.value === record.type).label || ''
+        const url = `http://${window.location.host}/page/${type}?orgId=${
+          record.store
+        }&clientId=${record.id}`
         if (type === 'paihang') {
-          const padUrl = `http://${window.location.host}/page/paihangpad?orgId=${record.store}&clientId=${record.id}&navId=1&rankId=1`
+          const padUrl = `http://${
+            window.location.host
+          }/page/paihangpad?orgId=${record.store}&clientId=${
+            record.id
+          }&navId=1&rankId=1`
           return (
             <div>
               排行选择页面
-              <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {url}
+              </a>
               <br />
-              排行pad页面(rankId为排行序列, navId=1为左栏上部对应的排行, 2为下步对应的排行)
-              <a href={padUrl} target="_blank" rel="noopener noreferrer">{padUrl}</a>
+              排行pad页面(rankId为排行序列, navId=1为左栏上部对应的排行,
+              2为下步对应的排行)
+              <a href={padUrl} target="_blank" rel="noopener noreferrer">
+                {padUrl}
+              </a>
             </div>
           )
         }
         return (
-          <div>{record.view_config ? <a href={url} target="_blank" rel="noopener noreferrer">{url}</a> : '未配置视图'}</div>
+          <div>
+            {record.view_config ? (
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {url}
+              </a>
+            ) : (
+              '未配置视图'
+            )}
+          </div>
         )
       },
     },
@@ -321,28 +343,14 @@ const Comp = props => {
       key: 'action',
       render: (text, record) => (
         <Fragment>
-          {
-            record.type === 4 ?
-              (
-                <Button
-                  disabled
-                >
-                  无需配置
-                </Button>
-              )
-              :
-              (
-                <Button
-                  onClick={() => {
-                    setEditFormData(record)
-                    setConfigFormVisible(true)
-                  }}
-                >
-                  配置视图
-                </Button>
-              )
-
-          }
+          <Button
+            onClick={() => {
+              setEditFormData(record)
+              setConfigFormVisible(true)
+            }}
+          >
+            配置视图
+          </Button>
 
           <Divider type="vertical" />
           <Button

@@ -143,6 +143,29 @@ Response: []
 进入页面之前, 会有入口页面提供下拉选择入参,比如orgId, clientId 之类
 前端需要接口的入参写死在本地存储
 ![design](https://gw.alipayobjects.com/mdn/iot_box_me/afts/img/A*LHEIR4TRNSIAAAAAAAAAAABjARQnAQ)
+
+#### 获取排行配置信息
+
+GET `/open/v1/paihang`
+
+参数
+  - orgId 门店 id
+  - clientId 客户端 id
+  - navId 排行榜会有 2 栏，因此需要频道 id
+  
+返回结果
+```
+[
+  {
+    name: "人文科学",
+    id: "1231313",
+  },
+  {
+    ...
+  }
+]
+```
+
 #### 获取排行分类
 
 GET `/open/v1/paihang/catalog`

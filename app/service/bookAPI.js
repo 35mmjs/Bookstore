@@ -49,7 +49,8 @@ class BookAPIService extends Service {
           if (ret.code === '200' || ret.code === '000') {
             resolve(ret.data)
           } else {
-            reject(new CommonError(ret.message))
+            // 统一上报异常接口
+            reject(new CommonError(ret.msg || ret.message))
           }
         })
       })
@@ -88,6 +89,7 @@ class BookAPIService extends Service {
 
   async getRinkingInfoDetail(phid, khbh = '3300000000') {
     const list = await this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
+    console.log('aaaaaaaa', list)
     const detailList = await Promise.all(list.map(async item => {
       const detail = await this.getBookBySPBS(item.spbs)
       if (detail) return detail

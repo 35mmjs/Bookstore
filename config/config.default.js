@@ -33,6 +33,11 @@ module.exports = appInfo => {
     defaultViewEngine: 'nunjucks',
   }
 
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
+  }
+
   // redis
   config.redis = {
     client: {

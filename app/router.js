@@ -72,6 +72,7 @@ module.exports = app => {
   router.get(openApi.findRecommendByISBN, controller.openApi.findRecommend)
   router.get(openApi.findRecommendBySPBS, controller.openApi.findRecommend)
   // 排行榜 api
+  router.get(openApi.paihang, controller.openApi.getPaihang)
   router.get(openApi.findPaihangCatalog, controller.openApi.findPaihangCatalog)
   router.get(openApi.updatePaihang, controller.openApi.updatePaihang)
   router.get(openApi.findPaihangPadDetail, controller.openApi.findPaihangPadDetail)

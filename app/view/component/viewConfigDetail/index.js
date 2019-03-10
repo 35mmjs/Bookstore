@@ -102,7 +102,7 @@ class CreateForm extends React.Component {
         return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
       }
       if (this.state.type === VIEW_CONFIG_ID.PAIHANG_ID) {
-        return <PaihangForm />
+        return <PaihangForm onSubmit={this.onChildFormSubmit} />
       }
       return null
     }

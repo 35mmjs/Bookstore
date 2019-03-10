@@ -60,6 +60,7 @@ const openApi = {
   daoshi: '/open/v1/daoshi',
   pubu: '/open/v1/pubu',
   zhantai: '/open/v1/zhantai',
+  paihang: '/open/v1/paihang',
   findBookByISBN: '/open/v1/book', // isbn=xxx
   findBookBySPBS: '/open/v1/book', // spbs=xxx
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
