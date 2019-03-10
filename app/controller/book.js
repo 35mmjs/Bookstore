@@ -146,10 +146,10 @@ class BookController extends Controller {
 
   async findRankingBooks() {
     const param = this.ctx.query
-    const { bookAPI, storeCode } = await this.ctx.getBookAPI()
+    const { bookAPI } = await this.ctx.getBookAPI()
     const { id } = param
     try {
-      const res = await bookAPI.getRinkingInfoDetail(id, storeCode)
+      const res = await bookAPI.getRinkingInfoDetail(id)
       const processedResult = res.map(item => {
         return bookInfoMap(item)
       })
