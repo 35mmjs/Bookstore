@@ -256,6 +256,7 @@ class App extends React.Component {
   }
 
   render() {
+    const orgId = window.appData.orgId
     const { status, currentArea } = this.state
     // default [1, 1, 0]
     // click position [1, 0, 0]
@@ -294,14 +295,17 @@ class App extends React.Component {
               }
             </div>
           </div>
-          <Map 
-            data={this.state.storeData}
-            zoom={showMapZoom}
-            hidden={!showMap}
-            hideAreas={showMap && showDetail && !showList}
-            onClick={this.handleClickMap}
-            current={currentArea}
-          />
+          {
+            orgId !== '10010' &&
+            <Map 
+              data={this.state.storeData}
+              zoom={showMapZoom}
+              hidden={!showMap}
+              hideAreas={showMap && showDetail && !showList}
+              onClick={this.handleClickMap}
+              current={currentArea}
+            />
+          }
           <Books 
             isList={this.state.isSearch}
             hidden={!showList}
