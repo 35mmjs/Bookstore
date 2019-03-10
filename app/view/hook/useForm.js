@@ -58,18 +58,16 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
     // checked代表是否已经输入过了
     const [stateValue, onStateChange] = useState({ checked: false, inputValue: validator.default })
     let { checked, inputValue } = stateValue
-    // 输入的表单值
+    // 输入表单值
     if (!checked && values[key] !== undefined) {
       checked = true
       inputValue = values[key]
     }
     const value = validator.transform ? validator.transform(inputValue, validator) : defaultTransform(inputValue, validator)
-    const error = checked ? check(validator, key, value) : ''
     return {
       validator,
       placeholder: validator.placeholder,
-      validateStatus: error ? 'error' : '',
-      help: error || '',
+      checked,
       value,
       onChange(e) {
         let val = e
@@ -83,10 +81,29 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
         onStateChange({ checked: true, inputValue: val })
         if (onChange) onChange({ value: val, key, setValues: api.setValues })
       },
-      onStateChange,
+      onStateChange(data) {
+        onStateChange(data)
+        if (onChange) onChange({ value: data.inputValue, key, setValues: api.setValues })
+      },
       stateValue,
     }
   })
+  // 处理visible及错误校验
+  const record = mapValues(formItems, item => item.value)
+  mapValues(formItems, (item, key) => {
+    item.visible = item.validator.type !== 'hidden' && (item.validator.visible ? item.validator.visible(record) : true)
+    if (item.visible) {
+      const error = item.checked ? check(item.validator, key, item.value, record) : ''
+      item.validateStatus = error ? 'error' : ''
+      item.help = error || ''
+    } else {
+      item.validateStatus = ''
+      item.help = ''
+    }
+  })
+  function getVisibleFormItems() {
+    return filter(formItems, item => item.visible)
+  }
   const api = {
     // 用于formItem上的错误信息提醒描述
     getStatus(key) {
@@ -100,7 +117,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
     getForm() {
       return (
         <Form>
-          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hidden'), (item, key) => {
+          {obj2arr(mapValues(getVisibleFormItems(), (item, key) => {
             let content
             switch (item.validator.type) {
               case 'password':
@@ -143,8 +160,8 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
     },
     submit() {
       // 强制校验一次并触发表单更新
-      each(formItems, (obj, key) => {
-        check(validators[key], key, obj.value)
+      each(getVisibleFormItems(), (obj, key) => {
+        check(validators[key], key, obj.value, record)
         obj.onStateChange({ ...obj.stateValue, checked: true })
       })
       if (hasError) return

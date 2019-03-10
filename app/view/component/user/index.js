@@ -20,9 +20,10 @@ export default function User() {
   const { modal, modalShow } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'enum', label: '所属企业', required: true, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
-      store: { type: 'enum', label: '所属门店', required: true, options: stores.map(item => ({ value: item.id, label: item.name })) },
+      enterprise: { type: 'enum', label: '所属企业', required: true, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      store: { type: 'enum', label: '所属门店', required: true, visible: record => !record || !record.is_admin, options: stores.map(item => ({ value: item.id, label: item.name })) },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
+      is_admin: { type: 'hidden' },
     },
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
     onChange: ({ key, value, setValues }) => {
@@ -63,6 +64,8 @@ export default function User() {
       render: (text, record) => (
         <Fragment>
           <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
+          &nbsp;&nbsp;
+          <a onClick={() => modalShow('修改账号', record)}>修改</a>
         </Fragment>
       ),
     },

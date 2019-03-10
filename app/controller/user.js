@@ -143,9 +143,13 @@ class UserController extends Controller {
   }
 
   async update() {
-    const request = this.ctx.request.body
-    this.ctx.validate('users', request)
-    const result = await this.ctx.service.users.update(request.id, request.name, request.enterprise)
+    const ctx = this.ctx
+    const { username, password, enterprise, store, id } = ctx.request.body
+    this.ctx.validate('user', { username, password })
+    const result = await this.ctx.service.users.update(id, username, password, enterprise, store)
+    if (String(ctx.session.user.id) === String(id)) {
+      ctx.session.user = undefined
+    }
     this.ctx.body = {
       success: true,
       data: result,

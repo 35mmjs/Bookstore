@@ -26,16 +26,20 @@ class UserService extends Service {
   async create(username, password, isAdmin, enterprise, store) {
     const { password: encryptedPwd, salt } = this.ctx.helper.encrypt(password)
     const result = await this.app.mysql.insert('users', {
-      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt, enterprise, store
+      username, password: encryptedPwd, is_admin: isAdmin ? 1 : 0, salt, enterprise, store,
     })
     return result.affectedRows === 1
   }
 
-  async update(uid, name, enterprise) {
+  async update(uid, username, password, enterprise, store) {
+    const { password: encryptedPwd, salt } = this.ctx.helper.encrypt(password)
     const row = {
       id: uid,
-      name,
+      username,
       enterprise,
+      store,
+      password: encryptedPwd,
+      salt,
     }
     const result = await this.app.mysql.update('users', row)
     return result.affectedRows === 1
