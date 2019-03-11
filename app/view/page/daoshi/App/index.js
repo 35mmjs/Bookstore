@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { message } from 'antd'
 import { search, getBook, getDaoshiData } from '../../util/services'
 import Map from '../Map'
+import MapSlider from '../MapSlider'
 import Book from '../Book'
 import Books from '../Books'
 import data from './data'
@@ -139,6 +140,13 @@ class App extends React.Component {
     }, () => {
       setTimeout(callback, 300)
       this.reStart()
+    })
+  }
+
+  handleClickSliderMap = () => {
+    this.setState({
+      beforeStatus: [1, 1, 0],
+      status: [2, 0, 0],
     })
   }
 
@@ -304,6 +312,14 @@ class App extends React.Component {
               hideAreas={showMap && showDetail && !showList}
               onClick={this.handleClickMap}
               current={currentArea}
+            />
+          }
+          {
+            orgId === '10010' &&
+            <MapSlider
+              onClick={this.handleClickSliderMap}
+              hidden={!showMap}
+              zoom={showMapZoom}
             />
           }
           <Books 

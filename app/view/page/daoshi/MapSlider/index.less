@@ -1,8 +1,84 @@
-import React from 'react'
-import classNames from 'classnames'
+.mapslider {
+  width: 970px;
+  height: 760px;
+  padding-left: 200px;
+  padding-right: 90px;
+  padding-top: 180px;
+  position: relative;
 
-class MapSlider extends React.Component {
+  .mapslider-index {
+    position: absolute;
+    top: 0;
+    left: 80px;
+    width: 163px;
+    height: 55px;
+    img {
+      width: 100%;
+    }
+  }
 
+  .mapslider-content,
+  &-image {
+    width: 660px;
+    height: 530px;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .slick-arrow {
+    &:before {
+      content: '';
+    }
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 47px;
+    height: 79px;
+    display: inline-block;
+  }
+
+  .slick-prev {
+    top: 450px;
+    left: -80px;
+    background-image: url('http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/liuzhouarrow01.png')
+  }
+
+  .slick-next {
+    top: 450px;
+    right: -80px;
+    background-image: url('http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/liuzhouarrow02.png')
+  }
+
+  &-zoom {
+    width: 1700px;
+    height: 900px;
+    padding-top: 100px;
+    padding-left: 550px;
+
+    .mapslider-index {
+      top: 200px;
+    }
+
+    .mapslider-content,
+    .mapslider-image {
+      width: 950px;
+      height: 760px;
+    }
+
+    .slick-prev {
+      top: 50%;
+      left: -180px;
+    }
+  
+    .slick-next {
+      top: 50%;
+      right: -180px;
+    }
+  } 
+
+  &-hide {
+    display: none;
+  }
 }
-
-export default MapSlider
