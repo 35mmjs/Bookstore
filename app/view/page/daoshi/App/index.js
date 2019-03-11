@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { message } from 'antd'
 import { search, getBook, getDaoshiData } from '../../util/services'
 import Map from '../Map'
+import MapSlider from '../MapSlider'
 import Book from '../Book'
 import Books from '../Books'
 import data from './data'
@@ -142,6 +143,13 @@ class App extends React.Component {
     })
   }
 
+  handleClickSliderMap = () => {
+    this.setState({
+      beforeStatus: [1, 1, 0],
+      status: [2, 0, 0],
+    })
+  }
+
   handleShowPosition = (bookList) => {
     const { jwh } = bookList[0]
     if (!jwh) return
@@ -256,6 +264,7 @@ class App extends React.Component {
   }
 
   render() {
+    const orgId = window.appData.orgId
     const { status, currentArea } = this.state
     // default [1, 1, 0]
     // click position [1, 0, 0]
@@ -294,14 +303,25 @@ class App extends React.Component {
               }
             </div>
           </div>
-          <Map 
-            data={this.state.storeData}
-            zoom={showMapZoom}
-            hidden={!showMap}
-            hideAreas={showMap && showDetail && !showList}
-            onClick={this.handleClickMap}
-            current={currentArea}
-          />
+          {
+            orgId !== '10010' &&
+            <Map 
+              data={this.state.storeData}
+              zoom={showMapZoom}
+              hidden={!showMap}
+              hideAreas={showMap && showDetail && !showList}
+              onClick={this.handleClickMap}
+              current={currentArea}
+            />
+          }
+          {
+            orgId === '10010' &&
+            <MapSlider
+              onClick={this.handleClickSliderMap}
+              hidden={!showMap}
+              zoom={showMapZoom}
+            />
+          }
           <Books 
             isList={this.state.isSearch}
             hidden={!showList}
