@@ -77,9 +77,6 @@ class App extends React.Component {
 
   getName = (name) => {
     if (!name) return name
-    name = name.split('周')[1] || name.split('月')[1]
-    name = name.replace('TOP10', '')
-    name = name.replace('  ', '')
     return name
   }
 
