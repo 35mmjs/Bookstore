@@ -75,7 +75,7 @@ export const getDaoshiData = (data) => {
 export const getPaihangCatalog = data => {
   const { orgId, clientId } = window.appData
   const { navId } = data
-  return axios.get(`http://${host}/open/v1/paihang/catalog`, {
+  return axios.get(`http://${host}/open/v1/paihang`, {
     params: {
       orgId,
       clientId,
