@@ -21,7 +21,7 @@ function normalize(d) {
     yxxlmc: d.Kind1Name1,
     ml: d.Catalog || '', // 目录,
     dj: d.PrePrice || d.Price, // 定价
-    tjy: (d.Prologue || '').trim(), // 推荐语
+    tjy: (d.Prologue || '').trim() || (d.Contentsummary || '').trim(), // 推荐语
     nrty: (d.Contentsummary || '').trim(), // 内容提要
     pageType: d.PageNo,
     ys: d.PageNumber, // 页数
@@ -135,7 +135,8 @@ class BookAPIByZhongjinService extends Service {
       BeginTime: `${time.getFullYear()}${month(time.getMonth())}01`,
       EndTime: `${time.getFullYear()}${month(time.getMonth() + 1)}01`,
       key: phid, // 1哲学、社会科学,2文化、教育,3文学、艺术,4自然科学、科技,5少儿读物,6大中专教材,7课本,8教辅读物,9其他出版物,10音像制品
-    }).then(arr => Promise.all(arr.map(item => this.getBookBySPBS(item.SendUnitID, khbh))))
+    }).then(arr => Promise.all(arr.map(item => this.getBookBySPBS(item.SendUnitID, khbh, true))))
+      .then(arr => arr.filter(i => !!i))
   }
 
   getRinkingInfoDetail(phid) {
@@ -172,15 +173,16 @@ class BookAPIByZhongjinService extends Service {
    * 根据商品标识
    * @param SPBS
    * @param khbh
+   * @param ignore
    * @return {Promise<T | never | never>}
    */
-  getBookBySPBS(SPBS, khbh) {
+  getBookBySPBS(SPBS, khbh, ignore) {
     return this.fetch({
       ServerID: 3, // 函数ID
       ID: SPBS,
       shopID: khbh,
     }).then(d => {
-      if (d.length === 0) throw new CommonError('未找到对应书本')
+      if (!ignore && d.length === 0) throw new CommonError('未找到对应书本')
       return normalize(d[0])
     })
   }
