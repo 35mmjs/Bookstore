@@ -31,6 +31,10 @@
   }
 }
 
+.wrapper_mulity .cover {
+  left: 20px;
+}
+
 .info {
   position: absolute;
   width: 420px;
@@ -57,14 +61,14 @@
   overflow: hidden;
 }
 
-.info_author {
+.info_author, .info_publish {
   line-height: 36px;
   font-size: 24px;
   color: #fff;
+  margin-bottom: 0;
 }
 
-.info_author_small {
-  padding-bottom: 30px;
+.info_author_small, .info_publish_small {
   margin: 0 0;
 }
 
@@ -72,7 +76,7 @@
   position: absolute;
   width: 250px;
   left: 0px;
-  bottom: 142px;
+  bottom: 100px;
   line-height: 36px;
   font-size: 24px;
   margin: 0 0;
@@ -122,19 +126,19 @@
   width: 700px;
   height: 140px;
   color: #00f0fb;
-  top: 100px;
+  top: 54px;
   left: 850px;
   text-shadow: 1px 5px 5px rgba(0, 0, 0, 0.6);
 
   .intor_content {
-    height: 144px;
+    height: 193px;
     font-size: 36px;
     line-height: 48px;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
   }
 }

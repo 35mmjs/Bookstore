@@ -60,7 +60,7 @@ class App extends React.Component {
       clearTimeout(this.timeout)
     }
 
-    const timeout = force ? 0 : 30000
+    const timeout = force ? 0 : 50000
 
     this.timeout = setTimeout(() => {
       this.play()
@@ -119,7 +119,7 @@ class App extends React.Component {
       slidesToShow: handUp && sliderBooks.length > 1 ? 2 : 1,
       slidesToScroll: handUp && sliderBooks.length > 1 ? 2 : 1,
       autoplay: true,
-      autoplaySpeed: 3000,
+      autoplaySpeed: 5000,
       variableWidth: true,
     }
     return (
