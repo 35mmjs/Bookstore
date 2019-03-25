@@ -69,7 +69,8 @@ export default function GlobalHeader(props) {
           ? (
             <span>
               <span>所在企业：</span>
-              <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={enterprise === null ? undefined : enterprise} onChange={changeEnterprise}>
+              <Select style={{ width: 200, marginRight: 8 }} placeholder="切换企业" value={(enterprise === null || enterprise === undefined) ? 'all' : enterprise} onChange={changeEnterprise}>
+                <Option key="all" value="all">所有</Option>
                 {enterprises.map(item => (
                   <Option key={item.id} value={item.id}>{item.name}</Option>
                 ))}

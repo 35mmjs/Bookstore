@@ -67,6 +67,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
     return {
       validator,
       placeholder: validator.placeholder,
+      disabled: validator.disabled !== undefined ? validator.disabled : false,
       checked,
       value,
       onChange(e) {
@@ -112,7 +113,7 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
     },
     getProps(key) {
       if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${schema}[${Object.keys(validators)}]".`)
-      return pick(formItems[key], ['value', 'onChange', 'placeholder'])
+      return pick(formItems[key], ['value', 'onChange', 'placeholder', 'disabled'])
     },
     getForm() {
       return (
