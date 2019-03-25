@@ -39,7 +39,7 @@ let menu = [
   },
 ]
 
-if (window.appData.isAdmin) {
+if (window.appData.loginUser.isAdmin) {
   menu = menu.concat([
     {
       label: '企业管理',
