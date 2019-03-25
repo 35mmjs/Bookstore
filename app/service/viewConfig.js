@@ -37,12 +37,8 @@ select view_configs.*, terminal_types.name as view_configs_type from \`view_conf
     return result.affectedRows === 1
   }
 
-  async update(uid, name) {
-    const row = {
-      id: uid,
-      name,
-    }
-    const result = await this.app.mysql.update(DB, row)
+  async update(params) {
+    const result = await this.app.mysql.update(DB, params)
     return result.affectedRows === 1
   }
 

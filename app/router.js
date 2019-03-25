@@ -44,6 +44,7 @@ module.exports = app => {
   router.post(store.update, controller.store.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
+  router.post(viewConfig.update, controller.viewConfig.update)
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
   router.get(viewConfig.remove, controller.viewConfig.remove)
   router.get(viewConfig.findOne, controller.viewConfig.findOne)

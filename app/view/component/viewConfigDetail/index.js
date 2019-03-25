@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Divider, Form, Row, Col, Button, Select, Input } from 'antd'
 import moment from 'moment'
 import ReactJson from 'react-json-view'
+import Inspector from 'react-json-inspector'
 import { connect } from 'dva'
 
 import DescriptionList from '../common/DescriptionList'
@@ -18,13 +19,15 @@ import TerminalTypeSelect from '../common/bizCommon/terminalTypeSelect'
 import PubuForm from './form/pubuForm'
 import ZhantaiForm from './form/zhantaiForm'
 import PaihangForm from './form/paihangForm'
+import { TYPE_MAP } from '_parameter@3.5.0@parameter/index.es5'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
 const { Option } = Select
 
 const DetailView = ({ data = {} }) => {
-  const { type, note, content, created_at, update_at } = data
+  const { type, note, content = '{}', created_at, update_at } = data
+  const parsedContent = JSON.parse(content)
   return (
     <div>
       <DescriptionList
@@ -37,7 +40,7 @@ const DetailView = ({ data = {} }) => {
         <Description term="终端名">{note}</Description>
         <Description term="类型">{type}</Description>
         <Description term="配置">
-          <ReactJson src={content} />
+          <ReactJson src={parsedContent} />
         </Description>
         <Description term="创建时间">
           {moment(created_at).format('YYYY-MM-DD HH:mm:ss')}
@@ -49,68 +52,95 @@ const DetailView = ({ data = {} }) => {
 }
 
 @Form.create()
-class CreateForm extends React.Component {
+class CreateAndEditForm extends React.Component {
   constructor(props) {
     super(props)
-    const { data = {} } = props
-    const defaultType = data.type || VIEW_CONFIG_ID.PUBU_ID
     this.state = {
-      type: defaultType,
       content: null,
+      // type: VIEW_CONFIG_ID.PAIHANG_ID,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data) {
+      const { note, type, content } = nextProps.data
+      this.setState({
+        type,
+        note,
+        content: JSON.parse(content),
+      })
     }
   }
 
   handleSelectChange = val => {
-    if (val === VIEW_CONFIG_ID.PUBU_ID) this.setState({ type: val })
-    if (val === VIEW_CONFIG_ID.ZHANTAI_ID) this.setState({ type: val })
-    if (val === VIEW_CONFIG_ID.DAOSHI_ID) this.setState({ type: val })
-    if (val === VIEW_CONFIG_ID.PAIHANG_ID) this.setState({ type: val })
+    const { form } = this.props
+    form.setFieldsValue({
+      type: val,
+    })
   }
 
   onChildFormSubmit = val => {
     this.setState({ content: val })
   }
 
-  render() {
-    const { handleSubmit, form } = this.props
-    const { content } = this.state
-    const { getFieldDecorator } = form
-    const handleFormReset = () => {
-      form.resetFields()
-    }
-    const submitBeforeValidation = () => {
-      form.validateFields((err, fieldsValue) => {
-        if (err) return
-        form.resetFields()
-        const { type, note } = fieldsValue
-        handleSubmit({
-          note,
-          type,
-          content: JSON.stringify(content),
-        })
-      })
-    }
+  submitBeforeValidation = () => {
+    const { form, handleSubmit } = this.props
+    form.validateFields((err, fieldsValue) => {
+      if (err) return
+      const { type, note } = fieldsValue
+      const { content } = this.state
+      const payload = {
+        note,
+        type,
+        content: JSON.stringify(content),
+      }
+      console.log('submit value', payload)
+      console.log(content)
+      handleSubmit(payload)
+    })
+  }
 
+  render() {
+    const { form } = this.props
+    const { note = '', type = '', content = null } = this.state
+    const { getFieldDecorator } = form
+    const { getFieldValue } = form
+    const choosenType = getFieldValue('type') || type
     const detaiform = () => {
-      if (this.state.type === VIEW_CONFIG_ID.PUBU_ID) {
-        return <PubuForm onSubmit={this.onChildFormSubmit} />
+      const mergedProps = {
+        content,
+        type,
       }
-      if (this.state.type === VIEW_CONFIG_ID.ZHANTAI_ID) {
-        return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
+      if (choosenType === VIEW_CONFIG_ID.PUBU_ID) {
+        return <PubuForm {...mergedProps} onSubmit={this.onChildFormSubmit} />
       }
-      if (this.state.type === VIEW_CONFIG_ID.DAOSHI_ID) {
-        return <ZhantaiForm onSubmit={this.onChildFormSubmit} />
+      if (choosenType === VIEW_CONFIG_ID.ZHANTAI_ID) {
+        return (
+          <ZhantaiForm
+            {...mergedProps}
+            data={content}
+            onSubmit={this.onChildFormSubmit}
+          />
+        )
       }
-      if (this.state.type === VIEW_CONFIG_ID.PAIHANG_ID) {
-        return <PaihangForm onSubmit={this.onChildFormSubmit} />
+      if (choosenType === VIEW_CONFIG_ID.DAOSHI_ID) {
+        return (
+          <ZhantaiForm {...mergedProps} onSubmit={this.onChildFormSubmit} />
+        )
+      }
+      if (choosenType === VIEW_CONFIG_ID.PAIHANG_ID) {
+        return (
+          <PaihangForm {...mergedProps} onSubmit={this.onChildFormSubmit} />
+        )
       }
       return null
     }
 
     return (
-      <Form onSubmit={submitBeforeValidation}>
+      <Form>
         <FormItem {...FORM_ITEM_LAYOUT} label="配置备注">
           {getFieldDecorator('note', {
+            initialValue: note,
             rules: [
               { required: true, message: '请输入至少3个字符的描述！', min: 3 },
             ],
@@ -119,12 +149,15 @@ class CreateForm extends React.Component {
         <FormItem {...FORM_ITEM_LAYOUT} label="类型">
           {getFieldDecorator('type', {
             rules: [{ required: true, message: '请选择视图类型！' }],
-            initialValue: this.state.type,
+            initialValue: type,
           })(<TerminalTypeSelect onChange={this.handleSelectChange} />)}
         </FormItem>
         {detaiform()}
-        <FormItem {...SUBMIT_FORM_LAYOUT} style={{ marginTop: 12, textAlign: 'center' }}>
-          <Button type="primary" htmlType="submit">
+        <FormItem
+          {...SUBMIT_FORM_LAYOUT}
+          style={{ marginTop: 12, textAlign: 'center' }}
+        >
+          <Button type="primary" onClick={this.submitBeforeValidation}>
             提交
           </Button>
         </FormItem>
@@ -133,11 +166,11 @@ class CreateForm extends React.Component {
   }
 }
 
-const EditView = ({ data, ...rest }) => {
-  return <CreateForm data={data} {...rest} />
+const EditView = ({ ...props }) => {
+  return <CreateAndEditForm {...props} />
 }
 const CreateView = props => {
-  return <CreateForm {...props} />
+  return <CreateAndEditForm {...props} />
 }
 @connect(state => ({
   ...state,
@@ -153,7 +186,7 @@ export default class Index extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.state.operation === 'view') {
+    if (this.state.operation === 'view' || this.state.operation === 'edit') {
       const { dispatch } = this.props
       dispatch({
         type: 'viewConfigDetail/findOne',
@@ -165,10 +198,20 @@ export default class Index extends React.Component {
   handleSubmit = param => {
     console.log('handleSubmit', param)
     const { dispatch } = this.props
-    dispatch({
-      type: 'viewConfigDetail/create',
-      payload: param,
-    })
+    if (this.state.operation === 'edit') {
+      dispatch({
+        type: 'viewConfigDetail/edit',
+        payload: {
+          ...param,
+          id: this.state.id,
+        },
+      })
+    } else {
+      dispatch({
+        type: 'viewConfigDetail/create',
+        payload: param,
+      })
+    }
   }
 
   render() {
@@ -182,11 +225,14 @@ export default class Index extends React.Component {
       handleSubmit: this.handleSubmit,
       data: singleItem,
     }
+    const viewFormProps = {
+      data: singleItem,
+    }
     return (
       <div>
         {operation === 'edit' ? <EditView {...editFormProps} /> : null}
         {operation === 'new' ? <CreateView {...formProps} /> : null}
-        {operation === 'view' ? <DetailView data={singleItem} /> : null}
+        {operation === 'view' ? <DetailView {...viewFormProps} /> : null}
       </div>
     )
   }

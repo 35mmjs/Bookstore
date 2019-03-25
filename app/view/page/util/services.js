@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-const devHost = '127.0.0.1'
+const devHost = '127.0.0.1:7001'
 const dailyHost = '47.96.75.202'
 const pubHost = '47.96.181.54'
 
 console.log('host: ', window.location.hostname)
-const host = window.location.hostname === pubHost ? pubHost : dailyHost
+// const host = window.location.hostname === pubHost ? pubHost : dailyHost
+const host = devHost
 
 export const search = (data) => {
   const { orgId, clientId } = window.appData

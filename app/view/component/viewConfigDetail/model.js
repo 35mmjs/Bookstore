@@ -50,6 +50,20 @@ export default {
         message.fail('创建失败')
       }
     },
+    *edit({ payload }, { call, put }) {
+      try {
+        const data = yield call(service.update, payload)
+        yield put({
+          type: 'createReducer',
+          payload: data,
+        })
+        message.success('修改成功', 3, () => {
+          window.location.reload()
+        })
+      } catch (e) {
+        message.fail('创建失败')
+      }
+    },
     *findOne({ payload }, { call, put }) {
       const data = yield call(service.findOne, payload)
       yield put({

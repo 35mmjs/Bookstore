@@ -1,7 +1,11 @@
+## 3月收尾工作
+- [ ] 增加列表拖拽
+- [x] 排行榜可编辑
+- [ ] 
 ## 3月TODO
-- [ ] 增加批量添加按钮
-- [ ] 删除的判重操作, 每次新增重复的就会有问题
-- [ ] 展台的提交问题
+- [x] 增加批量添加按钮
+- [x] 删除的判重操作, 每次新增重复的就会有问题
+- [x] 展台的提交问题
 - [ ] 一个入口页面, 用来手动做调转
 ## 1230 进度汇总
 ### 已经完成
@@ -205,5 +209,30 @@ https://node.console.aliyun.com/#!/owned
 https://circleci.com/pricing/
 https://travis-ci.org/
 
+
+## 关于排行的redis设计
+### 排行的payload
+  先set paihang nav, 再update, paiahng_pad就有信息了
+  1. clientId, navId 确定唯一排行导航信息
+  key: paihang_nav_${clientId}_${navId}
+  value: 
+  {
+    catelogId: 1,
+    catelogName: '',
+    catelog: [],
+    content: [
+      {
+        books: [],
+        channel: '',
+        key: '',
+      }
+    ],
+  }
+  2. clientId, navId 确定唯一排行pad信息
+  key: paihang_pad_${clientId}_${navId}
+  value:
+  [
+    {books}
+  ]
 
 

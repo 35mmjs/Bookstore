@@ -140,8 +140,46 @@ class OpenApiController extends Controller {
     }
   }
 
+  async processPaihangConfig(payload, navId, clientId) {
+    let res = {}
+    function getCatelogAndSaveToRedis(data) {
+      let resMap = {}
+      if (data && data.length > 0) {
+        resMap = data.map((item, index) => {
+          return {
+            id: index,
+            name: item.channel,
+          }
+        })
+      }
+      return resMap
+    }
+    try {
+      payload.forEach(async (item, index) => {
+        if (index + 1 === navId) {
+          res = getCatelogAndSaveToRedis(item, navId, clientId)
+          const payload = {
+            catalogId: '',
+            catalogName: '',
+            catalog: res,
+            content: item,
+          }
+          await this.app.redis.set(
+            `paihang_nav_${clientId}_${navId}`,
+            JSON.stringify(payload),
+          )
+        }
+      })
+    } catch (e) {
+      console.error(e)
+    }
+
+    return res
+  }
+
   async getPaihang() {
     const query = this.ctx.query
+    let result = []
     const { clientId, orgId, navId } = query
     if (!orgId) {
       this.ctx.body = {
@@ -161,7 +199,19 @@ class OpenApiController extends Controller {
       }
       return
     }
-    const result = paihangMap(item, navId)
+    if (item.content) {
+      result = await this.processPaihangConfig(
+        JSON.parse(item.content),
+        parseInt(navId, 10),
+        clientId,
+      )
+    } else {
+      this.ctx.body = {
+        success: false,
+        error: '未配置排行视图',
+      }
+      return
+    }
     this.ctx.body = {
       success: true,
       data: result,
@@ -362,50 +412,29 @@ class OpenApiController extends Controller {
   // TODO redis 要优化
   async updatePaihang() {
     const query = this.ctx.query
+    let books = []
     const { orgId, clientId, navId, catalogId } = query
-    let newPaihangSession
-    const paihang = await this.app.redis.get('paihang')
-    // 更新session
-    if (!paihang) {
-      await this.app.redis.set('paihang', JSON.stringify([]))
+    const paihangNavSession = await this.app.redis.get(
+      `paihang_nav_${clientId}_${navId}`,
+    )
+    if (!paihangNavSession) {
+      this.ctx.body = {
+        success: false,
+        msg: '获取排行失败',
+      }
+      return
     }
-    const paihangSessionRaw = await this.app.redis.get('paihang')
-    const paihangSession = JSON.parse(paihangSessionRaw)
-    // 通过设备id确定唯一排行
-    const matched = paihangSession.find(item => {
-      return item.clientId === clientId && item.navId === navId
-    })
-    if (matched) {
-      newPaihangSession = paihangSession.map(item => {
-        if (item.clientId === clientId && item.navId === navId) {
-          return {
-            ...item,
-            catalogId,
-          }
-        }
-        return item
-      })
-    } else {
-      paihangSession.push({
-        clientId,
-        navId,
-        catalogId,
-        orgId,
-      })
-      newPaihangSession = paihangSession
+    const paihangNavObj = JSON.parse(paihangNavSession)
+    const content = paihangNavObj.content
+    if (content) {
+      const data = content.find((item, index) => index === parseInt(catalogId, 10))
+      books = data.books
     }
-    await this.app.redis.set('paihang', JSON.stringify(newPaihangSession))
-    const data = await this.app.redis.get('paihang')
-    let paihangInfo
-    try {
-      paihangInfo = await this.getPaihangInfo(catalogId)
-    } catch (e) {
-      console.error(e)
-    }
+    await this.app.redis.set(`paihang_pad_${clientId}_${navId}`, JSON.stringify(books))
     this.ctx.body = {
       success: true,
       data: {
-        value: paihangInfo,
+        value: '',
       },
     }
   }
@@ -414,41 +443,32 @@ class OpenApiController extends Controller {
    * 获取选中的排行分类的书本详情, 轮询接口
    */
   async findPaihangPadDetail() {
+    let res = {}
     const query = this.ctx.query
     const { orgId, clientId, navId, rankId } = query
-    const paihangSessionRaw = await this.app.redis.get('paihang')
-    if (!paihangSessionRaw) {
+    const paihangNavSession = await this.app.redis.get(`paihang_nav_${clientId}_${navId}`)
+    if (!paihangNavSession) {
       this.ctx.body = {
         success: false,
         msg: '请先选择排行',
       }
       return
     }
-    // 计算 navId
-    // 通过设备id确定唯一排行
-    const paihangSession = JSON.parse(paihangSessionRaw)
-    const matched = paihangSession.find(item => {
-      return item.clientId === clientId && item.navId === navId
-    })
-    if (!matched) {
-      this.ctx.body = {
-        success: false,
-        msg: '请先选择排行',
+    const paihangPadSession = await this.app.redis.get(`paihang_pad_${clientId}_${navId}`)
+    if (paihangPadSession) {
+      const paihangPadArray = JSON.parse(paihangPadSession)
+      if (paihangPadArray && paihangPadArray.length > 0) {
+        paihangPadArray.forEach((item, index) => {
+          if (index + 1 === parseInt(rankId, 10)) {
+            res = item
+          }
+        })
       }
-      return
-    }
-    const catalogId = matched.catalogId
-    const paihangInfoRaw = await this.app.redis.get('paihang_info')
-    const paihangInfo = JSON.parse(paihangInfoRaw)
-    const paihangInfoList = paihangInfo[catalogId]
-    let payload = {}
-    if (paihangInfoList && paihangInfoList.length > 0) {
-      payload = paihangInfoList[rankId - 1]
     }
     this.ctx.body = {
       success: true,
       data: {
-        ...payload,
+        ...res,
       },
     }
   }

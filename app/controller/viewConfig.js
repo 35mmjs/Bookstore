@@ -46,7 +46,8 @@ class ViewConfigController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.viewConfig.create(request.name, request.password)
+    const { id, type, name, note, content } = request
+    const result = await this.ctx.service.viewConfig.update({ id, type, name, note, content })
     this.ctx.body = {
       success: true,
       data: result,

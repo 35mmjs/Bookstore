@@ -12,11 +12,11 @@ export default class Index extends React.Component {
         title: '配置ID',
         dataIndex: 'id',
         key: 'id',
-        render: (value, record) => {
-          return (
-            <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
-          )
-        },
+        // render: (value, record) => {
+        //   return (
+        //     <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
+        //   )
+        // },
       },
       // {
       //   title: '名称',
@@ -50,9 +50,8 @@ export default class Index extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Fragment>
-            {/* <Link to={`/view-config/manage/detail/${record.id}/edit`}>
-              编辑
-            </Link> */}
+            <Link to={`/view-config/manage/detail/${record.id}/view`}>查看 | </Link>
+            <Link to={`/view-config/manage/detail/${record.id}/edit`}>编辑 | </Link>
             <Link
               to=""
               onClick={(e) => {
@@ -60,7 +59,7 @@ export default class Index extends React.Component {
                 this.props.onDelete(record)
               }}
             >
-              删除
+               删除
             </Link>
           </Fragment>
         ),
@@ -69,6 +68,6 @@ export default class Index extends React.Component {
   }
 
   render() {
-    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} rowKey="id" />
+    return <Table columns={this.columns} dataSource={this.props.data} rowKey="id" />
   }
 }

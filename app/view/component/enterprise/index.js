@@ -22,10 +22,10 @@ export default function Enterprise() {
     handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
   })
   const columns = [
-    {
-      title: '企业ID',
-      dataIndex: 'id',
-    },
+    // {
+    //   title: '企业ID',
+    //   dataIndex: 'id',
+    // },
     {
       title: '企业名称',
       dataIndex: 'name',
