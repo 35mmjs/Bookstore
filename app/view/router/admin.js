@@ -37,21 +37,26 @@ let menu = [
       },
     ] : null,
   },
-  {
-    label: '企业管理',
-    icon: 'bank',
-    value: '/enterprise',
-    children: null,
-  },
-  {
-    label: '用户管理',
-    icon: 'team',
-    value: '/user',
-    children: null,
-  },
 ]
 
-if (!window.appData.loginUser.isAdmin) {
+if (window.appData.isAdmin) {
+  menu = menu.concat([
+    {
+      label: '企业管理',
+      icon: 'bank',
+      value: '/enterprise',
+      children: null,
+    },
+    {
+      label: '用户管理',
+      icon: 'team',
+      value: '/user',
+      children: null,
+    },
+  ])
+}
+
+if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.enterprise) {
   menu = [
     {
       label: '配置中心',

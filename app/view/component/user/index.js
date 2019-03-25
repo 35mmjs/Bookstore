@@ -17,7 +17,7 @@ export default function User() {
   const [dataSource, reload] = useAsyncState(findAll, [])
   const [enterprises] = useAsyncState(findEnterpriseList, [])
   const [stores, reloadStores] = useAsyncState(findStoreList, [], false)
-  const { modal, modalShow } = useFormModal({
+  const { modal, modalShow: storeModalShow } = useFormModal({
     name: 'user',
     schema: {
       enterprise: { type: 'enum', label: '所属企业', required: true, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
@@ -32,6 +32,15 @@ export default function User() {
         reloadStores({ enterprise: value })
       }
     },
+  })
+  const { modal: enterpriseModal, modalShow: enterpriseModalShow } = useFormModal({
+    name: 'user',
+    schema: {
+      enterprise: { type: 'enum', label: '所属企业', required: true, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      id: { type: 'hidden' }, // 编辑模式需要传入的字段
+      is_admin: { type: 'hidden' },
+    },
+    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
   })
   const columns = [
     {
@@ -65,7 +74,7 @@ export default function User() {
         <Fragment>
           <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
           &nbsp;&nbsp;
-          <a onClick={() => modalShow('修改账号', record)}>修改</a>
+          <a onClick={() => record.store_name ? storeModalShow('修改账号', record) : enterpriseModalShow('修改账号', record)}>修改</a>
         </Fragment>
       ),
     },
@@ -73,10 +82,13 @@ export default function User() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => modalShow('新增门店账号')}>新增门店账号</Button>
+        <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>新增门店账号</Button>
+        &nbsp;&nbsp;
+        <Button type="primary" onClick={() => enterpriseModalShow('新增企业账号')}>新增企业账号</Button>
       </Button.Group>
       <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}
+      {enterpriseModal}
     </div>
   )
 }
