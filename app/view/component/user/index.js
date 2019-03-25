@@ -58,9 +58,19 @@ export default function User() {
       render: (val) => <span>{val || '无'}</span>,
     },
     {
-      title: '是否为管理员',
+      title: '账号类型',
       dataIndex: 'is_admin',
-      render: (val) => <span>{ val ? '是' : '否'}</span>,
+      render: (val, record) => {
+        let text
+        if (record.is_admin) {
+          text = '管理员'
+        } else if (record.enterprise && !record.store) {
+          text = '企业账号'
+        } else {
+          text = '门店账号'
+        }
+        return <span style={{ color: 'red' }}>{text}</span>
+      },
     },
     {
       title: '创建时间',
