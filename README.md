@@ -77,3 +77,14 @@ $ npm run egg-stop
 - [Redis安全须知](https://ruby-china.org/topics/28094)
 - [Egg-mysql](https://eggjs.org/zh-cn/tutorials/mysql.html)
 - [请求参数校验](https://github.com/node-modules/parameter)
+
+
+### 接口对接
+
+- 获取排行榜列表，包含排行ID、排行名称
+- 根据排行ID获取排行详细信息, 需要包含书目的列表信息
+- 根据书目ID查询书详情信息
+- 根据ISBN查询书详情信息
+- 根据关键词模糊查询书籍
+- 根据书目ID查询该书对应的推荐书籍
+- 获取库存信息

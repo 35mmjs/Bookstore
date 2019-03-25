@@ -1,7 +1,7 @@
 function bookInfoMap(res) {
   const processedResult = {
     cover: res.fmdt, // 封面
-    isbn: res.isbn, // isb
+    isbn: res.isbn, // isbn
     spbs: res.spbs, // 书本唯一标识或者是数据库id
     name: res.sm, // 书名
     author: res.author, // 作者
@@ -11,9 +11,9 @@ function bookInfoMap(res) {
     pricing: res.dj,
     recommender: res.tjy, // 推荐语
     intro: res.nrty, // 内容提要
-    pageType: res.kb,
-    pageNum: res.ys,
-    publish: res.bb,
+    pageType: res.kb, // 开本
+    pageNum: res.ys, // 页数
+    publish: res.bb, // 发行商
     version: '',
     bookshelf: '',
     stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
