@@ -13,7 +13,8 @@ import { findAll as findEnterpriseList } from '../enterprise/service'
 import { findByEnterprise as findStoreList } from '../store/service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
-const enterprise = window.appData.loginUser.isEnterpriseUser ? window.appData.loginUser.enterprise : null
+const enterprise = window.appData.loginUser.enterprise
+const store = window.appData.loginUser.store
 
 export default function User() {
   const [dataSource, reload] = useAsyncState(findAll, [])
@@ -23,7 +24,7 @@ export default function User() {
     name: 'user',
     schema: {
       enterprise: { type: 'enum', label: '所属企业', disabled: !!enterprise, default: enterprise, required: true, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
-      store: { type: 'enum', label: '所属门店', required: true, visible: record => !record || !record.is_admin, options: stores.map(item => ({ value: item.id, label: item.name })) },
+      store: { type: 'enum', label: '所属门店', disabled: !!store, default: store, required: true, visible: record => !record || !record.is_admin, options: stores.map(item => ({ value: item.id, label: item.name })) },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
       is_admin: { type: 'hidden' },
     },
@@ -35,6 +36,7 @@ export default function User() {
       }
     },
   })
+  if (enterprise) reloadStores({ enterprise })
   const { modal: enterpriseModal, modalShow: enterpriseModalShow } = useFormModal({
     name: 'user',
     schema: {

@@ -132,7 +132,7 @@ class UserController extends Controller {
     if (user && (user.isEnterpriseUser || user.isAdmin) && user.enterprise) {
       this.ctx.body = {
         success: true,
-        data: result.filter(n => n.enterprise === user.enterprise),
+        data: result.filter(n => n.enterprise === user.enterprise && (user.store ? user.store === n.store : true)),
       }
       return
     }
