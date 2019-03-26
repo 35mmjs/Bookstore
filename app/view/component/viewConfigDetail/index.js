@@ -19,7 +19,6 @@ import TerminalTypeSelect from '../common/bizCommon/terminalTypeSelect'
 import PubuForm from './form/pubuForm'
 import ZhantaiForm from './form/zhantaiForm'
 import PaihangForm from './form/paihangForm'
-import { TYPE_MAP } from '_parameter@3.5.0@parameter/index.es5'
 
 const { Description } = DescriptionList
 const FormItem = Form.Item
