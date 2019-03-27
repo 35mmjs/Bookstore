@@ -46,14 +46,14 @@ let menu = [
 ]
 
 if (window.appData.loginUser.isAdmin) {
-  menu = menu.concat([
+  menu.unshift(
     {
       label: '企业管理',
       icon: 'bank',
       value: '/enterprise',
       children: null,
     },
-  ])
+  )
 }
 
 if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.enterprise) {
