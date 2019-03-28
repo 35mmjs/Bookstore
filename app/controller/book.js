@@ -17,7 +17,11 @@ class BookController extends Controller {
     if (isbnArray && isbnArray.length > 0) {
       list = await Promise.all(
         isbnArray.map(async item => {
-          const res = await bookAPI.getBookByISBN(item)
+          let res = {}
+          res = await bookAPI.getBookByISBN(item)
+          if (res.spbs) {
+            res = await bookAPI.getBookBySPBS(res.spbs)
+          }
           return bookInfoMap(res)
         }),
       )
@@ -38,40 +42,19 @@ class BookController extends Controller {
     const { isbn, spbs } = param
     const { bookAPI } = await this.ctx.getBookAPI()
     let res
+    let processedResult = {}
     if (isbn) {
+      let res = {}
       res = await bookAPI.getBookByISBN(isbn)
+      if (res.spbs) {
+        res = await bookAPI.getBookBySPBS(res.spbs)
+      }
+      processedResult = bookInfoMap(res)
     }
     if (spbs) {
       res = await bookAPI.getBookBySPBS(spbs)
+      processedResult = bookInfoMap(res)
     }
-    // let res
-    // if (isbn) {
-    //   res = await bookAPI.getBookByISBN(isbn)
-    // }
-    // // 10001
-    // const orgId = this.ctx.getLoginStore()
-    // if (!orgId) {
-    //   this.ctx.body = {
-    //     success: false,
-    //     error: `无法找到门店id: ${orgId}`,
-    //   }
-    //   return
-    // }
-    // if (spbs) {
-    //   const currentStore = await this.ctx.service.store.findOne(orgId)
-    //   if (!currentStore) {
-    //     this.ctx.body = {
-    //       success: false,
-    //       error: `无法找到门店id: ${orgId}`,
-    //     }
-    //     return
-    //   }
-    //   const [kcdh, bmbh] = currentStore.store_code.split('-')
-    //   const stockList = await bookAPI.getStockList(kcdh, spbs, bmbh)
-    //   res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
-    //   res.stockList = stockList
-    // }
-    const processedResult = bookInfoMap(res)
     this.ctx.body = {
       success: true,
       data: processedResult,
