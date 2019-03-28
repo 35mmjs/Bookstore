@@ -219,7 +219,7 @@ class App extends React.Component {
       loading()
 
       if (!data.success) {
-        message.error('系统出错，请稍后再试')
+        message.error('输入错误，请重新输入')
         return
       }
 
@@ -243,7 +243,7 @@ class App extends React.Component {
       this.reStart()
     }).catch(err => {
       loading()
-      message.error('系统出错，请稍后再试')
+      message.error('输入错误，请重新输入')
     })
   }
 
