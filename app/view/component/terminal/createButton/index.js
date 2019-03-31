@@ -88,6 +88,14 @@ const CreateButton = props => {
       <Button type="primary" onClick={() => handleModalVisible(true)}>
         新建
       </Button>
+      &nbsp;&nbsp;
+      <Button type="primary" onClick={() => window.open(`http://47.96.181.54:8070/queryport/manage/index.html#/blank/device-list?store_id=${window.appData.loginUser.store}`)}>
+        控制终端
+      </Button>
+      &nbsp;&nbsp;
+      <Button type="primary" onClick={() => window.open(`http://47.96.181.54:8070/queryport/manage/index.html#/blank/task-list?store_id=${window.appData.loginUser.store}`)}>
+        终端任务查询
+      </Button>
     </div>
   )
 }
