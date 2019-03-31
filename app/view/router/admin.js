@@ -56,7 +56,7 @@ if (window.appData.loginUser.isAdmin) {
   )
 }
 
-if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.enterprise) {
+if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.isEnterpriseUser) {
   menu = [
     {
       label: '配置中心',
