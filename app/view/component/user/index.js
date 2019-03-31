@@ -13,8 +13,9 @@ import { findAll as findEnterpriseList } from '../enterprise/service'
 import { findByEnterprise as findStoreList } from '../store/service'
 import { composeAsync, removeConfirm } from '../../common/utils'
 
-const enterprise = window.appData.loginUser.enterprise
-const store = window.appData.loginUser.store
+const loginUser = window.appData.loginUser
+const enterprise = loginUser.isAdmin ? undefined : loginUser.enterprise
+const store = loginUser.isAdmin ? undefined : loginUser.store
 
 export default function User() {
   const [dataSource, reload] = useAsyncState(findAll, [])
@@ -98,7 +99,7 @@ export default function User() {
       <Button.Group style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>新增门店账号</Button>
         &nbsp;&nbsp;
-        <Button type="primary" onClick={() => enterpriseModalShow('新增企业账号')}>新增企业账号</Button>
+        { loginUser.isAdmin ? <Button type="primary" onClick={() => enterpriseModalShow('新增企业账号')}>新增企业账号</Button> : null }
       </Button.Group>
       <Table rowKey="id" dataSource={dataSource} columns={columns} />
       {modal}

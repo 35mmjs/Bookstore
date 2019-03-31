@@ -77,6 +77,7 @@ class UserController extends Controller {
       id: user.id,
       isAdmin: !!user.is_admin,
       isEnterpriseUser: user.enterprise && !user.store,
+      isStoreUser: user.enterprise && user.store,
       username: user.username,
       enterprise: user.enterprise,
       store: user.store,
