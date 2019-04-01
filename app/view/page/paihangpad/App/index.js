@@ -49,12 +49,17 @@ class App extends React.Component {
     this.setState({
       showDetail: !showDetail,
     }, () => {
-      this.timeout = setTimeout(() => {
-        console.log('==> 自动刷新回去')
-        that.setState({
-          showDetail: false,
-        })
-      }, 30 * 1000)
+      if (showDetail) {
+        this.getData()
+      } else {
+        setTimeout(() => {
+          that.setState({
+            showDetail: false,
+          }, () => {
+            that.getData()
+          })
+        }, 30 * 1000)
+      }
     })
   }
 

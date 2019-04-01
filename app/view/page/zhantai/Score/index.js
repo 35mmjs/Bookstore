@@ -7,11 +7,11 @@ import './index.less'
 // eslint-disable-next-line react/prefer-stateless-function
 class Score extends React.Component {
   render() {
-    const { value, mulity } = this.props
+    const { value, mulity, isFromZj } = this.props
     const v = getStarValues(value)
-
     const scoleCls = classNames({
       score: true,
+      score_yiyun: isFromZj === 'false',
       score_small: mulity,
     })
 

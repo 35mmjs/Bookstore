@@ -5,7 +5,7 @@ const dailyHost = '47.96.75.202'
 const pubHost = '47.96.181.54'
 
 console.log('host: ', window.location.hostname)
-const host = window.location.hostname === pubHost ? pubHost : devHost
+const host = window.location.hostname === pubHost ? pubHost : pubHost
 
 export const search = (data) => {
   const { orgId, clientId } = window.appData
