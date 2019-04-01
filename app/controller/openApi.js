@@ -65,10 +65,10 @@ function paihangMap(item, navId) {
   return res
 }
 
-function bookInfoListProcess(list) {
+function bookInfoListProcess(list, userInfo) {
   if (!list || list.length <= 0) return []
   const res = list.map(item => {
-    return bookInfoMap(item)
+    return bookInfoMap(item, userInfo)
   })
   return res
 }
@@ -231,7 +231,7 @@ class OpenApiController extends Controller {
       res = await bookAPI.getBookBySPBS(spbs)
       res.stockList = stockList
     }
-    const processedResult = bookInfoMap(res)
+    const processedResult = bookInfoMap(res, this.ctx.session.user)
     this.ctx.body = {
       success: true,
       data: processedResult,
@@ -282,7 +282,7 @@ class OpenApiController extends Controller {
         rawList.map(async item => {
           // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
           const singleBook = await bookAPI.getBookByISBN(item.tm)
-          return bookInfoMap(singleBook)
+          return bookInfoMap(singleBook, this.ctx.session.user)
         }),
       )
       this.ctx.body = {
@@ -304,7 +304,7 @@ class OpenApiController extends Controller {
     let processedResult = []
     const res = await bookAPI.searchBookByKeyword(keyword, storeCode)
     if (res && res.length > 0) {
-      processedResult = bookInfoListProcess(res)
+      processedResult = bookInfoListProcess(res, this.ctx.session.user)
     }
     this.ctx.body = {
       success: true,
@@ -392,7 +392,7 @@ class OpenApiController extends Controller {
       return oldPaihangInfo[paihangId]
     }
     const paihangInfo = await bookAPI.getRinkingInfoDetail(paihangId)
-    const processedResult = paihangInfo.map(item => bookInfoMap(item))
+    const processedResult = paihangInfo.map(item => bookInfoMap(item, this.ctx.session.user))
     oldPaihangInfo[paihangId] = processedResult
     await this.app.redis.set('paihang_info', JSON.stringify(oldPaihangInfo))
     return processedResult

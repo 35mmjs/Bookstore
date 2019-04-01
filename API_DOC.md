@@ -291,6 +291,8 @@ Response: {}
 
 ```
 {
+  // 用于判断数据源来源是否是省内还是省外
+  isFromZj: 'true' || 'false'
   // {String} 图书 商品标识 spbs
   spbs: "",
 

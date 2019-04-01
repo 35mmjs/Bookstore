@@ -1,4 +1,11 @@
-function bookInfoMap(res) {
+function bookInfoMap(res, userInfo = {}) {
+  const { enterprise = 1 } = userInfo
+  const enterpriseInZj = [1, 2, 3, 4]
+  let isFromZj = 'false'
+  if (enterpriseInZj.includes(enterprise)) {
+    isFromZj = 'true'
+  }
+  const score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
   const processedResult = {
     cover: res.fmdt, // 封面
     isbn: res.isbn, // isbn
@@ -18,6 +25,8 @@ function bookInfoMap(res) {
     bookshelf: '',
     stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
     qrcode: res.qrcode, // 购买链接
+    isFromZj,
+    score,
   }
   return Object.assign({}, processedResult)
 }

@@ -22,7 +22,7 @@ class BookController extends Controller {
           if (res.spbs) {
             res = await bookAPI.getBookBySPBS(res.spbs)
           }
-          return bookInfoMap(res)
+          return bookInfoMap(res, this.ctx.session.user)
         }),
       )
       this.ctx.body = {
@@ -49,11 +49,11 @@ class BookController extends Controller {
       if (res.spbs) {
         res = await bookAPI.getBookBySPBS(res.spbs)
       }
-      processedResult = bookInfoMap(res)
+      processedResult = bookInfoMap(res, this.ctx.session.user)
     }
     if (spbs) {
       res = await bookAPI.getBookBySPBS(spbs)
-      processedResult = bookInfoMap(res)
+      processedResult = bookInfoMap(res, this.ctx.session.user)
     }
     this.ctx.body = {
       success: true,
@@ -134,14 +134,14 @@ class BookController extends Controller {
     try {
       const res = await bookAPI.getRinkingInfoDetail(id)
       const processedResult = res.map(item => {
-        return bookInfoMap(item)
+        return bookInfoMap(item, this.ctx.session.user)
       })
       this.ctx.body = {
         success: true,
         data: processedResult,
       }
     } catch (e) {
-      console.error('aaaaaaaa', e)
+      console.error('error', e)
     }
   }
 }
