@@ -36,6 +36,7 @@ export default function GlobalHeader(props) {
     currentUser,
     onMenuClick,
   } = props
+  const loginUser = window.appData.loginUser
   const enterprise = window.appData.loginUser.enterprise
   const currentStore = window.appData.loginUser.store
   let storeList = []
@@ -82,7 +83,7 @@ export default function GlobalHeader(props) {
           ? (
             <span>
               <span>所在门店：</span>
-              <Select style={{ width: 200, marginRight: 8 }} placeholder="切换门店" value={(currentStore === null || currentStore === undefined) ? 'all' : currentStore} onChange={changeStore}>
+              <Select style={{ width: 200, marginRight: 8 }} disabled={loginUser.isStoreUser} placeholder="切换门店" value={(currentStore === null || currentStore === undefined) ? 'all' : currentStore} onChange={changeStore}>
                 <Option key="all" value="all">所有</Option>
                 {storeList.map(item => (
                   <Option key={item.id} value={item.id}>{item.name}</Option>

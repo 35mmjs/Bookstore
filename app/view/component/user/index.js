@@ -17,6 +17,7 @@ const loginUser = window.appData.loginUser
 const enterprise = loginUser.isAdmin ? undefined : loginUser.enterprise
 const store = loginUser.isAdmin ? undefined : loginUser.store
 
+let fistReload = true
 export default function User() {
   const [dataSource, reload] = useAsyncState(findAll, [])
   const [enterprises] = useAsyncState(findEnterpriseList, [])
@@ -37,7 +38,10 @@ export default function User() {
       }
     },
   })
-  if (enterprise) reloadStores({ enterprise })
+  if (enterprise && fistReload) {
+    reloadStores({ enterprise })
+    fistReload = false
+  }
   const { modal: enterpriseModal, modalShow: enterpriseModalShow } = useFormModal({
     name: 'user',
     schema: {
@@ -87,7 +91,7 @@ export default function User() {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
+          { loginUser.id !== record.id ? <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a> : null }
           &nbsp;&nbsp;
           <a onClick={() => record.store_name ? storeModalShow('修改账号', record) : enterpriseModalShow('修改账号', record)}>修改</a>
         </Fragment>
@@ -97,7 +101,7 @@ export default function User() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>新增门店账号</Button>
+        { !loginUser.isStoreUser ? <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>新增门店账号</Button> : null }
         &nbsp;&nbsp;
         { loginUser.isAdmin ? <Button type="primary" onClick={() => enterpriseModalShow('新增企业账号')}>新增企业账号</Button> : null }
       </Button.Group>
