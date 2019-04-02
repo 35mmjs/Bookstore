@@ -146,7 +146,7 @@ class UserController extends Controller {
     }
     this.ctx.body = {
       success: true,
-      data: [],
+      data: user ? result.filter(n => n.id === user.id) : [],
     }
   }
 
@@ -164,7 +164,7 @@ class UserController extends Controller {
     const { username, password, enterprise, store, id } = ctx.request.body
     this.ctx.validate('user', { username, password })
     const result = await this.ctx.service.users.update(id, username, password, enterprise, store)
-    if (String(ctx.session.user.id) === String(id)) {
+    if (ctx.session.user && String(ctx.session.user.id) === String(id)) {
       ctx.session.user = undefined
     }
     this.ctx.body = {

@@ -69,6 +69,12 @@ if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.isEnterpriseU
       value: '/terminal/manage',
       icon: 'desktop',
     },
+    {
+      label: '用户管理',
+      icon: 'team',
+      value: '/user',
+      children: null,
+    },
   ]
 }
 
