@@ -1,5 +1,6 @@
 const { Service } = require('egg')
 const Client = require('aliyun-api-gateway').Client
+const CommonError = require('../common/CommonError')
 
 
 function normalize(d) {
@@ -11,7 +12,7 @@ function normalize(d) {
     spbs: '', // 书本唯一标识或者是数据库id
     sm: d.bkName || '', // 书名
     author: d.authorName || '', // 作者
-    yxxlmc: d.bkTagNames,
+    yxxlmc: '',
     ml: d.Catalog || '', // 目录,
     dj: d.bkPrice , // 定价
     tjy: (d.Prologue || '').trim() || (d.Contentsummary || '').trim(), // 推荐语
@@ -23,6 +24,7 @@ function normalize(d) {
     qrcode: '', // 购买链接
     postscript: '' , // 后记
     prologue: '', // 序言
+    bkScore:d.bkScore,
     ls_SendUnitID: d.ls_SendUnitID, // 用于查询库存用
   }
 }
@@ -33,9 +35,9 @@ function normalize(d) {
  */
 class BookAPIByZhongjinService extends Service {
   constructor(...args) {
-    super(...args)
-    this.bookConfig = this.app.config.bookAPIByZhongjin
-    this.client = new Client(this.bookConfig.appKey, this.bookConfig.appSecret)
+    super(...args);
+    this.bookConfig = this.app.config.bookAPIByZhongjin;
+    this.client = new Client(this.bookConfig.appKey, this.bookConfig.appSecret);
   }
 
   async fetch(path, query) {
@@ -46,6 +48,17 @@ class BookAPIByZhongjinService extends Service {
       },
     })
     if (data.errCode !== 0) throw new Error(`[BookAPIByZhongjin] ${data.errMsg}`)
+    return data.data
+  }
+
+  async fetchBookQuery(query) {
+    const data = await this.client.get('http://apis.centrin-ecloud.com/getBkinfoFromIsbns', {
+      data: query,
+      headers: {
+        accept: 'application/json',
+      },
+    })
+    if (data.result_code != 200) throw new Error(`[BookAPIByZhongjin] ${data.result_message}`)
     return data.data
   }
 
@@ -73,17 +86,19 @@ class BookAPIByZhongjinService extends Service {
    *  - qrcode 购买链接，用于生成二维码
    */
   getBookByISBN(ISBN) {
-    return this.fetch('/book-query',{
-      method:'1',
-      isbn: ISBN,
+    return this.fetchBookQuery({
+      isbns: ISBN,
+      pageNum:1,
+      pageSize:20
     }).then(d => {
-      if(!d || !d.data || !d.data.pageData){
+      console.log(d.pageData);
+      if(!d.pageData){
         throw new CommonError('未找到对应书本');
       }
-      if (d.data.pageData === 0){ 
+      if (d.pageData.length === 0){ 
         throw new CommonError('未找到对应书本');
       }
-      return normalize(d.data.pageData[0])
+      return normalize(d.pageData[0])
     })
   }
 }
