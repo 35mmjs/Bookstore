@@ -309,6 +309,8 @@ clientId: 123123 // 设备id
 
 ## 埋点相关
 ### 通用埋点接口
+#### 备注
+目前只针对行为和具体的设备类型埋点, 不会针对书本信息,搜索关键词维度埋点
 
 GET `/open/v1/tracker`
 
@@ -323,7 +325,7 @@ biz_data(可选): ISBN/搜索关键词
 ```
 e.g.
 ```
-// 书本详情的点击事件, 注意这里biz_data是书本的ISBN
+// 书本详情的点击事件, 注意这里biz_data是书本的ISBN, 目前不会针对isbn维度的埋点
 /open/v1/tracker?clientId=123&act=click&biz_type=book_detail&biz_data=2323123123
 // 搜索的关键词埋点, 但不会针对关键词的维度的埋点计数
 /open/v1/tracker?clientId=123&act=click&biz_type=search&biz_data=%E8%BF%9C%E5%A4%A7%E5%89%8D%E7%A8%8B
