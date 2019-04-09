@@ -17,6 +17,10 @@ class BookAPIService extends Service {
     this.bookConfig = this.app.config.bookAPI
   }
 
+  getAPIType(){
+    return 'zhejiang';
+  }
+
   fetch(methodName, data) {
     const { bookConfig } = this
     const d = new Date()
@@ -111,7 +115,7 @@ class BookAPIService extends Service {
    *  - qrcode 购买链接，用于生成二维码
    */
   getBookByISBN(ISBN, khbh) {
-    return this.getBook('ISBN', ISBN, khbh).then(d => d[0])
+    return this.getBook('ISBN', ISBN, khbh).then(d => d);
   }
 
   /**
@@ -121,7 +125,7 @@ class BookAPIService extends Service {
    * @return {Promise<T | never | never>}
    */
   getBookBySPBS(SPBS, khbh) {
-    return this.getBook('SPBS', SPBS, khbh).then(d => d[0])
+    return this.getBook('SPBS', SPBS, khbh).then(d => d);
   }
 
   /**

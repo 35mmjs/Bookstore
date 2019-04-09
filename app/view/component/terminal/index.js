@@ -11,7 +11,9 @@ export default class Index extends React.Component {
     super(props)
     const { dispatch } = props
     this.dispatch = dispatch
-    this.state = {}
+    this.state = {
+      currentType :1
+    }
   }
 
   componentDidMount() {
@@ -20,6 +22,12 @@ export default class Index extends React.Component {
       payload: {},
     })
     this.dispatch({ type: 'viewConfig/findAll', payload: {} })
+  }
+
+  onTypeChange(type){
+    this.setState({
+      currentType:type
+    })
   }
 
   onSubmit = (data, type) => {
@@ -42,12 +50,14 @@ export default class Index extends React.Component {
     return (
       <div>
         <div>
-          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} />
+          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} 
+          onTypeChange={type => this.onTypeChange(type)}/>
           <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
           <Table
             list={list}
             data={singleItem}
             configData={configData}
+            currentType={this.state.currentType}
             onSubmit={data => this.onSubmit(data, 'update')}
             onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
             onDelete={data => this.onSubmit(data, 'remove')}

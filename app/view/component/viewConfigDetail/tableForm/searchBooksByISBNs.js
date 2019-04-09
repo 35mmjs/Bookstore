@@ -8,12 +8,22 @@ const FormItem = Form.Item
 const BooksTable = ({ data }) => {
   const columns = [
     {
-      title: 'Name',
+      title: '封面',
+      dataIndex: 'cover',
+      key: 'cover',
+      render:(value,recode) =>{
+        return (
+          <img src={value}></img>
+        );
+      },
+    },
+    {
+      title: '书名',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Author',
+      title: '作者',
       dataIndex: 'author',
       key: 'author',
     },
@@ -22,6 +32,16 @@ const BooksTable = ({ data }) => {
       dataIndex: 'isbn',
       key: 'isbn',
     },
+    {
+      title: '定价',
+      dataIndex: 'price',
+      key: 'price',
+      render:(value,recode) =>{
+        return (
+          <div>{value/100}元</div>
+        );
+      },
+    }
   ]
   return <Table columns={columns} dataSource={data} rowKey="isbn" />
 }
@@ -107,6 +127,7 @@ const ModalForm = props => {
   }
   return (
     <Modal
+      width={650}
       visible={defaultVisible}
       title={title}
       footer={[

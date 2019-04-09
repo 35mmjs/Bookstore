@@ -75,7 +75,7 @@ const CreateForm = Form.create()(props => {
 })
 
 const CreateButton = props => {
-  const { onSubmit } = props
+  const { onSubmit,onTypeChange } = props
   const [modalVisible, handleModalVisible] = useState(false)
   const createFormProps = {
     modalVisible,
@@ -85,15 +85,25 @@ const CreateButton = props => {
   return (
     <div style={{ marginBottom: 16 }}>
       <CreateForm {...createFormProps} />
-      <Button type="primary" onClick={() => handleModalVisible(true)}>
+      <Button type="primary" onClick={() => {handleModalVisible(true);onTypeChange(1);}}>
         新建
       </Button>
       &nbsp;&nbsp;
-      <Button type="primary" onClick={() => window.open(`http://47.96.181.54:8070/queryport/manage/index.html#/blank/device-list?store_id=${window.appData.loginUser.store}`)}>
+      {/* <Button type="primary" onClick={() => window.open(`http://120.79.189.21:8081/#/blank/device-list?store_id=${window.appData.loginUser.store}`)}>
+        控制终端
+      </Button> */}
+      <Button type="primary" onClick={() => onTypeChange(1)}>
+        终端管理
+      </Button>
+      &nbsp;&nbsp;
+      <Button type="primary" onClick={() => onTypeChange(2)}>
         控制终端
       </Button>
       &nbsp;&nbsp;
-      <Button type="primary" onClick={() => window.open(`http://47.96.181.54:8070/queryport/manage/index.html#/blank/task-list?store_id=${window.appData.loginUser.store}`)}>
+      {/* <Button type="primary" onClick={() => window.open(`http://120.79.189.21:8081/#/blank/task-list?store_id=${window.appData.loginUser.store}`)}>
+        终端任务查询
+      </Button> */}
+      <Button type="primary" onClick={() => onTypeChange(3)}>
         终端任务查询
       </Button>
     </div>

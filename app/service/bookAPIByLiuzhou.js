@@ -43,6 +43,10 @@ class BookAPIByZhongjinService extends Service {
     this.bookConfig = this.app.config.bookAPIByLiuzhou
   }
 
+  getAPIType(){
+    return 'liuzhou';
+  }
+
   fetch(data) {
     // 柳州的shopID从session获取
     data.shopID = data.shopID || this.ctx.storeCodeFromSession

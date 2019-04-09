@@ -134,8 +134,9 @@ class TableForm extends PureComponent {
       })
       this.index += 1
     }
+    // console.log(bookInfos);
     this.setState({ data: newData }, () => {
-      this.props.onChange(this.state.data)
+      // this.props.onChange(this.state.data)
     })
   }
 
@@ -266,6 +267,7 @@ class TableForm extends PureComponent {
             },
           ]
           const getLabel = selectMap.find(item => item.value === text).label
+          // let getLabel = "否";
           if (record.editable) {
             return (
               <Select
@@ -492,7 +494,7 @@ class TableForm extends PureComponent {
         <SearchBooksByISBN
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
-          onSubmit={value => this.handleDataFromSearchForm([value])}
+          onSubmit={this.handleDataFromSearchForm}
         />
         <SearchBooksByISBNs
           title="title"

@@ -15,16 +15,26 @@ class BookController extends Controller {
     let list = []
     const isbnArray = isbns.split(',')
     if (isbnArray && isbnArray.length > 0) {
-      list = await Promise.all(
-        isbnArray.map(async item => {
-          let res = {}
-          res = await bookAPI.getBookByISBN(item)
-          if (res.spbs) {
-            res = await bookAPI.getBookBySPBS(res.spbs)
-          }
-          return bookInfoMap(res, this.ctx.session.user)
-        }),
-      )
+      if (bookAPI.getAPIType() === 'zhongjin') {
+        let bookList = await bookAPI.getBookByISBN(isbns);
+        if (bookList.length > 0) {
+          bookList.map(item => {
+            list.push(bookInfoMap(item, this.ctx.session.user));
+          });
+        }
+      } else {
+        list = await Promise.all(
+          isbnArray.map(async item => {
+            let res = {};
+            res = await bookAPI.getBookByISBN(item);
+            if (res.spbs) {
+              res = await bookAPI.getBookBySPBS(res.spbs);
+            }
+            return bookInfoMap(res, this.ctx.session.user);
+          })
+        );
+      }
+
       this.ctx.body = {
         success: true,
         data: list,
@@ -41,20 +51,22 @@ class BookController extends Controller {
     const param = this.ctx.query
     const { isbn, spbs } = param
     const { bookAPI } = await this.ctx.getBookAPI()
-    let res
-    let processedResult = {}
+    let res =[]
+    let processedResult = []
     if (isbn) {
-      let res = {}
+      // let res = []
       res = await bookAPI.getBookByISBN(isbn)
       if (res.spbs) {
         res = await bookAPI.getBookBySPBS(res.spbs)
       }
-      processedResult = bookInfoMap(res, this.ctx.session.user)
+      // processedResult = bookInfoMap(res, this.ctx.session.user)
+      // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
     if (spbs) {
       res = await bookAPI.getBookBySPBS(spbs)
-      processedResult = bookInfoMap(res, this.ctx.session.user)
+      // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
+    res.map(item => { processedResult.push(bookInfoMap(item, this.ctx.session.user))});
     this.ctx.body = {
       success: true,
       data: processedResult,

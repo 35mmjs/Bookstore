@@ -6,25 +6,26 @@ const CommonError = require('../common/CommonError')
 function normalize(d) {
   if (!d) return {}
   return {
-    fmdt: d.coverUrl || '', // 封面
-    isbn: d.isbn, // isb
+    fmdt: d.image_osspath || '', // 封面
+    isbn: d.ISBN, // isb
     tm: d.ISBN, // 条码
     spbs: '', // 书本唯一标识或者是数据库id
-    sm: d.bkName || '', // 书名
-    author: d.authorName || '', // 作者
+    sm: d.bk_name || '', // 书名
+    author: d.author_name || '', // 作者
     yxxlmc: '',
-    ml: d.Catalog || '', // 目录,
-    dj: d.bkPrice , // 定价
-    tjy: (d.Prologue || '').trim() || (d.Contentsummary || '').trim(), // 推荐语
+    ml: d.catalog || '', // 目录,
+    dj: d.price , // 定价
+    tjy: (d.recommend || '').trim(), // 推荐语
     nrty: (d.Contentsummary || '').trim(), // 内容提要
-    pageType: d.bindingName,
-    ys: d.pageSize, // 页数
-    bb: d.publiName || '', // 出版社
+    pageType: d.page_type,
+    ys: d.page_size, // 页数
+    bb: d.publi_full_name || '', // 出版社
     // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
-    qrcode: '', // 购买链接
+    qrcode: 'http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/WechatIMG134.jpeg', // 购买链接
     postscript: '' , // 后记
     prologue: '', // 序言
-    bkScore:d.bkScore,
+    bkScore:d.bk_score,
+    bkid:d.bk_id,
     ls_SendUnitID: d.ls_SendUnitID, // 用于查询库存用
   }
 }
@@ -40,6 +41,10 @@ class BookAPIByZhongjinService extends Service {
     this.client = new Client(this.bookConfig.appKey, this.bookConfig.appSecret);
   }
 
+  getAPIType(){
+    return 'zhongjin';
+  }
+
   async fetch(path, query) {
     const data = await this.client.get(`${this.bookConfig.url}${path}`, {
       data: query,
@@ -48,17 +53,6 @@ class BookAPIByZhongjinService extends Service {
       },
     })
     if (data.errCode !== 0) throw new Error(`[BookAPIByZhongjin] ${data.errMsg}`)
-    return data.data
-  }
-
-  async fetchBookQuery(query) {
-    const data = await this.client.get('http://apis.centrin-ecloud.com/getBkinfoFromIsbns', {
-      data: query,
-      headers: {
-        accept: 'application/json',
-      },
-    })
-    if (data.result_code != 200) throw new Error(`[BookAPIByZhongjin] ${data.result_message}`)
     return data.data
   }
 
@@ -86,21 +80,25 @@ class BookAPIByZhongjinService extends Service {
    *  - qrcode 购买链接，用于生成二维码
    */
   getBookByISBN(ISBN) {
-    return this.fetchBookQuery({
-      isbns: ISBN,
+    return this.fetch('/getBkinfoFromIsbns',{
+      ISBNS: ISBN,
       pageNum:1,
-      pageSize:20
+      pageSize:100
     }).then(d => {
-      console.log(d.pageData);
-      if(!d.pageData){
+      if(!d.rows){
         throw new CommonError('未找到对应书本');
       }
-      if (d.pageData.length === 0){ 
+      if (d.rows.length === 0){ 
         throw new CommonError('未找到对应书本');
       }
-      return normalize(d.pageData[0])
+      let list = [];
+      d.rows.map(item => {
+        list.push(normalize(item));
+      });
+      return list;
     })
   }
+
 }
 
 module.exports = BookAPIByZhongjinService
