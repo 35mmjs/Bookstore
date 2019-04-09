@@ -79,6 +79,8 @@ module.exports = app => {
   router.get(openApi.findPaihangPadDetail, controller.openApi.findPaihangPadDetail)
   // 埋点相关
   router.get(openApi.tracker, controller.openApi.setTracker)
+  // 终端元数据
+  router.get(openApi.findTerminal, controller.openApi.findTerminal)
   // public entry
   router.get(publicEntry.entry, controller.publicEntry.index)
 }

@@ -38,6 +38,17 @@ class OpenApi extends Service {
     return null
   }
 
+  /**
+   * 获取终端信息
+   * @param {*} terminalId
+   */
+  async findTerminal(terminalId) {
+    const terminal = await this.app.mysql.get(TERMINALS, {
+      id: terminalId,
+    })
+    return terminal
+  }
+
   async getZhantai(id) {
     const items = await this.app.mysql.get(VIEW_CONFIGS, {
       id,

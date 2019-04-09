@@ -327,6 +327,19 @@ class OpenApiController extends Controller {
     }
   }
 
+  async findTerminal() {
+    const { query } = this.ctx
+    const { clientId } = query
+    const item = await this.ctx.service.openApi.findTerminal(clientId)
+    this.ctx.body = {
+      success: true,
+      data: {
+        ...item,
+        config: JSON.parse(item.config),
+      },
+    }
+  }
+
   async getZhantai() {
     const query = this.ctx.query
     const { clientId, orgId } = query
