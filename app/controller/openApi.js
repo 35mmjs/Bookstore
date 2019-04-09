@@ -327,6 +327,19 @@ class OpenApiController extends Controller {
     }
   }
 
+  async findTerminal() {
+    const { query } = this.ctx
+    const { clientId } = query
+    const item = await this.ctx.service.openApi.findTerminal(clientId)
+    this.ctx.body = {
+      success: true,
+      data: {
+        ...item,
+        config: JSON.parse(item.config),
+      },
+    }
+  }
+
   async getZhantai() {
     const query = this.ctx.query
     const { clientId, orgId } = query
@@ -392,7 +405,9 @@ class OpenApiController extends Controller {
       return oldPaihangInfo[paihangId]
     }
     const paihangInfo = await bookAPI.getRinkingInfoDetail(paihangId)
-    const processedResult = paihangInfo.map(item => bookInfoMap(item, this.ctx.session.user))
+    const processedResult = paihangInfo.map(item =>
+      bookInfoMap(item, this.ctx.session.user),
+    )
     oldPaihangInfo[paihangId] = processedResult
     await this.app.redis.set('paihang_info', JSON.stringify(oldPaihangInfo))
     return processedResult
@@ -427,10 +442,38 @@ class OpenApiController extends Controller {
     const paihangNavObj = JSON.parse(paihangNavSession)
     const content = paihangNavObj.content
     if (content) {
-      const data = content.find((item, index) => index === parseInt(catalogId, 10))
+      const data = content.find(
+        (item, index) => index === parseInt(catalogId, 10),
+      )
       books = data.books
     }
-    await this.app.redis.set(`paihang_pad_${clientId}_${navId}`, JSON.stringify(books))
+    await this.app.redis.set(
+      `paihang_pad_${clientId}_${navId}`,
+      JSON.stringify(books),
+    )
+    this.ctx.body = {
+      success: true,
+      data: {
+        value: '',
+      },
+    }
+  }
+
+  /**
+   * 埋点接口, 不会报错
+   */
+  async setTracker() {
+    const query = this.ctx.query
+    const { act, biz_type, biz_data, clientId } = query
+    const date = new Date()
+    const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    await this.ctx.service.openApi.setTracker({
+      terminal: clientId,
+      act,
+      biz_type,
+      biz_data,
+      date: formattedDate,
+    })
     this.ctx.body = {
       success: true,
       data: {
@@ -446,7 +489,9 @@ class OpenApiController extends Controller {
     let res = {}
     const query = this.ctx.query
     const { orgId, clientId, navId, rankId } = query
-    const paihangNavSession = await this.app.redis.get(`paihang_nav_${clientId}_${navId}`)
+    const paihangNavSession = await this.app.redis.get(
+      `paihang_nav_${clientId}_${navId}`,
+    )
     if (!paihangNavSession) {
       this.ctx.body = {
         success: false,
@@ -454,7 +499,9 @@ class OpenApiController extends Controller {
       }
       return
     }
-    const paihangPadSession = await this.app.redis.get(`paihang_pad_${clientId}_${navId}`)
+    const paihangPadSession = await this.app.redis.get(
+      `paihang_pad_${clientId}_${navId}`,
+    )
     if (paihangPadSession) {
       const paihangPadArray = JSON.parse(paihangPadSession)
       if (paihangPadArray && paihangPadArray.length > 0) {

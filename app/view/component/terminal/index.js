@@ -32,6 +32,16 @@ export default class Index extends React.Component {
 
   onSubmit = (data, type) => {
     console.log('onSubmit', data, type)
+    // 针对config json序列化
+    if (data.config) {
+      try {
+        data.config = JSON.parse(data.config)
+      } catch (e) {
+        console.error(e)
+        data.config = {}
+      }
+    }
+    data.config = JSON.stringify(data.config)
     this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 

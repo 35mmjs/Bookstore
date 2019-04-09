@@ -104,6 +104,16 @@ const EditForm = Form.create()(props => {
           ],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem {...FORM_ITEM_LAYOUT} label="元数据配置">
+        {form.getFieldDecorator('config', {
+          initialValue: data.config,
+          rules: [
+            {
+              message: '请输入规则描述！',
+            },
+          ],
+        })(<Input.TextArea placeholder="请输入" rows={6} />)}
+      </FormItem>
       <FormItem {...FORM_ITEM_LAYOUT} label="类型">
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择视图类型！' }],
@@ -279,11 +289,6 @@ const Comp = props => {
         )
       },
     },
-    // {
-    //   title: '门店',
-    //   dataIndex: 'store',
-    //   key: 'store',
-    // },
     {
       title: '区域备注',
       key: 'note',
@@ -293,6 +298,7 @@ const Comp = props => {
       title: '生成地址',
       key: 'created_url',
       dataIndex: 'created_url',
+      width: '20%',
       render: (text, record) => {
         const type =
           TYPE_MAP.find(item => item.value === record.type).label || ''

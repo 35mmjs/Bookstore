@@ -127,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`terminals` (
   `note` VARCHAR(45) NULL,
   `type` INT UNSIGNED NULL,
   `store` INT UNSIGNED NULL,
+  `config` JSON,
   `view_config` INT UNSIGNED NULL,
   `last_modifier` INT UNSIGNED NULL,
   `deleted` TINYINT UNSIGNED NULL DEFAULT 0,
@@ -177,6 +178,29 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`view_configs` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `BOOKSTORE`.`埋点相关`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`tracker` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `act` ENUM('click', 'pv', 'expo', 'uv'),
+  `value` INT UNSIGNED NULL, 
+  `biz_type` ENUM('search', 'map', 'book_detail', 'normal'),
+  `biz_data` VARCHAR(255) NULL,
+  `terminal` INT UNSIGNED NULL,
+  `date` DATE NULL,
+  `deleted` TINYINT UNSIGNED NULL DEFAULT 0,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `tracker_terminal`
+    FOREIGN KEY (`terminal`)
+    REFERENCES `BOOKSTORE`.`terminals` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- View `BOOKSTORE`.`view1`

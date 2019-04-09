@@ -69,6 +69,8 @@ const openApi = {
   findPaihangCatalog: '/open/v1/paihang/catalog',
   updatePaihang: '/open/v1/paihang/update', // POST
   findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId
+  tracker: '/open/v1/tracker', // 埋点相关
+  findTerminal: '/open/v1/terminal', // 获取termin 元数据 clientId=xxx
 }
 
 const publicEntry = {
