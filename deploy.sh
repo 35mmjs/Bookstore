@@ -152,14 +152,6 @@ run_server()
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server"
-	# npm run egg-start
-	# mkdir -p $tmpPath/app/Common/Conf/
-	# rm $tmpPath/deploy.sh
-	# cp app/Common/Conf/config.php $tmpPath/app/Common/Conf/config.php
-	# cp ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php $tmpPath/ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php
-	# cp app/Common/Common/function.php.run $tmpPath/app/Common/Common/function.php
-	# mv $tmpPath/index.php.run $tmpPath/index.php
-	# rm $tmpPath/index.php.*
 }
 
 modify_deploy()

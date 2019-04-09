@@ -284,7 +284,58 @@ Response: {}
 ]
 ```
 
+## 终端相关
+### 终端元数据获取
+这里可以根据设备获取地图配置信息
 
+GET `/open/v1/terminal`
+
+入参
+```
+clientId: 123123 // 设备id
+```
+
+返回
+```
+{
+  success: true,
+  data: {
+    config: {
+      // 录入的json数据
+    }
+  }
+}
+```
+
+## 埋点相关
+### 通用埋点接口
+
+GET `/open/v1/tracker`
+
+入参
+```
+clientId(必选): 123 // 设备ID
+// 点击位, pv/uv/曝光位, pv/uv 由于目前没有采集用户信息, 所以如果要计算页面访问量, 统一用pv
+act(必选): click/pv/uv/expo 
+// 搜索, 地图, 书本详情, 其他
+biz_type(可选, 如果不填, 后台当做normal录入): search/map/book_detail/normal
+biz_data(可选): ISBN/搜索关键词
+```
+e.g.
+```
+// 书本详情的点击事件, 注意这里biz_data是书本的ISBN
+/open/v1/tracker?clientId=123&act=click&biz_type=book_detail&biz_data=2323123123
+// 搜索的关键词埋点, 但不会针对关键词的维度的埋点计数
+/open/v1/tracker?clientId=123&act=click&biz_type=search&biz_data=%E8%BF%9C%E5%A4%A7%E5%89%8D%E7%A8%8B
+```
+
+返回
+```
+{
+  success: true,
+  data: null,
+}
+```
 ## 其他
 
 ### bookInfo 格式如下

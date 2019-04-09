@@ -41,6 +41,7 @@ select terminals.*, view_configs.note as view_configs_note from \`terminals\` le
   where terminals.deleted = 0 and terminals.store = ${Number(params.store)} and terminals.type = ${Number(params.type)} and terminals.name like '%${params.name}%'`)
       return { items }
     }
+    return null
   }
 
   async findOne(id) {
@@ -49,12 +50,13 @@ select terminals.*, view_configs.note as view_configs_note from \`terminals\` le
   }
 
   async create(params) {
-    const { name, note, store, type } = params
+    const { name, note, store, type, config = {} } = params
     const result = await this.app.mysql.insert(DB, {
       name,
       note,
       store,
       type,
+      config,
     })
     return result.affectedRows === 1
   }

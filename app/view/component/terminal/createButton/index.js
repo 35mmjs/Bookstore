@@ -55,6 +55,15 @@ const CreateForm = Form.create()(props => {
           ],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="元数据配置">
+        {form.getFieldDecorator('config', {
+          rules: [
+            {
+              message: '请输入规则描述！',
+            },
+          ],
+        })(<Input.TextArea placeholder="请输入" rows={6} />)}
+      </FormItem>
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="类型">
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择终端类型！' }],

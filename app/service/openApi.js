@@ -2,6 +2,7 @@ const { Service } = require('egg')
 
 const VIEW_CONFIGS = 'view_configs'
 const TERMINALS = 'terminals'
+const TRACKER = 'tracker'
 class OpenApi extends Service {
   async getPubu(id) {
     const items = await this.app.mysql.get(VIEW_CONFIGS, {
@@ -56,6 +57,36 @@ class OpenApi extends Service {
       type,
       content,
     })
+    return result.affectedRows === 1
+  }
+
+  async setTracker(params) {
+    const { act, biz_type = 'normal', biz_data = '', terminal, date } = params
+    let result
+    // terminal_id, date, biz_type 确定唯一表单
+    const item = await this.app.mysql.get(TRACKER, {
+      terminal,
+      biz_type,
+      act,
+      date,
+    })
+    if (item) {
+      // update
+      result = await this.app.mysql.update(TRACKER, {
+        id: item.id,
+        value: item.value + 1,
+        biz_data,
+      })
+    } else {
+      result = await this.app.mysql.insert(TRACKER, {
+        terminal,
+        biz_type,
+        biz_data,
+        act,
+        value: 1,
+        date,
+      })
+    }
     return result.affectedRows === 1
   }
 
