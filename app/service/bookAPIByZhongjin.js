@@ -14,7 +14,7 @@ function normalize(d) {
     author: d.author_name || '', // 作者
     yxxlmc: '',
     ml: d.catalog || '', // 目录,
-    dj: d.price , // 定价
+    dj: d.price/100 , // 定价
     tjy: (d.recommend || '').trim(), // 推荐语
     nrty: (d.Contentsummary || '').trim(), // 内容提要
     pageType: d.page_type,
