@@ -26,9 +26,13 @@ class BookController extends Controller {
         list = await Promise.all(
           isbnArray.map(async item => {
             let res = {};
-            res = await bookAPI.getBookByISBN(item);
+            let books = await bookAPI.getBookByISBN(item);
+            if (books.length > 0) {
+              res = books[0];
+            }
             if (res.spbs) {
-              res = await bookAPI.getBookBySPBS(res.spbs);
+              books = await bookAPI.getBookBySPBS(res.spbs);
+              res = books[0];
             }
             return bookInfoMap(res, this.ctx.session.user);
           })

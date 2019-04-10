@@ -421,9 +421,11 @@ const Comp = props => {
     confM = <ConfigForm {...configFormProps} />;
     viewM = <ViewForm {...viewFormProps} />;
   }else if(currentType == 2){
-    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src="http://120.79.189.21:8081/#/blank/device-list?store_id=${window.appData.loginUser.store}"/>;
-  }else if(currentType == 2){
-    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src="http://120.79.189.21:8081/#/blank/ask-list?store_id=${window.appData.loginUser.store}"/>;
+    let url = "http://120.79.189.21:8081/#/blank/device-list?store_id=" + window.appData.loginUser.store;
+    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src={url}/>;
+  }else if(currentType == 3){
+    let url = "http://120.79.189.21:8081/#/blank/task-list?store_id=" + window.appData.loginUser.store;
+    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src={url}/>;
   }
   return (
     <div>
