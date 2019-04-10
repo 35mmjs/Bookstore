@@ -38,7 +38,7 @@ const BooksTable = ({ data }) => {
       key: 'price',
       render:(value,recode) =>{
         return (
-          <div>{value/100}元</div>
+          <div>{value}元</div>
         );
       },
     }

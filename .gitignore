@@ -14,3 +14,4 @@ temp
 output
 *.tgz
 dist
+dump.rdb
