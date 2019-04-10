@@ -169,7 +169,8 @@ class BookAPIByZhongjinService extends Service {
       shopID: khbh,
     }).then(d => {
       if (d.length === 0) throw new CommonError('未找到对应书本')
-      return normalize(d[0])
+      // return normalize(d[0])
+      return d.map(i => normalize(i));
     })
   }
 
@@ -187,7 +188,8 @@ class BookAPIByZhongjinService extends Service {
       shopID: khbh,
     }).then(d => {
       if (!ignore && d.length === 0) throw new CommonError('未找到对应书本')
-      return normalize(d[0])
+      // return normalize(d[0])
+      return d.map(i => normalize(i));
     })
   }
 
