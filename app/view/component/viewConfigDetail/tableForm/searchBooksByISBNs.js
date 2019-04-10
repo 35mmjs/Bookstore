@@ -13,7 +13,7 @@ const BooksTable = ({ data }) => {
       key: 'cover',
       render:(value,recode) =>{
         return (
-          <img src={value}></img>
+          <img width={100} height={150}  src={value}></img>
         );
       },
     },
