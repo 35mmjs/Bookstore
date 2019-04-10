@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { message } from 'antd'
-import { search, getBook, getDaoshiData } from '../../util/services'
+import { search, getBook, getDaoshiData, tracker } from '../../util/services'
 import Map from '../Map'
 import MapSlider from '../MapSlider'
 import Book from '../Book'
@@ -80,6 +80,7 @@ class App extends React.Component {
 
   onClickBook = (spbs) => {
     const loading = message.loading('正在查询...', 0)
+
     getBook({ spbs })
       .then(res => {
         const { data } = res
@@ -111,6 +112,11 @@ class App extends React.Component {
         loading()
         message.error('获取书本详情失败，请稍后再试')
       })
+
+    tracker({
+      biz_type: 'book_detail',
+      biz_data: spbs,
+    })
   }
 
   onChange = (e) => {
@@ -154,7 +160,6 @@ class App extends React.Component {
     const { jwh } = bookList[0]
     if (!jwh) return
     const id = parseInt(jwh, 10)
-    console.log(id)
     const { floor } = this.state.storeData
     let currArea
     let currFloor
@@ -187,7 +192,6 @@ class App extends React.Component {
         }
       }
     }
-    console.log(currArea)
 
     if (!currArea) {
       message.error('找不到对应的位置')
@@ -245,6 +249,13 @@ class App extends React.Component {
       loading()
       message.error('输入错误，请重新输入')
     })
+
+    // Tracker
+    tracker({
+      act: 'click',
+      biz_type: 'search',
+      biz_data: this.state.searchValue,
+    })
   }
 
   handleCleanSearch = (e) => {
@@ -260,6 +271,11 @@ class App extends React.Component {
         coordinate: [0, 0],
         floor: 0,
       },
+    })
+
+    tracker({
+      act: 'click',
+      biz_type: 'clear_search',
     })
   }
 
