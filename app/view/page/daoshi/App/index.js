@@ -66,9 +66,9 @@ class App extends React.Component {
     })
 
     getClientConfig().then(res => {
-      if (res.success) {
+      if (res.data.success) {
         this.setState({
-          storeData: res.data.config,
+          storeData: res.data.data.config,
         })
       }
     })
