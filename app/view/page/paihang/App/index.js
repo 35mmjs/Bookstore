@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail } from '../../util/services'
+import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker } from '../../util/services'
 // import Roundy from "roundy"
 import Roundy from '../roundSlider'
 import './index.less'
@@ -51,6 +51,12 @@ class App extends React.Component {
       catalogId: value,
     }).then(res => {
       console.log('===> res', res)
+    })
+
+    tracker({
+      act: 'click',
+      biz_type: 'catalog',
+      biz_data: value
     })
   }
 

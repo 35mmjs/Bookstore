@@ -112,9 +112,11 @@ export const getPaihangDetail = data => {
 export const tracker = data => {
   const { orgId, clientId } = window.appData
   return axios.get(`http://${host}/open/v1/tracker`, {
-    clientId,
-    act: data.act || 'click',
-    biz_type: data.biz_type,
-    biz_data: data.biz_data,
+    params: {
+      clientId,
+      act: data.act || 'click',
+      biz_type: data.biz_type,
+      biz_data: data.biz_data,
+    },
   })
 }

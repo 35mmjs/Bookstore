@@ -6,7 +6,7 @@ import Layer from '../Layer'
 import Book from '../Book'
 import config from '../data'
 import BookDetail from '../Book/book'
-import { getPubuData } from '../../util/services'
+import { getPubuData, tracker } from '../../util/services'
 import './index.less'
 
 class App extends React.Component {
@@ -117,6 +117,12 @@ class App extends React.Component {
       book,
       activeBook: true,
     })
+
+    tracker({
+      act: 'click',
+      biz_type: 'book_detail',
+      biz_data: book.spbs || book.isbn,
+    })
   }
 
   handleCloseBook = (e) => {
@@ -127,6 +133,11 @@ class App extends React.Component {
       activeBook: false,
     }, () => {
       this.autoplay()
+    })
+
+    tracker({
+      act: 'click',
+      biz_type: 'close_book',
     })
   }
 
