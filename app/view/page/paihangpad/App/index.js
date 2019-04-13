@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangDetail } from '../../util/services'
+import { getPaihangDetail, tracker } from '../../util/services'
 import Cover from './cover'
 import Detail from './detail'
 
@@ -41,7 +41,7 @@ class App extends React.Component {
   toggleBook = (e) => {
     if (e) e.preventDefault()
     const that = this
-    const { showDetail } = this.state
+    const { showDetail, book } = this.state
 
     // 清除缓存
     clearTimeout(this.timeout)
@@ -60,6 +60,11 @@ class App extends React.Component {
           })
         }, 30 * 1000)
       }
+      tracker({
+        act: 'click',
+        biz_type: 'book_detail',
+        biz_data: book.isbn || book.spbs,
+      })
     })
   }
 

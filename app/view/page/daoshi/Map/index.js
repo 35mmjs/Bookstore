@@ -8,14 +8,16 @@ import './index.less'
 export default class Map extends React.Component {
   constructor(props) {
     super(props)
+    
+    const { map = {}, floor = [] } = props.data
 
     this.state = {
       x: 0,
       y: 0,
       lx: 0,
       ly: 0,
-      mapData: props.data.map,
-      floorData: props.data.floor.reverse(),
+      mapData: map,
+      floorData: props.data.floor.reverse() || [],
     }
   }
 

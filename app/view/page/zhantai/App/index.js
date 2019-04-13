@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Slider from 'react-slick'
 import uniqBy from 'lodash.uniqby'
 import { message } from 'antd'
-import { getZhantaiData } from '../../util/services'
+import { getZhantaiData, tracker } from '../../util/services'
 import Single from '../Single'
 import data from '../data'
 import './index.less'
@@ -52,6 +52,14 @@ class App extends React.Component {
       // message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
       this.pause()
       this.autoPlay()
+    })
+
+    handBooks.forEach(bk => {
+      tracker({
+        act: 'click',
+        biz_type: 'book_detail',
+        biz_data: bk.isbn
+      })
     })
   }
 
