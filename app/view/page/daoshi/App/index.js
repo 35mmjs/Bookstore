@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { message } from 'antd'
-import { search, getBook, getDaoshiData, tracker } from '../../util/services'
+import { search, getBook, getDaoshiData, getClientConfig, tracker } from '../../util/services'
 import Map from '../Map'
 import MapSlider from '../MapSlider'
 import Book from '../Book'
@@ -9,18 +9,13 @@ import Books from '../Books'
 import data from './data'
 import data10001 from '../Map/10001'
 import data10002 from '../Map/10002'
+import data10010 from '../Map/10010'
 import './index.less'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
-
     const { orgId } = window.appData
-    let storeData = data10001
-
-    if (orgId.toString() === '10002') {
-      storeData = data10002
-    }
 
     this.state = {
       isSearch: false,
@@ -33,7 +28,7 @@ class App extends React.Component {
       searchValue: '',
       beforeStatus: [1, 1, 0],
       status: [1, 1, 0],
-      storeData,
+      // storeData: data10001,
     }
 
     this.searchRef = React.createRef()
@@ -41,7 +36,42 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.getConfig()
     this.getData()
+  }
+
+  getConfig = () => {
+    const { orgId } = window.appData
+    const id = orgId.toString()
+    console.log(id)
+
+    let storeData
+    switch (id) {
+      case '10001':
+        storeData = data10001
+        break
+      case '10002':
+        storeData = data10002
+        break
+      case '10010':
+        storeData = data10010
+        break
+      default:
+        storeData = data10001
+        break
+    }
+
+    this.setState({
+      storeData,
+    })
+
+    getClientConfig().then(res => {
+      if (res.success) {
+        this.setState({
+          storeData: res.data.config,
+        })
+      }
+    })
   }
 
   reStart = () => {
@@ -89,7 +119,7 @@ class App extends React.Component {
           loading()
           message.error('获取书本详情失败，请稍后再试')
           return
-        } 
+        }
 
         let { score } = data.data
         if (!score) {
@@ -164,19 +194,19 @@ class App extends React.Component {
     let currArea
     let currFloor
 
-    for (let i = 0; i < floor.length; i ++) {
+    for (let i = 0; i < floor.length; i++) {
       const { areas } = floor[i]
 
       // eslint-disable-next-line no-continue
       if (!areas) continue
 
-      for (let j = 0; j < areas.length; j ++) {
+      for (let j = 0; j < areas.length; j++) {
         const { stockList } = areas[j]
 
         // eslint-disable-next-line no-continue
         if (!stockList) continue
 
-        for (let k = 0; k < stockList.length; k ++) {
+        for (let k = 0; k < stockList.length; k++) {
           const stock = stockList[k]
           if (typeof stock === 'object') {
             if (id >= stock[0] && id <= stock[1]) {
@@ -281,7 +311,7 @@ class App extends React.Component {
 
   render() {
     const orgId = window.appData.orgId
-    const { status, currentArea } = this.state
+    const { status, currentArea, storeData } = this.state
     // default [1, 1, 0]
     // click position [1, 0, 0]
     // click books [0, 1, 1]
@@ -302,47 +332,48 @@ class App extends React.Component {
       back_hidden: showMap && showList && !showDetail,
     })
 
+    if (!storeData) {
+      return null
+    }
+
     return (
       <div className="app">
         <div className="warpper">
           <div className="title" />
           <div className="toolbar">
-            <div className={backCls} onClick={this.handleClickBack}>
-            </div>
+            <div className={backCls} onClick={this.handleClickBack} />
             <div className="search">
-              <input type="text" className="search_input" placeholder="输入书名、作者名搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} ref={this.searchRef}/>
+              <input type="text" className="search_input" placeholder="输入书名、作者名搜索" onChange={this.onChange} onKeyDown={this.onKeyDown} ref={this.searchRef} />
               <span className="search_btn" onClick={this.handleSearch} />
-              { this.state.isSearch &&
-                <span className="search_close" onClick={this.handleCleanSearch}>
+              { this.state.isSearch
+                && <span className="search_close" onClick={this.handleCleanSearch}>
                   <span className="close" />
                 </span>
               }
             </div>
           </div>
           {
-            orgId !== '10010' &&
-            <Map 
-              data={this.state.storeData}
+            storeData.type === 'normal'
+            ? <Map
+              data={storeData}
               zoom={showMapZoom}
               hidden={!showMap}
               hideAreas={showMap && showDetail && !showList}
               onClick={this.handleClickMap}
               current={currentArea}
             />
-          }
-          {
-            orgId === '10010' &&
-            <MapSlider
+            : <MapSlider
+              data={storeData}
               onClick={this.handleClickSliderMap}
               hidden={!showMap}
               zoom={showMapZoom}
             />
           }
-          <Books 
+          <Books
             isList={this.state.isSearch}
             hidden={!showList}
-            onClickBook={this.onClickBook} 
-            books={this.state.isSearch ? this.state.searchBooks : this.state.books} 
+            onClickBook={this.onClickBook}
+            books={this.state.isSearch ? this.state.searchBooks : this.state.books}
           />
           <Book
             hidden={!showDetail}

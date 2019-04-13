@@ -5,7 +5,7 @@ const dailyHost = '47.96.75.202'
 const pubHost = '47.96.181.54'
 
 console.log('host: ', window.location.hostname)
-const host = window.location.hostname === pubHost ? pubHost : pubHost
+const host = window.location.hostname === pubHost ? pubHost : devHost
 
 export const search = (data) => {
   const { orgId, clientId } = window.appData
@@ -117,6 +117,16 @@ export const tracker = data => {
       act: data.act || 'click',
       biz_type: data.biz_type,
       biz_data: data.biz_data,
+    },
+  })
+}
+
+export const getClientConfig = data => {
+  const { orgId, clientId } = window.appData
+  return axios.get(`http://${host}/open/v1/terminal`, {
+    params: {
+      orgId,
+      clientId,
     },
   })
 }

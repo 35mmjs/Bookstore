@@ -1,4 +1,5 @@
 export default {
+  type: 'normal',
   map: {
     floorCount: 3,
     src: 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/map_l.png',
