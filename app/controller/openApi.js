@@ -223,12 +223,18 @@ class OpenApiController extends Controller {
     const { query } = this.ctx
     const { isbn, spbs } = query
     const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
+    let books = []
+    
     if (isbn) {
-      res = await bookAPI.getBookByISBN(isbn)
+      books = await bookAPI.getBookByISBN(isbn)
+      // res = await bookAPI.getBookByISBN(isbn)
+      res = books[0]
     }
     if (spbs) {
       const stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
-      res = await bookAPI.getBookBySPBS(spbs)
+      // res = await bookAPI.getBookBySPBS(spbs)
+      books = await bookAPI.getBookBySPBS(spbs)
+      res = books[0]
       res.stockList = stockList
     }
     const processedResult = bookInfoMap(res, this.ctx.session.user)
