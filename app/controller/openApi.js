@@ -274,7 +274,9 @@ class OpenApiController extends Controller {
     const { bookAPI } = await this.ctx.getBookAPI()
     const { isbn, spbs } = param
     if (isbn) {
-      res = await bookAPI.getBookByISBN(isbn)
+      // res = await bookAPI.getBookByISBN(isbn)
+      let books = await bookAPI.getBookByISBN(isbn)
+      res = books[0]
       const { spbs: bookSpbs } = res
       if (bookSpbs) {
         rawList = await bookAPI.getRecommendBooks(bookSpbs)
@@ -287,7 +289,9 @@ class OpenApiController extends Controller {
       list = await Promise.all(
         rawList.map(async item => {
           // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
-          const singleBook = await bookAPI.getBookByISBN(item.tm)
+          let books = await bookAPI.getBookByISBN(item.tm)
+          // const singleBook = await bookAPI.getBookByISBN(item.tm)
+          const singleBook = books[0]
           return bookInfoMap(singleBook, this.ctx.session.user)
         }),
       )
