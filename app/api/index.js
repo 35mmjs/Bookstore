@@ -52,8 +52,17 @@ const book = {
   findRankingBooks: '/ranking/books.json', // id=xxxx
 }
 
+
 const common = {
   getOssToken: '/common/ossToken.json',
+}
+
+/**
+ * 埋点相关
+ */
+const tracker = {
+  findAll: '/view-config/findAll.json',
+  findOne: '/tracker/findOne.json',
 }
 
 const openApi = {
@@ -88,4 +97,5 @@ module.exports = {
   openApi,
   common,
   publicEntry,
+  tracker,
 }
