@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
-import { Card, Form, Row, Col, Button, Select, Input, message } from 'antd'
+import {
+  Card,
+  Form,
+  Row,
+  Col,
+  Button,
+  Select,
+  Input,
+  message,
+  Popconfirm,
+} from 'antd'
 
 import DescriptionList from '../../common/DescriptionList'
 import TableForm from '../tableForm'
@@ -57,14 +67,15 @@ const SinglePubuForm = props => {
         >
           保存当前瀑布屏
         </Button>
-        <Button
-          className="pubu-form-button"
-          type="primary"
-          style={{ marginLeft: 32 }}
-          onClick={handleDelete}
-        >
-          删除
-        </Button>
+        <Popconfirm title="是否要删除此行？" onConfirm={handleDelete}>
+          <Button
+            className="pubu-form-button"
+            type="primary"
+            style={{ marginLeft: 32 }}
+          >
+            删除
+          </Button>
+        </Popconfirm>
       </Card>
     </div>
   )
@@ -75,14 +86,16 @@ const PubuForm = props => {
   if (content && typeof content === 'string') {
     parsedContent = JSON.parse(content)
   }
-  let defaultArray = [{
-    key: 0,
-    books: [],
-    channel: '',
-    banner: {
-      url: '',
+  let defaultArray = [
+    {
+      key: 0,
+      books: [],
+      channel: '',
+      banner: {
+        url: '',
+      },
     },
-  }]
+  ]
   if (parsedContent) {
     defaultArray = parsedContent.map((item, index) => {
       return {

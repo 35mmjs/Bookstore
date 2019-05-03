@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
-import { Card, Form, Row, Col, Button, Select, Input, message } from 'antd'
+import {
+  Card,
+  Form,
+  Row,
+  Col,
+  Button,
+  Select,
+  Input,
+  message,
+  Popconfirm,
+} from 'antd'
 
 import DescriptionList from '../../common/DescriptionList'
 import TableForm from '../tableForm'
@@ -62,14 +72,16 @@ const SingleTableForm = props => {
         >
           保存当前分类
         </Button>
-        <Button
-          className="pubu-form-button"
-          type="primary"
-          style={{ marginLeft: 32 }}
-          onClick={handleDelete}
-        >
-          删除
-        </Button>
+
+        <Popconfirm title="是否要删除此行？" onConfirm={handleDelete}>
+          <Button
+            className="pubu-form-button"
+            type="primary"
+            style={{ marginLeft: 32 }}
+          >
+            删除
+          </Button>
+        </Popconfirm>
       </Card>
     </div>
   )

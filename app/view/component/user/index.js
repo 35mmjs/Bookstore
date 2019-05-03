@@ -1,11 +1,6 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
-import {
-  Button,
-  Divider,
-  Table,
-  Modal,
-} from 'antd'
+import { Button, Divider, Table, Modal } from 'antd'
 import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
 import { create, update, remove, findAll } from './service'
@@ -25,12 +20,34 @@ export default function User() {
   const { modal, modalShow: storeModalShow } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'enum', label: '所属企业', disabled: !!enterprise, default: enterprise, required: true, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
-      store: { type: 'enum', label: '所属门店', disabled: !!store, default: store, required: true, visible: record => !record || !record.is_admin, options: stores.map(item => ({ value: item.id, label: item.name })) },
+      enterprise: {
+        type: 'enum',
+        label: '所属企业',
+        disabled: !!enterprise,
+        default: enterprise,
+        required: true,
+        visible: record => !record || !record.is_admin,
+        options: enterprises.map(item => ({
+          value: item.id,
+          label: item.name,
+        })),
+      },
+      store: {
+        type: 'enum',
+        label: '所属门店',
+        disabled: !!store,
+        default: store,
+        required: true,
+        visible: record => !record || !record.is_admin,
+        options: stores.map(item => ({ value: item.id, label: item.name })),
+      },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
       is_admin: { type: 'hidden' },
     },
-    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
+    handleSubmit: data =>
+      data.id !== undefined
+        ? composeAsync(update, reload)(data)
+        : composeAsync(create, reload)(data),
     onChange: ({ key, value, setValues }) => {
       if (key === 'enterprise') {
         setValues({ store: undefined })
@@ -42,14 +59,31 @@ export default function User() {
     reloadStores({ enterprise })
     fistReload = false
   }
-  const { modal: enterpriseModal, modalShow: enterpriseModalShow } = useFormModal({
+  const {
+    modal: enterpriseModal,
+    modalShow: enterpriseModalShow,
+  } = useFormModal({
     name: 'user',
     schema: {
-      enterprise: { type: 'enum', label: '所属企业', required: true, disabled: !!enterprise, default: enterprise, visible: record => !record || !record.is_admin, options: enterprises.map(item => ({ value: item.id, label: item.name })) },
+      enterprise: {
+        type: 'enum',
+        label: '所属企业',
+        required: true,
+        disabled: !!enterprise,
+        default: enterprise,
+        visible: record => !record || !record.is_admin,
+        options: enterprises.map(item => ({
+          value: item.id,
+          label: item.name,
+        })),
+      },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
       is_admin: { type: 'hidden' },
     },
-    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
+    handleSubmit: data =>
+      data.id !== undefined
+        ? composeAsync(update, reload)(data)
+        : composeAsync(create, reload)(data),
   })
   const columns = [
     {
@@ -59,12 +93,16 @@ export default function User() {
     {
       title: '所属企业',
       dataIndex: 'enterprise',
-      render: (val) => <span>{(enterprises.find(item => item.id === val) || {}).name || '无'}</span>,
+      render: val => (
+        <span>
+          {(enterprises.find(item => item.id === val) || {}).name || '无'}
+        </span>
+      ),
     },
     {
       title: '所属门店',
       dataIndex: 'store_name',
-      render: (val) => <span>{val || '无'}</span>,
+      render: val => <span>{val || '无'}</span>,
     },
     {
       title: '账号类型',
@@ -91,9 +129,25 @@ export default function User() {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          { loginUser.id !== record.id ? <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a> : null }
+          {loginUser.id !== record.id ? (
+            <a
+              onClick={() =>
+                composeAsync(removeConfirm, remove, reload)(record)
+              }
+            >
+              删除
+            </a>
+          ) : null}
           &nbsp;&nbsp;
-          <a onClick={() => record.store_name ? storeModalShow('修改账号', record) : enterpriseModalShow('修改账号', record)}>修改</a>
+          <a
+            onClick={() =>
+              record.store_name
+                ? storeModalShow('修改账号', record)
+                : enterpriseModalShow('修改账号', record)
+            }
+          >
+            修改
+          </a>
         </Fragment>
       ),
     },
@@ -101,11 +155,29 @@ export default function User() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        { !loginUser.isStoreUser ? <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>新增门店账号</Button> : null }
+        {!loginUser.isStoreUser ? (
+          <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>
+            新增门店账号
+          </Button>
+        ) : null}
         &nbsp;&nbsp;
-        { loginUser.isAdmin ? <Button type="primary" onClick={() => enterpriseModalShow('新增企业账号')}>新增企业账号</Button> : null }
+        {loginUser.isAdmin ? (
+          <Button
+            type="primary"
+            onClick={() => enterpriseModalShow('新增企业账号')}
+          >
+            新增企业账号
+          </Button>
+        ) : null}
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource} columns={columns} />
+      <Table
+        rowKey="id"
+        dataSource={dataSource}
+        columns={columns}
+        pagination={{
+          pageSize: 25,
+        }}
+      />
       {modal}
       {enterpriseModal}
     </div>

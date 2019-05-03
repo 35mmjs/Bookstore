@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
-import { Table, Divider, Button } from 'antd'
+import { Table, Divider, Button, Popconfirm, Pagination } from 'antd'
 import { Link } from 'dva/router'
 
 export default class Index extends React.Component {
@@ -50,17 +50,20 @@ export default class Index extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Fragment>
-            <Link to={`/view-config/manage/detail/${record.id}/view`}>查看 | </Link>
-            <Link to={`/view-config/manage/detail/${record.id}/edit`}>编辑 | </Link>
-            <Link
-              to=""
-              onClick={(e) => {
-                e.preventDefault()
+            <Link to={`/view-config/manage/detail/${record.id}/view`}>
+              查看 |{' '}
+            </Link>
+            <Link to={`/view-config/manage/detail/${record.id}/edit`}>
+              编辑 |{' '}
+            </Link>
+            <Popconfirm
+              title="是否要删除此行？"
+              onConfirm={() => {
                 this.props.onDelete(record)
               }}
             >
-               删除
-            </Link>
+              <a>删除</a>
+            </Popconfirm>
           </Fragment>
         ),
       },
@@ -68,6 +71,15 @@ export default class Index extends React.Component {
   }
 
   render() {
-    return <Table columns={this.columns} dataSource={this.props.data} rowKey="id" />
+    return (
+      <Table
+        columns={this.columns}
+        dataSource={this.props.data}
+        rowKey="id"
+        pagination={{
+          pageSize: 25,
+        }}
+      />
+    )
   }
 }

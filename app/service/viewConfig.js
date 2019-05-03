@@ -7,14 +7,37 @@ class ViewConfig extends Service {
     //   where: { deleted: 0, ...params },
     // })
     // return { items }
+    console.log('aaaaaaaa', params)
+    
     if (!params.store) {
       throw new Error('配置无法获取对应门店id')
     }
-    if ((!params.note || !params.type)) {
+    if ((!params.note && !params.type)) {
       const items = await this.app.mysql.query(`
 select view_configs.*, terminal_types.name as view_configs_type from \`view_configs\` left join \`terminal_types\`
   on view_configs.type = terminal_types.id
   where view_configs.deleted = 0 and view_configs.store = ${Number(params.store)}`)
+      return { items }
+    }
+    if ((params.note || !params.type)) {
+      const items = await this.app.mysql.query(`
+select view_configs.*, terminal_types.name as view_configs_type from \`view_configs\` left join \`terminal_types\`
+  on view_configs.type = terminal_types.id
+  where view_configs.deleted = 0 and view_configs.store = ${Number(params.store)} and view_configs.note like '%${params.note}%'`)
+      return { items }
+    }
+    if ((!params.note || params.type)) {
+      const items = await this.app.mysql.query(`
+select view_configs.*, terminal_types.name as view_configs_type from \`view_configs\` left join \`terminal_types\`
+  on view_configs.type = terminal_types.id
+  where view_configs.deleted = 0 and view_configs.store = ${Number(params.store)} and view_configs.type = ${Number(params.type)}`)
+      return { items }
+    }
+    if ((params.note && params.type)) {
+      const items = await this.app.mysql.query(`
+select view_configs.*, terminal_types.name as view_configs_type from \`view_configs\` left join \`terminal_types\`
+  on view_configs.type = terminal_types.id
+  where view_configs.deleted = 0 and view_configs.store = ${Number(params.store)} and view_configs.type = ${Number(params.type)} and view_configs.note like '%${params.note}%'`)
       return { items }
     }
     const items = await this.app.mysql.select(DB, {

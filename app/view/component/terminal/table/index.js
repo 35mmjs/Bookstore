@@ -1,4 +1,4 @@
-import React, { Fragment, useState,iframe } from 'react'
+import React, { Fragment, useState, iframe } from 'react'
 import moment from 'moment'
 import { Link } from 'dva/router'
 import { Button, Divider, Table, Form, Input, Modal, message } from 'antd'
@@ -215,7 +215,14 @@ const ConfigForm = Form.create()(props => {
           ],
         })(<Search placeholder="输入配置名" enterButton onSearch={okHandle} />)}
       </FormItem>
-      <Table columns={columns} dataSource={matchedViewConfigData} rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={matchedViewConfigData}
+        rowKey="id"
+        pagination={{
+          pageSize: 25,
+        }}
+      />
     </Modal>
   )
 })
@@ -411,21 +418,38 @@ const Comp = props => {
     handleModalVisible: () => setViewFormVisible(false),
     data: viewFormData,
   }
-  let deviceManager = <view/>;
-  let editM = <view/>;
-  let confM = <view/>;
-  let viewM = <view/>;
-  if(currentType == 1){
-    deviceManager = <Table columns={columns} dataSource={list} rowKey="id" />;
-    editM = <EditForm {...editFormProps} />;
-    confM = <ConfigForm {...configFormProps} />;
-    viewM = <ViewForm {...viewFormProps} />;
-  }else if(currentType == 2){
-    let url = "http://120.79.189.21:8081/#/blank/device-list?store_id=" + window.appData.loginUser.store;
-    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src={url}/>;
-  }else if(currentType == 3){
-    let url = "http://120.79.189.21:8081/#/blank/task-list?store_id=" + window.appData.loginUser.store;
-    deviceManager = <iframe style={{border:0,width:"100%",height:1000,}} src={url}/>;
+  let deviceManager = <view />
+  let editM = <view />
+  let confM = <view />
+  let viewM = <view />
+  if (currentType == 1) {
+    deviceManager = (
+      <Table
+        columns={columns}
+        dataSource={list}
+        rowKey="id"
+        pagination={{
+          pageSize: 25,
+        }}
+      />
+    )
+    editM = <EditForm {...editFormProps} />
+    confM = <ConfigForm {...configFormProps} />
+    viewM = <ViewForm {...viewFormProps} />
+  } else if (currentType == 2) {
+    let url =
+      'http://120.79.189.21:8081/#/blank/device-list?store_id=' +
+      window.appData.loginUser.store
+    deviceManager = (
+      <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
+    )
+  } else if (currentType == 3) {
+    let url =
+      'http://120.79.189.21:8081/#/blank/task-list?store_id=' +
+      window.appData.loginUser.store
+    deviceManager = (
+      <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
+    )
   }
   return (
     <div>

@@ -1,12 +1,7 @@
 import React, { Fragment } from 'react'
 import './index.less'
 import moment from 'moment'
-import {
-  Button,
-  Divider,
-  Table,
-  Modal,
-} from 'antd'
+import { Button, Divider, Table, Modal } from 'antd'
 import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
 import { create, update, remove, findAll, changeStoreById } from './service'
@@ -26,7 +21,10 @@ export default function Store() {
     schema: {
       id: { type: 'hidden' }, // 更新表单需要传入id, 所以为隐藏类型
     },
-    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
+    handleSubmit: data =>
+      data.id !== undefined
+        ? composeAsync(update, reload)(data)
+        : composeAsync(create, reload)(data),
   })
 
   const columns = [
@@ -62,7 +60,11 @@ export default function Store() {
         <Fragment>
           <a onClick={() => modalShow('编辑门店', record)}>编辑</a>
           <Divider type="vertical" />
-          <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
+          <a
+            onClick={() => composeAsync(removeConfirm, remove, reload)(record)}
+          >
+            删除
+          </a>
           <Divider type="vertical" />
           <a onClick={() => changeStore(record.id)}>管理</a>
         </Fragment>
@@ -72,9 +74,18 @@ export default function Store() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => modalShow('新增门店')}>新增门店</Button>
+        <Button type="primary" onClick={() => modalShow('新增门店')}>
+          新增门店
+        </Button>
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource.items} columns={columns} />
+      <Table
+        rowKey="id"
+        dataSource={dataSource.items}
+        columns={columns}
+        pagination={{
+          pageSize: 25,
+        }}
+      />
       {modal}
     </div>
   )
