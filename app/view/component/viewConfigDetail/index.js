@@ -94,7 +94,6 @@ class CreateAndEditForm extends React.Component {
         content: JSON.stringify(content),
       }
       console.log('submit value', payload)
-      console.log(content)
       handleSubmit(payload)
     })
   }

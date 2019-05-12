@@ -61,7 +61,7 @@ const common = {
  * 埋点相关
  */
 const tracker = {
-  findAll: '/view-config/findAll.json',
+  findAll: '/tracker/findAll.json',
   findOne: '/tracker/findOne.json',
 }
 

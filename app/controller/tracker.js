@@ -7,30 +7,29 @@ class TrackerController extends Controller {
   async findAll() {
     // const request = this.ctx.params
     const { query } = this.ctx
-    const result = await this.ctx.service.enterprise.findAll()
-    query.store = this.ctx.getLoginStore()
-    this.ctx.body = {
-      success: true,
-      data: result,
+    const userInfo = this.ctx.getLoginUser()
+    const { isAdmin } = userInfo
+    // 判断是否管理员
+    if (isAdmin) {
+      query.isAdmin = true
+    } else {
+      query.store = this.ctx.getLoginStore()
+      query.isAdmin = false
     }
-  }
-
-  async remove() {
-    const request = this.ctx.request.body
-    const result = await this.ctx.service.enterprise.remove(request.id)
-    this.ctx.body = {
-      success: true,
-      data: result,
-    }
-  }
-
-  async update() {
-    const request = this.ctx.request.body
-    this.ctx.validate('enterprise', request)
-    const result = await this.ctx.service.enterprise.update(request.id, request.name)
-    this.ctx.body = {
-      success: true,
-      data: result,
+    const result = await this.ctx.service.tracker.findAll(query)
+    if (result && result.length > 0) {
+      this.ctx.body = {
+        success: true,
+        data: {
+          items: result,
+        },
+      }
+    } else {
+      this.ctx.body = {
+        success: true,
+        data: {
+        },
+      }
     }
   }
 }

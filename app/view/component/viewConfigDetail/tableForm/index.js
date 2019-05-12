@@ -136,7 +136,7 @@ class TableForm extends PureComponent {
     }
     // console.log(bookInfos);
     this.setState({ data: newData }, () => {
-      // this.props.onChange(this.state.data)
+      this.props.onChange(this.state.data)
     })
   }
 

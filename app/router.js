@@ -85,5 +85,4 @@ module.exports = app => {
   router.get(publicEntry.entry, controller.publicEntry.index)
   // 埋点数据展示
   router.get(tracker.findAll, controller.tracker.findAll)
-  router.get(tracker.findOne, controller.tracker.findOne)
 }

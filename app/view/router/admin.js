@@ -51,6 +51,12 @@ let menu = [
     value: '/user',
     children: null,
   },
+  {
+    label: '埋点数据',
+    icon: 'hdd',
+    value: '/tracker/data-view',
+    children: null,
+  },
 ]
 
 if (window.appData.loginUser.isAdmin) {
