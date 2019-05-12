@@ -139,7 +139,7 @@ class BookAPIByZhongjinService extends Service {
       BeginTime: `${time.getFullYear()}${month(time.getMonth())}01`,
       EndTime: `${time.getFullYear()}${month(time.getMonth() + 1)}01`,
       key: phid, // 1哲学、社会科学,2文化、教育,3文学、艺术,4自然科学、科技,5少儿读物,6大中专教材,7课本,8教辅读物,9其他出版物,10音像制品
-    }).then(arr => Promise.all(arr.map(item => this.getBookBySPBS(item.SendUnitID, khbh, true))))
+    }).then(arr => Promise.all(arr.map(item => this.getSingleBookBySPBS(item.SendUnitID, khbh, true))))
       .then(arr => arr.filter(i => !!i))
   }
 
@@ -194,6 +194,25 @@ class BookAPIByZhongjinService extends Service {
   }
 
   /**
+   * 根据商品标识
+   * @param SPBS
+   * @param khbh
+   * @param ignore
+   * @return {Promise<T | never | never>}
+   */
+  getSingleBookBySPBS(SPBS, khbh, ignore) {
+    return this.fetch({
+      ServerID: 3, // 函数ID
+      ID: SPBS,
+      shopID: khbh,
+    }).then(d => {
+      if (!ignore && d.length === 0) throw new CommonError('未找到对应书本')
+      return normalize(d[0])
+      // return d.map(i => normalize(i));
+    })
+  }
+
+  /**
    * 根据关键字查询，返回数组
    * @param keyword
    * @param khbh
@@ -227,7 +246,8 @@ class BookAPIByZhongjinService extends Service {
    */
   async getRecommendBooks(spbs, khbh) {
     // 先查询分类信息
-    const { yxxlmc: kind } = await this.getBookBySPBS(spbs, khbh)
+    // const { yxxlmc: kind } = await this.getBookBySPBS(spbs, khbh)
+    const { yxxlmc: kind } = await this.getSingleBookBySPBS(spbs, khbh)
     if (kind) {
       // 用排行榜来做推荐书籍
       return this.getRinkingInfo(kind, khbh)
