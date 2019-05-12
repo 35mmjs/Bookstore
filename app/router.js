@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user, common, publicEntry,
+  terminalType, user, common, publicEntry, tracker,
 } = require('./api/index')
 
 /**
@@ -83,4 +83,6 @@ module.exports = app => {
   router.get(openApi.findTerminal, controller.openApi.findTerminal)
   // public entry
   router.get(publicEntry.entry, controller.publicEntry.index)
+  // 埋点数据展示
+  router.get(tracker.findAll, controller.tracker.findAll)
 }

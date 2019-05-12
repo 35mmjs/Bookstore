@@ -13,8 +13,14 @@ import TerminalDetail from '../component/terminalDetail'
 import ViewConfig from '../component/viewConfig'
 import ViewConfigDetail from '../component/viewConfigDetail'
 import Home from '../component/home/index'
+import TrackerDataView from '../component/tracker/index'
 
-const { viewConfigRoutes, terminalRoutes, storeRoutes } = constant
+const {
+  viewConfigRoutes,
+  terminalRoutes,
+  storeRoutes,
+  trackerRoutes,
+} = constant
 
 const Employee = () => <h2>Home</h2>
 
@@ -23,19 +29,21 @@ let menu = [
     label: '门店管理',
     value: '/store/manage',
     icon: 'shop',
-    children: window.appData.loginUser.store ? [
-      {
-        label: '配置中心',
-        value: '/view-config/manage',
-        icon: 'hdd',
-        children: null,
-      },
-      {
-        label: '终端管理',
-        value: '/terminal/manage',
-        icon: 'desktop',
-      },
-    ] : null,
+    children: window.appData.loginUser.store
+      ? [
+          {
+            label: '配置中心',
+            value: '/view-config/manage',
+            icon: 'hdd',
+            children: null,
+          },
+          {
+            label: '终端管理',
+            value: '/terminal/manage',
+            icon: 'desktop',
+          },
+        ]
+      : null,
   },
   {
     label: '用户管理',
@@ -43,20 +51,27 @@ let menu = [
     value: '/user',
     children: null,
   },
+  {
+    label: '埋点数据',
+    icon: 'hdd',
+    value: '/tracker/data-view',
+    children: null,
+  },
 ]
 
 if (window.appData.loginUser.isAdmin) {
-  menu.unshift(
-    {
-      label: '企业管理',
-      icon: 'bank',
-      value: '/enterprise',
-      children: null,
-    },
-  )
+  menu.unshift({
+    label: '企业管理',
+    icon: 'bank',
+    value: '/enterprise',
+    children: null,
+  })
 }
 
-if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.isEnterpriseUser) {
+if (
+  !window.appData.loginUser.isAdmin &&
+  !window.appData.loginUser.isEnterpriseUser
+) {
   menu = [
     {
       label: '配置中心',
@@ -75,9 +90,14 @@ if (!window.appData.loginUser.isAdmin && !window.appData.loginUser.isEnterpriseU
       value: '/user',
       children: null,
     },
+    {
+      label: '埋点数据',
+      icon: 'hdd',
+      value: '/tracker/data-view',
+      children: null,
+    },
   ]
 }
-
 
 const app = dva()
 
@@ -108,7 +128,11 @@ const routeMap = () => {
     },
     {
       path: terminalRoutes.findAll,
-      models: () => [require('../component/terminal/model'), require('../component/viewConfig/model'), require('../component/store/model')],
+      models: () => [
+        require('../component/terminal/model'),
+        require('../component/viewConfig/model'),
+        require('../component/store/model'),
+      ],
       component: () => Terminal,
     },
     {
@@ -131,6 +155,11 @@ const routeMap = () => {
       models: () => [require('../component/viewConfigDetail/model')],
       component: () => ViewConfigDetail,
     },
+    {
+      path: trackerRoutes.findAll,
+      models: () => [require('../component/tracker/model')],
+      component: () => TrackerDataView,
+    },
   ]
 }
 
@@ -145,28 +174,25 @@ class AppRouter extends React.Component {
       <Layout menu={menu}>
         <Router>
           <Switch>
-            {
-              routeMap().map(({ path, ...dynamics }, key) => {
-                return (
-                  <Route
-                    key={path}
-                    exact
-                    path={path}
-                    component={dynamic({
-                      app,
-                      ...dynamics,
-                    })}
-                  />
-                )
-              })
-            }
+            {routeMap().map(({ path, ...dynamics }, key) => {
+              return (
+                <Route
+                  key={path}
+                  exact
+                  path={path}
+                  component={dynamic({
+                    app,
+                    ...dynamics,
+                  })}
+                />
+              )
+            })}
           </Switch>
         </Router>
       </Layout>
     )
   }
 }
-
 
 app.router(() => <AppRouter />)
 const Demo = app.start()

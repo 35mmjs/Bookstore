@@ -18,6 +18,10 @@ const storeRoutes = {
   findOne: 'store/manage/detail/:id/:operation(view)',
 }
 
+const trackerRoutes = {
+  findAll: '/tracker/data-view',
+}
+
 const NORMAL_MAP = {
   name: '名称',
   content: '内容',
@@ -98,6 +102,7 @@ export default {
   viewConfigRoutes,
   storeRoutes,
   terminalRoutes,
+  trackerRoutes,
   VIEW_CONFIG_TYPE_MAP,
   VIEW_CONFIG_ID,
   FORM_ITEM_LAYOUT,

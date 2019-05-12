@@ -12,7 +12,7 @@ export default class Index extends React.Component {
     const { dispatch } = props
     this.dispatch = dispatch
     this.state = {
-      currentType :1
+      currentType: 1,
     }
   }
 
@@ -24,9 +24,9 @@ export default class Index extends React.Component {
     this.dispatch({ type: 'viewConfig/findAll', payload: {} })
   }
 
-  onTypeChange(type){
+  onTypeChange(type) {
     this.setState({
-      currentType:type
+      currentType: type,
     })
   }
 
@@ -41,7 +41,7 @@ export default class Index extends React.Component {
         data.config = {}
       }
     }
-    data.config = JSON.stringify(data.config)
+    data.config = JSON.stringify(data.config || {})
     this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 
@@ -60,8 +60,10 @@ export default class Index extends React.Component {
     return (
       <div>
         <div>
-          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} 
-          onTypeChange={type => this.onTypeChange(type)}/>
+          <CreateButton
+            onSubmit={data => this.onSubmit(data, 'create')}
+            onTypeChange={type => this.onTypeChange(type)}
+          />
           <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
           <Table
             list={list}
