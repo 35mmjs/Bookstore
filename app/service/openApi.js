@@ -74,10 +74,11 @@ class OpenApi extends Service {
   async setTracker(params) {
     const { act, biz_type = 'normal', biz_data = '', terminal, date } = params
     let result
-    // terminal_id, date, biz_type 确定唯一表单
+    // act, terminal_id, date, biz_type, biz_data 确定唯一表单
     const item = await this.app.mysql.get(TRACKER, {
       terminal,
       biz_type,
+      biz_data,
       act,
       date,
     })

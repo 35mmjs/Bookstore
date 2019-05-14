@@ -34,15 +34,19 @@ class TrackerService extends Service {
       return newItems
     }
     if (query.isAdmin === false) {
+      let newItems = []
       const storeId = query.store
       // 只获取当前门店下的数据
       const items = await this.app.mysql.query(`
     select tracker.*, terminals.store as terminal_store, terminals.name as terminal_name from tracker left join terminals
-    on tracker.terminal = terminals.id and terminals.store = ${storeId}
+    on tracker.terminal = terminals.id
     where tracker.updated_at between date_sub(now(),INTERVAL 1 WEEK) and now()
     order by updated_at desc
     `)
-      return items
+      if (items && items.length > 0) {
+        newItems = items.filter(item => item.terminal_store === storeId)
+      }
+      return newItems
     }
     return []
   }
