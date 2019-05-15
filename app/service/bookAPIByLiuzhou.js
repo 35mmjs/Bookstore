@@ -21,7 +21,7 @@ function normalize(d) {
     yxxlmc: d.Kind1Name1,
     ml: d.Catalog || '', // 目录,
     dj: d.PrePrice || d.Price, // 定价
-    tjy: (d.Prologue || '').trim() || (d.Contentsummary || '').trim(), // 推荐语
+    tjy: (d.Nominate || '').trim() || (d.Contentsummary || '').trim(), // 推荐语
     nrty: (d.Contentsummary || '').trim(), // 内容提要
     pageType: d.PageNo,
     ys: d.PageNumber, // 页数
