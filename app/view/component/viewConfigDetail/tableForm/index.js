@@ -19,13 +19,10 @@ import SearchBooksByCategory from './searchBooksByCategory'
 import styles from './style.less'
 
 class TableForm extends PureComponent {
-  index = 0
-
   cacheOriginData = {}
 
   constructor(props) {
     super(props)
-
     this.state = {
       data: props.value,
       loading: false,
@@ -35,6 +32,7 @@ class TableForm extends PureComponent {
       modalVisible2: false,
       modalVisible3: false,
     }
+    this.index = (props.value && props.value.length) || 0
   }
 
   static getDerivedStateFromProps(nextProps, preState) {
@@ -134,7 +132,7 @@ class TableForm extends PureComponent {
       })
       this.index += 1
     }
-    // console.log(bookInfos);
+    console.log('aaaaaaaa', newData)
     this.setState({ data: newData }, () => {
       this.props.onChange(this.state.data)
     })
