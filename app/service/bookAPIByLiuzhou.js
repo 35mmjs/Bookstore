@@ -133,7 +133,7 @@ class BookAPIByZhongjinService extends Service {
   getRinkingInfo(phid, khbh) {
     const time = new Date()
     return this.fetch({
-      ServerID: 5,
+      ServerID: 10,
       shopID: khbh,
       top: 20,
       BeginTime: `${time.getFullYear()}${month(time.getMonth())}01`,
