@@ -21,7 +21,7 @@ function normalize(d) {
     ys: d.page_size, // 页数
     bb: d.publi_full_name || '', // 出版社
     // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
-    qrcode: 'http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/WechatIMG134.jpeg', // 购买链接
+    qrcode: 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/WechatIMG134.jpeg', // 购买链接
     postscript: '' , // 后记
     prologue: '', // 序言
     bkScore:d.bk_score,
