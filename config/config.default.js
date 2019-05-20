@@ -93,7 +93,7 @@ module.exports = appInfo => {
   }
 
   config.webpack = {
-    staticUrl: 'http://bookstore-public.oss-cn-hangzhou.aliyuncs.com/assets', // 阿里云CDN服务器
+    staticUrl: 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/assets', // 阿里云CDN服务器
     startWebpackServer: false, // 是否开启webpack静态服务器
   }
   return config
