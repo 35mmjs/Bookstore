@@ -2,7 +2,8 @@ import axios from 'axios'
 
 const devHost = '127.0.0.1:7001'
 const dailyHost = '47.96.75.202'
-const pubHost = '47.96.181.54'
+// const pubHost = '47.96.181.54'
+const pubHost = 'shulian8.com'
 
 console.log('host: ', window.location.hostname)
 const host = window.location.hostname === pubHost ? pubHost : pubHost
