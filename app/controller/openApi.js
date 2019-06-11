@@ -241,7 +241,7 @@ class OpenApiController extends Controller {
       books = await bookAPI.getBookBySPBS(spbs)
       res = books[0]
       if (bookAPI.getAPIType() === 'liuzhou') {
-        let newBooks = await bookAPI.getBookByISBN(isbn)
+        let newBooks = await bookAPI.getBookByISBN(res.isbn)
         res = newBooks[0]
         stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID)
       } else {
