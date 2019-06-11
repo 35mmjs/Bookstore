@@ -191,8 +191,8 @@ class App extends React.Component {
     const temp = jwh.replace('架位号:', '')
     const jwhList = temp.split('-')
     if (jwhList.length < 3) return
-    const bookFloor = parseInt(jwhList[1], 10)
-    const bookArea = parseInt(jwhList[2], 10)
+    const bookFloor = parseInt(jwhList[1].replace('楼', ''), 10)
+    const bookArea = parseInt(jwhList[2].replace('架号', ''), 10)
     const { floor } = this.state.storeData
     let currArea
     const currFloor = bookFloor - 1
