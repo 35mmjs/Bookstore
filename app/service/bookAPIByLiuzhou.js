@@ -263,7 +263,7 @@ class BookAPIByZhongjinService extends Service {
   async getStockList(khbh, spbs) {
     // "[{"SendUnitID":4777330,"Name":"民族大道店","StockNumber":"6本","Tel":"0771-5851848","Address":"民族大道69号","PositionID":"127-1-1-1"},{"SendUnitID":4777330,"Name":"王府井店","StockNumber":"12本","Tel":"0771-5516253","Address":"新民路华星时代广场王府井4楼C20","PositionID":"6-3-1-1"},{"SendUnitID":4777330,"Name":"概念书屋","StockNumber":"3本","Tel":"0771-2883566","Address":"南宁吴圩国际机场T2航站楼三楼23号登机口斜对面","PositionID":"27-7-1-1"},{"SendUnitID":4777330,"Name":"约阅读体验中心","StockNumber":"3本","Tel":"18977113515","Address":"南宁职业技术学院图书馆A区","PositionID":"畅销书-001-001-00"},{"SendUnitID":4777330,"Name":"概念书屋朝阳店","StockNumber":"2本","Tel":"18697980280","Address":"南宁饭店大堂","PositionID":"5-1-1-1"},{"SendUnitID":4777330,"Name":"机场嘉暘碧天酒店概念书屋","StockNumber":"3本","Tel":"0771-2886325","Address":"广西南宁市吴圩国际机场T2航站区机场大道18号嘉暘碧天酒店三","PositionID":null},{"SendUnitID":4777330,"Name":"约阅读体验中心","StockNumber":"5本","Tel":null,"Address":"广西南宁市合兴路3号（南宁师范大学五合校区饭堂二楼）","PositionID":null}]"
     return this.fetch({
-      ServerID: 8,
+      ServerID: 12,
       LSID: spbs,
       shopID: khbh,
       stockID: 8,
