@@ -186,9 +186,61 @@ class App extends React.Component {
     })
   }
 
+  handleLiuzhouPosition = (jwh) => {
+    if (!jwh) return
+    const temp = jwh.replace('架位号:', '')
+    const jwhList = temp.split('-')
+    if (jwhList.length < 3) return
+    const bookFloor = parseInt(jwhList[1], 10)
+    const bookArea = parseInt(jwhList[2], 10)
+    const { floor } = this.state.storeData
+    let currArea
+    const currFloor = bookFloor - 1
+    const { areas } = floor[currFloor]
+    for (let j = 0; j < areas.length; j++) {
+      const { stockList } = areas[j]
+
+      // eslint-disable-next-line no-continue
+      if (!stockList) continue
+
+      for (let k = 0; k < stockList.length; k++) {
+        const stock = stockList[k]
+        if (typeof stock === 'object') {
+          if (bookArea >= stock[0] && bookArea <= stock[1]) {
+            currArea = areas[j]
+            break
+          }
+        } else if (bookArea === stock) {
+          currArea = areas[j]
+          break
+        }
+      }
+    }
+    if (!currArea) {
+      message.error('找不到对应的位置')
+      return
+    }
+
+    this.setState({
+      status: [1, 0, 1],
+      beforeStatus: [0, 1, 1],
+      currentArea: {
+        coordinate: currArea.coordinate,
+        floor: currFloor,
+      },
+    }, () => {
+      this.reStart()
+    })   
+  }
+
   handleShowPosition = (bookList) => {
     const { jwh } = bookList[0]
     if (!jwh) return
+    const { orgId } = window.appData
+    if (orgId === 10010) {
+      this.handleLiuzhouPosition(jwh)
+      return
+    }
     const id = parseInt(jwh, 10)
     const { floor } = this.state.storeData
     let currArea
