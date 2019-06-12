@@ -198,10 +198,11 @@ class App extends React.Component {
     console.log('bookFloor:' + bookFloor)
     console.log('bookArea:' + bookArea)
     const { floor } = this.state.storeData
-    console.log(floor)
+    // console.log(floor)
     let currArea
-    const currFloor = bookFloor - 1
+    const currFloor = floor.length - bookFloor
     const { areas } = floor[currFloor]
+    console.log(areas)
     for (let j = 0; j < areas.length; j++) {
       const { stockList } = areas[j]
 
@@ -224,6 +225,8 @@ class App extends React.Component {
         break
       }
     }
+    console.log('currArea:')
+    console.log(currArea)
     if (!currArea) {
       message.error('找不到对应的位置')
       return
@@ -234,7 +237,7 @@ class App extends React.Component {
       beforeStatus: [0, 1, 1],
       currentArea: {
         coordinate: currArea.coordinate,
-        floor: currFloor,
+        floor: bookFloor,
       },
     }, () => {
       this.reStart()
