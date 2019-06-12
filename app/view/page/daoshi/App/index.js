@@ -187,7 +187,7 @@ class App extends React.Component {
   }
 
   handleLiuzhouPosition = (jwh) => {
-    if (!jwh) return
+    // if (!jwh) return
     // const temp = jwh.replace('架位号:', '')
     const jwhList = jwh.split('-')
     if (jwhList.length < 3) return
@@ -195,7 +195,10 @@ class App extends React.Component {
     const areaStr = jwhList[2].replace('架号', '')
     const bookFloor = parseInt(floorStr, 10)
     const bookArea = parseInt(areaStr, 10)
+    console.log('bookFloor:' + bookFloor)
+    console.log('bookArea:' + bookArea)
     const { floor } = this.state.storeData
+    console.log(floor)
     let currArea
     const currFloor = bookFloor - 1
     const { areas } = floor[currFloor]
@@ -240,8 +243,10 @@ class App extends React.Component {
 
   handleShowPosition = (bookList) => {
     const { jwh } = bookList[0]
+    console.log('jwh:' + jwh)
     if (!jwh) return
     const { orgId } = window.appData
+    console.log('orgId:' + orgId)
     if (orgId === 10010 || orgId === '10010') {
       this.handleLiuzhouPosition(jwh)
       return
