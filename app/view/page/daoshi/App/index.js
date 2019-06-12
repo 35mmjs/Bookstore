@@ -108,10 +108,10 @@ class App extends React.Component {
     })
   }
 
-  onClickBook = (spbs) => {
+  onClickBook = (spbs, ls_SendUnitID) => {
     const loading = message.loading('正在查询...', 0)
 
-    getBook({ spbs })
+    getBook({ spbs, ls_SendUnitID })
       .then(res => {
         const { data } = res
 
@@ -188,11 +188,13 @@ class App extends React.Component {
 
   handleLiuzhouPosition = (jwh) => {
     if (!jwh) return
-    const temp = jwh.replace('架位号:', '')
-    const jwhList = temp.split('-')
+    // const temp = jwh.replace('架位号:', '')
+    const jwhList = jwh.split('-')
     if (jwhList.length < 3) return
-    const bookFloor = parseInt(jwhList[1].replace('楼', ''), 10)
-    const bookArea = parseInt(jwhList[2].replace('架号', ''), 10)
+    const floorStr = jwhList[1].replace('楼', '')
+    const areaStr = jwhList[2].replace('架号', '')
+    const bookFloor = parseInt(floorStr, 10)
+    const bookArea = parseInt(areaStr, 10)
     const { floor } = this.state.storeData
     let currArea
     const currFloor = bookFloor - 1
@@ -214,6 +216,9 @@ class App extends React.Component {
           currArea = areas[j]
           break
         }
+      }
+      if (currArea) {
+        break
       }
     }
     if (!currArea) {
@@ -237,7 +242,7 @@ class App extends React.Component {
     const { jwh } = bookList[0]
     if (!jwh) return
     const { orgId } = window.appData
-    if (orgId === 10010) {
+    if (orgId === 10010 || orgId === '10010') {
       this.handleLiuzhouPosition(jwh)
       return
     }

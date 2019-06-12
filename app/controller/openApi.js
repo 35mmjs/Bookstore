@@ -221,7 +221,7 @@ class OpenApiController extends Controller {
   async findBook() {
     let res = ''
     const { query } = this.ctx
-    const { isbn, spbs } = query
+    const { isbn, spbs, ls_SendUnitID } = query
     const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
     let books = []
     
@@ -241,9 +241,12 @@ class OpenApiController extends Controller {
       books = await bookAPI.getBookBySPBS(spbs)
       res = books[0]
       if (bookAPI.getAPIType() === 'liuzhou') {
-        let newBooks = await bookAPI.getBookByISBN(res.isbn)
-        res = newBooks[0]
-        stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID)
+        if (res.ls_SendUnitID || ls_SendUnitID) {
+          stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID || ls_SendUnitID)
+        } else {
+          let newBooks = await bookAPI.getBookByISBN(res.isbn)
+          res = newBooks[0]
+          stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID)        }
       } else {
         stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
       }
