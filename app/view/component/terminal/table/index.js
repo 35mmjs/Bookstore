@@ -438,14 +438,14 @@ const Comp = props => {
     viewM = <ViewForm {...viewFormProps} />
   } else if (currentType == 2) {
     let url =
-      'https:www.shulian8.com/task/#/blank/device-list?store_id=' +
+      '/task/#/blank/device-list?store_id=' +
       window.appData.loginUser.store
     deviceManager = (
       <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
     )
   } else if (currentType == 3) {
     let url =
-      'https:www.shulian8.com/task/#/blank/task-list?store_id=' +
+      '/task/#/blank/task-list?store_id=' +
       window.appData.loginUser.store
     deviceManager = (
       <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
