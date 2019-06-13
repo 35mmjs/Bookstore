@@ -309,11 +309,11 @@ const Comp = props => {
       render: (text, record) => {
         const type =
           TYPE_MAP.find(item => item.value === record.type).label || ''
-        const url = `http://${window.location.host}/page/${type}?orgId=${
+        const url = `https://${window.location.host}/page/${type}?orgId=${
           record.store
         }&clientId=${record.id}`
         if (type === 'paihang') {
-          const padUrl = `http://${
+          const padUrl = `https://${
             window.location.host
           }/page/paihangpad?orgId=${record.store}&clientId=${
             record.id
@@ -438,14 +438,14 @@ const Comp = props => {
     viewM = <ViewForm {...viewFormProps} />
   } else if (currentType == 2) {
     let url =
-      'http://120.79.189.21:8081/#/blank/device-list?store_id=' +
+      'https:www.shulian8.com/task/#/blank/device-list?store_id=' +
       window.appData.loginUser.store
     deviceManager = (
       <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
     )
   } else if (currentType == 3) {
     let url =
-      'http://120.79.189.21:8081/#/blank/task-list?store_id=' +
+      'https:www.shulian8.com/task/#/blank/task-list?store_id=' +
       window.appData.loginUser.store
     deviceManager = (
       <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
