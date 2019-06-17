@@ -67,7 +67,7 @@ export default class Book extends React.Component {
             {
               book.stockList && book.stockList.length > 0 &&
               <div className="book_detail_info_position" onClick={e => this.handleShowPosition(e, book.stockList)}>
-                { bookShelf && 地图上显示此书位置 }
+                { bookShelf && '地图上显示此书位置' }
               </div>
             }
           </div>

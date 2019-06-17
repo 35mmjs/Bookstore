@@ -61,6 +61,7 @@ export const getBook = (data) => {
       clientId,
       isbn: data.isbn,
       spbs: data.spbs,
+      ls_SendUnitID: data.ls_SendUnitID,
     },
   })
 }
