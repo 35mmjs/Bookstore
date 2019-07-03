@@ -89,7 +89,7 @@ module.exports = appInfo => {
   }
 
   config.bookAPIByLiuzhou = {
-    url: 'http://cw.gxxhsd.com/Commander/api/ExecutiveB',
+    url: 'http://cw.gxxhsd.com/Commander/api/Executive',
   }
 
   config.webpack = {

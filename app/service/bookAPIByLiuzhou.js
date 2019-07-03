@@ -51,7 +51,7 @@ class BookAPIByZhongjinService extends Service {
     // 柳州的shopID从session获取
     data.shopID = data.shopID || this.ctx.storeCodeFromSession
     const postData = querystring.stringify({
-      ProjID: 19491949,
+      ProjID: '19491949',
       pageNum: 1, // 分页页码
       rowsNum: 20, // 分页条数
       FormType: 'Web', // 请求来源
