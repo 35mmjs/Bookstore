@@ -22,7 +22,7 @@ function bookInfoMap(res, userInfo = {}) {
     pageNum: res.ys, // 页数
     publish: res.bb, // 发行商
     version: '',
-    bookshelf: '',
+    bookshelf: (res.stockList && res.stockList.length && res.stockList[0].jwh) || '',
     stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
     qrcode: res.qrcode, // 购买链接
     score: res.bkScore || score,
