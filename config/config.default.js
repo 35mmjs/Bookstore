@@ -61,7 +61,7 @@ module.exports = appInfo => {
       user: 'root',
       // 密码
       // password: process.env.MYSQL_PASSWORD,
-      password: 12345678,
+      password: '12345678',
       // 数据库名
       database: 'BOOKSTORE',
     },
@@ -90,7 +90,8 @@ module.exports = appInfo => {
   }
 
   config.bookAPIByLiuzhou = {
-    url: 'http://cw.gxxhsd.com/Commander/api/Executive',
+    // url: 'http://cw.gxxhsd.com/Commander/api/Executive',
+    url: 'http://113.12.201.173:8087/Commander/api/Executive',
   }
 
   config.webpack = {
