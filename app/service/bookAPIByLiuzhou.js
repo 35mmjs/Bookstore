@@ -53,7 +53,7 @@ class BookAPIByZhongjinService extends Service {
     const postData = querystring.stringify({
       ProjID: '19491949',
       pageNum: 1, // 分页页码
-      rowsNum: 20, // 分页条数
+      rowsNum: 10, // 分页条数
       FormType: 'Web', // 请求来源
       ServerID: data.ServerID,
       DataObject: JSON.stringify(omit(data, ['ServerID'])),

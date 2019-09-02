@@ -5,7 +5,8 @@
 NOW_PATH=$(pwd)
 #本地参数
 # TAGS_PATH="https://github.com/35mmjs/Bookstore"
-TAGS_PATH="git@github.com:35mmjs/Bookstore.git"
+# TAGS_PATH="git@github.com:35mmjs/Bookstore.git"
+TAGS_PATH="https://xiazifei:fei100328@github.com/35mmjs/Bookstore.git"
 ENV=""
 TAG=""
 TOOL="git"
