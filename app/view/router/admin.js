@@ -7,6 +7,7 @@ import Layout from '../component/layout'
 import constant from '../common/constant'
 import Enterprise from '../component/enterprise/index'
 import User from '../component/user/index'
+import AdsCenter from '../component/adsCenter/index'
 import Terminal from '../component/terminal/index'
 import Store from '../component/store/index'
 import TerminalDetail from '../component/terminalDetail'
@@ -32,27 +33,47 @@ let menu = [
     children: window.appData.loginUser.store
       ? [
           {
-            label: '配置中心',
+            label: '发布中心',
             value: '/view-config/manage',
             icon: 'hdd',
             children: null,
           },
           {
-            label: '终端管理',
+            label: '设备中心',
             value: '/terminal/manage',
             icon: 'desktop',
+            children:
+            [
+              {
+                label: '设备控制',
+                value: '',
+                icon: 'hdd',
+                children: null,
+              },
+              {
+                label: '查看终端任务',
+                value: '',
+                icon: 'desktop',
+              },
+            ],
           },
         ]
       : null,
   },
   {
-    label: '用户管理',
+    label: '广告管理',
+    icon: 'team',
+    value: '/ads',
+    children: null,
+  },
+  {
+    label: '用户中心',
     icon: 'team',
     value: '/user',
     children: null,
   },
   {
-    label: '埋点数据',
+    label: '数据中心',
     icon: 'hdd',
     value: '/tracker/data-view',
     children: null,
@@ -85,13 +106,19 @@ if (
       icon: 'desktop',
     },
     {
-      label: '用户管理',
+      label: '广告管理',
+      icon: 'team',
+      value: '/ads',
+      children: null,
+    },
+    {
+      label: '用户中心',
       icon: 'team',
       value: '/user',
       children: null,
     },
     {
-      label: '埋点数据',
+      label: '数据中心',
       icon: 'hdd',
       value: '/tracker/data-view',
       children: null,
@@ -120,6 +147,10 @@ const routeMap = () => {
     {
       path: '/user',
       component: () => User,
+    },
+    {
+      path: '/ads',
+      component: () => AdsCenter,
     },
     {
       path: storeRoutes.findAll,

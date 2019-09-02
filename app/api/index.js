@@ -45,6 +45,16 @@ const user = {
   findOne: '/user/findOne.json',
 }
 
+const ads = {
+  create: '/ads/create.json',
+  findAll: '/ads/findAll.json',
+  findByEnterprise: '/ads/findByEnterprise.json',
+  fintByStore: '/ads/findByStore.json',
+  remove: '/ads/remove.json',
+  update: '/ads/update.json',
+  findOne: '/ads/findOne.json',
+}
+
 const book = {
   findOneByISBN: '/book.json', // isbn=xxxx
   findOneByISBNs: '/books.json', // isbn=xxxx
@@ -93,6 +103,7 @@ module.exports = {
   viewConfig,
   terminalType,
   user,
+  ads,
   book,
   openApi,
   common,

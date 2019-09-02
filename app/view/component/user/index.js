@@ -41,6 +41,47 @@ export default function User() {
         visible: record => !record || !record.is_admin,
         options: stores.map(item => ({ value: item.id, label: item.name })),
       },
+      is_store_manager: { type: 'hidden' },
+      id: { type: 'hidden' }, // 编辑模式需要传入的字段
+      is_admin: { type: 'hidden' },
+    },
+    handleSubmit: data =>
+      data.id !== undefined
+        ? composeAsync(update, reload)(data)
+        : composeAsync(create, reload)(data),
+    onChange: ({ key, value, setValues }) => {
+      if (key === 'enterprise') {
+        setValues({ store: undefined })
+        reloadStores({ enterprise: value })
+      }
+    },
+  })
+  const { modal: storeManagerModal, modalShow: storeManagerModalShow } = useFormModal({
+    name: 'user',
+    schema: {
+      enterprise: {
+        type: 'enum',
+        label: '所属企业',
+        disabled: !!enterprise,
+        default: enterprise,
+        required: true,
+        visible: record => !record || !record.is_admin,
+        options: enterprises.map(item => ({
+          value: item.id,
+          label: item.name,
+        })),
+      },
+      store: {
+        type: 'enum',
+        label: '所属门店',
+        disabled: !!store,
+        default: store,
+        required: true,
+        visible: record => !record || !record.is_admin,
+        options: stores.map(item => ({ value: item.id, label: item.name })),
+      },
+      // is_store_manager: 1,
+      is_store_manager: { type: 'hidden' },
       id: { type: 'hidden' }, // 编辑模式需要传入的字段
       is_admin: { type: 'hidden' },
     },
@@ -113,8 +154,10 @@ export default function User() {
           text = '管理员'
         } else if (record.enterprise && !record.store) {
           text = '企业账号'
-        } else {
+        } else if (record.enterprise && record.store && !record.is_store_manager) {
           text = '门店账号'
+        } else {
+          text = '门店管理员'
         }
         return <span style={{ color: 'red' }}>{text}</span>
       },
@@ -155,7 +198,13 @@ export default function User() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        {!loginUser.isStoreUser ? (
+        {loginUser.isAdmin || loginUser.isEnterpriseUser || loginUser.isStoreUser ? (
+          <Button type="primary" onClick={() => storeManagerModalShow('新增门店管理员账号', { is_store_manager: 1 })}>
+            新增门店管理员账号
+          </Button>
+        ) : null}
+        &nbsp;&nbsp;
+        {loginUser.isAdmin || loginUser.isEnterpriseUser ? (
           <Button type="primary" onClick={() => storeModalShow('新增门店账号')}>
             新增门店账号
           </Button>
@@ -179,6 +228,7 @@ export default function User() {
         }}
       />
       {modal}
+      {storeManagerModal}
       {enterpriseModal}
     </div>
   )
