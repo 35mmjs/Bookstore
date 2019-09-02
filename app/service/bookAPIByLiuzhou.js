@@ -58,10 +58,11 @@ class BookAPIByZhongjinService extends Service {
       ServerID: data.ServerID,
       DataObject: JSON.stringify(omit(data, ['ServerID'])),
     })
-    const { hostname, pathname } = url.parse(this.bookConfig.url)
+    const { hostname, port,pathname } = url.parse(this.bookConfig.url)
     return new Promise((res, rej) => {
       const req = http.request({
         hostname,
+        port,
         path: pathname,
         method: 'POST',
         headers: {
