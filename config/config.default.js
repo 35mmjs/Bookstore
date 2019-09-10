@@ -60,7 +60,8 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      password: process.env.MYSQL_PASSWORD,
+      // password: process.env.MYSQL_PASSWORD,
+      password: '12345678',
       // 数据库名
       database: 'BOOKSTORE',
     },

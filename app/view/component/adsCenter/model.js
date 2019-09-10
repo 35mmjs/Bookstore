@@ -1,5 +1,4 @@
 import * as service from './service'
-import * as storeService from '../store/service'
 
 export default {
   namespace: 'ads',

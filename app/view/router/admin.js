@@ -150,6 +150,7 @@ const routeMap = () => {
     },
     {
       path: '/ads',
+      models: () => [require('../component/adsCenter/model')],
       component: () => AdsCenter,
     },
     {

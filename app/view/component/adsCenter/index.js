@@ -2,12 +2,15 @@ import React, { Fragment, Image } from 'react'
 import { connect } from 'dva'
 import moment from 'moment'
 import { Upload,Button, Divider, Modal } from 'antd'
-import useFormModal from '../../hook/useFormModal'
-import useAsyncState from '../../hook/useAsyncState'
-import { create, update, remove, findAll } from './service'
-import { findAll as findEnterpriseList } from '../enterprise/service'
-import { findByEnterprise as findStoreList } from '../store/service'
-import { composeAsync, removeConfirm } from '../../common/utils'
+// import useFormModal from '../../hook/useFormModal'
+// import useAsyncState from '../../hook/useAsyncState'
+// import { create, update, remove, findAll } from './service'
+// import { findAll as findEnterpriseList } from '../enterprise/service'
+// import { findByEnterprise as findStoreList } from '../store/service'
+// import { composeAsync, removeConfirm } from '../../common/utils'
+import Filter from './filter'
+import Table from './table'
+import CreateButton from './createButton'
 import { getOssToken } from '../../common/service'
 
 const loginUser = window.appData.loginUser
@@ -110,6 +113,20 @@ export default class AdsCenter extends React.Component {
     })
   }
 
+  onSubmit = (data, type) => {
+    // 针对config json序列化
+    if (data.config) {
+      try {
+        data.config = JSON.parse(data.config)
+      } catch (e) {
+        console.error(e)
+        data.config = {}
+      }
+    }
+    data.config = JSON.stringify(data.config || {})
+    this.dispatch({ type: `ads/${type}`, payload: data })
+  }
+
   render() {
     const props = {
       onRemove: file => {
@@ -129,21 +146,39 @@ export default class AdsCenter extends React.Component {
     const { preview, visible, imageList } = this.state
     const { ads } = this.props
     const { list } = ads
+    // return (
+    //   <div className="iu-wrapper">
+    //     {list && list.map(item => {
+    //       return (
+    //         <div key={item.id}>
+    //           <img alt="example" className="image-view" src={item.url} />
+    //         </div>
+    //       )
+    //     })}
+    //     <Upload {...props}>
+    //       {uploadButton}
+    //     </Upload>
+    //     <Modal visible={visible} footer={null} onCancel={this.handleCancel}>
+    //       <img alt="example" style={{ width: '100%' }} src={preview} />
+    //     </Modal>
+    //   </div>
+    // )
     return (
-      <div className="iu-wrapper">
-        {list.map(item => {
-          return (
-            <div key={item.id}>
-              <img alt="example" className="image-view" src={item.url} />
-            </div>
-          )
-        })}
-        <Upload {...props}>
-          {uploadButton}
-        </Upload>
-        <Modal visible={visible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={preview} />
-        </Modal>
+      <div>
+        <div>
+          <CreateButton
+            onSubmit={data => this.onSubmit(data, 'create')}
+          />
+          <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
+          <Table
+            list={list}
+            // configData={configData}
+            currentType={this.state.currentType}
+            onSubmit={data => this.onSubmit(data, 'update')}
+            onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
+            onDelete={data => this.onSubmit(data, 'remove')}
+          />
+        </div>
       </div>
     )
   }

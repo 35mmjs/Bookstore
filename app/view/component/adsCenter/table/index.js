@@ -250,7 +250,7 @@ const Comp = props => {
 
   const columns = [
     {
-      title: '终端ID',
+      title: '广告ID',
       dataIndex: 'id',
       key: 'id',
       render: (value, record) => {
@@ -267,11 +267,6 @@ const Comp = props => {
       },
     },
     {
-      title: '终端名称',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
       title: '终端类型',
       dataIndex: 'type',
       key: 'type',
@@ -286,91 +281,38 @@ const Comp = props => {
       },
     },
     {
-      title: '视图配置',
-      dataIndex: 'view_configs_note',
-      key: 'view_configs_note',
+      title: '广告地址',
+      dataIndex: 'url',
+      key: 'url',
       render: (value, record) => {
-        const { view_config } = record
+        // const { view_config } = record
+        console.log('url_record')
+        console.log(record)
         return (
           <div>
-            <Link to={`/view-config/manage/detail/${view_config}/view`}>
+            <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
-            </Link>
+            </a>
           </div>
         )
       },
     },
     {
-      title: '区域备注',
+      title: '广告备注',
       key: 'note',
       dataIndex: 'note',
     },
     {
-      title: '生成地址',
-      key: 'created_url',
-      dataIndex: 'created_url',
-      width: '20%',
-      render: (text, record) => {
-        const type =
-          TYPE_MAP.find(item => item.value === record.type).label || ''
-        const url = `http://${window.location.host}/page/${type}?orgId=${
-          record.store
-        }&clientId=${record.id}`
-        if (type === 'paihang') {
-          const padUrl = `http://${
-            window.location.host
-          }/page/paihangpad?orgId=${record.store}&clientId=${
-            record.id
-          }&navId=1&rankId=1`
-          return (
-            <div>
-              排行选择页面
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {url}
-              </a>
-              <br />
-              排行pad页面(rankId为排行序列, navId=1为左栏上部对应的排行,
-              2为下步对应的排行)
-              <a href={padUrl} target="_blank" rel="noopener noreferrer">
-                {padUrl}
-              </a>
-            </div>
-          )
-        }
-        return (
-          <div>
-            {record.view_config ? (
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {url}
-              </a>
-            ) : (
-              '未配置视图'
-            )}
-          </div>
-        )
-      },
-    },
-    {
-      title: '录入时间',
-      key: 'created_at',
-      dataIndex: 'created_at',
+      title: '创建时间',
+      key: 'gmt_create',
+      dataIndex: 'gmt_create',
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',
       key: 'action',
       render: (text, record) => (
-        <Fragment>
-          <Button
-            onClick={() => {
-              setEditFormData(record)
-              setConfigFormVisible(true)
-            }}
-          >
-            配置视图
-          </Button>
-
-          <Divider type="vertical" />
+        <Fragment>         
           <Button
             onClick={() => {
               setEditFormData(record)
