@@ -267,7 +267,12 @@ const Comp = props => {
       },
     },
     {
-      title: '终端类型',
+      title: '广告备注',
+      key: 'note',
+      dataIndex: 'note',
+    },
+    {
+      title: '设备类型',
       dataIndex: 'type',
       key: 'type',
       render: value => {
@@ -286,8 +291,6 @@ const Comp = props => {
       key: 'url',
       render: (value, record) => {
         // const { view_config } = record
-        console.log('url_record')
-        console.log(record)
         return (
           <div>
             <a href={value} target="_blank" rel="noopener noreferrer">
@@ -296,11 +299,6 @@ const Comp = props => {
           </div>
         )
       },
-    },
-    {
-      title: '广告备注',
-      key: 'note',
-      dataIndex: 'note',
     },
     {
       title: '创建时间',
