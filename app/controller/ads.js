@@ -4,8 +4,15 @@ const { Controller } = require('egg')
 class AdsController extends Controller {
   async create() {
     const ctx = this.ctx
-    const { enterprise, store, url, type, play_time } = ctx.request.body
-    const result = await ctx.service.ads.create(enterprise, store, url,play_time)
+    // const { enterprise, store, url, type, play_time } = ctx.request.body
+    const request = this.ctx.request.body
+    const user = this.ctx.session.user
+    if (user && user.store) {
+      request.store = user.store
+    } else if (user && user.enterprise) {
+      request.enterprise = user.enterprise
+    }
+    const result = await ctx.service.ads.create(request)
     this.ctx.body = {
       success: true,
       data: result,

@@ -22,13 +22,15 @@ class AdsService extends Service {
   }
 
   async create(params) {
-    const { enterprise, store, url, play_time, type } = params
+    const { enterprise, store, url, play_time, type, ad_type, note } = params
     const result = await this.app.mysql.insert(DB, {
       enterprise,
       store,
       type,
+      ad_type,
       url,
       play_time,
+      note,
     })
     return result.affectedRows === 1
   }

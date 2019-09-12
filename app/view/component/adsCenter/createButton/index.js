@@ -117,6 +117,19 @@ const CreateForm = Form.create()(props => {
           })(<Input placeholder="请输入" />)}
         </FormItem>
       )}
+      {chooseAdType === 3 && (
+        <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="广告播放时间,单位秒">
+          {form.getFieldDecorator('play_time', {
+            rules: [
+              {
+                required: true,
+                message: '请输入投放广告的网址！',
+                min: 3,
+              },
+            ],
+          })(<Input placeholder="请输入" />)}
+        </FormItem>
+      )}
       {/* <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="所属门店">
         {form.getFieldDecorator('store', {
           rules: [
