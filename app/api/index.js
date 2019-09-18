@@ -48,11 +48,18 @@ const user = {
 const ads = {
   create: '/ads/create.json',
   findAll: '/ads/findAll.json',
+  findOneByEIdCd: '/ads/findOneByEIdCd.json',
   findByEnterprise: '/ads/findByEnterprise.json',
   fintByStore: '/ads/findByStore.json',
   remove: '/ads/remove.json',
   update: '/ads/update.json',
   findOne: '/ads/findOne.json',
+}
+
+const deviceList = {
+  create: '/device-list/create.json',
+  remove: '/device-list/remove.json',
+  update: '/device-list/update.json',
 }
 
 const book = {
@@ -90,6 +97,7 @@ const openApi = {
   findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId
   tracker: '/open/v1/tracker', // 埋点相关
   findTerminal: '/open/v1/terminal', // 获取termin 元数据 clientId=xxx
+  findAds: '/open/v1/ads', // 获取当前设备的可投放广告
 }
 
 const publicEntry = {
@@ -104,6 +112,7 @@ module.exports = {
   terminalType,
   user,
   ads,
+  deviceList,
   book,
   openApi,
   common,

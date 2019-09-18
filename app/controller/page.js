@@ -3,13 +3,14 @@ const { Controller } = require('egg')
 class PageController extends Controller {
   async pubuPage() {
     const { ctx } = this
-    const { clientId, orgId } = ctx.query
+    const { clientId, orgId, view_config_id } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'pubu',
       appData: {
         clientId,
         orgId,
+        view_config_id,
       },
       mainfest: '/public/pubu/manifest.json',
     })
@@ -17,13 +18,14 @@ class PageController extends Controller {
 
   async zhantaiPage() {
     const { ctx } = this
-    const { client, clientId, orgId } = ctx.query
+    const { client, clientId, orgId, view_config_id } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'zhantai',
       appData: {
         clientId: client || clientId,
         orgId,
+        view_config_id,
       },
       mainfest: '/public/zhantai/manifest.json',
     })
@@ -39,6 +41,7 @@ class PageController extends Controller {
         location,
         orgId,
         clientId,
+        view_config_id,
       },
       mainfest: '/public/daoshi/manifest.json',
     })
@@ -55,6 +58,7 @@ class PageController extends Controller {
         navId,
         clientId,
         orgId,
+        view_config_id,
       },
       mainfest: '/public/paihang/manifest.json',
     })

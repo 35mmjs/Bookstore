@@ -7,6 +7,7 @@ import { SUBMIT_FORM_LAYOUT, FORM_ITEM_LAYOUT } from '../../../common/constant'
 import useAsyncState from '../../../hook/useAsyncState'
 import { findTerminalType } from '../../../common/service'
 import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
+import Enterprise from '../../enterprise/index';
 
 const Search = Input.Search
 const FormItem = Form.Item
@@ -272,6 +273,19 @@ const Comp = props => {
       dataIndex: 'note',
     },
     {
+      title: '广告创建者',
+      key: 'type',
+      dataIndex: 'type',
+      render: (value, record) => {
+        // const { view_config } = record
+        return (
+          <div>
+            {record.enterprise > 0 ? '企业创建' : '门店创建' }
+          </div>
+        )
+      },
+    },
+    {
       title: '设备类型',
       dataIndex: 'type',
       key: 'type',
@@ -293,9 +307,10 @@ const Comp = props => {
         // const { view_config } = record
         return (
           <div>
+            {record.ad_type == 1 ? <img src={value}/> :
             <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
-            </a>
+            </a>}
           </div>
         )
       },
@@ -310,7 +325,8 @@ const Comp = props => {
       title: '操作',
       key: 'action',
       render: (text, record) => (
-        <Fragment>         
+        <Fragment>   
+          {record.enterprise > 0 && <Divider type="vertical" />}      
           <Button
             onClick={() => {
               setEditFormData(record)

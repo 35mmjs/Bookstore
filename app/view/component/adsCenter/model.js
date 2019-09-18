@@ -39,7 +39,7 @@ export default {
       const data = yield call(service.findAll, payload)
       yield put({
         type: 'findAllReducer',
-        payload: data.items,
+        payload: data,
       })
     },
     *findOne({ payload }, { call, put }) {

@@ -9,10 +9,11 @@ export function create(data) {
   })
 }
 
-export function findAll() {
+export function findAll(data) {
   return ajax({
     url: ads.findAll,
-    method: 'get',
+    data,
+    method: 'post',
   })
 }
 

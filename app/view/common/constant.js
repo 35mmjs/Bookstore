@@ -86,8 +86,12 @@ const VIEW_CONFIG_TYPE_MAP = [
     value: 3,
   },
   {
-    label: '排行榜',
+    label: '排行控制台',
     value: 4,
+  },
+  {
+    label: '排行榜',
+    value: 5,
   },
 ]
 
@@ -95,7 +99,8 @@ const VIEW_CONFIG_ID = {
   PUBU_ID: 1,
   ZHANTAI_ID: 2,
   DAOSHI_ID: 3,
-  PAIHANG_ID: 4,
+  PAIHANG_CONTROL_ID: 4,
+  PAIHANG_ID: 5,
 }
 
 export default {

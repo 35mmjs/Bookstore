@@ -44,7 +44,7 @@ module.exports = app => {
   router.post(store.update, controller.store.update)
   // 广告中心
   router.post(ads.create, controller.ads.create)
-  router.get(ads.findAll, controller.ads.findAll)
+  router.post(ads.findAll, controller.ads.findAll)
   router.get(ads.remove, controller.ads.remove)
   // router.get(ads.findByEnterprise, controller.ads.findByEnterprise)
   router.post(ads.update, controller.ads.update)

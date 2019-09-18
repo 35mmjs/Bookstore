@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker } from '../../util/services'
+import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker,getViewConfigData } from '../../util/services'
 // import Roundy from "roundy"
 import Roundy from '../roundSlider'
 import './index.less'
@@ -18,9 +18,52 @@ class App extends React.Component {
     }
   }
 
+  getCatelogAndSaveToRedis = (data) => {
+    let resMap = {}
+    if (data && data.length > 0) {
+      resMap = data.map((item, index) => {
+        return {
+          id: index,
+          name: item.channel,
+        }
+      })
+    }
+    return resMap
+  }
+
+  getCatlogByNav = (data,navId) => {
+    let bookArr = []
+    if (data.content) {
+      bookArr = JSON.parse(data.content)
+    }
+    bookArr.forEach((item, index) => {
+      if (index + 1 === navId) {
+        res = getCatelogAndSaveToRedis(item)
+        if(navId === 1) {
+          this.setState({catalog1: res})
+        }else{
+          this.setState({
+            catalog2: res,
+          })
+        }
+      }
+    })
+  }
+
   componentDidMount() {
-    this.getCatalog(1)
-    this.getCatalog(2)
+    const { view_config_id } = window.appData
+    if (view_config_id) {
+      getViewConfigData(view_config_id).then(res => {
+        this.getCatlogByNav(res,1)
+        this.getCatalogByNav(res,2)
+      }).catch(error => {
+        console.error(error)
+      })
+
+    } else {
+      this.getCatalog(1)
+      this.getCatalog(2)
+    }
   }
 
   getCatalog = (navId) => {

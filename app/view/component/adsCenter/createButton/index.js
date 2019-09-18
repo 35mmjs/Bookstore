@@ -37,9 +37,9 @@ const CreateForm = Form.create()(props => {
       form.resetFields()
       console.log('create_ads')
       console.log(fieldsValue)
-      // onSubmit({
-      //   ...fieldsValue,
-      // })
+      onSubmit({
+        ...fieldsValue,
+      })
       handleModalVisible()
     })
   }
@@ -57,13 +57,18 @@ const CreateForm = Form.create()(props => {
     //   note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
     // });
   };
+  const onCancel = (e) =>{
+    onChangeAdType(0);
+    handleModalVisible()
+  }
+
   return (
     <Modal
       destroyOnClose
       title="新增投放广告"
       visible={modalVisible}
       onOk={okHandle}
-      onCancel={() => handleModalVisible()}
+      onCancel={onCancel}
     >
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="广告备注">
         {form.getFieldDecorator('note', {
@@ -117,14 +122,14 @@ const CreateForm = Form.create()(props => {
           })(<Input placeholder="请输入" />)}
         </FormItem>
       )}
-      {chooseAdType === 3 && (
-        <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="广告播放时间,单位秒">
+      {chooseAdType !== 2 && (
+        <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="投放时间(s)">
           {form.getFieldDecorator('play_time', {
             rules: [
               {
                 required: true,
                 message: '请输入投放广告的网址！',
-                min: 3,
+                min: 1,
               },
             ],
           })(<Input placeholder="请输入" />)}

@@ -3,17 +3,50 @@ const { Service } = require('egg')
 const DB = 'ads'
 class AdsService extends Service {
   async findAll(params) {
-    if (params) {
-      const { type } = params
+    
+    const { type } = params
+    if (type && type !== 'all') {
       const items = await this.app.mysql.select(DB, {
         where: { is_delete: 0, type },
       })
-      return { items }
+      // return { items }
+      return JSON.parse(JSON.stringify(items))
     }
+    
     const items = await this.app.mysql.select(DB, {
       where: { is_delete: 0 },
     })
-    return { items }
+    return JSON.parse(JSON.stringify(items))
+  }
+
+  async findOneByEIdCd (params) {
+    const { enterprise, store, type } = params
+    const items = await this.app.mysql.select(DB, {
+      where: { is_delete: 0, enterprise, type },
+    })
+    let adList = []
+    let tempList = JSON.parse(JSON.stringify(items))
+    if (tempList && tempList.length > 0) {
+      for (let i = 0;i < tempList.length; i++){
+        let item = tempList[i]
+        let cannotUseList = (item.store_list ||'').split(',')
+        if(cannotUseList && cannotUseList.length > 0){
+          let newcantlist = cannotUseList.filter(n => n === store)
+          if(newcantlist && newcantlist.length > 0){
+          }else{
+            adList.push(item)
+          }
+        }
+      }
+    }
+    const item1List = await this.app.mysql.select(DB, {
+      where: { is_delete: 0, store, type },
+    })
+    let tempList1 = JSON.parse(JSON.stringify(item1List))
+    if(tempList1 && tempList1.length > 0){
+      adList.concat(tempList1)
+    }
+    return { adList }
   }
 
   async findOne(id) {

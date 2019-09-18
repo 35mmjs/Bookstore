@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Slider from 'react-slick'
 import uniqBy from 'lodash.uniqby'
 import { message } from 'antd'
-import { getZhantaiData, tracker } from '../../util/services'
+import { getZhantaiData, tracker, getViewConfigData } from '../../util/services'
+import { zhantaiMap } from '../../../../common/bizHelper'
 import Single from '../Single'
 import data from '../data'
 import './index.less'
@@ -79,20 +80,29 @@ class App extends React.Component {
   }
 
   getData = () => {
-    const { client } = window.appData
-    getZhantaiData({ client })
-      .then(res => {
+    const { client, view_config_id } = window.appData
+    if (view_config_id) {
+      getViewConfigData(view_config_id).then(res => {
+        let data = zhantaiMap(res)
+        this.setState({
+          books: data.books,
+          handUp: false,
+        })
+      }).catch(err => {
+        console.error(err)
+      })
+    } else {
+      getZhantaiData({ client }).then(res => {
         if (res.data.success) {
-          console.log(res.data.data.books)
           this.setState({
             books: res.data.data.books,
             handUp: false,
           })
         }
-      })
-      .catch(err => {
+      }).catch(err => {
         console.error(err)
       })
+    }
   }
 
   play = () => {

@@ -539,6 +539,15 @@ class OpenApiController extends Controller {
       },
     }
   }
+
+  async findAds() {
+    const query = this.ctx.query
+    const result = await this.ctx.service.ads.findOneByEIdCd(query)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
 }
 
 module.exports = OpenApiController
