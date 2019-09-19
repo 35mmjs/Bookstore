@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user, common, publicEntry, tracker,
+  terminalType, user, ads, common, publicEntry, tracker,
 } = require('./api/index')
 
 /**
@@ -42,6 +42,12 @@ module.exports = app => {
   router.get(store.remove, controller.store.remove)
   router.get(store.findByEnterprise, controller.store.findByEnterprise)
   router.post(store.update, controller.store.update)
+  // 广告中心
+  router.post(ads.create, controller.ads.create)
+  router.post(ads.findAll, controller.ads.findAll)
+  router.post(ads.remove, controller.ads.remove)
+  // router.get(ads.findByEnterprise, controller.ads.findByEnterprise)
+  router.post(ads.update, controller.ads.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
   router.post(viewConfig.update, controller.viewConfig.update)

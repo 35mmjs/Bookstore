@@ -3,6 +3,29 @@ import moment from 'moment'
 import { Table, Divider, Button, Popconfirm, Pagination } from 'antd'
 import { Link } from 'dva/router'
 
+const TYPE_MAP = [
+  {
+    label: 'pubu',
+    value: 1,
+  },
+  {
+    label: 'zhantai',
+    value: 2,
+  },
+  {
+    label: 'daoshi',
+    value: 3,
+  },
+  {
+    label: 'paihang',
+    value: 4,
+  },
+  {
+    label: 'paihangbang',
+    value: 5,
+  },
+]
+
 export default class Index extends React.Component {
   constructor() {
     super()
@@ -50,9 +73,15 @@ export default class Index extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Fragment>
-            <Link to={`/view-config/manage/detail/${record.id}/view`}>
+            {/* <Link to={`/view-config/manage/detail/${record.id}/view`}>
               查看 |{' '}
-            </Link>
+            </Link> */}
+            {/* <Link to={this.getViewConfigType(record)}>
+              查看 |{' '}
+            </Link> */}
+            <a href={this.getViewConfigType(record)} target="_blank" rel="noopener noreferrer">
+              查看
+            </a>
             <Link to={`/view-config/manage/detail/${record.id}/edit`}>
               编辑 |{' '}
             </Link>
@@ -70,6 +99,11 @@ export default class Index extends React.Component {
     ]
   }
 
+  getViewConfigType = (record) =>{
+    let deviceType = TYPE_MAP.find(item => item.value === record.type).label || ''
+    let url =  `http://${window.location.host}/page/${deviceType}?view_config_id=${record.id}`
+    return url
+  }  
   render() {
     return (
       <Table

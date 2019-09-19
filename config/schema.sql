@@ -259,6 +259,21 @@ CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`tracker` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `BOOKSTORE`.`ads` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `enterprises` int(11) unsigned DEFAULT NULL COMMENT '企业Id',
+  `store` int(11) DEFAULT NULL COMMENT '店铺Id，默认为空，店铺单独创建才有',
+  `store_list` varchar(4096) DEFAULT NULL COMMENT '不支持的店铺列表，默认全部支持',
+  `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `gmt_modify` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `type` int(11) DEFAULT NULL COMMENT '设备类型',
+  `ad_type` int(11) DEFAULT NULL COMMENT '广告类型',
+  `play_time` int(11) DEFAULT NULL COMMENT '播放时间，秒',
+  `url` varchar(4096) DEFAULT NULL COMMENT 'url',
+  `is_delete` int(11) DEFAULT NULL COMMENT '0:正常，1:删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

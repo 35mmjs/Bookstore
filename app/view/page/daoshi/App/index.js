@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { message } from 'antd'
-import { search, getBook, getDaoshiData, getClientConfig, tracker } from '../../util/services'
+import { search, getBook, getDaoshiData, getClientConfig, tracker, getViewConfigData } from '../../util/services'
+import { zhantaiMap } from '../../../../common/bizHelper'
 import Map from '../Map'
 import MapSlider from '../MapSlider'
 import Book from '../Book'
@@ -96,16 +97,28 @@ class App extends React.Component {
   }
 
   getData = () => {
-    getDaoshiData().then(res => {
-      const { data } = res
-      if (!data.success) return
-      console.log(data)
-      this.setState({
-        books: data.data.books,
+    const { view_config_id } = window.appData
+    if (view_config_id) {
+      getViewConfigData(view_config_id).then(res => {
+        let data = zhantaiMap(res)
+        this.setState({
+          books: data.books,
+        })
+      }).catch(err => {
+        console.error(err)
       })
-    }).catch(err => {
-      console.error(err)
-    })
+    } else {
+      getDaoshiData().then(res => {
+        const { data } = res
+        if (!data.success) return
+        console.log(data)
+        this.setState({
+          books: data.data.books,
+        })
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   }
 
   onClickBook = (spbs, ls_SendUnitID) => {

@@ -32,6 +32,44 @@ function bookInfoMap(res, userInfo = {}) {
   return Object.assign({}, processedResult)
 }
 
+function zhantaiMap(item) {
+  let res = {}
+  const payloadStr = item.content || '{}'
+  const payloadArray = JSON.parse(payloadStr)
+  if (payloadArray && payloadArray.length > 0) {
+    const data = payloadArray[0]
+    res = {
+      id: item.id,
+      type: item.type,
+      name: item.name,
+      note: item.note,
+      books: data.books,
+    }
+  }
+  return res
+}
+
+function pubuMap(item) {
+  const resArray = []
+  const payloadStr = item.content || '{}'
+  const payloadArray = JSON.parse(payloadStr)
+  if (payloadArray && payloadArray.length > 0) {
+    payloadArray.forEach(data => {
+      const singlePubu = {
+        books: data.books,
+        banner: {
+          src: data.banner ? data.banner.url : '',
+        },
+        channel: data.channel,
+      }
+      resArray.push(singlePubu)
+    })
+  }
+  return resArray
+}
+
 module.exports = {
   bookInfoMap,
+  zhantaiMap,
+  pubuMap
 }

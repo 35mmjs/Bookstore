@@ -66,6 +66,7 @@ class SiderDemo extends React.Component {
                     >
                       {
                         item.children.map(subItem => {
+                          if(!subItem.children){
                           return (
                             <Menu.Item key={subItem.value} onClick={ () => window.location.hash = subItem.value }>
                               <span>
@@ -74,6 +75,31 @@ class SiderDemo extends React.Component {
                               </span>
                             </Menu.Item>
                           )
+                          }else{
+                            return (
+                            <SubMenu
+                              key={subItem.value}
+                              onTitleClick={() => window.location.hash = subItem.value}
+                              title={
+                              <span>
+                                <Icon type={subItem.icon} />
+                                <span>{subItem.label}</span>
+                              </span>}
+                            >
+                              {
+                              subItem.children.map(subItemItem => {
+                                return (
+                                  <Menu.Item key={subItemItem.value} onClick={ () => window.location.hash = subItemItem.value }>
+                                    <span>
+                                      <Icon type={subItemItem.icon} />
+                                      <span>{subItemItem.label}</span>
+                                    </span>
+                                  </Menu.Item>
+                                )
+                              })
+                              }
+                          </SubMenu>)
+                          }
                         })
                       }
                     </SubMenu>

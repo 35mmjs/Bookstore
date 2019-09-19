@@ -166,6 +166,8 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {}, 
         obj.onStateChange({ ...obj.stateValue, checked: true })
       })
       if (hasError) return
+      console.log('submit')
+      console.log(formItems)
       if (handleSubmit) handleSubmit(mapValues(formItems, obj => obj.value))
     },
   }

@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import ajax from '../../common/ajax'
+import { viewConfig } from '../../../api'
+
 const devHost = '127.0.0.1:7001'
 const dailyHost = '47.96.75.202'
 // const pubHost = '47.96.181.54'
@@ -131,6 +134,23 @@ export const getClientConfig = data => {
     params: {
       orgId,
       clientId,
+    },
+  })
+}
+
+// export const getViewConfigData = id => {
+//   return axios.get(`https://${host}/view-config/findOne.json`, {
+//     params: {
+//       id,
+//     },
+//   })
+// }
+export function getViewConfigData(id) {
+  return ajax({
+    url: viewConfig.findOne,
+    method: 'get',
+    data: {
+      id,
     },
   })
 }
