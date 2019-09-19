@@ -45,7 +45,7 @@ module.exports = app => {
   // 广告中心
   router.post(ads.create, controller.ads.create)
   router.post(ads.findAll, controller.ads.findAll)
-  router.get(ads.remove, controller.ads.remove)
+  router.post(ads.remove, controller.ads.remove)
   // router.get(ads.findByEnterprise, controller.ads.findByEnterprise)
   router.post(ads.update, controller.ads.update)
   // view config

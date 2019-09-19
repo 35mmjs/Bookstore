@@ -71,6 +71,43 @@ export default class AdsCenter extends React.Component {
     this.dispatch({ type: `ads/${type}`, payload: data })
   }
 
+  onUpdateAds = (isOpen, record) => {
+    let store = loginUser.store
+    if(store > 0){
+      let storeList = record.store_list
+      let param = ''
+      if(storeList){
+        let arr = storeList.split(',')
+        let newArr = []
+        if(isOpen){
+          for(let i = 0; i < arr.length; i++){
+            if(arr[i] == store){
+            }else {
+              newArr.push(arr[i])
+            }
+          }
+          if(newArr.length > 0){
+            for(let j=0;j<newArr.length;j++){
+              param += newArr[j] + ','
+            }
+            param.slice(0,-1)
+          }else {
+            param = '0'
+          }
+          this.dispatch({ type: `ads/update`, payload: {id: record.id, store_list: param} })
+        }else{
+          param = storeList + ',' + store
+          this.dispatch({ type: `ads/update`, payload: {id: record.id, store_list: param} })
+        }
+      } else {
+        if(!isOpen){
+          param = '' + store
+          this.dispatch({ type: `ads/update`, payload: {id: record.id, store_list: param} })
+        }
+      }
+    }
+  }
+
   render() {
     const { chooseAdType } = this.state
     const { ads } = this.props
@@ -92,6 +129,7 @@ export default class AdsCenter extends React.Component {
             onSubmit={data => this.onSubmit(data, 'update')}
             onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
             onDelete={data => this.onSubmit(data, 'remove')}
+            onUpdateAds = {this.onUpdateAds}
           />
         </div>
       </div>

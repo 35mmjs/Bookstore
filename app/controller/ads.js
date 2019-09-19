@@ -94,7 +94,7 @@ class AdsController extends Controller {
   async update() {
     const ctx = this.ctx
     const { id, store_list } = ctx.request.body
-    const result = await this.ctx.service.ads.update(id, store_list)
+    const result = await this.ctx.service.ads.update(ctx.request.body)
     this.ctx.body = {
       success: true,
       data: result,

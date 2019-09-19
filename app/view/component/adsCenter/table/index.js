@@ -37,35 +37,6 @@ const TYPE_MAP = [
     value: 5,
   },
 ]
-const ViewForm = props => {
-  const { modalVisible, data, handleModalVisible } = props
-  const { name, type, store, created_at, updated_at, note, view_config } = data
-  return (
-    <Modal
-      destroyOnClose
-      title="查看"
-      visible={modalVisible}
-      onOk={() => handleModalVisible()}
-      onCancel={() => handleModalVisible()}
-    >
-      <DescriptionList
-        size="large"
-        // title="退款申请"
-        style={{ marginBottom: 32 }}
-        layout="vertical"
-        col={1}
-      >
-        <Description term="终端名">{name}</Description>
-        <Description term="类型">{type}</Description>
-        <Description term="配置">{view_config}</Description>
-        <Description term="门店">{store}</Description>
-        <Description term="备注">{note}</Description>
-        <Description term="更新时间">{updated_at}</Description>
-        <Description term="创建时间">{created_at}</Description>
-      </DescriptionList>
-    </Modal>
-  )
-}
 
 const EditForm = Form.create()(props => {
   const { modalVisible, form, handleModalVisible, onSubmit, data } = props
@@ -80,7 +51,7 @@ const EditForm = Form.create()(props => {
   return (
     <Modal
       destroyOnClose
-      title="编辑终端"
+      title="编辑广告"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -129,125 +100,43 @@ const EditForm = Form.create()(props => {
   )
 })
 
-const ConfigForm = Form.create()(props => {
-  const {
-    modalVisible,
-    form,
-    handleModalVisible,
-    onSubmit,
-    onSearchingConfig,
-    data,
-    tableData,
-  } = props
-  const matchedViewConfigData =
-    tableData && tableData.filter(item => item.type === data.type)
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return
-      form.resetFields()
-      onSearchingConfig({
-        ...fieldsValue,
-      })
-    })
-  }
-  const onBindingTerminal = configItem => {
-    const { id: configId } = configItem
-    const { id: terminalId } = data
-    if (configId && terminalId) {
-      message.success('绑定成功', 1)
-      onSubmit({ id: terminalId, view_config: configId })
-      handleModalVisible()
-    }
-  }
-
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: '配置备注',
-      dataIndex: 'note',
-      key: 'note',
-    },
-    {
-      title: '配置类型',
-      dataIndex: 'view_configs_type',
-      key: 'view_configs_type',
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: (text, record) => {
-        return (
-          <span>
-            {data.view_config && data.view_config === record.id ? (
-              <Button
-                disabled
-                type="primary"
-                onClick={() => onBindingTerminal(record)}
-              >
-                绑定成功
-              </Button>
-            ) : (
-              <Button type="primary" onClick={() => onBindingTerminal(record)}>
-                绑定
-              </Button>
-            )}
-          </span>
-        )
-      },
-    },
-  ]
-
-  return (
-    <Modal
-      destroyOnClose
-      title="配置终端内容"
-      visible={modalVisible}
-      onOk={() => handleModalVisible()}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('name', {
-          rules: [
-            {
-              // required: true,
-              // message: '请输入至少五个字符的规则描述！',
-              min: 1,
-            },
-          ],
-        })(<Search placeholder="输入配置名" enterButton onSearch={okHandle} />)}
-      </FormItem>
-      <Table
-        columns={columns}
-        dataSource={matchedViewConfigData}
-        rowKey="id"
-        pagination={{
-          pageSize: 25,
-        }}
-      />
-    </Modal>
-  )
-})
-
 const Comp = props => {
   const {
     list,
     onDelete,
     onSubmit,
-    onSearchingConfig,
-    configData,
-    onChooseItem,
+    onUpdateAds,
     currentType,
   } = props
   const [editFormVisible, setEditFormVisible] = useState(false)
-  const [configFormVisible, setConfigFormVisible] = useState(false)
-  const [viewFormVisible, setViewFormVisible] = useState(false)
-  const [viewFormData, setViewFormData] = useState({})
   const [editFormData, setEditFormData] = useState({})
   const [terminalTypeList, reload] = useAsyncState(findTerminalType, {})
+
+  const getEAdsIsOpen = (record) => {
+    const loginUser = window.appData.loginUser
+    if (loginUser.store && record.enterprise > 0) {
+      let storeList = record.store_list || ''
+      let listArr = storeList.split(',')
+      let isOpen = true
+      for (let i = 0; i<listArr.length ; i++) {
+        if (listArr[i] == loginUser.store) {
+          isOpen = false
+        }
+      }
+      return (
+        <Fragment>
+          <Button
+            onClick={() => onUpdateAds(!isOpen, record)}>
+              { isOpen ? '停用此广告' : '启用此广告' }
+          </Button>
+          <Divider type="vertical" />
+        </Fragment>
+      )
+    } else {
+      return ("")
+    }
+
+  }
 
   const columns = [
     {
@@ -256,14 +145,9 @@ const Comp = props => {
       key: 'id',
       render: (value, record) => {
         return (
-          <a
-            onClick={() => {
-              setViewFormVisible(true)
-              setViewFormData(record)
-            }}
-          >
+          <div>
             {value}
-          </a>
+          </div>
         )
       },
     },
@@ -271,6 +155,22 @@ const Comp = props => {
       title: '广告备注',
       key: 'note',
       dataIndex: 'note',
+    },
+    {
+      title: '广告类型',
+      key: 'ad_type',
+      dataIndex: 'ad_type',
+      render: (value,record) => {
+        let res = value
+        if (value == 1) {
+          res = '图片'
+        } else if (value == 2) {
+          res = '视频'
+        } else if (value == 3) {
+          res = '网址'
+        }
+        return <div>{res}</div>
+      },
     },
     {
       title: '广告创建者',
@@ -326,8 +226,8 @@ const Comp = props => {
       key: 'action',
       render: (text, record) => (
         <Fragment>   
-          {record.enterprise > 0 && <Divider type="vertical" />}      
-          <Button
+          {getEAdsIsOpen(record)}      
+          {/* <Button
             onClick={() => {
               setEditFormData(record)
               setEditFormVisible(true)
@@ -335,7 +235,7 @@ const Comp = props => {
           >
             编辑
           </Button>
-          <Divider type="vertical" />
+          <Divider type="vertical" /> */}
           <Button
             type="danger"
             onClick={() => {
@@ -364,59 +264,24 @@ const Comp = props => {
     onSubmit: val => onSubmit(val),
     data: editFormData,
   }
-  const configFormProps = {
-    modalVisible: configFormVisible,
-    handleModalVisible: () => setConfigFormVisible(false),
-    onSearchingConfig: val => onSearchingConfig(val),
-    onSubmit: val => onSubmit(val),
-    tableData: configData,
-    data: editFormData,
-  }
 
-  const viewFormProps = {
-    modalVisible: viewFormVisible,
-    handleModalVisible: () => setViewFormVisible(false),
-    data: viewFormData,
-  }
   let deviceManager = <view />
   let editM = <view />
-  let confM = <view />
-  let viewM = <view />
-  if (currentType == 1) {
-    deviceManager = (
-      <Table
-        columns={columns}
-        dataSource={list}
-        rowKey="id"
-        pagination={{
-          pageSize: 25,
-        }}
-      />
-    )
-    editM = <EditForm {...editFormProps} />
-    confM = <ConfigForm {...configFormProps} />
-    viewM = <ViewForm {...viewFormProps} />
-  } else if (currentType == 2) {
-    let url =
-      'http://120.79.189.21:8081/#/blank/device-list?store_id=' +
-      window.appData.loginUser.store
-    deviceManager = (
-      <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
-    )
-  } else if (currentType == 3) {
-    let url =
-      'http://120.79.189.21:8081/#/blank/task-list?store_id=' +
-      window.appData.loginUser.store
-    deviceManager = (
-      <iframe style={{ border: 0, width: '100%', height: 1000 }} src={url} />
-    )
-  }
+  deviceManager = (
+    <Table
+      columns={columns}
+      dataSource={list}
+      rowKey="id"
+      pagination={{
+        pageSize: 25,
+      }}
+    />
+  )
+  editM = <EditForm {...editFormProps} />
   return (
     <div>
       {deviceManager}
       {editM}
-      {confM}
-      {viewM}
     </div>
   )
 }
