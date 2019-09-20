@@ -33,7 +33,7 @@ class PageController extends Controller {
 
   async daoshiPage() {
     const { ctx } = this
-    const { location, orgId, clientId } = ctx.query
+    const { location, orgId, clientId, view_config_id } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'daoshi',
@@ -49,7 +49,7 @@ class PageController extends Controller {
 
   async paihangPage() {
     const { ctx } = this
-    const { navId, orgId, clientId, padId } = ctx.query
+    const { navId, orgId, clientId, padId, view_config_id } = ctx.query
 
     await ctx.render('layout/pwa.html', {
       entry: 'paihang',
