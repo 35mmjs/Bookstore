@@ -8,7 +8,7 @@ class TrackerService extends Service {
       // 管理员可见全部
       let newItems
       const items = await this.app.mysql.query(`
-    select tracker.*, terminals.store as terminal_store, terminals.name as terminal_name from tracker left join terminals
+    select tracker.*, terminals.store as terminal_store,terminals.type as terminal_type,terminals.name as terminal_name from tracker left join terminals
     on tracker.terminal = terminals.id
     where tracker.updated_at between date_sub(now(),INTERVAL 1 WEEK) and now()
     order by updated_at desc
@@ -38,7 +38,7 @@ class TrackerService extends Service {
       const storeId = query.store
       // 只获取当前门店下的数据
       const items = await this.app.mysql.query(`
-    select tracker.*, terminals.store as terminal_store, terminals.name as terminal_name from tracker left join terminals
+    select tracker.*, terminals.store as terminal_store,terminals.type as terminal_type, terminals.name as terminal_name from tracker left join terminals
     on tracker.terminal = terminals.id
     where tracker.updated_at between date_sub(now(),INTERVAL 1 WEEK) and now()
     order by updated_at desc
