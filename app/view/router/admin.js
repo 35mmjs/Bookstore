@@ -95,13 +95,13 @@ if (
 ) {
   menu = [
     {
-      label: '配置中心',
+      label: '发布中心',
       value: '/view-config/manage',
       icon: 'hdd',
       children: null,
     },
     {
-      label: '终端管理',
+      label: '设备中心',
       value: '/terminal/manage',
       icon: 'desktop',
     },

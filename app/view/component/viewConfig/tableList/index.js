@@ -80,7 +80,7 @@ export default class Index extends React.Component {
               查看 |{' '}
             </Link> */}
             <a href={this.getViewConfigType(record)} target="_blank" rel="noopener noreferrer">
-              查看
+              查看 |{' '}
             </a>
             <Link to={`/view-config/manage/detail/${record.id}/edit`}>
               编辑 |{' '}

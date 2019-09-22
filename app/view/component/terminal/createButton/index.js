@@ -102,11 +102,11 @@ const CreateButton = props => {
         控制终端
       </Button> */}
       <Button type="primary" onClick={() => onTypeChange(1)}>
-        终端管理
+        设备资源管理
       </Button>
       &nbsp;&nbsp;
       <Button type="primary" onClick={() => onTypeChange(2)}>
-        控制终端
+        设备控制
       </Button>
       &nbsp;&nbsp;
       {/* <Button type="primary" onClick={() => window.open(`http://120.79.189.21:8081/#/blank/task-list?store_id=${window.appData.loginUser.store}`)}>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Row, Col, Radio, Form, Select, Button, Input, Icon, Modal } from 'antd'
 import BizTypeSelect from '../../common/bizCommon/bizTypeSelect'
+import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
+
 
 const FormItem = Form.Item
 
@@ -27,20 +29,20 @@ const FilterForm = Form.create()(props => {
             {getFieldDecorator('name')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col> */}
-        {/* <Col md={8} sm={24}>
+        <Col md={8} sm={24}>
           <FormItem label="设备类型">
             {getFieldDecorator('type', {
               // initialValue: '',
             })(<TerminalTypeSelect />)}
           </FormItem>
-        </Col> */}
-        <Col md={8} sm={24}>
+        </Col>
+        {/* <Col md={8} sm={24}>
           <FormItem label="埋点来源">
             {getFieldDecorator('biz_type', {
               // initialValue: '',
             })(<BizTypeSelect />)}
           </FormItem>
-        </Col>
+        </Col> */}
         <Col md={8} sm={24}>
           <FormItem className="">
             <Button type="primary" htmlType="submit">
