@@ -33,7 +33,7 @@ export default class Index extends React.Component {
       <div>
         <h3 style={{ color: 'black' }}>最近一周埋点数据</h3>
         <div>
-          <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
+          {/* <Filter onSubmit={data => this.onSubmit(data, 'findAll')} /> */}
           <Table list={list} />
         </div>
       </div>

@@ -31,6 +31,9 @@ class TrackerService extends Service {
           return item
         })
       }
+      if(newItems && newItems.length > 0 && query.type > 0){
+        newItems = items.filter(item => item.terminal_type == type)
+      }
       return newItems
     }
     if (query.isAdmin === false) {
@@ -45,6 +48,9 @@ class TrackerService extends Service {
     `)
       if (items && items.length > 0) {
         newItems = items.filter(item => item.terminal_store === storeId)
+      }
+      if(newItems && newItems.length > 0 && query.type > 0){
+        newItems = items.filter(item => item.terminal_type == type)
       }
       return newItems
     }
