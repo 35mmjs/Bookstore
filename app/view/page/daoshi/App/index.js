@@ -42,10 +42,7 @@ class App extends React.Component {
   }
 
   getConfig = () => {
-    const { orgId, view_config_id } = window.appData
-    if (view_config_id) {
-      return
-    }
+    const { orgId } = window.appData
     const id = orgId.toString()
     console.log(id)
 
