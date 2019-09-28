@@ -101,7 +101,7 @@ export default class Index extends React.Component {
 
   getViewConfigType = (record) =>{
     let deviceType = TYPE_MAP.find(item => item.value === record.type).label || ''
-    let url =  `http://${window.location.host}/page/${deviceType}?view_config_id=${record.id}`
+    let url =  `http://${window.location.host}/page/${deviceType}?view_config_id=${record.id}&orgId=${record.store}`
     return url
   }  
   render() {
