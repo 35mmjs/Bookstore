@@ -207,7 +207,7 @@ const Comp = props => {
         // const { view_config } = record
         return (
           <div>
-            {record.ad_type == 1 ? <img src={value}/> :
+            {record.ad_type < 3 ? (record.ad_type == 1 ? <img src={value}/> : <video src={value}/>) :
             <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
             </a>}
