@@ -67,7 +67,7 @@ export default class AdsCenter extends React.Component {
 
   onSubmit = (data, type) => {
     // 针对config json序列化
-    if(type < 3){
+    if(data.ad_type < 3){
       //图片和视频使用上传返回的url，网址采用输入的
       data.url = this.state.uploadUrl
     }
