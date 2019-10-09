@@ -1,6 +1,7 @@
 import React from 'react'
 // import { HashRouter as Router, Route } from 'react-router-dom'
 import { HashRouter as Router, Route, Switch } from 'dva/router'
+import createLoading from 'dva-loading';
 import dva from 'dva'
 import dynamic from 'dva/dynamic'
 import Layout from '../component/layout'
@@ -8,6 +9,8 @@ import constant from '../common/constant'
 import Enterprise from '../component/enterprise/index'
 import User from '../component/user/index'
 import AdsCenter from '../component/adsCenter/index'
+import TerminalControl from '../component/terminalControl/index'
+import TerminalTask from '../component/terminalTask/index'
 import Terminal from '../component/terminal/index'
 import Store from '../component/store/index'
 import TerminalDetail from '../component/terminalDetail'
@@ -46,13 +49,13 @@ let menu = [
             [
               {
                 label: '设备控制',
-                value: '',
+                value: '/terminal-control',
                 icon: 'hdd',
                 children: null,
               },
               {
                 label: '查看终端任务',
-                value: '',
+                value: '/terminal-task',
                 icon: 'desktop',
               },
             ],
@@ -126,6 +129,17 @@ if (
   ]
 }
 
+if (window.appData.loginUser.isStoreManager) {
+  menu = [
+    {
+      label: '发布中心',
+      value: '/view-config/manage',
+      icon: 'hdd',
+      children: null,
+    },
+  ]
+}
+
 const app = dva()
 
 // https://blog.csdn.net/Meditate_MasterYi/article/details/79730214
@@ -152,6 +166,16 @@ const routeMap = () => {
       path: '/ads',
       models: () => [require('../component/adsCenter/model')],
       component: () => AdsCenter,
+    },
+    {
+      path: '/terminal-control',
+      models: () => [require('../component/terminalControl/model')],
+      component: () => TerminalControl,
+    },
+    {
+      path: '/terminal-task',
+      models: () => [require('../component/terminalTask/model')],
+      component: () => TerminalTask,
     },
     {
       path: storeRoutes.findAll,
@@ -225,6 +249,7 @@ class AppRouter extends React.Component {
     )
   }
 }
+app.use(createLoading());
 
 app.router(() => <AppRouter />)
 const Demo = app.start()

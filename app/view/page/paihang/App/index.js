@@ -198,6 +198,7 @@ class App extends React.Component {
     let name2 = (nav2 && nav2.name) || ''
     name1 = this.getName(name1)
     name2 = this.getName(name2)
+    const { orgId } = window.appData
 
     return (
       <div className="app">
@@ -233,7 +234,7 @@ class App extends React.Component {
             </div>
             <div className="next" onClick={this.getNextCatalog1} />
           </div>
-          <div className="channel">
+          {orgId == 10010 && <div className="channel">
             <div className="slider" style={{ top: '210px', left: '70px' }}>
               <Roundy
                 value={value2}
@@ -265,7 +266,7 @@ class App extends React.Component {
               </span>
             </div>
             <div className="next" onClick={this.getNextCatalog2} style={{top: '270px'}} />
-          </div>
+          </div>}
         </div>
       </div>
     )
