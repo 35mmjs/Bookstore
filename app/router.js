@@ -87,6 +87,7 @@ module.exports = app => {
   router.get(openApi.tracker, controller.openApi.setTracker)
   // 终端元数据
   router.get(openApi.findTerminal, controller.openApi.findTerminal)
+  router.get(openApi.getOssToken, controller.common.getOssToken)
   // public entry
   router.get(publicEntry.entry, controller.publicEntry.index)
   // 埋点数据展示

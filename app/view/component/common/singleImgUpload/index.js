@@ -61,7 +61,7 @@ class SingleImgUpload extends React.PureComponent {
     const base = 1024
     this.UploadToOss(null, file).then(data => {
       // upload to parent component
-      const url = `https://bookstore-prod.oss-cn-hangzhou.aliyuncs.com/${
+      const url = `http://bookstore-prod.oss-cn-hangzhou.aliyuncs.com/${
         data.name
       }`
       this.setState({img: url})

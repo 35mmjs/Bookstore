@@ -47,12 +47,18 @@ export default class Index extends React.Component {
           store_id: window.appData.loginUser.store,
           '@order': 'type+',
         },
-        heart_connect: {
-          '@schema': 'BOOKSTORE',
-          '@order': 'gmt_create-',
-          'client_id@': '/device_list/client_id',
-          'store_id@': '/device_list/store_id',
-        },
+        // 'heart_connect[]': {
+        //   query: 2,
+        //   page: 0,
+        //   count: 1,
+        //   heart_connect: {
+        //     '@schema': 'BOOKSTORE',
+        //     '@order': 'gmt_create-',
+        //     'device_id@': '/device_list/id',
+        //     'client_id@': '[]/device_list/client_id',
+        //     'store_id@': '[]/device_list/store_id',
+        //   },
+        // }
       },
       'total@': '/[]/total',
     };

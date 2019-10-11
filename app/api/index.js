@@ -97,7 +97,8 @@ const openApi = {
   findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId
   tracker: '/open/v1/tracker', // 埋点相关
   findTerminal: '/open/v1/terminal', // 获取termin 元数据 clientId=xxx
-  findAds: '/open/v1/ads', // 获取当前设备的可投放广告
+  findAds: '/open/v1/ads', // 获取当前设备的可投放广告,
+  getOssToken: '/open/v1/getOssToken',
 }
 
 const publicEntry = {

@@ -26,17 +26,17 @@ export default {
       const response = yield call(queryGetData, payload)
       let list = []
       for (var i in response['[]']) {
-        let heart_connect = response['[]'][i]['heart_connect'];
-        if (heart_connect && heart_connect['gmt_create']) {
-          response['[]'][i]['device_list']['gmt_last'] = heart_connect['gmt_create'];
-          let lastTime = new Date(heart_connect['gmt_create']).getTime();
-          let currentTime = new Date().getTime();
-          if (currentTime - lastTime < 5 * 60 * 1000) {
-            response['[]'][i]['device_list']['open_status'] = 1;
-          } else {
-            response['[]'][i]['device_list']['open_status'] = 0;
-          }
+        // let heart_connect = response['[]'][i]['heart_connect[]'] && response['[]'][i]['heart_connect[]'][0];
+        // if (heart_connect && heart_connect['gmt_create']) {
+          // response['[]'][i]['device_list']['gmt_last'] = heart_connect['gmt_create'];
+        let lastTime = response['[]'][i]['device_list']['last_connected'] || 0//new Date(heart_connect['gmt_create']).getTime();
+        let currentTime = new Date().getTime();
+        if (currentTime - lastTime < 5 * 60 * 1000) {
+          response['[]'][i]['device_list']['open_status'] = 1;
+        } else {
+          response['[]'][i]['device_list']['open_status'] = 0;
         }
+        // }
         list.push(response['[]'][i]['device_list']);
       }
 
