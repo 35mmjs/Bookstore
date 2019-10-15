@@ -8,6 +8,7 @@ import useAsyncState from '../../../hook/useAsyncState'
 import { findTerminalType } from '../../../common/service'
 import TerminalTypeSelect from '../../common/bizCommon/terminalTypeSelect'
 import Enterprise from '../../enterprise/index';
+import './index.less'
 
 const Search = Input.Search
 const FormItem = Form.Item
@@ -109,6 +110,8 @@ const Comp = props => {
     currentType,
   } = props
   const [editFormVisible, setEditFormVisible] = useState(false)
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState('')
   const [editFormData, setEditFormData] = useState({})
   const [terminalTypeList, reload] = useAsyncState(findTerminalType, {})
 
@@ -136,6 +139,15 @@ const Comp = props => {
       return ("")
     }
 
+  }
+
+  const showModal = (url) => {
+    setPreviewVisible(true)
+    setPreviewUrl(url)
+  } 
+
+  const cancelModla = () => {
+    setPreviewVisible(false)
   }
 
   const columns = [
@@ -207,7 +219,7 @@ const Comp = props => {
         // const { view_config } = record
         return (
           <div>
-            {record.ad_type < 3 ? (record.ad_type == 1 ? <img src={value}/> : <video src={value}/>) :
+            {record.ad_type < 3 ? (record.ad_type == 1 ? <img className="image-view" onClick={() => showModal(value)} src={value}/> : <video className="image-view" src={value}/>) :
             <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
             </a>}
@@ -282,6 +294,9 @@ const Comp = props => {
     <div>
       {deviceManager}
       {editM}
+      <Modal visible={previewVisible} footer={null} onCancel={cancelModla}>
+        <img alt="example" style={{ width: '100%' }} src={previewUrl} />
+      </Modal>
     </div>
   )
 }

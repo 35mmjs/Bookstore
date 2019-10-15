@@ -61,7 +61,7 @@ class CreateAndEditForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data) {
+    if (nextProps.data && nextProps.data.content) {
       const { note, type, content } = nextProps.data
       this.setState({
         type,

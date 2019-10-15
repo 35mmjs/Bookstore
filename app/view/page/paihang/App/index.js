@@ -38,7 +38,7 @@ class App extends React.Component {
     }
     bookArr.forEach((item, index) => {
       if (index + 1 === navId) {
-        res = getCatelogAndSaveToRedis(item)
+        res = this.getCatelogAndSaveToRedis(item)
         if(navId === 1) {
           this.setState({catalog1: res})
         }else{
@@ -55,7 +55,7 @@ class App extends React.Component {
     if (view_config_id) {
       getViewConfigData(view_config_id).then(res => {
         this.getCatlogByNav(res,1)
-        this.getCatalogByNav(res,2)
+        this.getCatlogByNav(res,2)
       }).catch(error => {
         console.error(error)
       })
