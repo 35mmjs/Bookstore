@@ -219,7 +219,7 @@ const Comp = props => {
         // const { view_config } = record
         return (
           <div>
-            {record.ad_type < 3 ? (record.ad_type == 1 ? <img className="image-view" onClick={() => showModal(value)} src={value}/> : <video className="image-view" src={value}/>) :
+            {record.ad_type < 3 ? (record.ad_type == 1 ? <img className="image-view" onClick={() => showModal(value)} src={value}/> : <video className="image-view" src={value} controls="controls"/>) :
             <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
             </a>}
