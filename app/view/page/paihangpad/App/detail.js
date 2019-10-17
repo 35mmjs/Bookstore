@@ -87,7 +87,7 @@ class Detail extends React.Component {
 
 
   render() {
-    const { onClose } = this.props
+    const { onClose, isNewPad } = this.props
     const { book, recommend, loading } = this.state
     // Slider Setting
     const settings = {
@@ -103,10 +103,13 @@ class Detail extends React.Component {
     if (book.stockList && book.stockList.length) {
       bookShelf = book.stockList[0].jwh
     }
+    const newPadStyle = { width: '1200px', height: '1920px'}
+    const newImageSytle = { width: '1200px', height: '1820px'}
+
     return (
-      <div className="detail">
+      <div className="detail" style={isNewPad ? newPadStyle : null}>
         <div className="detail-close" onClick={onClose} />
-        <div className="detail-info">
+        <div className="detail-info" style={isNewPad ? newImageSytle : null}>
           <div className="detail-info-view">
             <div className="detail-info-meta">
               <h3 className="name">

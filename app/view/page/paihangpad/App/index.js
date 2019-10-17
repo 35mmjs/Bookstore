@@ -70,14 +70,16 @@ class App extends React.Component {
 
   render() {
     const { book } = this.state
+    const { orgId } = window.appData
+    let isNewPad = !(orgId == 10010)
     return (
       <div className="app">
         <div className="wrapper">
           {!this.state.showDetail &&
-            <Cover book={book} onClick={this.toggleBook} />
+            <Cover book={book} isNewPad={isNewPad} onClick={this.toggleBook} />
           }
           {this.state.showDetail &&
-          <Detail book={book} onClose={this.toggleBook} />
+          <Detail book={book} isNewPad={isNewPad} onClose={this.toggleBook} />
           }
         </div>
       </div>

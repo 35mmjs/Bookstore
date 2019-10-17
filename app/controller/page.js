@@ -64,6 +64,23 @@ class PageController extends Controller {
     })
   }
 
+  async newpaihangPage() {
+    const { ctx } = this
+    const { navId, orgId, clientId, padId, view_config_id } = ctx.query
+
+    await ctx.render('layout/pwa.html', {
+      entry: 'newpaihang',
+      appData: {
+        padId,
+        navId,
+        clientId,
+        orgId,
+        view_config_id,
+      },
+      mainfest: '/public/paihang/manifest.json',
+    })
+  }
+
   async paihangpadPage() {
     const { ctx } = this
     const { navId, orgId, clientId, rankId } = ctx.query

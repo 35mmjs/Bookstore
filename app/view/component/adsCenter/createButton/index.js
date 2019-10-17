@@ -30,6 +30,7 @@ const FormItem = Form.Item
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleModalVisible, onSubmit, onUploadDone, onChangeAdType, chooseAdType } = props
+  const [adType, setAdType] = useState(-1)
   const okHandle = (e) => {
     e.preventDefault()
     form.validateFields((err, fieldsValue) => {
@@ -62,6 +63,10 @@ const CreateForm = Form.create()(props => {
     handleModalVisible()
   }
 
+  const handleTypeSelectChange = value => {
+    setAdType(value);
+  }
+
   return (
     <Modal
       destroyOnClose
@@ -84,7 +89,7 @@ const CreateForm = Form.create()(props => {
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="设备类型">
         {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请选择广告投放的设备类型！' }],
-        })(<TerminalTypeSelect placeholder="请选择" />)}
+        })(<TerminalTypeSelect placeholder="请选择" onChange={handleTypeSelectChange}/>)}
       </FormItem>
       <FormItem {...FORM_ITEM_LAYOUT_MODAL} label="广告类型">
         {form.getFieldDecorator('ad_type', {
@@ -105,7 +110,8 @@ const CreateForm = Form.create()(props => {
             valuePropName: 'fileList',
             getValueFromEvent: normFile,
           })( */}
-          <SingleImgUpload onUploadDone={onUploadDone}></SingleImgUpload>,
+          <SingleImgUpload onUploadDone={onUploadDone}></SingleImgUpload>
+          <div>图片大小为{VIEW_CONFIG_TYPE_MAP[adType] && VIEW_CONFIG_TYPE_MAP[adType].chicun}</div>
           {/* )} */}
         </Form.Item>
       )}

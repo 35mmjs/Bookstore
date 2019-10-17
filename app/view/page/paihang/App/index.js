@@ -234,7 +234,7 @@ class App extends React.Component {
             </div>
             <div className="next" onClick={this.getNextCatalog1} />
           </div>
-          {orgId == 10010 && <div className="channel">
+          <div className="channel">
             <div className="slider" style={{ top: '210px', left: '70px' }}>
               <Roundy
                 value={value2}
@@ -266,7 +266,7 @@ class App extends React.Component {
               </span>
             </div>
             <div className="next" onClick={this.getNextCatalog2} style={{top: '270px'}} />
-          </div>}
+          </div>
         </div>
       </div>
     )

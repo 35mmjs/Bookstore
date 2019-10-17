@@ -25,10 +25,12 @@ class Cover extends React.Component {
   }
 
   render() {
-    const { book } = this.props
+    const { book, isNewPad } = this.props
+    const newPadStyle = { width: '1200px', height: '1920px'}
+    const newImageSytle = { width: '1200px', height: '1820px'}
     return (
-      <div className="cover" onClick={this.props.onClick}>
-        <div className="cover-image">
+      <div className="cover" style={isNewPad ? newPadStyle : null} onClick={this.props.onClick}>
+        <div className="cover-image" style={isNewPad ? newImageSytle : null}>
         { book.cover && (
           <img src={book.cover} onLoad={this.onLoad} ref={this.image} style={{marginLeft: `-${this.state.left}px`}} />
         )}
