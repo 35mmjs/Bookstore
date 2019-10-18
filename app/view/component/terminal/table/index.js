@@ -35,6 +35,10 @@ const TYPE_MAP = [
     label: 'paihangbang',
     value: 5,
   },
+  {
+    label: 'newpaihang',
+    value: 6,
+  },
 ]
 const ViewForm = props => {
   const { modalVisible, data, handleModalVisible } = props
@@ -316,7 +320,7 @@ const Comp = props => {
         const url = `https://${window.location.host}/page/${type}?orgId=${
           record.store
         }&clientId=${record.id}`
-        if (type === 'paihang') {
+        if (type === 'paihang' || type === 'newpaihang') {
           const padUrl = `https://${
             window.location.host
           }/page/paihangpad?orgId=${record.store}&clientId=${

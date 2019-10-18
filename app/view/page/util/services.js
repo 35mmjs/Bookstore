@@ -3,19 +3,20 @@ import axios from 'axios'
 import ajax from '../../common/ajax'
 import { viewConfig } from '../../../api'
 
-const devHost = '127.0.0.1:7001'
+const devHost = 'http://127.0.0.1:9000'
 const dailyHost = '47.96.75.202'
 // const pubHost = '47.96.181.54'
-const pubHost = 'www.shulian8.com'
+const pubHost = 'https://www.shulian8.com'
+const publicHost = "www.shulian8.com"
 
 console.log('host: ', window.location.hostname)
-const host = window.location.hostname === pubHost ? pubHost : pubHost
+const host = window.location.hostname === publicHost ? pubHost : devHost
 
 //当前页面请求http换成https modify by xiazifei
 
 export const search = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/book/search`, {
+  return axios.get(`${host}/open/v1/book/search`, {
     params: {
       keyword: data.keyword,
       orgId,
@@ -26,7 +27,7 @@ export const search = (data) => {
 
 export const getPubuData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/pubu`, {
+  return axios.get(`${host}/open/v1/pubu`, {
     params: {
       orgId,
       clientId,
@@ -36,7 +37,7 @@ export const getPubuData = (data) => {
 
 export const getRecommend = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/book/recommend`, {
+  return axios.get(`${host}/open/v1/book/recommend`, {
     params: {
       orgId,
       clientId,
@@ -48,7 +49,7 @@ export const getRecommend = (data) => {
 
 export const getZhantaiData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/zhantai`, {
+  return axios.get(`${host}/open/v1/zhantai`, {
     params: {
       orgId,
       clientId,
@@ -58,7 +59,7 @@ export const getZhantaiData = (data) => {
 
 export const getBook = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/book`, {
+  return axios.get(`${host}/open/v1/book`, {
     params: {
       orgId,
       clientId,
@@ -71,7 +72,7 @@ export const getBook = (data) => {
 
 export const getDaoshiData = (data) => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/daoshi`, {
+  return axios.get(`${host}/open/v1/daoshi`, {
     params: {
       orgId,
       clientId,
@@ -82,7 +83,7 @@ export const getDaoshiData = (data) => {
 export const getPaihangCatalog = data => {
   const { orgId, clientId } = window.appData
   const { navId } = data
-  return axios.get(`https://${host}/open/v1/paihang`, {
+  return axios.get(`${host}/open/v1/paihang`, {
     params: {
       orgId,
       clientId,
@@ -94,7 +95,7 @@ export const getPaihangCatalog = data => {
 export const updatePaihangCatalog = data => {
   const { orgId, clientId } = window.appData
   const { navId, catalogId } = data
-  return axios.get(`https://${host}/open/v1/paihang/update`, {
+  return axios.get(`${host}/open/v1/paihang/update`, {
     params: {
       orgId,
       clientId,
@@ -106,7 +107,7 @@ export const updatePaihangCatalog = data => {
 
 export const getPaihangDetail = data => {
   const { orgId, clientId, navId = 2, rankId = 3 } = window.appData
-  return axios.get(`https://${host}/open/v1/paihang/pad/detail`, {
+  return axios.get(`${host}/open/v1/paihang/pad/detail`, {
     params: {
       orgId,
       clientId,
@@ -118,7 +119,7 @@ export const getPaihangDetail = data => {
 
 export const tracker = data => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/tracker`, {
+  return axios.get(`${host}/open/v1/tracker`, {
     params: {
       clientId,
       act: data.act || 'click',
@@ -130,7 +131,7 @@ export const tracker = data => {
 
 export const getClientConfig = data => {
   const { orgId, clientId } = window.appData
-  return axios.get(`https://${host}/open/v1/terminal`, {
+  return axios.get(`${host}/open/v1/terminal`, {
     params: {
       orgId,
       clientId,

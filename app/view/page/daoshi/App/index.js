@@ -43,7 +43,7 @@ class App extends React.Component {
 
   getConfig = () => {
     const { orgId } = window.appData
-    const id = orgId.toString()
+    const id = orgId && orgId.toString()
     console.log(id)
 
     let storeData
@@ -62,16 +62,24 @@ class App extends React.Component {
         break
     }
 
-    this.setState({
-      storeData,
-    })
+    // this.setState({
+    //   storeData,
+    // })
 
-    getClientConfig().then(res => {
+    getClientConfig().then(res => {      
       if (res.data.success) {
         this.setState({
           storeData: res.data.data.config,
         })
+      } else {
+        this.setState({
+          storeData,
+        })
       }
+    }).catch(error => {
+      this.setState({
+        storeData,
+      })
     })
   }
 
@@ -390,6 +398,8 @@ class App extends React.Component {
   render() {
     const orgId = window.appData.orgId
     const { status, currentArea, storeData } = this.state
+    // console.log('storeData')
+    // console.log(storeData)
     // default [1, 1, 0]
     // click position [1, 0, 0]
     // click books [0, 1, 1]

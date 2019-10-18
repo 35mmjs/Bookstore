@@ -24,6 +24,10 @@ const TYPE_MAP = [
     label: 'paihangbang',
     value: 5,
   },
+  {
+    label: 'newpaihang',
+    value: 6,
+  },
 ]
 
 export default class Index extends React.Component {

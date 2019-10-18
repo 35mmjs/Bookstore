@@ -126,7 +126,7 @@ class CreateAndEditForm extends React.Component {
           <ZhantaiForm {...mergedProps} onSubmit={this.onChildFormSubmit} />
         )
       }
-      if (choosenType === VIEW_CONFIG_ID.PAIHANG_CONTROL_ID || VIEW_CONFIG_ID.NEW_PAIHANG_CONTROL_ID) {
+      if (choosenType === VIEW_CONFIG_ID.PAIHANG_CONTROL_ID || choosenType === VIEW_CONFIG_ID.NEW_PAIHANG_CONTROL_ID) {
         return (
           <PaihangForm {...mergedProps} onSubmit={this.onChildFormSubmit} />
         )
