@@ -7,8 +7,8 @@ import Enterprise from '../enterprise/index';
 import { queryGetData } from '../../common/api'
 
 const loginUser = window.appData.loginUser
-const enterprise = loginUser.isAdmin ? undefined : loginUser.enterprise
-const store = loginUser.isAdmin ? undefined : loginUser.store
+const enterprise =  loginUser.enterprise
+const store = loginUser.store
 
 // @connect(state => ({ ...state }))
 @connect(({ tracker, loading }) => ({ ...tracker, loading: loading.effects['tracker/findAll'] }))

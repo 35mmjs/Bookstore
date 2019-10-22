@@ -27,7 +27,7 @@ class Cover extends React.Component {
   render() {
     const { book, isNewPad } = this.props
     const newPadStyle = { width: '1200px', height: '1920px'}
-    const newImageSytle = { width: '1200px', height: '1820px'}
+    const newImageSytle = { width: '1200px', height: '1780px'}
     return (
       <div className="cover" style={isNewPad ? newPadStyle : null} onClick={this.props.onClick}>
         <div className="cover-image" style={isNewPad ? newImageSytle : null}>

@@ -104,7 +104,7 @@ class Detail extends React.Component {
       bookShelf = book.stockList[0].jwh
     }
     const newPadStyle = { width: '1200px', height: '1920px'}
-    const newImageSytle = { width: '1200px', height: '1820px'}
+    const newImageSytle = { width: '1200px', height: '1780px'}
 
     return (
       <div className="detail" style={isNewPad ? newPadStyle : null}>
