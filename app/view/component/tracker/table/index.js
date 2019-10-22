@@ -3,6 +3,8 @@ import { Table, Button } from 'antd'
 import moment from 'moment'
 import { bizTypeMap } from '../../common/bizCommon/bizTypeSelect'
 
+import { VIEW_CONFIG_TYPE_MAP } from '../../../common/constant'
+
 export default class App extends React.Component {
   state = {
     filteredInfo: null,
@@ -19,13 +21,22 @@ export default class App extends React.Component {
 
   render() {
     let { sortedInfo, filteredInfo } = this.state
+    const { list, pagination, loading, onChange} = this.props 
     sortedInfo = sortedInfo || {}
     filteredInfo = filteredInfo || {}
     const columns = [
       {
         title: '终端名称',
-        dataIndex: 'terminal_name',
-        key: 'terminal_name',
+        dataIndex: 'terminals_name',
+        key: 'terminals_name',
+      },
+      {
+        title: '终端类型',
+        dataIndex: 'type',
+        key: 'type',
+        render: value => {
+          return <div>{VIEW_CONFIG_TYPE_MAP[value].label}</div>
+        },
       },
       {
         title: '埋点事件',
@@ -98,8 +109,10 @@ export default class App extends React.Component {
       <div>
         <Table
           columns={columns}
-          dataSource={this.props.list}
-          onChange={this.handleChange}
+          dataSource={list}
+          loading={loading}
+          pagination={pagination}
+          onChange={onChange}
         />
       </div>
     )

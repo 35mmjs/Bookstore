@@ -71,9 +71,10 @@ class App extends React.Component {
   render() {
     const { book } = this.state
     const { orgId } = window.appData
+    const newPadStyle = { width: '1200px', height: '1920px'}
     let isNewPad = !(orgId == 10010)
     return (
-      <div className="app">
+      <div className="app" style={isNewPad ? newPadStyle : null}>
         <div className="wrapper">
           {!this.state.showDetail &&
             <Cover book={book} isNewPad={isNewPad} onClick={this.toggleBook} />
