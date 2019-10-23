@@ -71,7 +71,7 @@ class Detail extends React.Component {
         const { data } = res
         if (res.success) {
           this.setState({
-            recommend: res.data.data,
+            recommend: res.data,
             loading: false,
           })
         }
