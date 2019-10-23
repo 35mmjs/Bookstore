@@ -35,7 +35,7 @@ export default class App extends React.Component {
         dataIndex: 'type',
         key: 'type',
         render: value => {
-          return <div>{VIEW_CONFIG_TYPE_MAP[value].label}</div>
+          return <div>{VIEW_CONFIG_TYPE_MAP[value - 1].label}</div>
         },
       },
       {

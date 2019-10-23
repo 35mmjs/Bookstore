@@ -90,8 +90,8 @@ module.exports = appInfo => {
   }
 
   config.bookAPIByLiuzhou = {
-    // url: 'http://cw.gxxhsd.com/Commander/api/Executive',
-    url: 'http://113.12.201.173:8087/Commander/api/Executive',
+    url: 'http://cw.gxxhsd.com/Commander/api/Executive',
+    // url: 'http://113.12.201.173:8087/Commander/api/Executive',
   }
 
   config.webpack = {
