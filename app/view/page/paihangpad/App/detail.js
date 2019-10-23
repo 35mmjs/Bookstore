@@ -69,9 +69,9 @@ class Detail extends React.Component {
     getRecommend({ spbs })
       .then(res => {
         const { data } = res
-        if (res.success) {
+        if (data.success) {
           this.setState({
-            recommend: res.data,
+            recommend: data.data,
             loading: false,
           })
         }
