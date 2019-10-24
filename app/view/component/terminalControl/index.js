@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
+import { message } from 'antd'
 import './index.less'
 import Filter from './filter'
 import Table from './table'
@@ -17,10 +18,12 @@ export default class Index extends React.Component {
 
   componentDidMount() {
     const params = this.getParams(this.state.currentType, 0)
-    this.dispatch({
-      type: 'terminalControl/findAll',
-      payload: params,
-    })
+    if (params) {
+      this.dispatch({
+        type: 'terminalControl/findAll',
+        payload: params,
+      })
+    }
     // this.dispatch({ type: 'viewConfig/findAll', payload: {} })
   }
 
@@ -29,13 +32,19 @@ export default class Index extends React.Component {
       currentType: data.type,
     })
     const params = this.getParams(data.type, 0)
-    this.dispatch({
-      type: 'terminalControl/findAll',
-      payload: params,
-    })
+    if (params) {
+      this.dispatch({
+        type: 'terminalControl/findAll',
+        payload: params,
+      })
+    }
   }
 
   getParams = (type, page) => {
+    if (!window.appData.loginUser.store) {
+      message.error('未获取登陆的店铺')
+      return null
+    }
     let params = {
       '[]': {
         query: 2,

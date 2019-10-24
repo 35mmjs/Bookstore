@@ -128,7 +128,7 @@ const Comp = props => {
     },
     {
       title: 'location',
-      dataIndex: 'location'',
+      dataIndex: 'location',
       key: 'location',
     },
     {
