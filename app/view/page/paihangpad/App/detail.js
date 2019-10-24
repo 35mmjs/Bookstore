@@ -96,6 +96,7 @@ class Detail extends React.Component {
       autoplay: true,
       autoplaySpeed: 3000,
       variableWidth: true,
+      arrows: false,
     }
 
     let bookShelf = ''

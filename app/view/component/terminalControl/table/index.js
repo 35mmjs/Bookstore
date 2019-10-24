@@ -127,10 +127,25 @@ const Comp = props => {
       key: 'note',
     },
     {
-      title: 'mac地址',
-      dataIndex: 'mac_address',
-      key: 'mac_address',
+      title: 'location',
+      dataIndex: 'location'',
+      key: 'location',
     },
+    {
+      title: 'nav_id',
+      dataIndex: 'nav_id',
+      key: 'nav_id',
+    },
+    {
+      title: 'rank_id',
+      dataIndex: 'rank_id',
+      key: 'rank_id',
+    },
+    // {
+    //   title: 'mac地址',
+    //   dataIndex: 'mac_address',
+    //   key: 'mac_address',
+    // },
     {
       title: '类型',
       dataIndex: 'type',
