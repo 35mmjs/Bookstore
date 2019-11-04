@@ -161,7 +161,7 @@ export default class Map extends React.Component {
                       {
                         floor.areas.map(area => {
                           return (
-                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key)}>
+                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key, false)}>
                               <span className="color" style={{ background: `${area.color}` }}>
                                 {area.key}
                               </span>

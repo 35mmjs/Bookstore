@@ -107,10 +107,12 @@ class Detail extends React.Component {
     const newPadStyle = { width: '1200px', height: '1920px'}
     const newImageSytle = { width: '1200px', height: '1780px'}
 
+    const newDetialStyel = { width: '1200px', height: '1780px', 'padding-right': '60px', 'padding-bottom': '200px'}
+
     return (
       <div className="detail" style={isNewPad ? newPadStyle : null}>
         <div className="detail-close" onClick={onClose} />
-        <div className="detail-info" style={isNewPad ? newImageSytle : null}>
+        <div className="detail-info" style={isNewPad ? newDetialStyel : null}>
           <div className="detail-info-view">
             <div className="detail-info-meta">
               <h3 className="name">
