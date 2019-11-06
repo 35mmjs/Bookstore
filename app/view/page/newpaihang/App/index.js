@@ -72,6 +72,7 @@ class App extends React.Component {
     } else {
       this.getCatalog(1)
     }
+    //调试使用
     // this.queryViewConfigData()
   }
 
@@ -167,8 +168,10 @@ class App extends React.Component {
   }
 
   getCurrTimeStr = () => {
-    const date = new Date();
-    let timeStr = date.getFullYear() + '·' + (date.getMonth() + 1) + '·' + date.getDate()
+    const date = new Date()
+    let monthStr = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+    let dataStr = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    let timeStr = date.getFullYear() + '·' + monthStr + '·' + dataStr
     return timeStr.split('').join('\n')
   }
 
