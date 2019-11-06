@@ -83,9 +83,11 @@ class App extends React.Component {
       const { data } = res
       if (data.success) {
         if (navId === 1) {
-          this.setState({
-            catalog1: data.data,
-          })
+          // this.setState({
+          //   catalog1: data.data,
+          // })
+          let catelog = data.data
+          this.setState({ catalog1: catelog, currId: 0, currChannel: catelog[0].name })
         } 
       }
     }).catch(err => {
