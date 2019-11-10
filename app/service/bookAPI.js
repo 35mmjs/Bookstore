@@ -129,6 +129,23 @@ class BookAPIService extends Service {
   }
 
   /**
+   * 根据商品标识
+   * @param SPBS list
+   * @param khbh
+   * @return {Promise<T | never | never>}
+   */
+  getBookListBySPBS(listArr, khbh) {
+    const parse = d => {
+      if (!d) return d
+      return JSON.parse(d).map(item => Object.assign({}, item, {
+        qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+      }))
+    }
+    return this.fetch('itemInfoBySpbs', { params: listArr }).then(d => parse(d))
+    // return this.getBook('SPBS', SPBS, khbh).then(d => d);
+  }
+
+  /**
    * 根据关键字查询，返回数组
    * @param keyword
    * @param khbh
@@ -170,7 +187,15 @@ class BookAPIService extends Service {
    * @param khbh
    */
   getRecommendBooks(spbs, khbh = '3300000000') {
-    return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+    let listArr = []
+    const list = await this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+    if(list && list.length){
+      list.map(item => {
+        listArr.push({spbs: item.spbs})
+      })
+    }
+    return this.getBookListBySPBS(listArr,khbh)
+    // return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
   }
 
   /**
