@@ -186,7 +186,7 @@ class BookAPIService extends Service {
    * @param spbs {String}
    * @param khbh
    */
-  getRecommendBooks(spbs, khbh = '3300000000') {
+  async getRecommendBooks(spbs, khbh = '3300000000') {
     let listArr = []
     const list = await this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
     if(list && list.length){
