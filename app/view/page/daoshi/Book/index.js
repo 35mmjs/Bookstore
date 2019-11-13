@@ -36,6 +36,14 @@ export default class Book extends React.Component {
     this.props.handleClickBack && this.props.handleClickBack()
   }
 
+
+  componentWillReceiveProps = nextProps => {
+    if(nextProps.book){
+      var container = document.getElementById("book_id");//获取元素
+      container.scrollTop = 0;//滚动条回到顶部
+    }
+  }
+
   render() {
     const { book, className } = this.props
     let bookShelf = ''
@@ -46,7 +54,7 @@ export default class Book extends React.Component {
 
     return (
       <div className={className}>
-        <div className="book_detail_content">
+        <div id="book_id" className="book_detail_content">
           <div className="book_detail_info">
             <div className="book_detail_info_cover">
               { book.cover && (
