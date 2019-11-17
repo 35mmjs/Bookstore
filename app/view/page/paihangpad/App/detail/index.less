@@ -1,80 +1,7 @@
 
-body {
-  background: #4e4e4e;
-}
-
-.app {
-  position: relative;
-  width: 800px;
-  height: 1280px;
-  margin: 0 auto;
-  overflow: hidden;
-  background: #4e4e4e url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_di01.png') no-repeat center;
-  background-size: cover;
-}
-
-.cover {
-  width: 800px;
-  height: 1280px;
-  position: relative;
-
-  &-image {
-    position: relative;
-    width: 800px;
-    height: 1140px;
-    overflow: hidden;
-
-    img {
-      position: absolute;
-      width: auto;
-      height: 100%;
-      left: 50%;
-      bottom: 0;
-    }
-  }
-
-  &-info {
-    position: relative;
-    padding: 30px 50px;
-    &-name {
-      text-overflow: ellipsis;
-      width: 350px;
-      line-height: 32px;
-      font-size: 28px;
-      color: #c5c4c4;
-      padding-top: 16px;
-      height: 74px;
-      overflow: hidden;
-    }
-
-    &-star {
-      width: 170px;
-      height: 140px;
-      padding: 50px 0;
-      position: absolute;
-      top: 0; 
-      right: 170px;
-    }
-
-    &-score {
-      width: 103px;
-      height: 103px;
-      position: absolute;
-      top: 20px;
-      right: 50px;
-      background: url("https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui01_03.png") no-repeat 0 0;
-      line-height: 100px;
-      text-align: center;
-      font-weight: bold;
-      color: #febf1c;
-      font-size: 32px;
-    }
-  }
-}
-
-.detail {
-  width: 800px;
-  height: 1280px;
+.new_detail {
+  width: 1280px;
+  height: 1920px;
   position: relative; 
 
   &-close {
@@ -82,19 +9,19 @@ body {
     top: 55px;
     right: 70px;
     display: block;
-    width: 52px;
+    width: 80px;
     z-index: 10000;
-    height: 52px;
+    height: 82px;
     background: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_03.png) no-repeat center center;
   }
 
   &-info {
     position: relative;
-    width: 800px;
-    height: 1140px;
+    width: 1280px;
+    height: 1920px;
     padding: 120px 40px 120px 80px;
     overflow: hidden;
-    background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_di02.png') no-repeat center;
+    background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
     background-size: cover;
 
     &-view {
@@ -107,7 +34,7 @@ body {
     &-meta {
       min-height: 450px;
       .name {
-        font-size: 36px;
+        font-size: 54px;
     font-weight: bold;
     line-height: 56px;
     padding-right: 20px;
@@ -117,17 +44,17 @@ body {
         display: block;
         line-height: 36px;
         margin-bottom: 14px;
-        font-size: 24px;
+        font-size: 33px;
       }
       p > span {
-        width: 320px;
+        width: 520px;
         display: inline-block;
       } 
 
       &_qr {
         position: relative;
-        width: 160px;
-        height: 220px;
+        width: 250px;
+        height: 320px;
         display: inline-block;
         background-image: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_07.png);
         background-position: center bottom;
@@ -135,8 +62,8 @@ body {
       
         .qrcode {
           padding: 5px;
-          width: 160px;
-          height: 160px;
+          width: 250px;
+          height: 250px;
           background: #fff;
           overflow: hidden;
         }
@@ -145,13 +72,13 @@ body {
       
     }
     &-det {
-      font-size: 24px;
+      font-size: 28px;
       padding: 0 50px 20px 20px;
       color: #6d6d6d;
       line-height: 42px;
 
       h4 {
-        font-size: 32px;
+        font-size: 42px;
         border-bottom: 1px solid #999;
       }
 
