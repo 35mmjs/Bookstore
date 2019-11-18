@@ -87,10 +87,8 @@ class Detail extends React.Component {
   }
 
   dealIntro = intro => {
-    let str = intro.replace(/[\r\n]/g,"");
-    
-    str = ' ' + str
-
+    let str = intro.replace(/[\r\n]/g,"")//去掉回车换行符
+    str = str.replace(/\ +/g,"")//去掉首行开始空格，用css进行缩进
     return str
   }
 
@@ -138,13 +136,11 @@ class Detail extends React.Component {
                 <span>书架号：{bookShelf || '详询服务台预定'}</span>
               </p>
               <p>
-                <span>页 数：{book.pageNum}</span> 
+                <span>页 数：{book.pageNum && book.pageNum + ' 页'}</span> 
+                <span>定 价：{book.price && book.price + ' 元'}</span>
               </p>
               <p>
-                <span>定 价：{book.price}</span> 
-              </p>
-              <p>
-                <span>{book.version}</span>
+                <span>{book.version}</span> 
                 <span>
                 {
                   book.qrcode &&

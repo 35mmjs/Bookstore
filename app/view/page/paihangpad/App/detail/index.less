@@ -3,26 +3,28 @@
   width: 1280px;
   height: 1920px;
   position: relative; 
+  background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
+  background-size: cover;
 
   &-close {
     position: absolute;
-    top: 55px;
-    right: 70px;
+    top: 40px;
+    right: 100px;
     display: block;
     width: 80px;
     z-index: 10000;
     height: 82px;
-    background: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_03.png) no-repeat center center;
+    background: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_close.png) no-repeat center center;
   }
 
   &-info {
     position: relative;
     width: 1280px;
-    height: 1920px;
-    padding: 120px 40px 120px 80px;
+    height: 1770px;
+    padding: 120px 80px 100px 80px;
     overflow: hidden;
-    background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
-    background-size: cover;
+    // background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
+    // background-size: cover;
 
     &-view {
       position: relative;
@@ -55,8 +57,9 @@
         position: relative;
         width: 250px;
         height: 320px;
+        margin-left: 100px;
         display: inline-block;
-        background-image: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_07.png);
+        background-image: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_qr_bottom.png);
         background-position: center bottom;
         background-repeat: no-repeat;
       
@@ -79,6 +82,7 @@
 
       h4 {
         font-size: 42px;
+        padding-bottom: 10px;
         border-bottom: 1px solid #999;
       }
 
@@ -86,7 +90,12 @@
         padding-top: 10px;
       }
 
-      .intro,
+      .intro{
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        text-indent: 2em;//缩进两个字符
+      }
+
       .toc {
         white-space: pre-wrap;
         overflow-wrap: break-word;
@@ -96,7 +105,7 @@
 
   &-recommand {
     position: relative;
-    padding-left: 100px;
+    padding-left: 180px;
 
     &-name {
       position: absolute;
@@ -129,8 +138,8 @@
 
   &_cover {
     position: absolute;
-    width: 94px;
-    height: 130px;
+    width: 104px;
+    height: 140px;
     display: block;
     overflow: hidden;
     top: 0;
