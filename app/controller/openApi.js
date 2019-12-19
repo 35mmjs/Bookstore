@@ -323,6 +323,32 @@ class OpenApiController extends Controller {
     }
   }
 
+  async getFaceRecommend() {
+    let list = []
+    let res = null
+    let rawList = []
+    const param = this.ctx.query
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const { facedata } = param
+    rawList = await bookAPI.getFaceIdRecommendBooks(facedata)
+    if (rawList && rawList.length > 0) {
+      list = await Promise.all(
+        rawList.map(async item => {
+          return bookInfoMap(item, this.ctx.session.user)
+        }),
+      )
+      this.ctx.body = {
+        success: true,
+        data: list,
+      }
+    } else {
+      this.ctx.body = {
+        success: true,
+        data: '',
+      }
+    }
+  }
+
   async findBooksByKeyword() {
     const { query } = this.ctx
     const { keyword } = query

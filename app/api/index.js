@@ -92,6 +92,7 @@ const openApi = {
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
   findRecommendByISBN: '/open/v1/book/recommend', // isbn=xxx
   findRecommendBySPBS: '/open/v1/book/recommend', // spbs=xxx
+  getFaceRecommendById: '/open/v1/book/getfacerecommend',
   findPaihangCatalog: '/open/v1/paihang/catalog',
   updatePaihang: '/open/v1/paihang/update', // POST
   findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId

@@ -199,6 +199,23 @@ class BookAPIService extends Service {
   }
 
   /**
+   * 根据人脸识别数据获取推荐的书籍
+   * @param spbs {String}
+   * @param khbh
+   */
+  async getFaceIdRecommendBooks(facedata, khbh = '3300000000') {
+    let listArr = []
+    const list = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(facedata))
+    if(list && list.length){
+      list.map(item => {
+        listArr.push({spbs: item.spbs})
+      })
+    }
+    return this.getBookListBySPBS(listArr,khbh)
+    // return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+  }
+
+  /**
    * 获取库存信息
    * @param kcdh {String} 库存店号
    * @param spbs {String} 商品标识
