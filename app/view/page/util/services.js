@@ -92,6 +92,17 @@ export const getPaihangCatalog = data => {
   })
 }
 
+export const getFaceRecommendCatalog = facedata => {
+  const { orgId, clientId } = window.appData
+  return axios.get(`${host}/open/v1/book/getfacerecommend`, {
+    params: {
+      orgId,
+      clientId,
+      facedata,
+    },
+  })
+}
+
 export const updatePaihangCatalog = data => {
   const { orgId, clientId } = window.appData
   const { navId, catalogId } = data

@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker,getViewConfigData } from '../../util/services'
+import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker,getViewConfigData, getFaceRecommendCatalog } from '../../util/services'
 import { queryGetData } from '../../../common/api'
 // import Roundy from "roundy"
 import './index.less'
@@ -95,6 +95,27 @@ class App extends React.Component {
     })
   }
 
+  getFaceRecommendBooks = (facedata) => {
+    getFaceRecommendCatalog(facedata).then(res => {
+      const { data } = res
+      if (data.success) {
+        const { catalog1 } = this.state
+        let newCat = {}
+        newCat.name = '精准推荐'
+        newCat.books = data.data
+        catalog1.push(newCat)
+        this.setState({ catalog1: catalog1, currId: catalog1.length - 1, currChannel: '精准推荐' })
+        updatePaihangCatalog({
+          navId: 1,
+          catalogId: catalog1.length - 1,
+          bookstring: JSON.stringify(newCat.books)
+        }).then(res => {
+          console.log(res.data)
+        })
+      }
+    })
+  }
+
   getFontSize = (name) => {
     const len = name.length
     if (len <= 4) return 90
@@ -120,10 +141,11 @@ class App extends React.Component {
 
     let newName = catalog1[newId].name
     this.setState({ currId: newId, currChannel: newName })
-
+    let bookstring = newName == '精准推荐' ? JSON.stringify(catalog1[newId].books) : ''
     updatePaihangCatalog({
       navId: 1,
       catalogId: newId,
+      bookstring,
     }).then(res => {
       tracker({
         act: 'click',

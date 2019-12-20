@@ -480,7 +480,20 @@ class OpenApiController extends Controller {
   async updatePaihang() {
     const query = this.ctx.query
     let books = []
-    const { orgId, clientId, navId, catalogId } = query
+    const { orgId, clientId, navId, catalogId, bookstring } = query
+    if(bookstring){
+      await this.app.redis.set(
+        `paihang_pad_${clientId}_${navId}`,
+        bookstring,
+      )
+      this.ctx.body = {
+        success: true,
+        data: {
+          value: '',
+        },
+      }
+      return
+    }
     const paihangNavSession = await this.app.redis.get(
       `paihang_nav_${clientId}_${navId}`,
     )
