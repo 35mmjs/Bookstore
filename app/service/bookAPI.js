@@ -191,7 +191,7 @@ class BookAPIService extends Service {
     const list = await this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
     if(list && list.length){
       list.map(item => {
-        listArr.push({spbs: item.spbs})
+        listArr.push({ spbs: item.spbs})
       })
     }
     return this.getBookListBySPBS(listArr,khbh)
@@ -205,10 +205,12 @@ class BookAPIService extends Service {
    */
   async getFaceIdRecommendBooks(facedata, khbh = '3300000000') {
     let listArr = []
-    const list = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(facedata))
+    const data = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(facedata))
+    // console.log(data)
+    const list = data.rows
     if(list && list.length){
       list.map(item => {
-        listArr.push({spbs: item.spbs})
+        listArr.push({isbn: item.prod_id})
       })
     }
     return this.getBookListBySPBS(listArr,khbh)
