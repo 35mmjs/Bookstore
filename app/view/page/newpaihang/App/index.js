@@ -72,6 +72,15 @@ class App extends React.Component {
     } else {
       this.getCatalog(1)
     }
+    const that = this
+    // 触发人脸识别
+    window.getFaceRecommendBooks = function (facedata) {
+      that.getFaceRecommendBooks(facedata)
+    }
+    // 触发人脸识别
+    window.getCatalog = function (navId) {
+      that.getCatalog(navId)
+    }
     //调试使用
     // this.queryViewConfigData()
   }
