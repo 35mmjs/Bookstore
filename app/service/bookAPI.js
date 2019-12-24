@@ -205,7 +205,8 @@ class BookAPIService extends Service {
    */
   async getFaceIdRecommendBooks(facedata, khbh = '3300000000') {
     let listArr = []
-    const datastring = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(facedata))
+    let queryData = decodeURIComponent(facedata);
+    const datastring = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(queryData))
     const data = JSON.parse(datastring)
     const list = data.rows
     if(list && list.length){

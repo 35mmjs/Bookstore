@@ -330,8 +330,7 @@ class OpenApiController extends Controller {
     const param = this.ctx.query
     const { bookAPI } = await this.ctx.getBookAPI()
     const { facedata } = param
-    let querydata = decodeURI(facedata)
-    rawList = await bookAPI.getFaceIdRecommendBooks(querydata)
+    rawList = await bookAPI.getFaceIdRecommendBooks(facedata)
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
         rawList.map(async item => {
