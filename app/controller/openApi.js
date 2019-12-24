@@ -329,7 +329,7 @@ class OpenApiController extends Controller {
     let rawList = []
     const param = this.ctx.query
     const { bookAPI } = await this.ctx.getBookAPI()
-    const { facedata } = param
+    const { facedata, isPaihang, clientId } = param
     rawList = await bookAPI.getFaceIdRecommendBooks(facedata)
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
@@ -337,6 +337,12 @@ class OpenApiController extends Controller {
           return bookInfoMap(item, this.ctx.session.user)
         }),
       )
+      if(isPaihang){
+        await this.app.redis.set(
+          `paihang_facemode_${clientId}`,
+          JSON.stringify(list),
+        )
+      }
       this.ctx.body = {
         success: true,
         data: list,
@@ -480,11 +486,14 @@ class OpenApiController extends Controller {
   async updatePaihang() {
     const query = this.ctx.query
     let books = []
-    const { orgId, clientId, navId, catalogId, bookstring } = query
-    if(bookstring){
+    const { orgId, clientId, navId, catalogId, isFaceMode } = query
+    if(isFaceMode){
+      const faceBooks = await this.app.redis.get(
+        `paihang_facemode_${clientId}`,
+      )
       await this.app.redis.set(
         `paihang_pad_${clientId}_${navId}`,
-        bookstring,
+        faceBooks,
       )
       this.ctx.body = {
         success: true,
@@ -512,6 +521,7 @@ class OpenApiController extends Controller {
       )
       books = data.books
     }
+    
     await this.app.redis.set(
       `paihang_pad_${clientId}_${navId}`,
       JSON.stringify(books),

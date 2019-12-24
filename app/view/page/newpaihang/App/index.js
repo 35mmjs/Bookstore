@@ -105,7 +105,7 @@ class App extends React.Component {
   }
 
   getFaceRecommendBooks = (facedata) => {
-    getFaceRecommendCatalog(facedata).then(res => {
+    getFaceRecommendCatalog(facedata, true).then(res => {
       const { data } = res
       if (data.success) {
         const { catalog1 } = this.state
@@ -117,7 +117,7 @@ class App extends React.Component {
         updatePaihangCatalog({
           navId: 1,
           catalogId: catalog1.length - 1,
-          bookstring: JSON.stringify(newCat.books)
+          isFaceMode: true,
         }).then(res => {
           console.log(res.data)
         })
@@ -150,11 +150,11 @@ class App extends React.Component {
 
     let newName = catalog1[newId].name
     this.setState({ currId: newId, currChannel: newName })
-    let bookstring = newName == '精准推荐' ? JSON.stringify(catalog1[newId].books) : ''
+    const isFaceMode = newName == '精准推荐'
     updatePaihangCatalog({
       navId: 1,
       catalogId: newId,
-      bookstring,
+      isFaceMode,
     }).then(res => {
       tracker({
         act: 'click',

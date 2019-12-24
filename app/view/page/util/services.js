@@ -92,26 +92,28 @@ export const getPaihangCatalog = data => {
   })
 }
 
-export const getFaceRecommendCatalog = facedata => {
+export const getFaceRecommendCatalog = (facedata, isPaihang) => {
   const { orgId, clientId } = window.appData
   return axios.get(`${host}/open/v1/book/getfacerecommend`, {
     params: {
       orgId,
       clientId,
       facedata,
+      isPaihang,
     },
   })
 }
 
 export const updatePaihangCatalog = data => {
   const { orgId, clientId } = window.appData
-  const { navId, catalogId } = data
+  const { navId, catalogId, isFaceMode } = data
   return axios.get(`${host}/open/v1/paihang/update`, {
     params: {
       orgId,
       clientId,
       navId,
       catalogId,
+      isFaceMode,
     },
   })
 }
