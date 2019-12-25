@@ -32,6 +32,22 @@ function bookInfoMap(res, userInfo = {}) {
   return Object.assign({}, processedResult)
 }
 
+function renlianbookInfoMap(res) {
+  const score = Math.floor((Math.random() * (10 - 8) + 8) * 10) / 10
+  const processedResult = {
+    cover: res.pic_url, // 封面
+    isbn: res.isbn, // isbn
+    spbs: res.prod_id, // 书本唯一标识或者是数据库id
+    name: res.prod_name, // 书名
+    author: res.author, // 作者
+    score: res.score || score,
+    publish: res.publi_comp,
+    price: (res.fix_price / 100).toFixed(2), // 定价
+    isFromZj: true,
+  }
+  return Object.assign({}, processedResult)
+}
+
 function zhantaiMap(item) {
   let res = {}
   const payloadStr = item.content || '{}'

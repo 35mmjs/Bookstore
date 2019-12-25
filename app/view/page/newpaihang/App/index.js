@@ -98,6 +98,12 @@ class App extends React.Component {
           // })
           let catelog = data.data
           this.setState({ catalog1: catelog, currId: 0, currChannel: catelog[0].name })
+          updatePaihangCatalog({
+            navId: 1,
+            catalogId: 0,
+          }).then(res => {
+            console.log(res.data)
+          })
         } 
       }
     }).catch(err => {
