@@ -216,14 +216,14 @@ class App extends React.Component {
     const areaStr = jwhList[2].replace('架号', '')
     const bookFloor = parseInt(floorStr, 10)
     const bookArea = parseInt(areaStr, 10)
-    console.log('bookFloor:' + bookFloor)
-    console.log('bookArea:' + bookArea)
+    // console.log('bookFloor:' + bookFloor)
+    // console.log('bookArea:' + bookArea)
     const { floor } = this.state.storeData
     // console.log(floor)
     let currArea
     const currFloor = floor.length - bookFloor
     const { areas } = floor[currFloor]
-    console.log(areas)
+    // console.log(areas)
     for (let j = 0; j < areas.length; j++) {
       const { stockList } = areas[j]
 
@@ -246,8 +246,8 @@ class App extends React.Component {
         break
       }
     }
-    console.log('currArea:')
-    console.log(currArea)
+    // console.log('currArea:')
+    // console.log(currArea)
     if (!currArea) {
       message.error('找不到对应的位置')
       return
@@ -271,7 +271,7 @@ class App extends React.Component {
     if (!jwh) return
     const { orgId } = window.appData
     console.log('orgId:' + orgId)
-    if (orgId === 10010 || orgId === '10010') {
+    if (orgId === 10010 || orgId === 10022) {
       this.handleLiuzhouPosition(jwh)
       return
     }

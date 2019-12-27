@@ -3,6 +3,7 @@ import { getPaihangCatalog, updatePaihangCatalog, getPaihangDetail, tracker,getV
 import { queryGetData } from '../../../common/api'
 // import Roundy from "roundy"
 import './index.less'
+import { message } from 'antd'
 
 class App extends React.Component {
   constructor(props) {
@@ -155,21 +156,8 @@ class App extends React.Component {
       newId = currId - 1
     }
 
-    let newName = catalog1[newId].name
-    this.setState({ currId: newId, currChannel: newName })
-    const isFaceMode = newName == '精准推荐'
-    updatePaihangCatalog({
-      navId: 1,
-      catalogId: newId,
-      isFaceMode,
-    }).then(res => {
-      tracker({
-        act: 'click',
-        biz_type: 'catalog',
-        biz_data: newName
-      })
-      console.log(res.data)
-    })         
+    const newName = catalog1[newId].name
+    this.updatePaihang(newId, newName)
   }
 
   onAfterChangeChannel = () => {
@@ -181,21 +169,30 @@ class App extends React.Component {
       newId = currId + 1
     }
 
-    let newName = catalog1[newId].name
-    this.setState({ currId: newId, currChannel: newName })
-    
+    const newName = catalog1[newId].name
+    this.updatePaihang(newId, newName)
+  }
+
+  updatePaihang = (newId, newName) => {
+    const isFaceMode = newName == '精准推荐'
     updatePaihangCatalog({
       navId: 1,
       catalogId: newId,
+      isFaceMode,
     }).then(res => {
+      if (res.success) {
+        this.setState({ currId: newId, currChannel: newName })
+      } else {
+        message.info('网络开小差了')
+      }
       tracker({
         act: 'click',
         biz_type: 'catalog',
         biz_data: newName,
       })
-      console.log(res.data)
+    }).catch(err => {
+      message.info('网络开小差了')
     })
-      
   }
 
   getNextCatalog1 = e => {

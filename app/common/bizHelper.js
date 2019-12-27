@@ -39,10 +39,10 @@ function renlianbookInfoMap(res) {
     isbn: res.isbn, // isbn
     spbs: res.prod_id, // 书本唯一标识或者是数据库id
     name: res.prod_name, // 书名
-    author: res.author, // 作者
+    author: res.author_name, // 作者
     score: res.score || score,
     publish: res.publi_comp,
-    price: (res.fix_price / 100).toFixed(2), // 定价
+    price: res.fix_price, // 定价
     isFromZj: true,
   }
   return Object.assign({}, processedResult)
@@ -86,6 +86,7 @@ function pubuMap(item) {
 
 module.exports = {
   bookInfoMap,
+  renlianbookInfoMap,
   zhantaiMap,
   pubuMap
 }

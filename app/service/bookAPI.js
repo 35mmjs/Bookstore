@@ -209,12 +209,13 @@ class BookAPIService extends Service {
     const datastring = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(queryData))
     const data = JSON.parse(datastring)
     const list = data.rows
-    if(list && list.length){
-      list.map(item => {
-        listArr.push({ spbs: item.prod_id})
-      })
-    }
-    return this.getBookListBySPBS(listArr,khbh)
+    // if(list && list.length){
+    //   list.map(item => {
+    //     listArr.push({ spbs: item.prod_id})
+    //   })
+    // }
+    return list
+    // return this.getBookListBySPBS(listArr,khbh)
     // return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
   }
 

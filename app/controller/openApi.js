@@ -1,5 +1,5 @@
 const { Controller } = require('egg')
-const { bookInfoMap } = require('../common/bizHelper')
+const { bookInfoMap, renlianbookInfoMap } = require('../common/bizHelper')
 
 function pubuMap(item) {
   const resArray = []
@@ -334,7 +334,7 @@ class OpenApiController extends Controller {
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
         rawList.map(async item => {
-          return bookInfoMap(item, this.ctx.session.user)
+          return renlianbookInfoMap(item)
         }),
       )
       if(isPaihang){
