@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPaihangDetail, tracker } from '../../util/services'
+import { getPaihangDetail, tracker, getBook } from '../../util/services'
 import Cover from './cover'
 import Detail from './detail'
 
@@ -55,15 +55,15 @@ class App extends React.Component {
 
   toggleBook = (e) => {
     if (e) e.preventDefault()
-    const that = this
-    const { showDetail, book } = this.state
-    if (this.state.networkError) {
-      message.info('网络开小差了')
-      return;
-    }
-    // 清除缓存
-    clearTimeout(this.timeout)
+    // const that = this
+    const { networkError, book } = this.state
+    this.getBook(book.spbs)
+  }
 
+  showDetail = () => {
+  // 清除缓存
+    const { showDetail } = this.state
+    clearTimeout(this.timeout)
     this.setState({
       showDetail: !showDetail,
     }, () => {
@@ -71,10 +71,10 @@ class App extends React.Component {
         this.getData()
       } else {
         setTimeout(() => {
-          that.setState({
+          this.setState({
             showDetail: false,
           }, () => {
-            that.getData()
+            this.getData()
           })
         }, 30 * 1000)
       }
@@ -84,6 +84,25 @@ class App extends React.Component {
         biz_data: book.isbn || book.spbs,
       })
     })
+  }
+
+  getBook = (spbs) => {
+    getBook({ spbs })
+      .then(res => {
+        const { data } = res
+        if (data.success) {
+          this.setState({
+            book: Object.assign({}, this.state.book, data.data)
+          })
+          this.showDetail()
+        } else {
+          message.info('网络开小差了')
+        }
+      })
+      .catch(err => {
+        message.info('网络开小差了')
+        console.error(err)
+      })
   }
 
   render() {
