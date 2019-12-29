@@ -180,7 +180,8 @@ class App extends React.Component {
       catalogId: newId,
       isFaceMode,
     }).then(res => {
-      if (res.success) {
+      const { data } = res
+      if (data.success) {
         this.setState({ currId: newId, currChannel: newName })
       } else {
         message.info('网络开小差了')
