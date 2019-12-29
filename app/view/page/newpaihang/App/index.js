@@ -185,11 +185,11 @@ class App extends React.Component {
       } else {
         message.info('网络开小差了')
       }
-      tracker({
-        act: 'click',
-        biz_type: 'catalog',
-        biz_data: newName,
-      })
+      // tracker({
+      //   act: 'click',
+      //   biz_type: 'catalog',
+      //   biz_data: newName,
+      // })
     }).catch(err => {
       message.info('网络开小差了')
     })

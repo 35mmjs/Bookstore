@@ -78,11 +78,11 @@ class App extends React.Component {
           })
         }, 30 * 1000)
       }
-      tracker({
-        act: 'click',
-        biz_type: 'book_detail',
-        biz_data: book.isbn || book.spbs,
-      })
+      // tracker({
+      //   act: 'click',
+      //   biz_type: 'book_detail',
+      //   biz_data: book.isbn || book.spbs,
+      // })
     })
   }
 
