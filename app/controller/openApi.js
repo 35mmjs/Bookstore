@@ -487,7 +487,7 @@ class OpenApiController extends Controller {
     const query = this.ctx.query
     let books = []
     const { orgId, clientId, navId, catalogId, isFaceMode } = query
-    if(isFaceMode){
+    if(isFaceMode == 'true'){
       const faceBooks = await this.app.redis.get(
         `paihang_facemode_${clientId}`,
       )
