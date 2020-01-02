@@ -266,7 +266,7 @@ class BookAPIByZhongjinService extends Service {
     return this.fetch({
       ServerID: 12,
       LSID: spbs,
-      shopID: "5858",
+      shopID: khbh,
       stockID: 8,
     }).then(d => {
       // TODO 暂时先关闭库存
