@@ -34,6 +34,7 @@ class App extends React.Component {
 
     this.searchRef = React.createRef()
     this.timer = null
+    this.showTime = 0
   }
 
   componentDidMount() {
@@ -155,7 +156,11 @@ class App extends React.Component {
           beforeStatus: [1, 1, 0],
         }, () => {
           loading()
-          message.success('查询成功')
+          let currentTime = new Date().getTime()
+          if ((currentTime - this.showTime) > 2000) {
+            message.success('查询成功')
+            this.showTime = currentTime
+          }
           this.reStart()
         })
       })

@@ -14,6 +14,7 @@ class App extends React.Component {
       currChannel: '',
       currId: 0
     }
+    this.showTime = 0
   }
 
   getCatelogAndSaveToRedis = (data) => {
@@ -184,7 +185,11 @@ class App extends React.Component {
       if (data.success) {
         this.setState({ currId: newId, currChannel: newName })
       } else {
-        message.info('网络开小差了')
+        let currentTime = new Date().getTime()
+        if ((currentTime - this.showTime) > 2000) {
+          message.info('网络开小差了')
+          this.showTime = currentTime
+        }
       }
       // tracker({
       //   act: 'click',
