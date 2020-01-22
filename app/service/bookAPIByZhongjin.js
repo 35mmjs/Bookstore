@@ -3,7 +3,14 @@ const Client = require('aliyun-api-gateway').Client
 const CommonError = require('../common/CommonError')
 
 
-function normalize(d) {
+function normalize(d, khbh) {
+  let qrurl = ''
+  if(khbh == 5914){
+    qrurl = 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/guiganggongzhonghao.jpg'
+  }else{
+    qrurl = 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/WechatIMG134.jpeg'
+  }
+
   if (!d) return {}
   return {
     fmdt: d.image_osspath || '', // 封面
@@ -21,7 +28,7 @@ function normalize(d) {
     ys: d.page_size, // 页数
     bb: d.publi_full_name || '', // 出版社
     // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
-    qrcode: 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/apic/WechatIMG134.jpeg', // 购买链接
+    qrcode: qrurl, // 购买链接
     postscript: '' , // 后记
     prologue: '', // 序言
     bkScore:d.bk_score,
@@ -79,7 +86,7 @@ class BookAPIByZhongjinService extends Service {
    *  - zbkc 总部库存
    *  - qrcode 购买链接，用于生成二维码
    */
-  getBookByISBN(ISBN) {
+  getBookByISBN(ISBN, khbh) {
     return this.fetch('/getBkinfoFromIsbns',{
       ISBNS: ISBN,
       pageNum:1,
@@ -93,7 +100,7 @@ class BookAPIByZhongjinService extends Service {
       }
       let list = [];
       d.rows.map(item => {
-        list.push(normalize(item));
+        list.push(normalize(item,khbh));
       });
       return list;
     })

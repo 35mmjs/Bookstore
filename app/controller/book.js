@@ -11,12 +11,12 @@ class BookController extends Controller {
   async getBookByISBNs() {
     const params = this.ctx.query
     const { isbns } = params
-    const { bookAPI } = await this.ctx.getBookAPI()
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let list = []
     const isbnArray = isbns.split(',')
     if (isbnArray && isbnArray.length > 0) {
       if (bookAPI.getAPIType() === 'zhongjin') {
-        let bookList = await bookAPI.getBookByISBN(isbns);
+        let bookList = await bookAPI.getBookByISBN(isbns, storeCode);
         if (bookList.length > 0) {
           bookList.map(item => {
             list.push(bookInfoMap(item, this.ctx.session.user));
