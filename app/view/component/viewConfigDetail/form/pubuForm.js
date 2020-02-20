@@ -120,7 +120,7 @@ const PubuForm = props => {
   }
   const saveForm = val => {
     const { key } = val
-    const newFormArray = defaultArray.map(item => {
+    const newFormArray = itemArray.map(item => {
       if (item.key === key) {
         return val
       }
