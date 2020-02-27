@@ -131,7 +131,7 @@ const PubuForm = props => {
   }
   const deleteForm = val => {
     const { key } = val
-    const newFormArray = defaultArray.filter(item => {
+    const newFormArray = itemArray.filter(item => {
       return item.key !== key
     })
     saveItemArray(newFormArray)
