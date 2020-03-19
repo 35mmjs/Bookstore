@@ -272,11 +272,11 @@ class App extends React.Component {
 
   handleShowPosition = (bookList) => {
     const { jwh } = bookList[0]
-    console.log('jwh:' + jwh)
     if (!jwh) return
     const { orgId } = window.appData
     console.log('orgId:' + orgId)
-    if (orgId === 10010 || orgId === 10022) {
+    if (orgId == 10010 || orgId == 10022) {
+      console.log('柳州门店')
       this.handleLiuzhouPosition(jwh)
       return
     }
