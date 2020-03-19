@@ -226,8 +226,8 @@ class App extends React.Component {
     const { floor } = this.state.storeData
     // console.log(floor)
     let currArea
-    const currFloor = floor.length - bookFloor
-    const { areas } = floor[currFloor - 1]
+    // const currFloor = floor.length - bookFloor
+    const { areas } = floor[bookFloor - 1]
     // console.log(areas)
     for (let j = 0; j < areas.length; j++) {
       const { stockList } = areas[j]
