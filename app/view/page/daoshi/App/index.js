@@ -226,8 +226,8 @@ class App extends React.Component {
     const { floor } = this.state.storeData
     // console.log(floor)
     let currArea
-    // const currFloor = floor.length - bookFloor
-    const { areas } = floor[bookFloor - 1]
+    const currFloor = floor.length - bookFloor
+    const { areas } = floor[currFloor]
     // console.log(areas)
     for (let j = 0; j < areas.length; j++) {
       const { stockList } = areas[j]
@@ -263,7 +263,7 @@ class App extends React.Component {
       beforeStatus: [0, 1, 1],
       currentArea: {
         coordinate: currArea.coordinate,
-        floor: bookFloor,
+        floor: currFloor,
       },
     }, () => {
       this.reStart()
