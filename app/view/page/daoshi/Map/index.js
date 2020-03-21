@@ -87,7 +87,9 @@ export default class Map extends React.Component {
     const map = ReactDOM.findDOMNode(this.refs.map);
     const mapParent = ReactDOM.findDOMNode(this.refs.wrapper);
     const react = map.getBoundingClientRect()
-    const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
+    // const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
+    //柳州显示的楼层有问题，应该是这里有bug，尝试修复一下
+    const top = react.height / mapData.floorCount * floor
     mapParent.scrollTop = top
 
     const position = that.getPosition(coordinate[0], coordinate[1])
