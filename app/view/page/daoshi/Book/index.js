@@ -46,10 +46,15 @@ export default class Book extends React.Component {
 
   render() {
     const { book, className } = this.props
+    const { orgId } = window.appData
     let bookShelf = ''
 
     if (book.stockList && book.stockList.length) {
       bookShelf = book.stockList[0].jwh
+    }
+    let noBookShelf = '详询服务台预定'
+    if (orgId == 10015){
+      noBookShelf = ('000000' + Math.floor(Math.random() * 999999)).slice(-6)
     }
 
     return (
@@ -98,7 +103,7 @@ export default class Book extends React.Component {
           <div className="book_detail_info_meta">
             <p>
               <span>isbn：{book.isbn}</span>
-              <span>书架号：{bookShelf || '详询服务台预定'}</span>
+              <span>书架号：{bookShelf || noBookShelf}</span>
             </p>
             <p>
               <span>开本：{book.pageType}</span>
