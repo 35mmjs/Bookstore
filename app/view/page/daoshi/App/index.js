@@ -270,14 +270,78 @@ class App extends React.Component {
     })   
   }
 
+  handleguigangPosition = (jwh) => {
+    // if (!jwh) return
+    // const temp = jwh.replace('架位号:', '')
+    const jwhList = jwh.split('-')
+    if (jwhList.length < 4) return
+    const keyName = jwhList[0]
+    const rowStr = jwhList[1].replace('行', '')
+    const columnStr = jwhList[2].replace('列', '')
+    const bookRow = parseInt(rowStr, 10) 
+    const bookColumna = parseInt(columnStr, 10)
+    const { booktype } = this.state.storeData
+    // 筛选类型，综合/文学
+    const bookList = booktype.fliter(item => item.key == keyName)
+    // 筛选 行
+    const { floor } = bookList[0]
+    const rowList = floor.fliter(item => item.key == rowStr)
+    // 筛选列
+    const { areas } = rowList[0]
+    let currArea
+    for (let i = 0; i < areas.length; i++) {
+      const stock = areas[i].stockList
+      if (stock.length > 1) {
+        if (bookColumna >= stock[0] && bookColumna <= stock[stock.length - 1]) {
+          currArea = areas[i]
+          break
+        }
+      } else {
+        const newColumn = stock[0]
+        if (newColumn.length > 1) {
+          if (bookColumna >= newColumn[0] && bookColumna <= newColumn[1]) {
+            currArea = areas[i]
+            break
+          }
+        } else if (bookColumna == newColumn[0]) {
+          currArea = areas[i]
+          break
+        }
+      }
+    }
+
+    console.log('currArea:')
+    console.log(currArea)
+    if (!currArea) {
+      message.error('找不到对应的位置')
+      return
+    }
+
+    this.setState({
+      status: [1, 0, 1],
+      beforeStatus: [0, 1, 1],
+      currentArea: {
+        coordinate: currArea.coordinate,
+        floor: bookRow,
+      },
+    }, () => {
+      this.reStart()
+    })   
+  }
+
   handleShowPosition = (bookList) => {
     const { jwh } = bookList[0]
     if (!jwh) return
     const { orgId } = window.appData
     console.log('orgId:' + orgId)
-    if (orgId == 10010 || orgId == 10022) {
+    if (orgId == 10010) {
       console.log('柳州门店')
       this.handleLiuzhouPosition(jwh)
+      return
+    }
+    if (orgId == 10022) {
+      console.log('贵港门店')
+      this.handleguigangPosition(jwh)
       return
     }
     const id = parseInt(jwh, 10)
