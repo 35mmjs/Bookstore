@@ -299,7 +299,7 @@ class App extends React.Component {
       } else {
         const newColumn = stock[0]
         if (newColumn.length > 1) {
-          if (bookColumna >= newColumn[0] && bookColumna <= newColumn[1]) {
+          if (bookColumna >= newColumn[0] && bookColumna <= newColumn[newColumn.length - 1]) {
             currArea = areas[i]
             break
           }
