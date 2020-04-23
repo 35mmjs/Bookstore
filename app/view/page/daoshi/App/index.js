@@ -280,7 +280,7 @@ class App extends React.Component {
     const columnStr = jwhList[2].replace('列', '')
     const bookRow = parseInt(rowStr, 10) 
     const bookColumna = parseInt(columnStr, 10)
-    const { booktype } = this.state.storeData
+    const booktype  = this.state.storeData.floor
     // 筛选类型，综合/文学
     const bookList = booktype.fliter(item => item.key == keyName)
     // 筛选 行

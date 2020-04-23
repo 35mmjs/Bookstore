@@ -138,7 +138,7 @@ class BookAPIService extends Service {
     const parse = d => {
       if (!d) return d
       return JSON.parse(d).map(item => Object.assign({}, item, {
-        qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+        qrcode: khbh == '4403014001' ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
       }))
     }
     return this.fetch('itemInfoBySpbs', { params: listArr }).then(d => parse(d))
@@ -173,9 +173,9 @@ class BookAPIService extends Service {
    */
   getBook(type, value, khbh = '3300000000') {
     const parse = d => {
-      if (!d) return d
+      if (!d) return d      
       return JSON.parse(d).map(item => Object.assign({}, item, {
-        qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+        qrcode: khbh == '4403014001' ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
       }))
     }
     return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
