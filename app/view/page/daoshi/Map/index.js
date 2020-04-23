@@ -140,6 +140,8 @@ export default class Map extends React.Component {
       map_hidden: hidden,
     })
 
+    const { orgId } = window.appData
+
     return (
       <div className={cls} ref={'wrapper'}>
         <div className="floor" ref={'floor'}>
@@ -147,7 +149,7 @@ export default class Map extends React.Component {
           <div className="point" style={pointStyle} />
           <div className="location" style={locationStyle} />
         </div>
-        { !hideAreas && (
+        { !hideAreas && orgId != 10022 && (
           <div className="areas">
             {
               floorData.map((floor, index) => {
