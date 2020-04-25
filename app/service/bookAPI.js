@@ -94,7 +94,7 @@ class BookAPIService extends Service {
   async getRinkingInfoDetail(phid, khbh = '3300000000') {
     const list = await this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
     const detailList = await Promise.all(list.map(async item => {
-      const detail = await this.getBookBySPBS(item.spbs)
+      const detail = await this.getBookBySPBS(item.spbs,khbh)
       if (detail) return detail[0]
     }))
     return detailList

@@ -26,12 +26,12 @@ class BookController extends Controller {
         list = await Promise.all(
           isbnArray.map(async item => {
             let res = {};
-            let books = await bookAPI.getBookByISBN(item);
+            let books = await bookAPI.getBookByISBN(item, storeCode);
             if (books.length > 0) {
               res = books[0];
             }
             if (res.spbs) {
-              books = await bookAPI.getBookBySPBS(res.spbs);
+              books = await bookAPI.getBookBySPBS(res.spbs, storeCode);
               res = books[0];
             }
             return bookInfoMap(res, this.ctx.session.user);
@@ -54,20 +54,20 @@ class BookController extends Controller {
   async getBook() {
     const param = this.ctx.query
     const { isbn, spbs } = param
-    const { bookAPI } = await this.ctx.getBookAPI()
+    const { storeCode,bookAPI } = await this.ctx.getBookAPI()
     let res =[]
     let processedResult = []
     if (isbn) {
       // let res = []
-      res = await bookAPI.getBookByISBN(isbn)
+      res = await bookAPI.getBookByISBN(isbn, storeCode)
       if (res.spbs) {
-        res = await bookAPI.getBookBySPBS(res.spbs)
+        res = await bookAPI.getBookBySPBS(res.spbs, storeCode)
       }
       // processedResult = bookInfoMap(res, this.ctx.session.user)
       // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
     if (spbs) {
-      res = await bookAPI.getBookBySPBS(spbs)
+      res = await bookAPI.getBookBySPBS(spbs, storeCode)
       // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
     res.map(item => { processedResult.push(bookInfoMap(item, this.ctx.session.user))});
