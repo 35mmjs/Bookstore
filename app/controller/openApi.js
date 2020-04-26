@@ -226,7 +226,7 @@ class OpenApiController extends Controller {
     let books = []
     
     if (isbn) {
-      books = await bookAPI.getBookByISBN(isbn)
+      books = await bookAPI.getBookByISBN(isbn, storeCode)
       // res = await bookAPI.getBookByISBN(isbn)
       res = books[0]
     }
@@ -238,7 +238,7 @@ class OpenApiController extends Controller {
       //   stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
       // }
       // res = await bookAPI.getBookBySPBS(spbs)
-      books = await bookAPI.getBookBySPBS(spbs)
+      books = await bookAPI.getBookBySPBS(spbs,storeCode)
       res = books[0]
       if (bookAPI.getAPIType() === 'liuzhou') {
         if (res.ls_SendUnitID || ls_SendUnitID) {
