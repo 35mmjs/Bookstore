@@ -135,10 +135,11 @@ class BookAPIService extends Service {
    * @return {Promise<T | never | never>}
    */
   getBookListBySPBS(listArr, khbh) {
+    let needHideQr = ( khbh == '4403014001' ) || ( khbh == '4502020002' )
     const parse = d => {
       if (!d) return d
       return JSON.parse(d).map(item => Object.assign({}, item, {
-        qrcode: khbh == '4403014001' ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+        qrcode: needHideQr ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
       }))
     }
     return this.fetch('itemInfoBySpbs', { params: listArr }).then(d => parse(d))
