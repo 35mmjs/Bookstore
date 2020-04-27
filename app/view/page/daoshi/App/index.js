@@ -282,10 +282,10 @@ class App extends React.Component {
     const bookColumna = parseInt(columnStr, 10)
     const { booktype }  = this.state.storeData
     // 筛选类型，综合/文学
-    const bookList = booktype.fliter(item => item.key == keyName)
+    const bookList = booktype.filter(item => item.key == keyName)
     // 筛选 行
     const { floor } = bookList[0]
-    const rowList = floor.fliter(item => item.key == rowStr)
+    const rowList = floor.filter(item => item.key == rowStr)
     // 筛选列
     const { areas } = rowList[0]
     let currArea

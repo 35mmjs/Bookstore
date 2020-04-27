@@ -78,7 +78,7 @@ class BookDetail extends React.Component {
       .then(res => {
         const { data } = res
         if (!data.success) {
-          message.error(data.error || '获取详情失败')
+          message.error(data.error || '获取相关书籍失败')
           return
         }
         console.log(res.data.data)
