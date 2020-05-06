@@ -110,7 +110,7 @@ export default class Book extends React.Component {
               <span>出版社：{book.publish}</span>
             </p>
             <p>
-              <span>页数：{book.pageNumber}</span>
+              <span>页数：{book.pageNum}</span>
             </p>
             <p><span>{book.version}</span></p>
           </div>

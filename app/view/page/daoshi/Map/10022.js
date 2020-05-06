@@ -5,7 +5,7 @@
 		"floorCount": 1
 	},
 	"type": "normal",
-	"booktype": [{
+	"floor": [{
 		"key": "综合",
 		"name": "综合",
 		"floor": [{
