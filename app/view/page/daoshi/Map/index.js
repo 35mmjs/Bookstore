@@ -149,7 +149,7 @@ export default class Map extends React.Component {
           <div className="point" style={pointStyle} />
           <div className="location" style={locationStyle} />
         </div>
-        { !hideAreas && orgId != 10022 && (
+        { !hideAreas && (
           <div className="areas">
             {
               floorData.map((floor, index) => {
@@ -162,8 +162,20 @@ export default class Map extends React.Component {
                       {floor.catalog.join(' ')}
                     </div>
                     <div className="layer-area">
-                      {
-                        floor.areas.map(area => {
+                      {orgId == 10022 && floor.floor.map(item => {
+                          return (
+                            item.areas.map(area => (
+                              <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key, false)}>
+                                <span className="color" style={{ background: `${area.color}` }}>
+                                  {area.key}
+                                </span>
+                                <span className="text">{area.name}</span>
+                              </div>
+                              )
+                            )
+                          )
+                      })}
+                      {orgId != 10022 && floor.areas.map(area => {
                           return (
                             <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key, false)}>
                               <span className="color" style={{ background: `${area.color}` }}>
@@ -172,8 +184,7 @@ export default class Map extends React.Component {
                               <span className="text">{area.name}</span>
                             </div>
                           )
-                        })
-                      }
+                      })}
                     </div>
                   </div>
                 )

@@ -245,8 +245,8 @@ class OpenApiController extends Controller {
           stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID || ls_SendUnitID)
         } else {
           let newBooks = await bookAPI.getBookByISBN(res.isbn)
-          res = newBooks[0]
-          stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID)        
+          // res = newBooks[0]
+          stockList = await bookAPI.getStockList(storeCode, newBooks[0].ls_SendUnitID)        
         }
       } else {
         stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
