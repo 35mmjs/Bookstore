@@ -287,7 +287,7 @@ class OpenApiController extends Controller {
     let res = null
     let rawList = []
     const param = this.ctx.query
-    const { bookAPI } = await this.ctx.getBookAPI()
+    const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
     const { isbn, spbs } = param
     if (isbn) {
       // res = await bookAPI.getBookByISBN(isbn)
@@ -295,11 +295,11 @@ class OpenApiController extends Controller {
       res = books[0]
       const { spbs: bookSpbs } = res
       if (bookSpbs) {
-        rawList = await bookAPI.getRecommendBooks(bookSpbs)
+        rawList = await bookAPI.getRecommendBooks(bookSpbs,storeCode)
       }
     }
     if (spbs) {
-      rawList = await bookAPI.getRecommendBooks(spbs)
+      rawList = await bookAPI.getRecommendBooks(spbs,storeCode)
     }
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
