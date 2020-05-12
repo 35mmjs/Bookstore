@@ -135,7 +135,7 @@ class BookAPIByZhongjinService extends Service {
     const time = new Date()
     return this.fetch({
       ServerID: 10,
-      shopID: khbh,
+      shopID: '5858',//khbh,
       top: 20,
       BeginTime: `${time.getFullYear()}${month(time.getMonth())}01`,
       EndTime: `${time.getFullYear()}${month(time.getMonth() + 1)}01`,
