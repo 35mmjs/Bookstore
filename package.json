@@ -19,7 +19,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "classnames": "^2.2.6",
     "crypto": "^1.0.1",
-    "debug": "2.2.0",
+    "debug": "4.1.1",
     "dva": "^2.4.1",
     "dva-loading": "^1.0.4",
     "egg": "^2.13.0",
