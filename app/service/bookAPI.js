@@ -183,6 +183,39 @@ class BookAPIService extends Service {
     return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
   }
 
+  normalize(d, khbh) {
+    let qrurl = ''
+    if(khbh == 4403014001){
+      qrurl = ''
+    }
+  
+    if (!d) return {}
+    return {
+      fmdt: d.image_osspath || '', // 封面
+      isbn: d.ISBN, // isb
+      tm: d.ISBN, // 条码
+      spbs: '', // 书本唯一标识或者是数据库id
+      sm: d.bk_name || '', // 书名
+      author: d.author_name || '', // 作者
+      yxxlmc: '',
+      ml: d.catalog || '', // 目录,
+      dj: d.price/100 , // 定价
+      tjy: (d.recommend || '').trim(), // 推荐语
+      nrty: (d.Contentsummary || '').trim(), // 内容提要
+      pageType: d.page_type,
+      ys: d.page_size, // 页数
+      bb: d.publi_full_name || '', // 出版社
+      // stockList: res.stockList || [], // 库存列表, 格式如: [ { jwh: '架位号:204031', lbmc: '哲学', lc: '西区书城二楼', zjs: '1' } ]
+      qrcode: qrurl, // 购买链接
+      postscript: '' , // 后记
+      prologue: '', // 序言
+      bkScore:d.bk_score,
+      bkid:d.bk_id,
+      ls_SendUnitID: d.ls_SendUnitID, // 用于查询库存用
+    }
+  }
+
+
   /**
    * 获取推荐的书籍
    * @param spbs {String}
