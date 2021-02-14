@@ -27,7 +27,7 @@ export default class SearchingForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: {},
+      data: [],
       loading: false,
     }
   }
@@ -56,15 +56,73 @@ export default class SearchingForm extends React.Component {
 
   handleSubmit = () => {
     const { onSubmit, handleModalVisible } = this.props
-    onSubmit(this.state.data)
-    handleModalVisible(false)
+    if (this.state.data.length >= 1) {
+      onSubmit(this.state.data)
+      handleModalVisible(false)
+      this.setState({
+        data: [],
+      })
+    } else {
+      message.info('请先输入书籍');
+    }
+  }
+
+  deleteItem = (index) => {
+    let list = this.state.data;
+    list.splice(index,1);
     this.setState({
-      data: {},
-    })
+      data:list,
+    });
   }
 
   render() {
     const { modalVisible, form, handleModalVisible } = this.props
+    const columns = [
+      {
+        title: '封面',
+        dataIndex: 'cover',
+        key: 'cover',
+        render:(value,recode) =>{
+          return (
+            <img width={100} height={150} src={value}></img>
+          );
+        },
+      },
+      {
+        title: '书名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '作者',
+        dataIndex: 'author',
+        key: 'author',
+      },
+      {
+        title: 'isbn',
+        dataIndex: 'isbn',
+        key: 'isbn',
+      },
+      {
+        title: '定价',
+        dataIndex: 'price',
+        key: 'price',
+        render:(value,recode) =>{
+          return (
+            <div>{value}元</div>
+          );
+        },
+      },
+      {
+        title: '删除',
+        dataIndex: 'qrcode',
+        key: 'qrcode',
+        render:(value,recode,index) =>{
+          return (<a onClick={() => this.deleteItem(index)}>删除</a>);
+        },
+      },
+    ]
+    // return <Table columns={columns} dataSource={data} rowKey="isbn" />
     return (
       <Modal
         destroyOnClose
@@ -106,7 +164,7 @@ export default class SearchingForm extends React.Component {
         </Row>
         <div>
           <DescriptionList col={1} title="返回结果">
-            {this.state.data
+            {/* {this.state.data
               && Object.keys(this.state.data).map(key => {
                 const obj = this.state.data
                 return (
@@ -114,7 +172,10 @@ export default class SearchingForm extends React.Component {
                     {obj[key]}
                   </Description>
                 )
-              })}
+              })} */}
+            { this.state.data.length
+              && <Table columns={columns} dataSource={this.state.data} rowKey="isbn" />
+            }
           </DescriptionList>
         </div>
       </Modal>

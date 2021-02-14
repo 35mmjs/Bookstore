@@ -11,7 +11,9 @@ export default class Index extends React.Component {
     super(props)
     const { dispatch } = props
     this.dispatch = dispatch
-    this.state = {}
+    this.state = {
+      currentType: 1,
+    }
   }
 
   componentDidMount() {
@@ -22,8 +24,24 @@ export default class Index extends React.Component {
     this.dispatch({ type: 'viewConfig/findAll', payload: {} })
   }
 
+  onTypeChange(type) {
+    this.setState({
+      currentType: type,
+    })
+  }
+
   onSubmit = (data, type) => {
     console.log('onSubmit', data, type)
+    // 针对config json序列化
+    if (data.config) {
+      try {
+        data.config = JSON.parse(data.config)
+      } catch (e) {
+        console.error(e)
+        data.config = {}
+      }
+    }
+    data.config = JSON.stringify(data.config || {})
     this.dispatch({ type: `terminal/${type}`, payload: data })
   }
 
@@ -42,12 +60,16 @@ export default class Index extends React.Component {
     return (
       <div>
         <div>
-          <CreateButton onSubmit={data => this.onSubmit(data, 'create')} />
+          <CreateButton
+            onSubmit={data => this.onSubmit(data, 'create')}
+            onTypeChange={type => this.onTypeChange(type)}
+          />
           <Filter onSubmit={data => this.onSubmit(data, 'findAll')} />
           <Table
             list={list}
             data={singleItem}
             configData={configData}
+            currentType={this.state.currentType}
             onSubmit={data => this.onSubmit(data, 'update')}
             onSearchingConfig={data => this.onSearchingConfig(data, 'findAll')}
             onDelete={data => this.onSubmit(data, 'remove')}

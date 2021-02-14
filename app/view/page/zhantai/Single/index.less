@@ -3,12 +3,8 @@
   position: relative;
   width: 1920px;
   height: 368px;
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/single01.png');
+  background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI01.png');
   background-repeat: no-repeat;
-}
-
-.wrapper_lightBlue {
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/single02.png');
 }
 
 .wrapper_mulity {
@@ -22,8 +18,8 @@
   width: 230px;
   height: 325px;
   display: inline-block;
-  bottom: 24px;
-  left: 55px;
+  bottom: 28px;
+  left: 40px;
   overflow: hidden;
 
   img {
@@ -35,18 +31,25 @@
   }
 }
 
+.wrapper_mulity .cover {
+  left: 20px;
+}
+
 .info {
   position: absolute;
   width: 420px;
   height: 100%;
-  left: 288px;
+  left: 380px;
   top: 0;
-  padding: 30px 0px 30px 30px;
+  padding: 20px 0px 30px 0px;
+  text-shadow: 1px 5px 5px rgba(0, 0, 0, 0.6);
 }
 
 .info_small {
-  width: 260px;
+  width: 340px;
   padding: 30px 0px 30px 10px;
+  left: 260px;
+  z-index: 990;
 }
 
 .info_title {
@@ -54,35 +57,39 @@
   font-size: 36px;
   color: #fff;
   font-weight: bold;
-  padding: 10px 0;
+  height: 96px;
+  overflow: hidden;
+  margin-bottom: 0.1em;
 }
 
-.info_author {
-  line-height: 52px;
-  font-size: 28px;
-  font-weight: bold;
+.info_author, .info_publish {
+  line-height: 36px;
+  height: 36px;
+  font-size: 24px;
   color: #fff;
-  padding-bottom: 60px;
+  margin-bottom: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-.info_author_small {
-  padding-bottom: 30px;
+.info_author_small, .info_publish_small {
   margin: 0 0;
 }
 
 .info_price {
   position: absolute;
   width: 250px;
-  left: 30px;
-  bottom: 90px;
-  line-height: 32px;
-  font-size: 28px;
+  left: 0px;
+  bottom: 120px;
+  line-height: 36px;
+  font-size: 24px;
   margin: 0 0;
   color: #fff;
 }
 
 .info_price span {
-  font-size: 38px;
+  font-size: 52px;
+  color: #00f0fb;
 }
 
 .info_pricing {
@@ -93,7 +100,7 @@
   line-height: 32px;
   font-size: 28px;
   text-decoration: line-through;
-  color: #fff;
+  color: #00f0fb;
 }
 
 .info_small .info_price {
@@ -105,27 +112,30 @@
 
 .info_qrcode {
   position: absolute;
-  width: 110px;
-  height: 110px;
+  width: 82px;
+  height: 82px;
   background: #fff;
   padding: 5px 5px;
-  bottom: 40px;
-  left: 560px;
+  bottom: 30px;
+  left: 380px;
+}
+
+.wrapper_mulity .info_qrcode {
+  left: 270px;
 }
 
 .intro {
   position: absolute;
   padding: 18px 18px 18px;
-  width: 666px;
-  height: 270px;
-  color: #fff;
-  top: 0;
-  right: 30px;
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/bg3.png');
-  background-repeat: no-repeat;
+  width: 700px;
+  height: 140px;
+  color: #00f0fb;
+  top: 54px;
+  left: 850px;
+  text-shadow: 1px 5px 5px rgba(0, 0, 0, 0.6);
 
   .intor_content {
-    height: 192px;
+    height: 193px;
     font-size: 36px;
     line-height: 48px;
     text-align: left;
@@ -137,10 +147,78 @@
   }
 }
 
-.intro_lightBlue {
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/bg4.png');
-}
-
 .intro_hidden {
   display: none;
+}
+
+.wrapper_default {
+  .score { 
+    color: #04f4ff;
+  }
+
+  .score_yiyun {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zhantai_star01_wai.gif')
+  }
+
+  &.wrapper_mulity {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI01_02.png')
+  }
+}
+
+.wrapper_theme1 {
+  background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI02.png');
+  
+  &.wrapper_mulity {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI02_02.png')
+  }
+
+  .info_title {
+    color: #ce965d;
+  }
+
+  .info_price span {
+    color: #ce965d;
+  }
+
+  .intro {
+    color: #ce965d;
+  }
+
+  .score {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_star02.gif');
+    color: #e70d7b;
+  }
+
+  .score_yiyun {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zhantai_star02_wai.gif');
+  }
+}
+
+.wrapper_theme2 {
+  background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI03.png');
+
+  &.wrapper_mulity {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_di_UI03_02.png')
+  }
+
+  .info_title {
+    color: #f7ff0d;
+  }
+
+  .info_price span {
+    color: #f7ff0d;
+  }
+
+  .intro {
+    color: #f7ff0d;
+  }
+
+  .score {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zt_star03.gif');
+    color: #f7ff0d;
+  }
+
+  .score_yiyun {
+    background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/zhantai_star03_wai.gif');
+  }
 }

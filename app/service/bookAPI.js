@@ -17,6 +17,10 @@ class BookAPIService extends Service {
     this.bookConfig = this.app.config.bookAPI
   }
 
+  getAPIType(){
+    return 'zhejiang';
+  }
+
   fetch(methodName, data) {
     const { bookConfig } = this
     const d = new Date()
@@ -37,7 +41,6 @@ class BookAPIService extends Service {
     return new Promise((resolve, reject) => {
       soap.createClient(bookConfig.url, (err, client) => {
         if (err) {
-          console.log('xxxxxxxxxxxxxxxxxxxxxxxx')
           reject(err)
           return
         }
@@ -50,7 +53,8 @@ class BookAPIService extends Service {
           if (ret.code === '200' || ret.code === '000') {
             resolve(ret.data)
           } else {
-            reject(new CommonError(ret.message))
+            // 统一上报异常接口
+            reject(new CommonError(ret.msg || ret.message))
           }
         })
       })
@@ -90,8 +94,8 @@ class BookAPIService extends Service {
   async getRinkingInfoDetail(phid, khbh = '3300000000') {
     const list = await this.fetch('GetRinkingInfo', { khbh, phid, lx: 'detailed' })
     const detailList = await Promise.all(list.map(async item => {
-      const detail = await this.getBookBySPBS(item.spbs)
-      if (detail) return detail
+      const detail = await this.getBookBySPBS(item.spbs,khbh)
+      if (detail) return detail[0]
     }))
     return detailList
   }
@@ -111,7 +115,7 @@ class BookAPIService extends Service {
    *  - qrcode 购买链接，用于生成二维码
    */
   getBookByISBN(ISBN, khbh) {
-    return this.getBook('ISBN', ISBN, khbh).then(d => d[0])
+    return this.getBook('ISBN', ISBN, khbh).then(d => d);
   }
 
   /**
@@ -121,7 +125,25 @@ class BookAPIService extends Service {
    * @return {Promise<T | never | never>}
    */
   getBookBySPBS(SPBS, khbh) {
-    return this.getBook('SPBS', SPBS, khbh).then(d => d[0])
+    return this.getBook('SPBS', SPBS, khbh).then(d => d);
+  }
+
+  /**
+   * 根据商品标识
+   * @param SPBS list
+   * @param khbh
+   * @return {Promise<T | never | never>}
+   */
+  getBookListBySPBS(listArr, khbh) {
+    let needHideQr = ( khbh == '4403014001' ) || ( khbh == '4502020002' )
+    const parse = d => {
+      if (!d) return d
+      return JSON.parse(d).map(item => Object.assign({}, item, {
+        qrcode: needHideQr ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+      }))
+    }
+    return this.fetch('itemInfoBySpbs', { params: listArr }).then(d => parse(d))
+    // return this.getBook('SPBS', SPBS, khbh).then(d => d);
   }
 
   /**
@@ -151,10 +173,11 @@ class BookAPIService extends Service {
    * @return {Promise<T | never>}
    */
   getBook(type, value, khbh = '3300000000') {
+    let needHideQr = ( khbh == '4403014001' ) || ( khbh == '4502020002' )
     const parse = d => {
-      if (!d) return d
+      if (!d) return d      
       return JSON.parse(d).map(item => Object.assign({}, item, {
-        qrcode: `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
+        qrcode: needHideQr ? '' : `${this.bookConfig.buyUrl}?spbs=${item.spbs}&khbh=${khbh}`,
       }))
     }
     return this.fetch('itemInfoSearch', { params: { type, value } }).then(d => parse(d))
@@ -165,8 +188,37 @@ class BookAPIService extends Service {
    * @param spbs {String}
    * @param khbh
    */
-  getRecommendBooks(spbs, khbh = '3300000000') {
-    return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+  async getRecommendBooks(spbs, khbh = '3300000000') {
+    let listArr = []
+    const list = await this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+    if(list && list.length){
+      list.map(item => {
+        listArr.push({ spbs: item.spbs})
+      })
+    }
+    return this.getBookListBySPBS(listArr,khbh)
+    // return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
+  }
+
+  /**
+   * 根据人脸识别数据获取推荐的书籍
+   * @param spbs {String}
+   * @param khbh
+   */
+  async getFaceIdRecommendBooks(facedata, khbh = '3300000000') {
+    let listArr = []
+    let queryData = decodeURIComponent(facedata);
+    const datastring = await this.fetch('GETBOOKRECOMMENDPEOPLE', JSON.parse(queryData))
+    const data = JSON.parse(datastring)
+    const list = data.rows
+    // if(list && list.length){
+    //   list.map(item => {
+    //     listArr.push({ spbs: item.prod_id})
+    //   })
+    // }
+    return list
+    // return this.getBookListBySPBS(listArr,khbh)
+    // return this.fetch('GetRinkingInfo', { khbh, lx: 'recommend', spbs })
   }
 
   /**

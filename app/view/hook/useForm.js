@@ -22,8 +22,7 @@ function errorTranslate(msg, validator) {
  * @param {String} name - app/validates文件下边的对应的名字，如 'user', 内部会自动去做索引
  * @param {Object} schema
  * @param {Function} handleSubmit
- * @param {Object} extend
- * @param {Object} 输入的表单值
+ * @param {Function} onChange
  * validate目前支持的选项:
  * - type 'string'
  * - max
@@ -34,7 +33,7 @@ function errorTranslate(msg, validator) {
  * - default 初始值
  * 更多规则参见： https://github.com/node-modules/parameter
  */
-export default function useForm({ name, handleSubmit, schema = {}, values = {} }) {
+export default function useForm({ name, handleSubmit, schema = {}, values = {}, onChange }) {
   if (name && !validates[name]) throw new Error(`Unknown validate key ${name}`)
   const validators = { ...validates[name], ...schema }
   let hasError = false
@@ -59,32 +58,53 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     // checked代表是否已经输入过了
     const [stateValue, onStateChange] = useState({ checked: false, inputValue: validator.default })
     let { checked, inputValue } = stateValue
-    // 输入的表单值
+    // 输入表单值
     if (!checked && values[key] !== undefined) {
       checked = true
       inputValue = values[key]
     }
     const value = validator.transform ? validator.transform(inputValue, validator) : defaultTransform(inputValue, validator)
-    const error = checked ? check(validator, key, value) : ''
     return {
       validator,
       placeholder: validator.placeholder,
-      validateStatus: error ? 'error' : '',
-      help: error || '',
+      disabled: validator.disabled !== undefined ? validator.disabled : false,
+      checked,
       value,
       onChange(e) {
+        let val = e
         if (e && e.target && typeof e.stopPropagation === 'function') {
           if (e.target.type === 'checkbox') {
-            return onStateChange({ checked: true, inputValue: e.target.checked })
+            val = e.target.checked
+          } else {
+            val = e.target.value
           }
-          return onStateChange({ checked: true, inputValue: e.target.value })
         }
-        return onStateChange({ checked: true, inputValue: e })
+        onStateChange({ checked: true, inputValue: val })
+        if (onChange) onChange({ value: val, key, setValues: api.setValues })
       },
-      onStateChange,
+      onStateChange(data) {
+        onStateChange(data)
+        if (onChange) onChange({ value: data.inputValue, key, setValues: api.setValues })
+      },
       stateValue,
     }
   })
+  // 处理visible及错误校验
+  const record = mapValues(formItems, item => item.value)
+  mapValues(formItems, (item, key) => {
+    item.visible = item.validator.type !== 'hidden' && (item.validator.visible ? item.validator.visible(record) : true)
+    if (item.visible) {
+      const error = item.checked ? check(item.validator, key, item.value, record) : ''
+      item.validateStatus = error ? 'error' : ''
+      item.help = error || ''
+    } else {
+      item.validateStatus = ''
+      item.help = ''
+    }
+  })
+  function getVisibleFormItems() {
+    return filter(formItems, item => item.visible)
+  }
   const api = {
     // 用于formItem上的错误信息提醒描述
     getStatus(key) {
@@ -93,12 +113,12 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     },
     getProps(key) {
       if (!formItems[key]) throw new Error(`Unknown form decorator "${key}" from "${schema}[${Object.keys(validators)}]".`)
-      return pick(formItems[key], ['value', 'onChange', 'placeholder'])
+      return pick(formItems[key], ['value', 'onChange', 'placeholder', 'disabled'])
     },
     getForm() {
       return (
         <Form>
-          {obj2arr(mapValues(filter(formItems, item => item.validator.type !== 'hidden'), (item, key) => {
+          {obj2arr(mapValues(getVisibleFormItems(), (item, key) => {
             let content
             switch (item.validator.type) {
               case 'password':
@@ -141,11 +161,13 @@ export default function useForm({ name, handleSubmit, schema = {}, values = {} }
     },
     submit() {
       // 强制校验一次并触发表单更新
-      each(formItems, (obj, key) => {
-        check(validators[key], key, obj.value)
+      each(getVisibleFormItems(), (obj, key) => {
+        check(validators[key], key, obj.value, record)
         obj.onStateChange({ ...obj.stateValue, checked: true })
       })
       if (hasError) return
+      console.log('submit')
+      console.log(formItems)
       if (handleSubmit) handleSubmit(mapValues(formItems, obj => obj.value))
     },
   }

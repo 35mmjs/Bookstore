@@ -46,7 +46,7 @@ class Index extends React.Component {
     return (
       <div>
         <div>
-          <Button type="primary" onClick={() => openHashLink('/view-config/manage/detail/new')}>新建</Button>
+          <Button type="primary" onClick={() => openHashLink('/view-config/manage/detail/new')}>新建模板</Button>
           <Filter onSubmit={this.handleSubmit} />
           <TableList data={list} onDelete={this.handleDelete} />
         </div>

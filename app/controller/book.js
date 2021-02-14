@@ -11,15 +11,34 @@ class BookController extends Controller {
   async getBookByISBNs() {
     const params = this.ctx.query
     const { isbns } = params
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let list = []
     const isbnArray = isbns.split(',')
     if (isbnArray && isbnArray.length > 0) {
-      list = await Promise.all(
-        isbnArray.map(async item => {
-          const res = await this.ctx.service.bookAPI.getBookByISBN(item)
-          return bookInfoMap(res)
-        }),
-      )
+      if (bookAPI.getAPIType() === 'zhongjin') {
+        let bookList = await bookAPI.getBookByISBN(isbns, storeCode);
+        if (bookList.length > 0) {
+          bookList.map(item => {
+            list.push(bookInfoMap(item, this.ctx.session.user));
+          });
+        }
+      } else {
+        list = await Promise.all(
+          isbnArray.map(async item => {
+            let res = {};
+            let books = await bookAPI.getBookByISBN(item, storeCode);
+            if (books.length > 0) {
+              res = books[0];
+            }
+            if (res.spbs) {
+              books = await bookAPI.getBookBySPBS(res.spbs, storeCode);
+              res = books[0];
+            }
+            return bookInfoMap(res, this.ctx.session.user);
+          })
+        );
+      }
+
       this.ctx.body = {
         success: true,
         data: list,
@@ -35,41 +54,23 @@ class BookController extends Controller {
   async getBook() {
     const param = this.ctx.query
     const { isbn, spbs } = param
-    let res
+    const { storeCode,bookAPI } = await this.ctx.getBookAPI()
+    let res =[]
+    let processedResult = []
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      // let res = []
+      res = await bookAPI.getBookByISBN(isbn, storeCode)
+      if (res.spbs) {
+        res = await bookAPI.getBookBySPBS(res.spbs, storeCode)
+      }
+      // processedResult = bookInfoMap(res, this.ctx.session.user)
+      // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
     if (spbs) {
-      res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      res = await bookAPI.getBookBySPBS(spbs, storeCode)
+      // processedResult = res.map(item => {return bookInfoMap(item, this.ctx.session.user)});
     }
-    // let res
-    // if (isbn) {
-    //   res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
-    // }
-    // // 10001
-    // const orgId = this.ctx.getLoginStore()
-    // if (!orgId) {
-    //   this.ctx.body = {
-    //     success: false,
-    //     error: `无法找到门店id: ${orgId}`,
-    //   }
-    //   return
-    // }
-    // if (spbs) {
-    //   const currentStore = await this.ctx.service.store.findOne(orgId)
-    //   if (!currentStore) {
-    //     this.ctx.body = {
-    //       success: false,
-    //       error: `无法找到门店id: ${orgId}`,
-    //     }
-    //     return
-    //   }
-    //   const [kcdh, bmbh] = currentStore.store_code.split('-')
-    //   const stockList = await this.ctx.service.bookAPI.getStockList(kcdh, spbs, bmbh)
-    //   res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
-    //   res.stockList = stockList
-    // }
-    const processedResult = bookInfoMap(res)
+    res.map(item => { processedResult.push(bookInfoMap(item, this.ctx.session.user))});
     this.ctx.body = {
       success: true,
       data: processedResult,
@@ -99,15 +100,15 @@ class BookController extends Controller {
       name // 书名
       isbn // 书号
     }]
-   */
   async getRecommendBooksByISBN() {
     let list = []
     const param = this.ctx.query
     const { isbn } = param
-    const res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getBookByISBN(isbn)
     const { spbs } = res
     if (spbs) {
-      const rawList = await this.ctx.service.bookAPI.getRecommendBooks
+      const rawList = await bookAPI.getRecommendBooks()
       if (rawList && rawList.length > 0) {
         list = rawList.map(item => {
           return {
@@ -125,9 +126,11 @@ class BookController extends Controller {
       this.ctx.body = { success: true, data: '' }
     }
   }
+  */
 
   async findRankingListBySingleStore() {
-    const res = await this.ctx.service.bookAPI.getRankingList()
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getRankingList()
     const processedResult = res.map(item => {
       return {
         value: item.phid,
@@ -142,14 +145,19 @@ class BookController extends Controller {
 
   async findRankingBooks() {
     const param = this.ctx.query
+    const { bookAPI } = await this.ctx.getBookAPI()
     const { id } = param
-    const res = await this.ctx.service.bookAPI.getRinkingInfoDetail(id)
-    const processedResult = res.map(item => {
-      return bookInfoMap(item)
-    })
-    this.ctx.body = {
-      success: true,
-      data: processedResult,
+    try {
+      const res = await bookAPI.getRinkingInfoDetail(id)
+      const processedResult = res.map(item => {
+        return bookInfoMap(item, this.ctx.session.user)
+      })
+      this.ctx.body = {
+        success: true,
+        data: processedResult,
+      }
+    } catch (e) {
+      console.error('error', e)
     }
   }
 }

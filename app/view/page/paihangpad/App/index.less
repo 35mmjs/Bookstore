@@ -1,0 +1,236 @@
+
+body {
+  background: #4e4e4e;
+}
+
+.app {
+  position: relative;
+  width: 800px;
+  height: 1280px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #4e4e4e url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_di01.png') no-repeat center;
+  background-size: cover;
+}
+
+.cover {
+  width: 800px;
+  height: 1280px;
+  position: relative;
+
+  &-image {
+    position: relative;
+    width: 800px;
+    height: 1140px;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      width: auto;
+      height: 100%;
+      left: 50%;
+      bottom: 0;
+    }
+  }
+
+  &-info {
+    position: relative;
+    padding: 30px 50px;
+    &-name {
+      text-overflow: ellipsis;
+      width: 350px;
+      line-height: 32px;
+      font-size: 28px;
+      color: #c5c4c4;
+      padding-top: 16px;
+      height: 74px;
+      overflow: hidden;
+    }
+
+    &-star {
+      width: 170px;
+      height: 140px;
+      padding: 50px 0;
+      position: absolute;
+      top: 0; 
+      right: 170px;
+    }
+
+    &-score {
+      width: 103px;
+      height: 103px;
+      position: absolute;
+      top: 20px;
+      right: 50px;
+      background: url("https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui01_03.png") no-repeat 0 0;
+      line-height: 100px;
+      text-align: center;
+      font-weight: bold;
+      color: #febf1c;
+      font-size: 32px;
+    }
+  }
+}
+
+.detail {
+  width: 800px;
+  height: 1280px;
+  position: relative; 
+
+  &-close {
+    position: absolute;
+    top: 55px;
+    right: 70px;
+    display: block;
+    width: 52px;
+    z-index: 10000;
+    height: 52px;
+    background: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_03.png) no-repeat center center;
+  }
+
+  &-info {
+    position: relative;
+    width: 800px;
+    height: 1140px;
+    padding: 120px 40px 120px 80px;
+    overflow: hidden;
+    background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_di02.png') no-repeat center;
+    background-size: cover;
+
+    &-view {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
+    &-meta {
+      min-height: 450px;
+      .name {
+        font-size: 36px;
+    font-weight: bold;
+    line-height: 56px;
+    padding-right: 20px;
+      }
+      p {
+        position: relative;
+        display: block;
+        line-height: 36px;
+        margin-bottom: 14px;
+        font-size: 24px;
+      }
+      p > span {
+        width: 320px;
+        display: inline-block;
+      } 
+
+      &_qr {
+        position: relative;
+        width: 160px;
+        height: 220px;
+        display: inline-block;
+        background-image: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_ui02_07.png);
+        background-position: center bottom;
+        background-repeat: no-repeat;
+      
+        .qrcode {
+          padding: 5px;
+          width: 160px;
+          height: 160px;
+          background: #fff;
+          overflow: hidden;
+        }
+      }
+
+      
+    }
+    &-det {
+      font-size: 24px;
+      padding: 0 50px 20px 20px;
+      color: #6d6d6d;
+      line-height: 42px;
+
+      h4 {
+        font-size: 32px;
+        border-bottom: 1px solid #999;
+      }
+
+      p {
+        padding-top: 10px;
+      }
+
+      .intro,
+      .toc {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+
+  &-recommand {
+    position: relative;
+    padding-left: 100px;
+
+    &-name {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 110px;
+      font-size: 20px;
+      color: #999;
+      padding: 30px 0 30px 10px;
+    }
+
+    &-loading {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      width: 400px;
+      height: 100px;
+    }
+  }
+}
+
+.book_mini {
+  position: relative;
+  display: inline-block;
+  width: 350px;
+  height: 140px;
+  float: left;
+  padding-left: 125px;
+  cursor: pointer;
+
+  &_cover {
+    position: absolute;
+    width: 94px;
+    height: 130px;
+    display: block;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    img {
+      width: 100%;
+      // height: 100%;//有正方形图片
+    }
+  }
+
+  &_info_name {
+    padding: 10px 20px 10px 0;
+    line-height: 24px;
+    height: 60px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  p {
+    line-height: 24px;
+    color: #fff;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .pricing {
+    text-decoration: line-through;
+  }
+}

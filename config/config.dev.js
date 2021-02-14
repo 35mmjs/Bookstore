@@ -10,6 +10,10 @@ module.exports = () => {
       enable: false,
     },
   }
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
+  }
   // redis
   config.redis = {
     client: {
@@ -42,8 +46,8 @@ module.exports = () => {
       // 用户名
       user: 'admin',
       // 密码
-      // password: 'root12345',
-      password: 'BookStore2018@!ADMIN',
+      password: 'root12345',
+      // password: 'BookStore2018@!ADMIN',
       // password: process.env.MYSQL_PASSWORD || 'BookStore2018@!MYSQL',
       // 数据库名
       database: 'BOOKSTORE',

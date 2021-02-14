@@ -1,0 +1,172 @@
+
+.new_detail {
+  width: 1280px;
+  height: 1920px;
+  position: relative; 
+  background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
+  background-size: cover;
+
+  &-close {
+    position: absolute;
+    top: 40px;
+    right: 100px;
+    display: block;
+    width: 80px;
+    z-index: 10000;
+    height: 82px;
+    background: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_close.png) no-repeat center center;
+  }
+
+  &-info {
+    position: relative;
+    width: 1280px;
+    height: 1770px;
+    padding: 120px 80px 100px 80px;
+    overflow: hidden;
+    // background: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_ui02.jpg') no-repeat center;
+    // background-size: cover;
+
+    &-view {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
+    &-meta {
+      min-height: 450px;
+      .name {
+        font-size: 54px;
+    font-weight: bold;
+    line-height: 56px;
+    padding-right: 20px;
+      }
+      p {
+        position: relative;
+        display: block;
+        line-height: 36px;
+        margin-bottom: 14px;
+        font-size: 33px;
+      }
+      p > span {
+        width: 520px;
+        display: inline-block;
+      } 
+
+      &_qr {
+        position: relative;
+        width: 250px;
+        height: 320px;
+        margin-left: 100px;
+        display: inline-block;
+        background-image: url(https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/book_zhejiang_qr_bottom.png);
+        background-position: center bottom;
+        background-repeat: no-repeat;
+      
+        .qrcode {
+          padding: 5px;
+          width: 250px;
+          height: 250px;
+          background: #fff;
+          overflow: hidden;
+        }
+      }
+
+      
+    }
+    &-det {
+      font-size: 28px;
+      padding: 0 50px 20px 20px;
+      color: #6d6d6d;
+      line-height: 42px;
+
+      h4 {
+        font-size: 42px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #999;
+      }
+
+      p {
+        padding-top: 10px;
+      }
+
+      .intro{
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        text-indent: 2em;//缩进两个字符
+      }
+
+      .toc {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+
+  &-recommand {
+    position: relative;
+    padding-left: 180px;
+
+    &-name {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 110px;
+      font-size: 20px;
+      color: #999;
+      padding: 30px 0 30px 10px;
+    }
+
+    &-loading {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      width: 400px;
+      height: 100px;
+    }
+  }
+}
+
+.book_mini {
+  position: relative;
+  display: inline-block;
+  width: 350px;
+  height: 140px;
+  float: left;
+  padding-left: 125px;
+  cursor: pointer;
+
+  &_cover {
+    position: absolute;
+    width: 104px;
+    height: 140px;
+    display: block;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    img {
+      width: 100%;
+      // height: 100%;//有正方形图片
+    }
+  }
+
+  &_info_name {
+    padding: 10px 20px 10px 0;
+    line-height: 24px;
+    height: 60px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  p {
+    line-height: 24px;
+    color: #fff;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .pricing {
+    text-decoration: line-through;
+  }
+}

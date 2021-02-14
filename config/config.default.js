@@ -33,6 +33,11 @@ module.exports = appInfo => {
     defaultViewEngine: 'nunjucks',
   }
 
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
+  }
+
   // redis
   config.redis = {
     client: {
@@ -55,7 +60,8 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      password: process.env.MYSQL_PASSWORD,
+      // password: process.env.MYSQL_PASSWORD,
+      password: '12345678',
       // 数据库名
       database: 'BOOKSTORE',
     },
@@ -76,11 +82,21 @@ module.exports = appInfo => {
     keyid: '355DBBC50859340E72B9C8E5AB2DBB74',
   }
 
-  config.bookAPI2 = {
-    url: 'http://ec1dbcdea7084714a62fc480c469abff-cn-shanghai.alicloudapi.com',
+  config.bookAPIByZhongjin = {
+    url: 'http://apis.centrin-ecloud.com',
     appKey: '25361443',
     appSecret: '80c4625784e91ff9c9d30d6401e06081',
     appId: '7653878',
+  }
+
+  config.bookAPIByLiuzhou = {
+    url: 'http://cw.gxxhsd.com/Commander/api/Executive',
+    // url: 'http://113.12.201.173:8087/Commander/api/Executive',
+  }
+
+  config.webpack = {
+    staticUrl: 'https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/assets', // 阿里云CDN服务器
+    startWebpackServer: false, // 是否开启webpack静态服务器
   }
   return config
 }

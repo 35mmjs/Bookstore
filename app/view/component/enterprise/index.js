@@ -1,12 +1,7 @@
 import React, { Fragment } from 'react'
 import './index.less'
 import moment from 'moment'
-import {
-  Button,
-  Divider,
-  Table,
-  Modal,
-} from 'antd'
+import { Button, Divider, Table, Modal } from 'antd'
 import useFormModal from '../../hook/useFormModal'
 import useAsyncState from '../../hook/useAsyncState'
 import { create, update, remove, findAll } from './service'
@@ -19,13 +14,16 @@ export default function Enterprise() {
     schema: {
       id: { type: 'hidden' }, // 更新表单需要传入id, 所以为隐藏类型
     },
-    handleSubmit: (data) => data.id !== undefined ? composeAsync(update, reload)(data) : composeAsync(create, reload)(data),
+    handleSubmit: data =>
+      data.id !== undefined
+        ? composeAsync(update, reload)(data)
+        : composeAsync(create, reload)(data),
   })
   const columns = [
-    {
-      title: '企业ID',
-      dataIndex: 'id',
-    },
+    // {
+    //   title: '企业ID',
+    //   dataIndex: 'id',
+    // },
     {
       title: '企业名称',
       dataIndex: 'name',
@@ -48,7 +46,11 @@ export default function Enterprise() {
         <Fragment>
           <a onClick={() => modalShow('编辑企业', record)}>编辑</a>
           <Divider type="vertical" />
-          <a onClick={() => composeAsync(removeConfirm, remove, reload)(record)}>删除</a>
+          <a
+            onClick={() => composeAsync(removeConfirm, remove, reload)(record)}
+          >
+            删除
+          </a>
         </Fragment>
       ),
     },
@@ -56,9 +58,18 @@ export default function Enterprise() {
   return (
     <div>
       <Button.Group style={{ marginBottom: 16 }}>
-        <Button type="primary" onClick={() => modalShow('新增企业')}>新增企业</Button>
+        <Button type="primary" onClick={() => modalShow('新增企业')}>
+          新增企业
+        </Button>
       </Button.Group>
-      <Table rowKey="id" dataSource={dataSource} columns={columns} />
+      <Table
+        rowKey="id"
+        dataSource={dataSource}
+        columns={columns}
+        pagination={{
+          pageSize: 25,
+        }}
+      />
       {modal}
     </div>
   )

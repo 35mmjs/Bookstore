@@ -18,6 +18,7 @@ const terminal = {
 const store = {
   create: '/store/create.json',
   findAll: '/store/findAll.json',
+  findByEnterprise: '/store/findByEnterprise.json',
   remove: '/store/remove.json',
   update: '/store/update.json',
   findOne: '/store/findOne.json',
@@ -44,6 +45,23 @@ const user = {
   findOne: '/user/findOne.json',
 }
 
+const ads = {
+  create: '/ads/create.json',
+  findAll: '/ads/findAll.json',
+  findOneByEIdCd: '/ads/findOneByEIdCd.json',
+  findByEnterprise: '/ads/findByEnterprise.json',
+  fintByStore: '/ads/findByStore.json',
+  remove: '/ads/remove.json',
+  update: '/ads/update.json',
+  findOne: '/ads/findOne.json',
+}
+
+const deviceList = {
+  create: '/device-list/create.json',
+  remove: '/device-list/remove.json',
+  update: '/device-list/update.json',
+}
+
 const book = {
   findOneByISBN: '/book.json', // isbn=xxxx
   findOneByISBNs: '/books.json', // isbn=xxxx
@@ -51,19 +69,41 @@ const book = {
   findRankingBooks: '/ranking/books.json', // id=xxxx
 }
 
+
 const common = {
   getOssToken: '/common/ossToken.json',
+}
+
+/**
+ * 埋点相关
+ */
+const tracker = {
+  findAll: '/tracker/findAll.json',
+  findOne: '/tracker/findOne.json',
 }
 
 const openApi = {
   daoshi: '/open/v1/daoshi',
   pubu: '/open/v1/pubu',
   zhantai: '/open/v1/zhantai',
+  paihang: '/open/v1/paihang',
   findBookByISBN: '/open/v1/book', // isbn=xxx
   findBookBySPBS: '/open/v1/book', // spbs=xxx
   findBooksByKeyword: '/open/v1/book/search', // keyword=xxx
   findRecommendByISBN: '/open/v1/book/recommend', // isbn=xxx
   findRecommendBySPBS: '/open/v1/book/recommend', // spbs=xxx
+  getFaceRecommendById: '/open/v1/book/getfacerecommend',
+  findPaihangCatalog: '/open/v1/paihang/catalog',
+  updatePaihang: '/open/v1/paihang/update', // POST
+  findPaihangPadDetail: '/open/v1/paihang/pad/detail', // rankId
+  tracker: '/open/v1/tracker', // 埋点相关
+  findTerminal: '/open/v1/terminal', // 获取termin 元数据 clientId=xxx
+  findAds: '/open/v1/ads', // 获取当前设备的可投放广告,
+  getOssToken: '/open/v1/getOssToken',
+}
+
+const publicEntry = {
+  entry: '/public/entry.html',
 }
 
 module.exports = {
@@ -73,7 +113,11 @@ module.exports = {
   viewConfig,
   terminalType,
   user,
+  ads,
+  deviceList,
   book,
   openApi,
   common,
+  publicEntry,
+  tracker,
 }

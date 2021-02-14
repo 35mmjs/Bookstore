@@ -43,7 +43,7 @@ class TerminalTypeSelect extends React.PureComponent {
     const { onChange, ...rest } = this.props
     const { list } = this.state
     return (
-      <Select style={{ width: '100px' }} {...rest} onChange={onChange}>
+      <Select style={{ width: '150px' }} {...rest} onChange={onChange}>
         {list
           && list.map(item => {
             return (

@@ -24,6 +24,16 @@ class StoreController extends Controller {
     }
   }
 
+  async findByEnterprise() {
+    const { enterprise } = this.ctx.query
+    const result = await this.ctx.service.store.findAll({
+      enterprise,
+    })
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
   // get
   async findOne() {
     const query = this.ctx.query

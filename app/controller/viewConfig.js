@@ -37,7 +37,6 @@ class ViewConfigController extends Controller {
 
   async remove() {
     const request = this.ctx.request.query
-    console.log('aaaaaaaa', request)
     const result = await this.ctx.service.viewConfig.remove(request.id)
     this.ctx.body = {
       success: true,
@@ -47,7 +46,8 @@ class ViewConfigController extends Controller {
 
   async update() {
     const request = this.ctx.request.body
-    const result = await this.ctx.service.viewConfig.create(request.name, request.password)
+    const { id, type, name, note, content } = request
+    const result = await this.ctx.service.viewConfig.update({ id, type, name, note, content })
     this.ctx.body = {
       success: true,
       data: result,

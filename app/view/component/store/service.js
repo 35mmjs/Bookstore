@@ -25,6 +25,14 @@ export function findAll(data) {
   })
 }
 
+export function findByEnterprise({ enterprise }) {
+  return ajax({
+    url: store.findByEnterprise,
+    data: { enterprise },
+    method: 'get',
+  }).then(d => d.items)
+}
+
 export function findOne() {
   return ajax({
     url: store.findOne,

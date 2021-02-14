@@ -1,5 +1,5 @@
 const { Controller } = require('egg')
-const { bookInfoMap } = require('../common/bizHelper')
+const { bookInfoMap, renlianbookInfoMap } = require('../common/bizHelper')
 
 function pubuMap(item) {
   const resArray = []
@@ -37,13 +37,42 @@ function zhantaiMap(item) {
   return res
 }
 
-function bookInfoListProcess(list) {
+function paihangMap(item, navId) {
+  let res = []
+  const payloadStr = item.content || '{}'
+  const payloadObj = JSON.parse(payloadStr)
+  let payloadArray
+  if (navId === '1') {
+    payloadArray = payloadObj.nav1
+    if (payloadArray && payloadArray.length > 0) {
+      res = payloadArray.map(i => {
+        return {
+          ...i,
+        }
+      })
+    }
+  }
+  if (navId === '2') {
+    payloadArray = payloadObj.nav2
+    if (payloadArray && payloadArray.length > 0) {
+      res = payloadArray.map(i => {
+        return {
+          ...i,
+        }
+      })
+    }
+  }
+  return res
+}
+
+function bookInfoListProcess(list, userInfo) {
   if (!list || list.length <= 0) return []
   const res = list.map(item => {
-    return bookInfoMap(item)
+    return bookInfoMap(item, userInfo)
   })
   return res
 }
+
 class OpenApiController extends Controller {
   // post
   async create() {
@@ -111,20 +140,120 @@ class OpenApiController extends Controller {
     }
   }
 
+  async processPaihangConfig(payload, navId, clientId) {
+    let res = {}
+    function getCatelogAndSaveToRedis(data) {
+      let resMap = {}
+      if (data && data.length > 0) {
+        resMap = data.map((item, index) => {
+          return {
+            id: index,
+            name: item.channel,
+          }
+        })
+      }
+      return resMap
+    }
+    try {
+      payload.forEach(async (item, index) => {
+        if (index + 1 === navId) {
+          res = getCatelogAndSaveToRedis(item, navId, clientId)
+          const payload = {
+            catalogId: '',
+            catalogName: '',
+            catalog: res,
+            content: item,
+          }
+          await this.app.redis.set(
+            `paihang_nav_${clientId}_${navId}`,
+            JSON.stringify(payload),
+          )
+        }
+      })
+    } catch (e) {
+      console.error(e)
+    }
+
+    return res
+  }
+
+  async getPaihang() {
+    const query = this.ctx.query
+    let result = []
+    const { clientId, orgId, navId } = query
+    if (!orgId) {
+      this.ctx.body = {
+        success: false,
+        error: `无法找到门店id: ${orgId}`,
+      }
+      return
+    }
+    const item = await this.ctx.service.openApi.findViewConfigByStoreAndTerminal(
+      orgId,
+      clientId,
+    )
+    if (!item) {
+      this.ctx.body = {
+        success: false,
+        error: '无法找到对应设备终端',
+      }
+      return
+    }
+    if (item.content) {
+      result = await this.processPaihangConfig(
+        JSON.parse(item.content),
+        parseInt(navId, 10),
+        clientId,
+      )
+    } else {
+      this.ctx.body = {
+        success: false,
+        error: '未配置排行视图',
+      }
+      return
+    }
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
   async findBook() {
     let res = ''
     const { query } = this.ctx
-    const { isbn, spbs } = query
-    const { storeCode, storeNum } = await this.ctx.getStoreCodeFromQuery()
+    const { isbn, spbs, ls_SendUnitID } = query
+    const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
+    let books = []
+    
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      books = await bookAPI.getBookByISBN(isbn, storeCode)
+      // res = await bookAPI.getBookByISBN(isbn)
+      res = books[0]
     }
     if (spbs) {
-      const stockList = await this.ctx.service.bookAPI.getStockList(storeCode, spbs, storeNum)
-      res = await this.ctx.service.bookAPI.getBookBySPBS(spbs)
+      let stockList = []
+      // if (bookAPI.getAPIType() === 'liuzhou') {
+      //   stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID)
+      // } else {
+      //   stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
+      // }
+      // res = await bookAPI.getBookBySPBS(spbs)
+      books = await bookAPI.getBookBySPBS(spbs,storeCode)
+      res = books[0]
+      if (bookAPI.getAPIType() === 'liuzhou') {
+        if (res.ls_SendUnitID || ls_SendUnitID) {
+          stockList = await bookAPI.getStockList(storeCode, res.ls_SendUnitID || ls_SendUnitID)
+        } else {
+          let newBooks = await bookAPI.getBookByISBN(res.isbn)
+          // res = newBooks[0]
+          stockList = await bookAPI.getStockList(storeCode, newBooks[0].ls_SendUnitID)        
+        }
+      } else {
+        stockList = await bookAPI.getStockList(storeCode, spbs, storeNum)
+      }
       res.stockList = stockList
     }
-    const processedResult = bookInfoMap(res)
+    const processedResult = bookInfoMap(res, this.ctx.session.user)
     this.ctx.body = {
       success: true,
       data: processedResult,
@@ -158,27 +287,62 @@ class OpenApiController extends Controller {
     let res = null
     let rawList = []
     const param = this.ctx.query
+    const { storeCode, storeNum, bookAPI } = await this.ctx.getBookAPI()
     const { isbn, spbs } = param
     if (isbn) {
-      res = await this.ctx.service.bookAPI.getBookByISBN(isbn)
+      // res = await bookAPI.getBookByISBN(isbn)
+      let books = await bookAPI.getBookByISBN(isbn)
+      res = books[0]
       const { spbs: bookSpbs } = res
       if (bookSpbs) {
-        rawList = await this.ctx.service.bookAPI.getRecommendBooks(bookSpbs)
+        rawList = await bookAPI.getRecommendBooks(bookSpbs,storeCode)
       }
     }
     if (spbs) {
-      rawList = await this.ctx.service.bookAPI.getRecommendBooks(spbs)
+      rawList = await bookAPI.getRecommendBooks(spbs,storeCode)
     }
     if (rawList && rawList.length > 0) {
       list = await Promise.all(
         rawList.map(async item => {
           // const singleBook = await this.ctx.service.bookAPI.getBookBySPBS(item.spbs)
-          const singleBook = await this.ctx.service.bookAPI.getBookByISBN(
-            item.tm,
-          )
-          return bookInfoMap(singleBook)
+          // let books = await bookAPI.getBookByISBN(item.tm)
+          // const singleBook = await bookAPI.getBookByISBN(item.tm)
+          // const singleBook = books[0]
+          return bookInfoMap(item, this.ctx.session.user)
         }),
       )
+      this.ctx.body = {
+        success: true,
+        data: list,
+      }
+    } else {
+      this.ctx.body = {
+        success: true,
+        data: '',
+      }
+    }
+  }
+
+  async getFaceRecommend() {
+    let list = []
+    let res = null
+    let rawList = []
+    const param = this.ctx.query
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const { facedata, isPaihang, clientId } = param
+    rawList = await bookAPI.getFaceIdRecommendBooks(facedata)
+    if (rawList && rawList.length > 0) {
+      list = await Promise.all(
+        rawList.map(async item => {
+          return renlianbookInfoMap(item)
+        }),
+      )
+      if(isPaihang){
+        await this.app.redis.set(
+          `paihang_facemode_${clientId}`,
+          JSON.stringify(list),
+        )
+      }
       this.ctx.body = {
         success: true,
         data: list,
@@ -194,11 +358,11 @@ class OpenApiController extends Controller {
   async findBooksByKeyword() {
     const { query } = this.ctx
     const { keyword } = query
-    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByKeyword(keyword, storeCode)
+    const res = await bookAPI.searchBookByKeyword(keyword, storeCode)
     if (res && res.length > 0) {
-      processedResult = bookInfoListProcess(res)
+      processedResult = bookInfoListProcess(res, this.ctx.session.user)
     }
     this.ctx.body = {
       success: true,
@@ -209,15 +373,28 @@ class OpenApiController extends Controller {
   async findBooksByName() {
     const { query } = this.ctx
     const { keyword } = query
-    const { storeCode } = await this.ctx.getStoreCodeFromQuery()
+    const { storeCode, bookAPI } = await this.ctx.getBookAPI()
     let processedResult = []
-    const res = await this.ctx.service.bookAPI.searchBookByName(keyword, storeCode)
+    const res = await bookAPI.searchBookByName(keyword, storeCode)
     if (res && res.length > 0) {
       processedResult = bookInfoListProcess(res)
     }
     this.ctx.body = {
       success: true,
       data: processedResult,
+    }
+  }
+
+  async findTerminal() {
+    const { query } = this.ctx
+    const { clientId } = query
+    const item = await this.ctx.service.openApi.findTerminal(clientId)
+    this.ctx.body = {
+      success: true,
+      data: {
+        ...item,
+        config: JSON.parse(item.config),
+      },
     }
   }
 
@@ -243,6 +420,184 @@ class OpenApiController extends Controller {
       return
     }
     const result = zhantaiMap(item)
+    this.ctx.body = {
+      success: true,
+      data: result,
+    }
+  }
+
+  /**
+   * 获取排行的类目
+   */
+  async findPaihangCatalog() {
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const res = await bookAPI.getRankingList()
+    const list = res.map(item => {
+      return {
+        id: item.phid,
+        name: item.phmc,
+      }
+    })
+    if (!list || list.length < 1) {
+      this.ctx.body = {
+        success: true,
+        data: [],
+        msg: '暂无数据',
+      }
+      return
+    }
+    this.ctx.body = {
+      success: true,
+      data: list,
+    }
+  }
+
+  async getPaihangInfo(paihangId) {
+    const { bookAPI } = await this.ctx.getBookAPI()
+    const oldPaihangInfoRaw = await this.app.redis.get('paihang_info')
+    let oldPaihangInfo = {}
+    if (oldPaihangInfoRaw) {
+      oldPaihangInfo = JSON.parse(oldPaihangInfoRaw) || {}
+    }
+    if (oldPaihangInfo[paihangId]) {
+      return oldPaihangInfo[paihangId]
+    }
+    const paihangInfo = await bookAPI.getRinkingInfoDetail(paihangId)
+    const processedResult = paihangInfo.map(item =>
+      bookInfoMap(item, this.ctx.session.user),
+    )
+    oldPaihangInfo[paihangId] = processedResult
+    await this.app.redis.set('paihang_info', JSON.stringify(oldPaihangInfo))
+    return processedResult
+  }
+
+  /**
+   * 更新排行的当前选中分类
+   * 排行帮的数据结构存储在sessio中, 结构如下
+  [
+    {
+      clientId: '1',
+      navId: '1',
+      current_cat: '2345',
+    }
+  ]
+   */
+  // TODO redis 要优化
+  async updatePaihang() {
+    const query = this.ctx.query
+    let books = []
+    const { orgId, clientId, navId, catalogId, isFaceMode } = query
+    if(isFaceMode == 'true'){
+      const faceBooks = await this.app.redis.get(
+        `paihang_facemode_${clientId}`,
+      )
+      await this.app.redis.set(
+        `paihang_pad_${clientId}_${navId}`,
+        faceBooks,
+      )
+      this.ctx.body = {
+        success: true,
+        data: {
+          value: '',
+        },
+      }
+      return
+    }
+    const paihangNavSession = await this.app.redis.get(
+      `paihang_nav_${clientId}_${navId}`,
+    )
+    if (!paihangNavSession) {
+      this.ctx.body = {
+        success: false,
+        msg: '获取排行失败',
+      }
+      return
+    }
+    const paihangNavObj = JSON.parse(paihangNavSession)
+    const content = paihangNavObj.content
+    if (content) {
+      const data = content.find(
+        (item, index) => index === parseInt(catalogId, 10),
+      )
+      books = data.books
+    }
+    
+    await this.app.redis.set(
+      `paihang_pad_${clientId}_${navId}`,
+      JSON.stringify(books),
+    )
+    this.ctx.body = {
+      success: true,
+      data: {
+        value: '',
+      },
+    }
+  }
+
+  /**
+   * 埋点接口, 不会报错
+   */
+  async setTracker() {
+    const query = this.ctx.query
+    const { act, biz_type, biz_data, clientId } = query
+    const date = new Date()
+    const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    await this.ctx.service.openApi.setTracker({
+      terminal: clientId,
+      act,
+      biz_type,
+      biz_data,
+      date: formattedDate,
+    })
+    this.ctx.body = {
+      success: true,
+      data: {
+        value: '',
+      },
+    }
+  }
+
+  /**
+   * 获取选中的排行分类的书本详情, 轮询接口
+   */
+  async findPaihangPadDetail() {
+    let res = {}
+    const query = this.ctx.query
+    const { orgId, clientId, navId, rankId } = query
+    const paihangNavSession = await this.app.redis.get(
+      `paihang_nav_${clientId}_${navId}`,
+    )
+    if (!paihangNavSession) {
+      this.ctx.body = {
+        success: false,
+        msg: '请先选择排行',
+      }
+      return
+    }
+    const paihangPadSession = await this.app.redis.get(
+      `paihang_pad_${clientId}_${navId}`,
+    )
+    if (paihangPadSession) {
+      const paihangPadArray = JSON.parse(paihangPadSession)
+      if (paihangPadArray && paihangPadArray.length > 0) {
+        paihangPadArray.forEach((item, index) => {
+          if (index + 1 === parseInt(rankId, 10)) {
+            res = item
+          }
+        })
+      }
+    }
+    this.ctx.body = {
+      success: true,
+      data: {
+        ...res,
+      },
+    }
+  }
+
+  async findAds() {
+    const query = this.ctx.query
+    const result = await this.ctx.service.ads.findOneByEIdCd(query)
     this.ctx.body = {
       success: true,
       data: result,

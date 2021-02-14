@@ -6,7 +6,8 @@ import Layer from '../Layer'
 import Book from '../Book'
 import config from '../data'
 import BookDetail from '../Book/book'
-import { getPubuData } from '../../util/services'
+import { getPubuData, tracker, getViewConfigData } from '../../util/services'
+import { pubuMap } from '../../../../common/bizHelper'
 import './index.less'
 
 class App extends React.Component {
@@ -58,45 +59,94 @@ class App extends React.Component {
 
   getData = () => {
     const loading = message.loading('正在获取数据...', 0)
-    getPubuData().then(res => {
-      const data = res.data.data.map(channel => {
-        const layers = channel.books.reduce((acc, book, index) => {
-          if (index % 2 === 0) {
-            acc.push({
-              books: [book],
-            })
-          } else {
-            acc[acc.length - 1].books.push(book)
+    const { view_config_id } = window.appData
+    if (view_config_id) {
+      getViewConfigData(view_config_id).then(res => {
+        let datamap = pubuMap(res)
+        const data = datamap.map(channel => {
+          const layers = channel.books.reduce((acc, book, index) => {
+            if (index % 2 === 0) {
+              acc.push({
+                books: [book],
+              })
+            } else {
+              acc[acc.length - 1].books.push(book)
+            }
+            return acc
+          }, [])
+          return {
+            banner: channel.banner,
+            layers,
           }
-          return acc
-        }, [])
-        return {
-          banner: channel.banner,
-          layers,
-        }
+        })
+        loading()
+        message.success('获取数据成功')
+
+        console.log(data)
+
+        this.setState({
+          channels: data,
+        }, () => {
+          const scale = []
+          for (let j = 0; j < data.length; j ++) {
+            const item = document.getElementById(`0-${j}`)
+            scale.push(item.offsetTop)
+          }
+
+          this.scale = scale
+          this.autoplay()
+        })
+      }).catch(err => {
+        console.error(err)
       })
-
-      loading()
-      message.success('获取数据成功')
-
-      console.log(data)
-
-      this.setState({
-        channels: data,
-      }, () => {
-        const scale = []
-        for (let j = 0; j < data.length; j ++) {
-          const item = document.getElementById(`0-${j}`)
-          scale.push(item.offsetTop)
+    } else {
+      getPubuData().then(res => {
+        if (!res.data.success) {
+          loading()
+          console.log('==>', res)
+          message.error((res.data && res.data.error) || '获取数据失败')
+          return
         }
+        const data = res.data.data.map(channel => {
+          const layers = channel.books.reduce((acc, book, index) => {
+            if (index % 2 === 0) {
+              acc.push({
+                books: [book],
+              })
+            } else {
+              acc[acc.length - 1].books.push(book)
+            }
+            return acc
+          }, [])
+          return {
+            banner: channel.banner,
+            layers,
+          }
+        })
 
-        this.scale = scale
-        this.autoplay()
+        loading()
+        message.success('获取数据成功')
+
+        console.log(data)
+
+        this.setState({
+          channels: data,
+        }, () => {
+          const scale = []
+          for (let j = 0; j < data.length; j ++) {
+            const item = document.getElementById(`0-${j}`)
+            scale.push(item.offsetTop)
+          }
+
+          this.scale = scale
+          this.autoplay()
+        })
+      }).catch(err => {
+        loading()
+        message.error('获取数据失败')
+        console.error(err)
       })
-    }).catch(err => {
-      message.success('获取数据失败')
-      console.error(err)
-    })
+    }
   }
 
   handleClick = (e) => {
@@ -110,6 +160,12 @@ class App extends React.Component {
       book,
       activeBook: true,
     })
+
+    tracker({
+      act: 'click',
+      biz_type: 'book_detail',
+      biz_data: book.spbs || book.isbn,
+    })
   }
 
   handleCloseBook = (e) => {
@@ -120,6 +176,11 @@ class App extends React.Component {
       activeBook: false,
     }, () => {
       this.autoplay()
+    })
+
+    tracker({
+      act: 'click',
+      biz_type: 'close_book',
     })
   }
 
@@ -179,7 +240,7 @@ class App extends React.Component {
                         <Book
                           cover={book.cover}
                           name={book.name}
-                          author={book.author}
+                          author={book.author || book.publish}
                           pricing={book.pricing}
                           score={book.score}
                           key={i}

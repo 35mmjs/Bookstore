@@ -17,6 +17,7 @@ DEV_REMOTE_IP="47.96.75.202"
 REMOTE_ACCOUNT="root"
 DEV_REMOTE_ACCOUNT="root"
 REMOTE_PATH="/home/bookStore"
+GEDE_PATH="/home/cigarettes-server"
 DEV_REMOTE_PATH="/home/bookStore"
 # HTTP_SERVER_ACCOUNT="www"
 HTTP_SERVER_ACCOUNT="root"
@@ -152,14 +153,8 @@ run_server()
 	# check node env
 	# ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; /root/.nvm/versions/node/v10.13.0/bin/npm run egg-start"
 	ssh $REMOTE_ACCOUNT@$REMOTE_IP "cd $REMOTE_PATH; npm run server"
-	# npm run egg-start
-	# mkdir -p $tmpPath/app/Common/Conf/
-	# rm $tmpPath/deploy.sh
-	# cp app/Common/Conf/config.php $tmpPath/app/Common/Conf/config.php
-	# cp ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php $tmpPath/ThinkPHP/Library/Org/WeiXin/EncryptUtil.class.php
-	# cp app/Common/Common/function.php.run $tmpPath/app/Common/Common/function.php
-	# mv $tmpPath/index.php.run $tmpPath/index.php
-	# rm $tmpPath/index.php.*
+	#启动歌德
+	ssh $REMOTE_ACCOUNT@REMOTE_IP "cd $GEDE_PATH; npm start"
 }
 
 modify_deploy()

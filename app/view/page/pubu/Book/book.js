@@ -42,6 +42,10 @@ class BookDetail extends React.Component {
     getBook({ spbs })
       .then(res => {
         const { data } = res
+        if (!data.success) {
+          message.error(data.error || '获取详情失败')
+          return
+        }
         console.log(data)
         message.success('获取详情成功')
         if (data.data.spbs === this.state.book.spbs) {
@@ -72,6 +76,11 @@ class BookDetail extends React.Component {
     })
     getRecommend({ spbs })
       .then(res => {
+        const { data } = res
+        if (!data.success) {
+          message.error(data.error || '获取相关书籍失败')
+          return
+        }
         console.log(res.data.data)
         message.success('获取相关书籍成功')
         this.setState({
@@ -110,6 +119,13 @@ class BookDetail extends React.Component {
       autoplaySpeed: 3000,
       variableWidth: true,
     }
+
+    let bookShelf = ''
+
+    if (book.stockList && book.stockList.length) {
+      bookShelf = book.stockList[0].jwh
+    }
+
 
     return (
       <div className="book_detail">
@@ -163,7 +179,7 @@ class BookDetail extends React.Component {
                 </p>
                 <p>
                   <span>开 本：{book.pageType}</span>
-                  <span>书架号：{book.bookshelf}</span>
+                  <span>书架号：{bookShelf || '详询服务台预定'}</span>
                 </p>
                 <p>
                   <span>页 数：{book.pageNum}</span> 
@@ -214,7 +230,7 @@ class BookDetail extends React.Component {
               }
               { loading &&
                 <div className="book_detail_recommand_loading">
-                  <img src="http://pl7xwypp4.bkt.clouddn.com/loading10.gif" />
+                  <img src="https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/loading10.gif" />
                 </div>
               }
             </div>

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Slider from 'react-slick'
 import uniqBy from 'lodash.uniqby'
 import { message } from 'antd'
-import { getZhantaiData } from '../../util/services'
+import { getZhantaiData, tracker, getViewConfigData } from '../../util/services'
+import { zhantaiMap } from '../../../../common/bizHelper'
 import Single from '../Single'
 import data from '../data'
 import './index.less'
@@ -36,6 +37,10 @@ class App extends React.Component {
   }
 
   handleBookEvent = (isbns) => {
+    if (typeof isbns === 'string') {
+      isbns = JSON.parse(isbns)
+    }
+
     const { books } = this.state
     const handBooks = uniqBy(books.filter(book => {
       return isbns.indexOf(book.isbn) >= 0
@@ -45,9 +50,17 @@ class App extends React.Component {
       handUp: true,
       handBooks,
     }, () => {
-      message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
+      // message.info(`您拿起了 ${isbns.length} 本书, 展台显示 ${handBooks.length} 本`)
       this.pause()
       this.autoPlay()
+    })
+
+    handBooks.forEach(bk => {
+      tracker({
+        act: 'click',
+        biz_type: 'book_detail',
+        biz_data: bk.isbn
+      })
     })
   }
 
@@ -56,7 +69,7 @@ class App extends React.Component {
       clearTimeout(this.timeout)
     }
 
-    const timeout = force ? 0 : 30000
+    const timeout = force ? 0 : 50000
 
     this.timeout = setTimeout(() => {
       this.play()
@@ -67,20 +80,29 @@ class App extends React.Component {
   }
 
   getData = () => {
-    const { client } = window.appData
-    getZhantaiData({ client })
-      .then(res => {
+    const { client, view_config_id } = window.appData
+    if (view_config_id) {
+      getViewConfigData(view_config_id).then(res => {
+        let data = zhantaiMap(res)
+        this.setState({
+          books: data.books,
+          handUp: false,
+        })
+      }).catch(err => {
+        console.error(err)
+      })
+    } else {
+      getZhantaiData({ client }).then(res => {
         if (res.data.success) {
-          console.log(res.data.data.books)
           this.setState({
             books: res.data.data.books,
             handUp: false,
           })
         }
-      })
-      .catch(err => {
+      }).catch(err => {
         console.error(err)
       })
+    }
   }
 
   play = () => {
@@ -93,6 +115,11 @@ class App extends React.Component {
 
   reload = () => {
     window.location.reload()
+  }
+
+  getTheme = (index) => {
+    const themes = ['default', 'theme1', 'theme2']
+    return themes[index % 3]
   }
 
   render() {
@@ -110,16 +137,15 @@ class App extends React.Component {
       slidesToShow: handUp && sliderBooks.length > 1 ? 2 : 1,
       slidesToScroll: handUp && sliderBooks.length > 1 ? 2 : 1,
       autoplay: true,
-      autoplaySpeed: 3000,
+      autoplaySpeed: 5000,
       variableWidth: true,
     }
-
     return (
       <div className="app">
         <div className="warpper">
           <Slider ref={slider => (this.slider = slider)} {...settings}>
             {sliderBooks.map((book, index) => {
-              const theme = index % 2 === 0 ? 'lightBlue' : ''
+              const theme = this.getTheme(index)
               return (
                 <Single book={book} theme={theme} mulity={handUp && sliderBooks.length > 1} key={book.id} />
               )

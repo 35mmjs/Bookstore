@@ -1,3 +1,5 @@
+
+## API
 ## 服务器相关
 服务器
 `47.96.75.202`
@@ -134,6 +136,97 @@ Response: []
 
 ```
 
+### 排行榜相关(0224新增)
+#### 设计图
+
+只需要知道row和colum2个参数就可以定位某个具体的pad
+进入页面之前, 会有入口页面提供下拉选择入参,比如orgId, clientId 之类
+前端需要接口的入参写死在本地存储
+![design](https://gw.alipayobjects.com/mdn/iot_box_me/afts/img/A*LHEIR4TRNSIAAAAAAAAAAABjARQnAQ)
+
+#### 获取排行配置信息
+
+GET `/open/v1/paihang`
+
+参数
+  - orgId 门店 id
+  - clientId 客户端 id
+  - navId 排行榜会有 2 栏，因此需要频道 id
+  
+返回结果
+```
+[
+  {
+    name: "人文科学",
+    id: "1231313",
+  },
+  {
+    ...
+  }
+]
+```
+
+#### 获取排行分类
+
+GET `/open/v1/paihang/catalog`
+
+参数
+  - orgId 门店 id
+  - clientId 客户端 id
+  - navId 排行榜会有 2 栏，因此需要频道 id
+  
+返回结果
+```
+[
+  {
+    name: "人文科学",
+    id: "1231313",
+  },
+  {
+    ...
+  }
+]
+```
+#### 更新当前频道的分类 id
+GET `/open/v1/paihang/update`
+
+参数
+  - orgId
+  - clientId
+  - navId 排行榜id
+  - catalogId 对应的分类 id
+
+返回结果
+```
+{
+  success: true,
+  data: '',
+}
+```
+
+#### 获取选中的排行分类的书本详情, 轮询接口
+描述
+  每个pad的位置固定, 即对应了排行的rank, 每次轮询后台接口(暂定轮询每3个一次), 返回什么显示什么
+
+
+GET `/open/v1/paihang/pad/detail`
+
+参数
+  - orgId
+  - clientId
+  - navId 排行榜id
+  - rankId 排行序列 e.g. 1,2,3,4 目前固定
+
+返回结果
+```
+{
+  success: true,
+  data: {
+    bookInfo..  .
+  }
+}
+```
+
 ### 搜索图书(关键词)
 
 GET `/open/v1/book/search?keyword=xxx`
@@ -191,13 +284,68 @@ Response: {}
 ]
 ```
 
+## 终端相关
+### 终端元数据获取
+这里可以根据设备获取地图配置信息
 
+GET `/open/v1/terminal`
+
+入参
+```
+clientId: 123123 // 设备id
+```
+
+返回
+```
+{
+  success: true,
+  data: {
+    config: {
+      // 录入的json数据
+    }
+  }
+}
+```
+
+## 埋点相关
+### 通用埋点接口
+#### 备注
+目前只针对行为和具体的设备类型埋点, 不会针对书本信息,搜索关键词维度埋点
+
+GET `/open/v1/tracker`
+
+入参
+```
+clientId(必选): 123 // 设备ID
+// 点击位, pv/uv/曝光位, pv/uv 由于目前没有采集用户信息, 所以如果要计算页面访问量, 统一用pv
+act(必选): click/pv/uv/expo 
+// 搜索, 地图, 书本详情, 其他
+biz_type(可选, 如果不填, 后台当做normal录入): search/map/book_detail/normal
+biz_data(可选): ISBN/搜索关键词
+```
+e.g.
+```
+// 书本详情的点击事件, 注意这里biz_data是书本的ISBN, 目前不会针对isbn维度的埋点
+/open/v1/tracker?clientId=123&act=click&biz_type=book_detail&biz_data=2323123123
+// 搜索的关键词埋点, 但不会针对关键词的维度的埋点计数
+/open/v1/tracker?clientId=123&act=click&biz_type=search&biz_data=%E8%BF%9C%E5%A4%A7%E5%89%8D%E7%A8%8B
+```
+
+返回
+```
+{
+  success: true,
+  data: null,
+}
+```
 ## 其他
 
 ### bookInfo 格式如下
 
 ```
 {
+  // 用于判断数据源来源是否是省内还是省外
+  isFromZj: 'true' || 'false'
   // {String} 图书 商品标识 spbs
   spbs: "",
 

@@ -8,14 +8,16 @@ import './index.less'
 export default class Map extends React.Component {
   constructor(props) {
     super(props)
+    
+    const { map = {}, floor = [] } = props.data
 
     this.state = {
       x: 0,
       y: 0,
       lx: 0,
       ly: 0,
-      mapData: props.data.map,
-      floorData: props.data.floor.reverse(),
+      mapData: map,
+      floorData: props.data.floor.reverse() || [],
     }
   }
 
@@ -85,7 +87,9 @@ export default class Map extends React.Component {
     const map = ReactDOM.findDOMNode(this.refs.map);
     const mapParent = ReactDOM.findDOMNode(this.refs.wrapper);
     const react = map.getBoundingClientRect()
-    const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
+    // const top = react.height / mapData.floorCount * (mapData.floorCount - floor)
+    //柳州显示的楼层有问题，应该是这里有bug，尝试修复一下
+    const top = react.height / mapData.floorCount * floor
     mapParent.scrollTop = top
 
     const position = that.getPosition(coordinate[0], coordinate[1])
@@ -136,6 +140,8 @@ export default class Map extends React.Component {
       map_hidden: hidden,
     })
 
+    const { orgId } = window.appData
+
     return (
       <div className={cls} ref={'wrapper'}>
         <div className="floor" ref={'floor'}>
@@ -156,18 +162,29 @@ export default class Map extends React.Component {
                       {floor.catalog.join(' ')}
                     </div>
                     <div className="layer-area">
-                      {
-                        floor.areas.map(area => {
+                      {orgId == 10022 && floor.floor.map(item => {
                           return (
-                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key)}>
+                            item.areas.map(area => (
+                              <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key, false)}>
+                                <span className="color" style={{ background: `${area.color}` }}>
+                                  {area.key}
+                                </span>
+                                <span className="text">{area.name}</span>
+                              </div>
+                              )
+                            )
+                          )
+                      })}
+                      {orgId != 10022 && floor.areas.map(area => {
+                          return (
+                            <div className="layer-area-item" key={area.key} onClick={e => this.onChange(e, area.coordinate, floor.key, false)}>
                               <span className="color" style={{ background: `${area.color}` }}>
                                 {area.key}
                               </span>
                               <span className="text">{area.name}</span>
                             </div>
                           )
-                        })
-                      }
+                      })}
                     </div>
                   </div>
                 )

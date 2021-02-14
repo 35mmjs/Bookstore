@@ -2,7 +2,7 @@
 
 const {
   enterprise, viewConfig, openApi, book, terminal, store,
-  terminalType, user, common,
+  terminalType, user, ads, common, publicEntry, tracker,
 } = require('./api/index')
 
 /**
@@ -14,6 +14,9 @@ module.exports = app => {
   router.get('/page/pubu', controller.page.pubuPage)
   router.get('/page/zhantai', controller.page.zhantaiPage)
   router.get('/page/daoshi', controller.page.daoshiPage)
+  router.get('/page/paihang', controller.page.paihangPage)
+  router.get('/page/newpaihang', controller.page.newpaihangPage)
+  router.get('/page/paihangpad', controller.page.paihangpadPage)
   // html pages
   router.get('/', controller.admin.index)
   router.get('/admin.html', controller.admin.index)
@@ -38,9 +41,17 @@ module.exports = app => {
   router.post(store.create, controller.store.create)
   router.get(store.findAll, controller.store.findAll)
   router.get(store.remove, controller.store.remove)
+  router.get(store.findByEnterprise, controller.store.findByEnterprise)
   router.post(store.update, controller.store.update)
+  // 广告中心
+  router.post(ads.create, controller.ads.create)
+  router.post(ads.findAll, controller.ads.findAll)
+  router.post(ads.remove, controller.ads.remove)
+  // router.get(ads.findByEnterprise, controller.ads.findByEnterprise)
+  router.post(ads.update, controller.ads.update)
   // view config
   router.post(viewConfig.create, controller.viewConfig.create)
+  router.post(viewConfig.update, controller.viewConfig.update)
   router.get(viewConfig.findAll, controller.viewConfig.findAll)
   router.get(viewConfig.remove, controller.viewConfig.remove)
   router.get(viewConfig.findOne, controller.viewConfig.findOne)
@@ -68,4 +79,19 @@ module.exports = app => {
   router.get(openApi.findBooksByKeyword, controller.openApi.findBooksByKeyword)
   router.get(openApi.findRecommendByISBN, controller.openApi.findRecommend)
   router.get(openApi.findRecommendBySPBS, controller.openApi.findRecommend)
+  router.get(openApi.getFaceRecommendById, controller.openApi.getFaceRecommend)
+  // 排行榜 api
+  router.get(openApi.paihang, controller.openApi.getPaihang)
+  router.get(openApi.findPaihangCatalog, controller.openApi.findPaihangCatalog)
+  router.get(openApi.updatePaihang, controller.openApi.updatePaihang)
+  router.get(openApi.findPaihangPadDetail, controller.openApi.findPaihangPadDetail)
+  // 埋点相关
+  router.get(openApi.tracker, controller.openApi.setTracker)
+  // 终端元数据
+  router.get(openApi.findTerminal, controller.openApi.findTerminal)
+  router.get(openApi.getOssToken, controller.common.getOssToken)
+  // public entry
+  router.get(publicEntry.entry, controller.publicEntry.index)
+  // 埋点数据展示
+  router.get(tracker.findAll, controller.tracker.findAll)
 }

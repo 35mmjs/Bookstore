@@ -8,11 +8,11 @@ export default class Books extends React.Component {
     super(props)
   }
 
-  onClick = (e, spbs) => {
+  onClick = (e, spbs, ls_SendUnitID) => {
     e.preventDefault()
 
     if (this.props.onClickBook) {
-      this.props.onClickBook(spbs)
+      this.props.onClickBook(spbs,ls_SendUnitID)
     }
   }
 
@@ -34,7 +34,7 @@ export default class Books extends React.Component {
           <div className="books_list_content">
             { books.map((book, index) => {
               return (
-                <div className="books_list_content_item" key={`${book.isbn}${index}`} onClick={e => this.onClick(e, book.spbs)}>
+                <div className="books_list_content_item" key={`${book.isbn}${index}`} onClick={e => this.onClick(e, book.spbs, book.ls_SendUnitID)}>
                   <div className="books_list_cover" key={index}>
                     <Cover src={book.cover} />
                   </div>
@@ -43,9 +43,11 @@ export default class Books extends React.Component {
                       <h4 className="name">
                         {book.name}
                       </h4>
-                      <p>
-                        <span>作者：{book.author.replace('作者:', '')}</span>
-                      </p>
+                      { book.author &&
+                        <p>
+                          <span>作者：{book.author.replace('作者:', '')}</span>
+                        </p>
+                      }
                       <p>
                         <span>出版社：{book.publish}</span>
                       </p>

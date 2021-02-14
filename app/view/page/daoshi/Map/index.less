@@ -50,7 +50,7 @@
   width: 30px;
   height: 30px;
   display: block;
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/here.png');
+  background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/here.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -60,12 +60,61 @@
   width: 30px;
   height: 30px;
   display: block;
-  background-image: url('http://pl7xwypp4.bkt.clouddn.com/point.png');
+  background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/point.png');
   background-repeat: no-repeat;
   background-size: contain;
   visibility: hidden;
   opacity: 0;
   transition: all .3s linear;
+}
+
+.point:before {
+  position: absolute;
+  background: white;
+  margin-left: -8px;
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+  top: 12px;
+  content: "";
+  display: block;
+  border-radius: 50%;
+  animation: wave-animate 3s infinite ease-out;
+  transform: rotateX(45deg);
+  perspective-origin: center bottom;
+}
+
+.point:after {
+  position: absolute;
+  background: white;
+  margin-left: -8px;
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+  top: 12px;
+  content: "";
+  display: block;
+  border-radius: 50%;
+  animation: wave-animate 3s infinite ease-out;
+  opacity:0;
+  animation: wave-animate 3s 1.5s infinite ease-out;
+  transform: rotateX(45deg);
+  perspective-origin: center bottom;
+}
+
+@keyframes wave-animate {
+  0% {
+    transform: rotateX(45deg) scale(0);
+    opacity: 0.8;
+    perspective-origin: center bottom;
+    // transform-origin: center;
+  }
+  100% {
+    transform: rotateX(45deg) scale(3);
+    opacity: 0;
+    perspective-origin: center bottom;
+    // transform-origin: center;
+  }
 }
 
 .info {
@@ -82,14 +131,14 @@
     margin-right: 10px;
 
     &-wc {
-      background-image: url('http://pl7xwypp4.bkt.clouddn.com/wc.png');
+      background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/wc.png');
       background-repeat: no-repeat;
       background-position: 5px 0;
     }
     
     &-here {
       display: inline-block;
-      background-image: url('http://pl7xwypp4.bkt.clouddn.com/here.png');
+      background-image: url('https://bookstore-public.oss-cn-hangzhou.aliyuncs.com/here.png');
       background-repeat: no-repeat;
       background-size: contain;
       background-position: 5px 0;
@@ -208,6 +257,15 @@
   .point, .location {
     width: 50px;
     height: 50px;
+  }
+
+  .point:before,
+  .point:after {
+    margin-left: -15px;
+    width: 50px;
+    height: 50px;
+    bottom: 0;
+    top: 24px;
   }
 }
 

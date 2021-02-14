@@ -1,6 +1,34 @@
 import React, { Fragment } from 'react'
-import { Table, Divider, Button } from 'antd'
+import moment from 'moment'
+import { Table, Divider, Button, Popconfirm, Pagination } from 'antd'
 import { Link } from 'dva/router'
+
+const TYPE_MAP = [
+  {
+    label: 'pubu',
+    value: 1,
+  },
+  {
+    label: 'zhantai',
+    value: 2,
+  },
+  {
+    label: 'daoshi',
+    value: 3,
+  },
+  {
+    label: 'paihang',
+    value: 4,
+  },
+  {
+    label: 'paihangbang',
+    value: 5,
+  },
+  {
+    label: 'newpaihang',
+    value: 6,
+  },
+]
 
 export default class Index extends React.Component {
   constructor() {
@@ -11,17 +39,17 @@ export default class Index extends React.Component {
         title: '配置ID',
         dataIndex: 'id',
         key: 'id',
-        render: (value, record) => {
-          return (
-            <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
-          )
-        },
+        // render: (value, record) => {
+        //   return (
+        //     <Link to={`/view-config/manage/detail/${value}/view`}>{value}</Link>
+        //   )
+        // },
       },
-      {
-        title: '名称',
-        dataIndex: 'name',
-        key: 'name',
-      },
+      // {
+      //   title: '名称',
+      //   dataIndex: 'name',
+      //   key: 'name',
+      // },
       {
         title: '备注',
         dataIndex: 'note',
@@ -29,48 +57,67 @@ export default class Index extends React.Component {
       },
       {
         title: '视图类型',
-        dataIndex: 'type',
-        key: 'type',
+        dataIndex: 'view_configs_type',
+        key: 'view_configs_type',
       },
-      // {
-      //   title: '录入人',
-      //   key: 'recorder',
-      //   dataIndex: 'recorder',
-      // },
       {
         title: '录入时间',
         key: 'created_at',
         dataIndex: 'created_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '更新时间',
         key: 'updated_at',
         dataIndex: 'updated_at',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
           <Fragment>
-            {/* <Link to={`/view-config/manage/detail/${record.id}/edit`}>
-              编辑
+            {/* <Link to={`/view-config/manage/detail/${record.id}/view`}>
+              查看 |{' '}
             </Link> */}
-            <Link
-              to=""
-              onClick={(e) => {
-                e.preventDefault()
+            {/* <Link to={this.getViewConfigType(record)}>
+              查看 |{' '}
+            </Link> */}
+            <a href={this.getViewConfigType(record)} target="_blank" rel="noopener noreferrer">
+              查看 |{' '}
+            </a>
+            <Link to={`/view-config/manage/detail/${record.id}/edit`}>
+              编辑 |{' '}
+            </Link>
+            <Popconfirm
+              title="是否要删除此行？"
+              onConfirm={() => {
                 this.props.onDelete(record)
               }}
             >
-              删除
-            </Link>
+              <a>删除</a>
+            </Popconfirm>
           </Fragment>
         ),
       },
     ]
   }
 
+  getViewConfigType = (record) =>{
+    let deviceType = TYPE_MAP.find(item => item.value === record.type).label || ''
+    let url =  `http://${window.location.host}/page/${deviceType}?view_config_id=${record.id}&orgId=${record.store}`
+    return url
+  }  
   render() {
-    return <Table expandedRowRender={record => <div>{record.content}</div>} columns={this.columns} dataSource={this.props.data} rowKey="id" />
+    return (
+      <Table
+        columns={this.columns}
+        dataSource={this.props.data}
+        rowKey="id"
+        pagination={{
+          pageSize: 25,
+        }}
+      />
+    )
   }
 }

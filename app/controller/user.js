@@ -24,7 +24,7 @@ class UserController extends Controller {
       }
       return
     }
-    ctx.session.user = Object.assign({}, ctx.session.user, { enterprise: parseInt(enterprise), store: null })
+    ctx.session.user = Object.assign({}, ctx.session.user, { enterprise: enterprise === 'all' ? null : parseInt(enterprise), store: null })
     ctx.body = {
       success: true,
       message: '切换成功',
@@ -42,7 +42,7 @@ class UserController extends Controller {
       }
       return
     }
-    ctx.session.user = Object.assign({}, ctx.session.user, { store: parseInt(store) })
+    ctx.session.user = Object.assign({}, ctx.session.user, { store: store === 'all' ? null : parseInt(store) })
     ctx.body = {
       success: true,
       message: '切换成功',
@@ -76,8 +76,12 @@ class UserController extends Controller {
     ctx.session.user = {
       id: user.id,
       isAdmin: !!user.is_admin,
+      isEnterpriseUser: user.enterprise && !user.store,
+      isStoreUser: user.enterprise && user.store && !user.is_store_manager,
       username: user.username,
       enterprise: user.enterprise,
+      store: user.store,
+      isStoreManager: !!user.is_store_manager,
     }
     // 如果用户勾选了 `记住我`，设置 7 天的过期时间
     if (rememberMe) ctx.session.maxAge = ms('7d')
@@ -113,9 +117,9 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx
-    const { username, password, enterprise } = ctx.request.body
+    const { username, password, enterprise, store, is_store_manager } = ctx.request.body
     ctx.validate('user', { username, password })
-    const result = await ctx.service.users.create(username, password, false, enterprise)
+    const result = await ctx.service.users.create(username, password, false, enterprise, store, is_store_manager)
     this.ctx.body = {
       success: true,
       data: result,
@@ -126,9 +130,24 @@ class UserController extends Controller {
   async findAll() {
     // const request = this.ctx.params
     const result = await this.ctx.service.users.findAll()
+    const user = this.ctx.session.user
+    if (user && (user.isEnterpriseUser || user.isAdmin) && user.enterprise) {
+      this.ctx.body = {
+        success: true,
+        data: result.filter(n => n.enterprise === user.enterprise && (user.store ? user.store === n.store : true)),
+      }
+      return
+    }
+    if (user && user.isAdmin) {
+      this.ctx.body = {
+        success: true,
+        data: result,
+      }
+      return
+    }
     this.ctx.body = {
       success: true,
-      data: result,
+      data: user ? result.filter(n => n.id === user.id) : [],
     }
   }
 
@@ -142,9 +161,13 @@ class UserController extends Controller {
   }
 
   async update() {
-    const request = this.ctx.request.body
-    this.ctx.validate('users', request)
-    const result = await this.ctx.service.users.update(request.id, request.name, request.enterprise)
+    const ctx = this.ctx
+    const { username, password, enterprise, store, id } = ctx.request.body
+    this.ctx.validate('user', { username, password })
+    const result = await this.ctx.service.users.update(id, username, password, enterprise, store)
+    if (ctx.session.user && String(ctx.session.user.id) === String(id)) {
+      ctx.session.user = undefined
+    }
     this.ctx.body = {
       success: true,
       data: result,

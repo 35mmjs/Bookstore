@@ -10,6 +10,7 @@ import {
   Form,
   Row,
   Col,
+  Select,
 } from 'antd'
 import isEqual from 'lodash/isEqual'
 import SearchBooksByISBNs from './searchBooksByISBNs'
@@ -17,15 +18,11 @@ import SearchBooksByISBN from './searchBooksByISBN'
 import SearchBooksByCategory from './searchBooksByCategory'
 import styles from './style.less'
 
-
 class TableForm extends PureComponent {
-  index = 0
-
   cacheOriginData = {}
 
   constructor(props) {
     super(props)
-
     this.state = {
       data: props.value,
       loading: false,
@@ -35,6 +32,7 @@ class TableForm extends PureComponent {
       modalVisible2: false,
       modalVisible3: false,
     }
+    this.index = (props.value && props.value.length) || 0
   }
 
   static getDerivedStateFromProps(nextProps, preState) {
@@ -112,8 +110,9 @@ class TableForm extends PureComponent {
           name: bookInfo.name,
           cover: bookInfo.cover,
           author: bookInfo.author,
-          editable: true,
+          editable: false,
           isNew: true,
+          isFromZj: bookInfo.isFromZj,
         })
         this.index += 1
       })
@@ -127,12 +126,16 @@ class TableForm extends PureComponent {
         name: bookInfo.name,
         cover: bookInfo.cover,
         author: bookInfo.author,
-        editable: true,
+        editable: false,
         isNew: true,
+        isFromZj: bookInfo.isFromZj,
       })
       this.index += 1
     }
-    this.setState({ data: newData })
+    console.log('aaaaaaaa', newData)
+    this.setState({ data: newData }, () => {
+      this.props.onChange(this.state.data)
+    })
   }
 
   remove(key) {
@@ -229,7 +232,7 @@ class TableForm extends PureComponent {
         title: '书目ISBN',
         dataIndex: 'isbn',
         key: 'isbn',
-        width: '20%',
+        width: '5%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -246,10 +249,49 @@ class TableForm extends PureComponent {
         },
       },
       {
+        title: '是否省内',
+        dataIndex: 'isFromZj',
+        key: 'isFromZj',
+        width: '5%',
+        render: (text = 'true', record) => {
+          const selectMap = [
+            {
+              label: '是',
+              value: 'true',
+            },
+            {
+              label: '否',
+              value: 'false',
+            },
+          ]
+          const getLabel = selectMap.find(item => item.value === text).label
+          // let getLabel = "否";
+          if (record.editable) {
+            return (
+              <Select
+                defaultValue={getLabel}
+                onChange={v => {
+                  const fakeParam = {
+                    target: {
+                      value: v,
+                    },
+                  }
+                  this.handleFieldChange(fakeParam, 'isFromZj', record.key)
+                }}
+              >
+                <Select.Option value="true">是</Select.Option>
+                <Select.Option value="false">否</Select.Option>
+              </Select>
+            )
+          }
+          return getLabel
+        },
+      },
+      {
         title: '图片',
         dataIndex: 'cover',
         key: 'cover',
-        width: '20%',
+        width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -269,7 +311,7 @@ class TableForm extends PureComponent {
         title: '书目名称',
         dataIndex: 'name',
         key: 'name',
-        width: '20%',
+        width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -289,7 +331,7 @@ class TableForm extends PureComponent {
         title: '作者',
         dataIndex: 'author',
         key: 'author',
-        width: '20%',
+        width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -309,16 +351,40 @@ class TableForm extends PureComponent {
         title: '书架位置',
         dataIndex: 'bookShelf',
         key: 'bookShelf',
-        width: '10%',
+        width: '5%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'bookShelf', record.key)}
+                onChange={e =>
+                  this.handleFieldChange(e, 'bookShelf', record.key)
+                }
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="书架位置"
+              />
+            )
+          }
+          return text
+        },
+      },
+      {
+        title: '评分',
+        dataIndex: 'score',
+        key: 'score',
+        width: '5%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                autoFocus
+                onChange={e =>
+                  this.handleFieldChange(e, 'score', record.key)
+                }
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="评分"
               />
             )
           }
@@ -373,7 +439,13 @@ class TableForm extends PureComponent {
       },
     ]
 
-    const { loading, data, modalVisible, modalVisible2, modalVisible3 } = this.state
+    const {
+      loading,
+      data,
+      modalVisible,
+      modalVisible2,
+      modalVisible3,
+    } = this.state
 
     return (
       <Fragment>
@@ -417,11 +489,10 @@ class TableForm extends PureComponent {
           rowClassName={record => (record.editable ? styles.editable : '')}
         />
 
-
         <SearchBooksByISBN
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
-          onSubmit={value => this.handleDataFromSearchForm([value])}
+          onSubmit={this.handleDataFromSearchForm}
         />
         <SearchBooksByISBNs
           title="title"
@@ -437,7 +508,6 @@ class TableForm extends PureComponent {
           closable={false}
           onSubmit={this.handleDataFromSearchForm}
         />
-
       </Fragment>
     )
   }
